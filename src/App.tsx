@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useLogin } from './hooks/useLogin';
 import { useLogout } from './hooks/useLogout';
 import Login from './pages/Login/Login';
@@ -24,6 +25,14 @@ const App = () => {
       <button style={buttonStyle} className="btn" onClick={logout}>
         Log Out
       </button>
+=======
+import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
+
+const App = () => {
+  return (
+    <div className="App">
+      <KanbanBoard />
+>>>>>>> 0dfd5d1 (add basic layout for columns)
     </div>
   );
 };

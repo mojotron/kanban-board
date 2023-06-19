@@ -1,9 +1,17 @@
 import './Column.css';
 
-type PropsType = {};
+type PropsType = {
+  title: string;
+};
 
-const Column = ({}: PropsType) => {
-  return <div>Column</div>;
+const Column = ({ title }: PropsType) => {
+  return (
+    <div className="Column">
+      <header className="Column__Header">
+        <h2>{title}</h2>
+      </header>
+    </div>
+  );
 };
 
 export default Column;
