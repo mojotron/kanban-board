@@ -2,6 +2,7 @@
   border: 3px solid var(--COLOR-WHITE);
   border-radius: var(--BORDER-RADIUS);
   width: 20%;
+  min-width: 250px;
   height: 100%;
   margin: 0.5rem;
 }
@@ -12,4 +13,7 @@
   text-align: center;
   text-transform: uppercase;
   font-size: 1.8rem;
+}
+.Column__Tasks {
+  padding: 0.5rem;
 }

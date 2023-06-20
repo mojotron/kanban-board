@@ -1,2 +1,11 @@
 .Task {
+  width: 100%;
+  border: 2px solid #444;
+  padding: 2rem;
+  border-radius: var(--BORDER-RADIUS);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--COLOR-BLUE-DARK) 0 20px,
+    var(--COLOR-BLUE-DARK-2) 20px 40px
+  );
 }

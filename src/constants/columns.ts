@@ -1,5 +1,7 @@
 export const COLUMNS = {
-  PLANNING: 'planning',
-  INPROGRESS: 'in progress',
-  DONE: 'done',
+  BACKLOG: 'backlog',
+  ASSIGNMENT: 'assignment',
+  DEVELOPMENT: 'development',
+  TEST: 'test',
+  COMPLETE: 'complete',
 };

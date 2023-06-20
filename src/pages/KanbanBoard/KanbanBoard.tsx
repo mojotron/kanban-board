@@ -6,9 +6,11 @@ import Column from './components/Column/Column';
 const KanbanBoard = () => {
   return (
     <div className="KanbanBoard">
-      <Column title={COLUMNS.PLANNING} />
-      <Column title={COLUMNS.INPROGRESS} />
-      <Column title={COLUMNS.DONE} />
+      <Column title={COLUMNS.BACKLOG} />
+      <Column title={COLUMNS.ASSIGNMENT} />
+      <Column title={COLUMNS.DEVELOPMENT} />
+      <Column title={COLUMNS.TEST} />
+      <Column title={COLUMNS.COMPLETE} />
     </div>
   );
 };
