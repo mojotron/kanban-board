@@ -1,5 +1,6 @@
 import { useLogin } from './hooks/useLogin';
 import { useLogout } from './hooks/useLogout';
+import Login from './pages/Login/Login';
 
 const buttonStyle = {
   border: '1px solid white',
@@ -15,6 +16,8 @@ const App = () => {
 
   return (
     <div className="App">
+      <Login />
+
       <button style={buttonStyle} className="btn" onClick={login}>{`${
         isPending ? 'Loading...' : 'Log in with Github'
       }`}</button>
