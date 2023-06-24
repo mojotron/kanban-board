@@ -1,3 +1,16 @@
+/* font scale
+3.815rem/61.04px
+3.052rem/48.83px
+2.441rem/39.06px
+1.953rem/31.25px
+1.563rem/25.00px
+1.25rem/20.00px
+1rem/16.00px <== base
+0.8rem/12.80px
+0.64rem/10.24px
+0.512rem/8.19px 
+*/
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap');
 :root {
   --COLOR-WHITE: #e7e7e7;
@@ -13,7 +26,7 @@
   padding: 0;
 }
 html {
-  font-size: 10px;
+  font-size: 16px;
   font-family: 'Roboto', sans-serif, monospace;
   font-weight: 400;
 }
