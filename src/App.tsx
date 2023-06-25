@@ -12,7 +12,7 @@ import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
 import Login from './pages/Login/Login';
 
 const AUTH = true; //
-
+// helper components for page navigation
 const AuthRouting = () => {
   if (AUTH) return <Dashboard />;
   else return <Login />;
@@ -21,7 +21,7 @@ const AuthRouting = () => {
 const NotFoundRouting = () => {
   return <Navigate to="/" />;
 };
-
+// root route
 const rootRoute = new RootRoute({
   component: () => (
     <>
@@ -29,7 +29,7 @@ const rootRoute = new RootRoute({
     </>
   ),
 });
-
+// routes
 const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/',
@@ -40,6 +40,8 @@ const notFoundRoute = new Route({
   path: '/*',
   component: NotFoundRouting,
 });
+// const projectRoute = new Route({});
+
 const routeTree = rootRoute.addChildren([indexRoute, notFoundRoute]);
 
 const router = new Router({ routeTree });
