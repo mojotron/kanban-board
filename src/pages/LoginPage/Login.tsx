@@ -6,8 +6,13 @@ import {
   BsDashCircle,
 } from 'react-icons/bs';
 import Logo from './components/Logo';
+import { useLogin } from '../../hooks/useLogin';
+import { useLogout } from '../../hooks/useLogout';
 
 const Login = () => {
+  const { login } = useLogin();
+  const { logout } = useLogout();
+
   return (
     <div className="Login">
       <header className="Login__Header">
@@ -37,7 +42,13 @@ const Login = () => {
           <BsGithub size={100} color={'VAR(--COLOR-MAIN-50)'} />
         </div>
 
-        <button className="btn">Sign in with Github</button>
+        <button className="btn" onClick={login}>
+          Sign in with Github
+        </button>
+
+        <button className="btn" onClick={logout}>
+          Logout
+        </button>
       </main>
     </div>
   );

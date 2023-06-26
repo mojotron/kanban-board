@@ -1,8 +1,11 @@
 import { useState, useCallback } from 'react';
+import { useFirestore } from './useFirestore';
 import { firebaseAuth } from '../firebase/config';
 import { GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 
 export const useLogin = () => {
+  const { addDocument, documentExist } = useFirestore();
+
   const [error, setError] = useState<null | string>(null);
   const [isPending, setIsPending] = useState(false);
   const provider = new GithubAuthProvider();
@@ -18,6 +21,8 @@ export const useLogin = () => {
       }
       const user = res.user;
       console.log(user);
+      const exists = await documentExist('users', user.uid);
+      console.log('user exists >>>>', exists);
       setIsPending(false);
     } catch (error) {
       if (error instanceof Error) {
