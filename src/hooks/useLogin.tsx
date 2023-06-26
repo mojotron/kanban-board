@@ -10,7 +10,7 @@ export const useLogin = () => {
   const login = useCallback(async () => {
     setError(null);
     setIsPending(true);
-
+    // TODO create new doc/update existing
     try {
       const res = await signInWithPopup(firebaseAuth, provider);
       if (!res) {

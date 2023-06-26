@@ -1,0 +1,35 @@
+.Login,
+.Login__Main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.Login__Header {
+  margin-bottom: 3.5rem;
+}
+.Login__Header p {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.Login__Header p:last-child {
+  margin-bottom: 0;
+}
+.Login__Header__Highlight {
+  color: transparent;
+  background: linear-gradient(
+    90deg,
+    var(--COLOR-ACCENT-500),
+    var(--COLOR-ACCENT-300),
+    var(--COLOR-MAIN-100)
+  );
+  background-clip: text;
+}
+.Login__Header h1 {
+  font-size: 3.815rem;
+
+  margin-bottom: 0.5rem;
+}
+.Login__Main__Avatar {
+  margin-bottom: 2.5rem;
+}

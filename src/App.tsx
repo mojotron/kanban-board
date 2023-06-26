@@ -7,14 +7,17 @@ import {
   Navigate,
 } from '@tanstack/router';
 // pages
-import Dashboard from './pages/Dashboard/Dashboard';
-import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
-import Login from './pages/Login/Login';
+import Dashboard from './pages/DashboardPage/Dashboard';
+import KanbanBoard from './pages/KanbanBoardPage/KanbanBoard';
+import Login from './pages/LoginPage/Login';
+// state
+import { useKanbanState } from './store';
 
-const AUTH = true; //
 // helper components for page navigation
 const AuthRouting = () => {
-  if (AUTH) return <Dashboard />;
+  const authIsReady = useKanbanState((state) => state.authIsReady);
+
+  if (authIsReady) return <Dashboard />;
   else return <Login />;
 };
 
