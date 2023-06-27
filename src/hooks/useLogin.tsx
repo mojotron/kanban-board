@@ -2,9 +2,10 @@ import { useState, useCallback } from 'react';
 import { useFirestore } from './useFirestore';
 import { firebaseAuth } from '../firebase/config';
 import { GithubAuthProvider, signInWithPopup } from 'firebase/auth';
+import { Timestamp } from 'firebase/firestore';
 
 export const useLogin = () => {
-  const { addDocument, documentExist } = useFirestore();
+  const { addDocument, documentExist, setDocument } = useFirestore();
 
   const [error, setError] = useState<null | string>(null);
   const [isPending, setIsPending] = useState(false);
@@ -20,9 +21,22 @@ export const useLogin = () => {
         throw new Error('Could not complete sign up');
       }
       const user = res.user;
-      console.log(user);
-      const exists = await documentExist('users', user.uid);
-      console.log('user exists >>>>', exists);
+
+      const userExists = await documentExist('users', user.uid);
+      if (userExists) {
+        // updates doc
+      } else {
+        // create user doc
+        const userData = {
+          userName: user.providerData[0].displayName,
+          photoUrl: user.providerData[0].photoURL,
+          email: user.providerData[0].email,
+          projects: [],
+          online: true,
+          lastLoggedOut: Timestamp.fromDate(new Date()),
+        };
+        await setDocument('users', user.uid, userData);
+      }
       setIsPending(false);
     } catch (error) {
       if (error instanceof Error) {

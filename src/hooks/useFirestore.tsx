@@ -1,5 +1,14 @@
 import { useState, useCallback, useEffect } from 'react';
-import { collection, addDoc, Timestamp, getDoc, doc } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  Timestamp,
+  getDoc,
+  doc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+} from 'firebase/firestore';
 import { firebaseFirestore } from '../firebase/config';
 
 export const useFirestore = () => {
@@ -26,9 +35,52 @@ export const useFirestore = () => {
     }
   }, []);
 
-  const updateDocument = useCallback(() => {}, []);
+  const setDocument = useCallback(
+    async (collectionName: string, docId: string, data: any) => {
+      try {
+        const docRef = doc(firebaseFirestore, collectionName, docId);
+        const createdAt = Timestamp.fromDate(new Date());
+        await setDoc(docRef, { ...data, createdAt });
+      } catch (error) {
+        throw error;
+      }
+    },
+    []
+  );
 
-  const deleteDocument = useCallback(() => {}, []);
+  const updateDocument = useCallback(
+    async (collectionName: string, docId: string, data: any) => {
+      try {
+        setPending(true);
+        const docRef = doc(firebaseFirestore, collectionName, docId);
+        await updateDoc(docRef, { ...data });
+        const updatedDoc = await getDoc(docRef);
+        if (!isCanceled) {
+          setError(null);
+          setPending(false);
+        }
+        return updatedDoc;
+      } catch (error) {
+        if (!isCanceled && error instanceof Error) {
+          setError(error.message);
+          setPending(false);
+        }
+      }
+    },
+    []
+  );
+
+  const deleteDocument = useCallback(
+    async (collectionName: string, docId: string) => {
+      try {
+        const docRef = doc(firebaseFirestore, collectionName, docId);
+        await deleteDoc(docRef);
+      } catch (error) {
+        throw error;
+      }
+    },
+    []
+  );
 
   const documentExist = useCallback(
     async (collectionName: string, docId: string) => {
@@ -52,6 +104,7 @@ export const useFirestore = () => {
     pending,
     error,
     addDocument,
+    setDocument,
     updateDocument,
     deleteDocument,
     documentExist,

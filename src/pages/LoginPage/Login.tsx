@@ -45,10 +45,6 @@ const Login = () => {
         <button className="btn" onClick={login}>
           Sign in with Github
         </button>
-
-        <button className="btn" onClick={logout}>
-          Logout
-        </button>
       </main>
     </div>
   );

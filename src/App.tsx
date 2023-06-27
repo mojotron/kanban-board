@@ -12,6 +12,22 @@ import KanbanBoard from './pages/KanbanBoardPage/KanbanBoard';
 import Login from './pages/LoginPage/Login';
 // state
 import { useKanbanState } from './store';
+// temp
+import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect } from 'react';
+import { firebaseAuth } from './firebase/config';
+
+const useAuth = () => {
+  const setAuth = useKanbanState((state) => state.setAuth);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+      setAuth(user, true);
+    });
+    unsubscribe();
+  }, [setAuth]);
+};
+// temp
 
 // helper components for page navigation
 const AuthRouting = () => {
@@ -57,6 +73,10 @@ declare module '@tanstack/router' {
 }
 
 const App = () => {
+  useAuth();
+  const authIsReady = useKanbanState((state) => state.authIsReady);
+
+  console.log('auth', authIsReady);
   return (
     <div className="App">
       <RouterProvider router={router} />

@@ -1,8 +1,15 @@
-import { Link, useNavigate } from '@tanstack/router';
+import { useLogout } from '../../hooks/useLogout';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  return <div>Dashboard</div>;
+  const { logout } = useLogout();
+  return (
+    <div>
+      Dashboard
+      <button className="btn" onClick={logout}>
+        Logout
+      </button>
+    </div>
+  );
 };
 
 export default Dashboard;
