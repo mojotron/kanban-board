@@ -5,7 +5,7 @@ import { GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 import { Timestamp } from 'firebase/firestore';
 
 export const useLogin = () => {
-  const { addDocument, documentExist, setDocument } = useFirestore();
+  const { documentExist, setDocument, updateDocument } = useFirestore();
 
   const [error, setError] = useState<null | string>(null);
   const [isPending, setIsPending] = useState(false);
@@ -22,20 +22,21 @@ export const useLogin = () => {
       }
       const user = res.user;
 
+      const userData = {
+        userName: user.providerData[0].displayName,
+        photoUrl: user.providerData[0].photoURL,
+        email: user.providerData[0].email,
+        online: true,
+        lastLoggedOut: Timestamp.fromDate(new Date()),
+      };
+
       const userExists = await documentExist('users', user.uid);
       if (userExists) {
-        // updates doc
+        // rewrite user document in case user change his/her github user data
+        await updateDocument('users', user.uid, userData);
       } else {
         // create user doc
-        const userData = {
-          userName: user.providerData[0].displayName,
-          photoUrl: user.providerData[0].photoURL,
-          email: user.providerData[0].email,
-          projects: [],
-          online: true,
-          lastLoggedOut: Timestamp.fromDate(new Date()),
-        };
-        await setDocument('users', user.uid, userData);
+        await setDocument('users', user.uid, { ...userData, projects: [] });
       }
       setIsPending(false);
     } catch (error) {

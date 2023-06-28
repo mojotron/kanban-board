@@ -5,13 +5,10 @@ import {
   BsArrowRepeat,
   BsDashCircle,
 } from 'react-icons/bs';
-import Logo from './components/Logo';
 import { useLogin } from '../../hooks/useLogin';
-import { useLogout } from '../../hooks/useLogout';
 
 const Login = () => {
   const { login } = useLogin();
-  const { logout } = useLogout();
 
   return (
     <div className="Login">
@@ -34,8 +31,6 @@ const Login = () => {
           <strong className="Login__Header__Highlight">team</strong> using
           github accounts.
         </p>
-
-        {/* <Logo /> */}
       </header>
       <main className="Login__Main">
         <div className="Login__Main__Avatar">

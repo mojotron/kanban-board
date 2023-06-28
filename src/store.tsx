@@ -1,20 +1,17 @@
 import { create } from 'zustand';
+import { UserType } from './types/userType';
 
 type StateType = {
   authIsReady: boolean;
-  user: any;
+  userId: string | null;
+  user: UserType | null;
   setAuth: (user: any, authIsReady: boolean) => void;
 };
 
-export const useKanbanState = create<StateType>()((set) => ({
+export const useStore = create<StateType>()((set) => ({
   authIsReady: false,
+  userId: null,
   user: null,
-  setAuth: (user: any, authIsReady: boolean) => set({ user, authIsReady }),
+  setAuth: (userId: string, authIsReady: boolean) =>
+    set({ userId, authIsReady }),
 }));
-
-// const useSetAuth = () => {
-//   const { user, authIsReady } = useAuth();
-//   const setAuth = useKanbanState((state) => state.setAuth);
-
-//   setAuth(user, authIsReady);
-// };

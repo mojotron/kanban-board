@@ -11,27 +11,32 @@ import Dashboard from './pages/DashboardPage/Dashboard';
 import KanbanBoard from './pages/KanbanBoardPage/KanbanBoard';
 import Login from './pages/LoginPage/Login';
 // state
-import { useKanbanState } from './store';
+import { useStore } from './store';
 // temp
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
 import { firebaseAuth } from './firebase/config';
 
 const useAuth = () => {
-  const setAuth = useKanbanState((state) => state.setAuth);
+  const setAuth = useStore((state) => state.setAuth);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-      setAuth(user, true);
+      const uid = user?.uid;
+      setAuth(uid, true);
     });
-    unsubscribe();
+
+    return () => {
+      setAuth(null, false);
+      unsubscribe();
+    };
   }, [setAuth]);
 };
 // temp
 
 // helper components for page navigation
 const AuthRouting = () => {
-  const authIsReady = useKanbanState((state) => state.authIsReady);
+  const authIsReady = useStore((state) => state.authIsReady);
 
   if (authIsReady) return <Dashboard />;
   else return <Login />;
@@ -74,9 +79,10 @@ declare module '@tanstack/router' {
 
 const App = () => {
   useAuth();
-  const authIsReady = useKanbanState((state) => state.authIsReady);
+  const authIsReady = useStore((state) => state.authIsReady);
+  const userId = useStore((state) => state.userId);
 
-  console.log('auth', authIsReady);
+  console.log('auth', userId);
   return (
     <div className="App">
       <RouterProvider router={router} />
