@@ -16,6 +16,7 @@ import { useStore } from './store';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
 import { firebaseAuth } from './firebase/config';
+import { useOnSnapshotDocument } from './hooks/useOnSnapshotDocument';
 
 const useAuth = () => {
   const setAuth = useStore((state) => state.setAuth);
@@ -79,10 +80,13 @@ declare module '@tanstack/router' {
 
 const App = () => {
   useAuth();
-  const authIsReady = useStore((state) => state.authIsReady);
+
+  const user = useStore((state) => state.user);
   const userId = useStore((state) => state.userId);
 
-  console.log('auth', userId);
+  useOnSnapshotDocument('users', userId);
+
+  console.log('auth', user);
   return (
     <div className="App">
       <RouterProvider router={router} />
