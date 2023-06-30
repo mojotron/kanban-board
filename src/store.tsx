@@ -15,7 +15,7 @@ export const useStore = create<StateType>()((set) => ({
   user: null,
 
   setAuth: (userId: string, authIsReady: boolean) =>
-    set({ userId, authIsReady }),
+    set((state) => ({ state, userId, authIsReady })),
 
   setUser: (userData: UserType) => set({ user: userData }),
 }));

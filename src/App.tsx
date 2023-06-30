@@ -8,7 +8,6 @@ import {
 } from '@tanstack/router';
 // pages
 import Dashboard from './pages/DashboardPage/Dashboard';
-import KanbanBoard from './pages/KanbanBoardPage/KanbanBoard';
 import Login from './pages/LoginPage/Login';
 // state
 import { useStore } from './store';
@@ -86,7 +85,7 @@ const App = () => {
 
   useOnSnapshotDocument('users', userId);
 
-  console.log('auth', user);
+  console.log('auth', userId);
   return (
     <div className="App">
       <RouterProvider router={router} />

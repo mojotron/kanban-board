@@ -1,7 +1,12 @@
 import { useState, useCallback } from 'react';
 import { useFirestore } from './useFirestore';
 import { firebaseAuth } from '../firebase/config';
-import { GithubAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+  GithubAuthProvider,
+  signInWithPopup,
+  setPersistence,
+  inMemoryPersistence,
+} from 'firebase/auth';
 import { Timestamp } from 'firebase/firestore';
 
 export const useLogin = () => {
@@ -14,7 +19,6 @@ export const useLogin = () => {
   const login = useCallback(async () => {
     setError(null);
     setIsPending(true);
-    // TODO create new doc/update existing
     try {
       const res = await signInWithPopup(firebaseAuth, provider);
       if (!res) {
