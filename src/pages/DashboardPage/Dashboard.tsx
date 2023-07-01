@@ -1,14 +1,26 @@
 import { useLogout } from '../../hooks/useLogout';
 import { useStore } from '../../store';
+// components
+import Avatar from '../../components/Avatar/Avatar';
 
 const Dashboard = () => {
   const { logout } = useLogout();
   const authIsReady = useStore((state) => state.authIsReady);
-  const userId = useStore((state) => state.userId);
+  const user = useStore((state) => state.user);
+
+  console.log(user);
 
   return (
     <div>
-      Dashboard auh is ready {`${authIsReady} ${userId}`}
+      <header>
+        {user && (
+          <Avatar
+            imageUrl={user.photoUrl}
+            userName={user.userName}
+            size="100"
+          />
+        )}
+      </header>
       <button className="btn" onClick={logout}>
         Logout
       </button>

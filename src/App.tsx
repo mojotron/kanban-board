@@ -79,8 +79,6 @@ declare module '@tanstack/router' {
 
 const App = () => {
   useAuth();
-
-  const user = useStore((state) => state.user);
   const userId = useStore((state) => state.userId);
 
   useOnSnapshotDocument('users', userId);
