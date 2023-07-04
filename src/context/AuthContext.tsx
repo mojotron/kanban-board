@@ -1,5 +1,12 @@
-import { User } from 'firebase/auth';
-import { ReactNode, createContext, useContext, useReducer } from 'react';
+import { User, onAuthStateChanged } from 'firebase/auth';
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+} from 'react';
+import { firebaseAuth } from '../firebase/config';
 
 const useAuthSource = () => {
   type AuthState = {
@@ -17,7 +24,7 @@ const useAuthSource = () => {
       case 'LOGIN':
         return { ...state, user: action.payload };
       case 'LOGOUT':
-        return { ...state, user: null };
+        return { ...state, user: null, authIsReady: false };
       case 'AUTH_IS_READY':
         return { ...state, user: action.payload, authIsReady: true };
       default:
@@ -29,6 +36,18 @@ const useAuthSource = () => {
     authIsReady: false,
     user: null,
   });
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+      if (user) {
+        dispatch({ type: 'AUTH_IS_READY', payload: user as User });
+      } else {
+        dispatch({ type: 'LOGOUT', payload: null });
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   return { user, authIsReady, dispatch };
 };

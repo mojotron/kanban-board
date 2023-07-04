@@ -1,16 +1,14 @@
 import './Dashboard.css';
-
 import { useLogout } from '../../hooks/useLogout';
-import { useStore } from '../../store';
 // components
 import Avatar from '../../components/Avatar/Avatar';
+import { useAuth } from '../../context/AuthContext';
 
 const Dashboard = () => {
+  const { authIsReady, user } = useAuth();
+  console.log('AIR', authIsReady);
+  console.log('user', user?.uid);
   const { logout } = useLogout();
-  const authIsReady = useStore((state) => state.authIsReady);
-  const user = useStore((state) => state.user);
-
-  console.log(user);
 
   return (
     <div className="Dashboard">

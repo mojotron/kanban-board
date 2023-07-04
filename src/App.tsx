@@ -10,33 +10,11 @@ import {
 import Dashboard from './pages/DashboardPage/Dashboard';
 import Login from './pages/LoginPage/Login';
 // state
-import { useStore } from './store';
-// temp
-import { onAuthStateChanged } from 'firebase/auth';
-import { useEffect } from 'react';
-import { firebaseAuth } from './firebase/config';
-import { useOnSnapshotDocument } from './hooks/useOnSnapshotDocument';
-
-const useAuth = () => {
-  const setAuth = useStore((state) => state.setAuth);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-      const uid = user?.uid;
-      setAuth(uid, true);
-    });
-
-    return () => {
-      setAuth(null, false);
-      unsubscribe();
-    };
-  }, [setAuth]);
-};
-// temp
+import { AuthContextProvider, useAuth } from './context/AuthContext';
 
 // helper components for page navigation
 const AuthRouting = () => {
-  const authIsReady = useStore((state) => state.authIsReady);
+  const { authIsReady } = useAuth();
 
   if (authIsReady) return <Dashboard />;
   else return <Login />;
@@ -78,15 +56,14 @@ declare module '@tanstack/router' {
 }
 
 const App = () => {
-  useAuth();
-  const userId = useStore((state) => state.userId);
-
-  useOnSnapshotDocument('users', userId);
-
-  console.log('auth', userId);
+  const { authIsReady, user } = useAuth();
+  console.log('AIR', authIsReady);
+  console.log('user', user);
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <AuthContextProvider>
+        <RouterProvider router={router} />
+      </AuthContextProvider>
     </div>
   );
 };

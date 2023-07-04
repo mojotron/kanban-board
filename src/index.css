@@ -111,3 +111,17 @@ body {
   color: var(--COLOR-ACCENT-500);
   background-color: var(--COLOR-MAIN-950);
 }
+.error {
+  color: red;
+}
+.spinner {
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

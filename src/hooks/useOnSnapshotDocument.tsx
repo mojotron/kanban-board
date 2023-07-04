@@ -1,31 +1,42 @@
-import { useEffect } from 'react';
-import { useStore } from '../store';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, Unsubscribe } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 import { firebaseFirestore } from '../firebase/config';
-import { UserType } from '../types/userType';
 
-export const useOnSnapshotDocument = (
+export const useOnSnapshotDocument = <T,>(
   collectionName: string,
-  docId: string | null
+  docId: null | string
 ) => {
-  const setUser = useStore((store) => store.setUser);
+  const [document, setDocument] = useState<null | T>(null);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
-    if (docId === null) return;
-    let unsubscribe: () => void;
+    if (!docId) return;
+    setIsPending(true);
+
+    let unsubscribe: Unsubscribe;
 
     const getDocument = async () => {
       try {
         const docRef = doc(firebaseFirestore, collectionName, docId);
         unsubscribe = onSnapshot(docRef, (doc) => {
-          const docData = { ...doc.data(), id: doc.id };
-          setUser(docData as UserType);
+          const data = { ...doc.data(), id: doc.id };
+          setIsPending(false);
+          setError(null);
+          setDocument(data as T);
         });
-      } catch (error) {}
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message);
+          setIsPending(false);
+        }
+      }
     };
 
     getDocument();
 
     return () => unsubscribe();
   }, []);
+
+  return { document, isPending, error };
 };

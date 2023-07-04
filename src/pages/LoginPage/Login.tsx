@@ -8,7 +8,7 @@ import {
 import { useLogin } from '../../hooks/useLogin';
 
 const Login = () => {
-  const { login } = useLogin();
+  const { isPending, error, login } = useLogin();
 
   return (
     <div className="Login">
@@ -33,13 +33,15 @@ const Login = () => {
         </p>
       </header>
       <main className="Login__Main">
-        <div className="Login__Main__Avatar">
+        <div className={`Login__Main__Avatar ${isPending ? 'spinner' : ''}`}>
           <BsGithub size={100} color={'VAR(--COLOR-MAIN-50)'} />
         </div>
 
         <button className="btn" onClick={login}>
           Sign in with Github
         </button>
+
+        {error && <p>{error}</p>}
       </main>
     </div>
   );

@@ -3,27 +3,26 @@ import { signOut } from 'firebase/auth';
 import { firebaseAuth } from '../firebase/config';
 import { useFirestore } from '../hooks/useFirestore';
 import { Timestamp } from 'firebase/firestore';
-import { useStore } from '../store';
+import { useAuth } from '../context/AuthContext';
 
 export const useLogout = () => {
-  const setAuth = useStore((state) => state.setAuth);
-  const userId = useStore((state) => state.userId);
+  const { user, dispatch } = useAuth();
   const { updateDocument } = useFirestore();
 
   const logout = useCallback(async () => {
     try {
-      await updateDocument('users', userId as string, {
+      await updateDocument('users', user?.uid as string, {
         online: false,
         lastLoggedOut: Timestamp.fromDate(new Date()),
       });
       await signOut(firebaseAuth);
-      setAuth(null, false);
+      dispatch({ type: 'LOGOUT', payload: null });
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
       }
     }
-  }, [userId, updateDocument]);
+  }, [user, updateDocument]);
 
   return { logout };
 };

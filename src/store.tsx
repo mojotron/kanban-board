@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { UserType } from './types/userType';
+import { useEffect } from 'react';
 
 type StateType = {
   authIsReady: boolean;
