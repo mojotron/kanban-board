@@ -11,12 +11,18 @@ import Dashboard from './pages/DashboardPage/Dashboard';
 import Login from './pages/LoginPage/Login';
 // state
 import { AuthContextProvider, useAuth } from './context/AuthContext';
+import { UserDataProvider } from './context/UserDataContext';
 
 // helper components for page navigation
 const AuthRouting = () => {
   const { authIsReady } = useAuth();
 
-  if (authIsReady) return <Dashboard />;
+  if (authIsReady)
+    return (
+      <UserDataProvider>
+        <Dashboard />;
+      </UserDataProvider>
+    );
   else return <Login />;
 };
 
@@ -56,9 +62,6 @@ declare module '@tanstack/router' {
 }
 
 const App = () => {
-  const { authIsReady, user } = useAuth();
-  console.log('AIR', authIsReady);
-  console.log('user', user);
   return (
     <div className="App">
       <AuthContextProvider>

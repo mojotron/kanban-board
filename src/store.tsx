@@ -3,20 +3,15 @@ import { UserType } from './types/userType';
 import { useEffect } from 'react';
 
 type StateType = {
-  authIsReady: boolean;
-  userId: string | null;
-  user: UserType | null;
-  setAuth: (user: any, authIsReady: boolean) => void;
-  setUser: (userData: UserType) => void;
+  userDoc: null | UserType;
+  userId: null | string;
+  setUserDoc: (doc: UserType) => void;
+  setUserId: (id: string) => void;
 };
 
 export const useStore = create<StateType>()((set) => ({
-  authIsReady: false,
   userId: null,
-  user: null,
-
-  setAuth: (userId: string, authIsReady: boolean) =>
-    set((state) => ({ state, userId, authIsReady })),
-
-  setUser: (userData: UserType) => set({ user: userData }),
+  userDoc: null,
+  setUserDoc: (doc: UserType) => set((state) => ({ ...state, userDoc: doc })),
+  setUserId: (id: string) => set({ userId: id }),
 }));

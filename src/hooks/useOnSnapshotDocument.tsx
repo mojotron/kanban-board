@@ -4,7 +4,7 @@ import { firebaseFirestore } from '../firebase/config';
 
 export const useOnSnapshotDocument = <T,>(
   collectionName: string,
-  docId: null | string
+  docId: undefined | string
 ) => {
   const [document, setDocument] = useState<null | T>(null);
   const [isPending, setIsPending] = useState(false);

@@ -2,21 +2,19 @@ import './Dashboard.css';
 import { useLogout } from '../../hooks/useLogout';
 // components
 import Avatar from '../../components/Avatar/Avatar';
-import { useAuth } from '../../context/AuthContext';
+import { useUserData } from '../../context/UserDataContext';
 
 const Dashboard = () => {
-  const { authIsReady, user } = useAuth();
-  console.log('AIR', authIsReady);
-  console.log('user', user?.uid);
   const { logout } = useLogout();
+  const { document } = useUserData();
 
   return (
     <div className="Dashboard">
       <header className="Dashboard__Header">
-        {user && (
+        {document && (
           <Avatar
-            imageUrl={user.photoUrl}
-            userName={user.userName}
+            imageUrl={document.photoUrl}
+            userName={document.userName}
             size="100"
           />
         )}
