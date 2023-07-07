@@ -64,30 +64,35 @@ white space scale system linear progression
   --COLOR-ACCENT-950: #422006;
 
   --BORDER-RADIUS: 5px;
+  --BORDER: 5px solid var(--COLOR-ACCENT-500);
 }
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+
 html {
   font-size: 16px;
   font-family: 'Roboto', sans-serif, monospace;
   font-weight: 400;
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
 }
 body {
-  box-sizing: inherit;
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   background-color: var(--COLOR-MAIN-950);
   color: var(--COLOR-MAIN-50);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-bottom: 0.512rem solid var(--COLOR-ACCENT-300);
+}
+#root {
+  width: 100%;
+  height: 100%;
 }
 .btn {
   display: inline-block;
@@ -124,4 +129,15 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* headings */
+.heading--primary {
+  font-size: 3.052rem;
+}
+.heading--secondary {
+  font-size: 2.441rem;
+}
+.heading--tertiary {
+  font-size: 1.953rem;
 }

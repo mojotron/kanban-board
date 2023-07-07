@@ -1,0 +1,16 @@
+.NewProjectForm,
+.NewProjectForm__label {
+  display: flex;
+  flex-direction: column;
+}
+.NewProjectForm {
+  border: 1px solid #fff;
+  width: 25rem;
+  padding: 2rem;
+
+  justify-content: center;
+
+  align-items: center;
+}
+.NewProjectForm__label {
+}

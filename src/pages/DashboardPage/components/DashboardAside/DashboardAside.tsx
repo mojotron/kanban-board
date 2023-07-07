@@ -1,5 +1,7 @@
+import './DashboardAside.css';
+
 const DashboardAside = () => {
-  return <aside>DashboardAside</aside>;
+  return <aside className="DashboardAside">DashboardAside</aside>;
 };
 
 export default DashboardAside;

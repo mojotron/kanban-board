@@ -20,7 +20,7 @@ const AuthRouting = () => {
   if (authIsReady)
     return (
       <UserDataProvider>
-        <Dashboard />;
+        <Dashboard />
       </UserDataProvider>
     );
   else return <Login />;
