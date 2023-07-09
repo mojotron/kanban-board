@@ -57,3 +57,19 @@
   outline: none;
   box-shadow: 0 1px 3px 6px rgba(234, 178, 8, 0.3);
 }
+.NewProjectForm__item button:disabled,
+.NewProjectForm__item button:disabled:hover {
+  background-color: var(--COLOR-GRAY-700);
+  color: var(--COLOR-GRAY-200);
+  border-color: var(--COLOR-GRAY-200);
+}
+.NewProjectForm__item__tags-wrapper {
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.NewProjectForm__item__tags-wrapper .tag:hover {
+  background-color: var(--COLOR-ERROR);
+  cursor: pointer;
+}

@@ -1,17 +1,14 @@
 import { create } from 'zustand';
-import { UserType } from './types/userType';
-import { useEffect } from 'react';
 
-type StateType = {
-  userDoc: null | UserType;
-  userId: null | string;
-  setUserDoc: (doc: UserType) => void;
-  setUserId: (id: string) => void;
+type State = {
+  openNewProjectModal: boolean;
 };
 
-export const useStore = create<StateType>()((set) => ({
-  userId: null,
-  userDoc: null,
-  setUserDoc: (doc: UserType) => set((state) => ({ ...state, userDoc: doc })),
-  setUserId: (id: string) => set({ userId: id }),
+type Action = {
+  setOpenNewProjectModal: (value: boolean) => void;
+};
+
+export const useKanbanStore = create<State & Action>()((set) => ({
+  openNewProjectModal: false,
+  setOpenNewProjectModal: (value) => set({ openNewProjectModal: value }),
 }));
