@@ -16,24 +16,28 @@ export const useFirestore = () => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<null | string>(null);
 
-  const addDocument = useCallback(async (collectionName: string, data: any) => {
-    const colRef = collection(firebaseFirestore, collectionName);
-    setPending(true);
-    try {
-      const createdAt = Timestamp.fromDate(new Date());
-      const newDoc = await addDoc(colRef, { ...data, createdAt });
-      if (!isCanceled) {
-        setPending(false);
-        setError(null);
+  const addDocument = useCallback(
+    async <T,>(collectionName: string, data: T) => {
+      const colRef = collection(firebaseFirestore, collectionName);
+      setPending(true);
+      try {
+        const createdAt = Timestamp.fromDate(new Date());
+        const newDoc = await addDoc(colRef, { ...data, createdAt });
+        if (!isCanceled) {
+          setPending(false);
+          setError(null);
+        }
+        return newDoc;
+      } catch (error) {
+        if (!isCanceled && error instanceof Error) {
+          console.log(error.message);
+          setPending(false);
+          setError(error.message);
+        }
       }
-      return newDoc;
-    } catch (error) {
-      if (!isCanceled && error instanceof Error) {
-        setPending(false);
-        setError(error.message);
-      }
-    }
-  }, []);
+    },
+    []
+  );
 
   const setDocument = useCallback(
     async (collectionName: string, docId: string, data: any) => {
