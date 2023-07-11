@@ -9,6 +9,7 @@ const useUserDataSource = (): {
   error: null | string;
 } => {
   const { user } = useAuth();
+
   const { document, isPending, error } = useOnSnapshotDocument<UserType>(
     'users',
     user?.uid

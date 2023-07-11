@@ -16,12 +16,13 @@ import { useKanbanStore } from '../../../../store';
 // firestore
 import { useFirestore } from '../../../../hooks/useFirestore';
 import { ProjectType } from '../../../../types/projectType';
-import { useAuth } from '../../../../context/AuthContext';
+import { useUserData } from '../../../../context/UserDataContext';
 
 const NewProjectForm = () => {
-  const { user } = useAuth();
+  const { document } = useUserData();
+
   const closeModal = useKanbanStore((state) => state.setOpenNewProjectModal);
-  const { pending, error, addDocument } = useFirestore();
+  const { pending, error, addDocument, updateDocument } = useFirestore();
 
   type State = {
     name: string;
@@ -92,15 +93,20 @@ const NewProjectForm = () => {
   }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    if (!user) return;
     event.preventDefault();
+    console.log('doc', document);
+
+    if (!document) return;
     try {
-      await addDocument<ProjectType>('projects', {
-        adminUid: user.uid,
+      const newProject = await addDocument<ProjectType>('projects', {
+        adminUid: document.uid,
         name: state.name,
         description: state.description,
         tags: state.tags,
         repository: state.repository,
+      });
+      await updateDocument('users', document.uid, {
+        projects: [...document.projects, newProject?.id],
       });
       closeModal(false);
     } catch (error) {

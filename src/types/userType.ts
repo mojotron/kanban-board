@@ -1,10 +1,12 @@
+import { Timestamp } from 'firebase/firestore';
+
 export type UserType = {
-  id: string;
-  createdAt: Date;
-  userName: string;
-  email: string;
-  photoUrl: string;
-  online: boolean;
-  lastLoggedOut: number;
+  uid: string;
+  userName: string | null;
+  email: string | null;
+  photoUrl: string | null;
   projects: string[];
+  online: boolean;
+  lastLoggedOut: Timestamp;
+  createdAt: Timestamp;
 };
