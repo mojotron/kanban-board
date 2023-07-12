@@ -17,7 +17,7 @@ const useAuthSource = () => {
   type AuthActions =
     | { type: 'LOGIN'; payload: User }
     | { type: 'LOGOUT'; payload: null }
-    | { type: 'AUTH_IS_READY' };
+    | { type: 'AUTH_IS_READY'; payload: User };
 
   const authReducer = (state: AuthState, action: AuthActions) => {
     switch (action.type) {
@@ -26,7 +26,7 @@ const useAuthSource = () => {
       case 'LOGOUT':
         return { ...state, user: null, authIsReady: false };
       case 'AUTH_IS_READY':
-        return { ...state, authIsReady: true };
+        return { ...state, authIsReady: true, user: action.payload };
       default:
         return { ...state };
     }
@@ -40,7 +40,7 @@ const useAuthSource = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
-        dispatch({ type: 'AUTH_IS_READY' });
+        dispatch({ type: 'AUTH_IS_READY', payload: user });
       } else {
         dispatch({ type: 'LOGOUT', payload: null });
       }

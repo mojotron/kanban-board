@@ -45,7 +45,10 @@ export const useLogin = () => {
           photoUrl: user.providerData[0].photoURL,
           email: user.providerData[0].email,
           online: true,
-          projects: [],
+          managingProjects: [],
+          collaboratingProjects: [],
+          projectsCompleted: 0,
+          tasksCompleted: 0,
           lastLoggedOut: Timestamp.fromDate(new Date()),
           createdAt: Timestamp.fromDate(new Date()),
         });

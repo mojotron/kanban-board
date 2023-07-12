@@ -5,8 +5,11 @@ export type UserType = {
   userName: string | null;
   email: string | null;
   photoUrl: string | null;
-  projects: string[];
+  managingProjects: string[];
+  collaboratingProjects: string[];
   online: boolean;
+  projectsCompleted: number;
+  tasksCompleted: number;
   lastLoggedOut: Timestamp;
   createdAt: Timestamp;
 };

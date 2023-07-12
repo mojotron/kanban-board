@@ -5,6 +5,7 @@ import './Dashboard.css';
 
 import DashboardAside from './components/DashboardAside/DashboardAside';
 import DashboardMenu from './components/DashboardMenu/DashboardMenu';
+import DashboardProject from './components/DashboardProject/DashboardProject';
 import NewProjectForm from './components/NewProjectForm.tsx/NewProjectForm';
 
 const Dashboard = () => {
@@ -13,6 +14,7 @@ const Dashboard = () => {
     <div className="Dashboard">
       <DashboardAside />
       <DashboardMenu />
+      <DashboardProject />
       {projectModal && <NewProjectForm />}
     </div>
   );

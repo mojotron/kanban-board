@@ -106,7 +106,7 @@ const NewProjectForm = () => {
         repository: state.repository,
       });
       await updateDocument('users', document.uid, {
-        projects: [...document.projects, newProject?.id],
+        managingProjects: [...document.managingProjects, newProject?.id],
       });
       closeModal(false);
     } catch (error) {
