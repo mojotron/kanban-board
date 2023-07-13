@@ -2,5 +2,67 @@
   grid-column: 2 / -1;
   grid-row: 2 / -1;
   border-top: var(--BORDER);
-  padding: 3rem;
+  padding: 3.2rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  column-gap: 0.8rem;
+  row-gap: 0.8rem;
+  overflow-y: scroll;
+}
+.DashboardProject__header {
+  grid-column: 1 / 4;
+  grid-row: 1 / 2;
+}
+.DashboardProject__header__title {
+  display: flex;
+  gap: 2.4rem;
+  align-items: center;
+  margin-bottom: 1.6rem;
+}
+.DashboardProject__header h1 {
+  font-size: 3rem;
+}
+.DashboardProject__header__tags {
+  margin-bottom: 2.4rem;
+  display: flex;
+  gap: 0.8rem;
+}
+.DashboardProject__header__description {
+  font-size: 1.6rem;
+  line-height: 1.6;
+  margin-bottom: 2.4rem;
+}
+.DashboardProject__header .link:link {
+  text-transform: uppercase;
+}
+.DashboardProject__tasks {
+  grid-row: 2 / -1;
+  grid-column: 1 / 4;
+  display: grid;
+  grid-template-rows: 1fr 9fr;
+}
+.DashboardProject__tasks__display__tabs {
+  display: flex;
+  justify-content: flex-start;
+  background-color: var(--COLOR-GRAY-500);
+}
+.DashboardProject__tasks__display__tabs button {
+  display: block;
+  padding: 0.8rem;
+  border: none;
+  background: none;
+  color: white;
+  font-size: 1.6rem;
+  flex: 1 1 auto;
+}
+.DashboardProject__tasks__display__tabs button:hover {
+  background-color: var(--COLOR-BLUE-500);
+}
+.DashboardProject__tasks__display__tabs button.active {
+  background-color: var(--COLOR-GRAY-700);
+}
+.DashboardProject__tasks__display {
+  background-color: var(--COLOR-GRAY-700);
+  grid-row: 2 / -1;
 }

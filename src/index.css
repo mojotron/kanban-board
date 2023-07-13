@@ -1,28 +1,20 @@
 /* font scale system
-3.815rem/61.04px
-3.052rem/48.83px
-2.441rem/39.06px
-1.953rem/31.25px
-1.563rem/25.00px
-1.25rem/20.00px
-1rem/16.00px <== base
-0.8rem/12.80px
-0.64rem/10.24px
-0.512rem/8.19px 
+7.451rem/74.51px
+5.96rem/59.60px
+4.768rem/47.68px
+3.815rem/38.15px 
+3.052rem/30.52px
+2.441rem/24.41px
+1.953rem/19.53px
+1.563rem/15.63px
+1.25rem/12.50px
+1rem/10.00px
+0.8rem/8.00px
+0.64rem/6.40px
+0.512rem/5.12px 
 
 white space scale system linear progression
-0.5rem/8px
-1rem/16px
-1.5rem/24px
-2rem/32px
-2.5rem/40px
-3rem/48px
-3.5rem/56px
-4rem/64px
-4.5rem/72px
-5rem/80px
-5.5rem/88px
-6rem/96px
+8/16/24/32/40/48/56/64/72/80/88
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap');
