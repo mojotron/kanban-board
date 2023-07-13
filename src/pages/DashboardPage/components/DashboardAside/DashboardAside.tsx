@@ -17,11 +17,8 @@ const DashboardAsideList = ({
     <ul>
       {projectList &&
         projectList.map((project) => (
-          <li>
-            <button
-              id={project.id}
-              onClick={() => setCurrentProject(project.id)}
-            >
+          <li key={project.id}>
+            <button onClick={() => setCurrentProject(project.id)}>
               {project.name}
             </button>
           </li>
@@ -40,22 +37,26 @@ const DashboardAside = () => {
 
   return (
     <aside className="DashboardAside">
-      <Avatar
-        userName={document?.userName as string}
-        imageUrl={document?.photoUrl as string}
-        size="100"
-      />
-      <h2>{document?.userName}</h2>
-      <p>Projects completed: {document?.projectsCompleted}</p>
-      <p>Tasks completed: {document?.tasksCompleted}</p>
+      <div className="DashboardAside__user">
+        <Avatar
+          userName={document?.userName as string}
+          imageUrl={document?.photoUrl as string}
+          size="75"
+        />
+        <div className="DashboardAside__user__info">
+          <h2 className="heading--secondary">{document?.userName}</h2>
+          <p>Projects completed: {document?.projectsCompleted}</p>
+          <p>Tasks completed: {document?.tasksCompleted}</p>
+        </div>
+      </div>
 
-      <div>
-        <h3>Managing Projects</h3>
+      <div className="DashboardAside__projects">
+        <h3 className="heading--tertiary">Managing Projects</h3>
         <DashboardAsideList projectList={managingProjects} />
       </div>
 
-      <div>
-        <h3>Collaborating Projects</h3>
+      <div className="DashboardAside__projects">
+        <h3 className="heading--tertiary">Collaborating Projects</h3>
       </div>
     </aside>
   );

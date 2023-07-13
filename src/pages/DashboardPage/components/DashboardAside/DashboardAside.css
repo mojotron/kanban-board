@@ -1,5 +1,46 @@
 .DashboardAside {
   grid-column: 1 / 2;
   grid-row: 1 / -1;
-  border-right: var(--BORDER);
+  background-color: var(--COLOR-GRAY-700);
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+.DashboardAside__user {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.DashboardAside__user__info h2 {
+  margin-bottom: 0.5rem;
+}
+.DashboardAside__user__info p {
+  font-size: 1.6rem;
+}
+.DashboardAside__projects h3 {
+  margin-bottom: 1rem;
+}
+.DashboardAside__projects ul {
+  list-style: none;
+  max-height: 20rem;
+  overflow-x: scroll;
+}
+.DashboardAside__projects button {
+  display: block;
+  background: none;
+  border: none;
+  color: var(--PRIMARY-COLOR);
+  background-color: var(--COLOR-GRAY-400);
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 2rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: var(--BORDER-RADIUS);
+}
+.DashboardAside__projects button:hover {
+  color: var(--SECONDARY-COLOR);
+  background-color: var(--COLOR-BLUE-500);
 }

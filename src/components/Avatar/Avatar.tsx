@@ -1,6 +1,6 @@
 import './Avatar.css';
 
-type AvatarSize = '50' | '100' | '200';
+type AvatarSize = '25' | '50' | '75' | '100';
 
 type PropsType = {
   imageUrl: string;

@@ -27,51 +27,45 @@ white space scale system linear progression
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap');
 :root {
-  --COLOR-MAIN-50: #f0f9ff;
-  --COLOR-MAIN-100: #e0f2fe;
-  --COLOR-MAIN-200: #bae6fd;
-  --COLOR-MAIN-300: #7dd3fc;
-  --COLOR-MAIN-400: #38bdf8;
-  --COLOR-MAIN-500: #0ea5e9;
-  --COLOR-MAIN-600: #0284c7;
-  --COLOR-MAIN-700: #0369a1;
-  --COLOR-MAIN-800: #075985;
-  --COLOR-MAIN-900: #0c4a6e;
-  --COLOR-MAIN-950: #082f49;
+  --COLOR-GRAY-50: #f8fafc;
+  --COLOR-GRAY-100: #f1f5f9;
+  --COLOR-GRAY-200: #e2e8f0;
+  --COLOR-GRAY-300: #cbd5e1;
+  --COLOR-GRAY-400: #94a3b8;
+  --COLOR-GRAY-500: #64748b;
+  --COLOR-GRAY-600: #475569;
+  --COLOR-GRAY-700: #334155;
+  --COLOR-GRAY-800: #1e293b;
+  --COLOR-GRAY-900: #0f172a;
+  --COLOR-GRAY-950: #020617;
 
-  --COLOR-GRAY-50: #fafafa;
-  --COLOR-GRAY-100: #f5f5f5;
-  --COLOR-GRAY-200: #e5e5e5;
-  --COLOR-GRAY-300: #d4d4d4;
-  --COLOR-GRAY-400: #a3a3a3;
-  --COLOR-GRAY-500: #737373;
-  --COLOR-GRAY-600: #525252;
-  --COLOR-GRAY-700: #404040;
-  --COLOR-GRAY-800: #262626;
-  --COLOR-GRAY-900: #171717;
-  --COLOR-GRAY-950: #0a0a0a;
+  --COLOR-BLUE-300: #7dd3fc;
+  --COLOR-BLUE-400: #38bdf8;
+  --COLOR-BLUE-500: #0ea5e9;
+  --COLOR-BLUE-600: #0284c7;
+  --COLOR-BLUE-700: #0369a1;
 
-  --COLOR-ACCENT-50: #fefce8;
-  --COLOR-ACCENT-100: #fef9c3;
-  --COLOR-ACCENT-200: #fef08a;
-  --COLOR-ACCENT-300: #fde047;
-  --COLOR-ACCENT-400: #facc15;
-  --COLOR-ACCENT-500: #eab308;
-  --COLOR-ACCENT-600: #ca8a04;
-  --COLOR-ACCENT-700: #a16207;
-  --COLOR-ACCENT-800: #854d0e;
-  --COLOR-ACCENT-900: #713f12;
-  --COLOR-ACCENT-950: #422006;
+  --COLOR-RED-300: #fca5a5;
+  --COLOR-RED-400: #f87171;
+  --COLOR-RED-500: #ef4444;
+  --COLOR-RED-600: #dc2626;
+  --COLOR-RED-700: #b91c1c;
 
-  --COLOR-TAG: #25d861;
-  --COLOR-ERROR: #e63030;
+  --COLOR-GREEN-300: #86efac;
+  --COLOR-GREEN-400: #4ade80;
+  --COLOR-GREEN-500: #22c55e;
+  --COLOR-GREEN-600: #16a34a;
+  --COLOR-GREEN-700: #15803d;
+
+  --PRIMARY-COLOR: var(--COLOR-GRAY-800);
+  --SECONDARY-COLOR: var(--COLOR-GRAY-100);
 
   --BORDER-RADIUS: 5px;
   --BORDER: 3px solid var(--COLOR-ACCENT-500);
 }
 
 html {
-  font-size: 16px;
+  font-size: 62.5%;
   font-family: 'Roboto', sans-serif, monospace;
   font-weight: 400;
   box-sizing: border-box;
@@ -86,8 +80,8 @@ html {
 body {
   width: 100vw;
   height: 100vh;
-  background-color: var(--COLOR-MAIN-950);
-  color: var(--COLOR-MAIN-50);
+  background-color: var(--PRIMARY-COLOR);
+  color: var(--SECONDARY-COLOR);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -103,14 +97,18 @@ body {
   border: none;
   background: none;
   padding: 0.5rem 1rem;
-  border: 3px solid var(--COLOR-ACCENT-300);
-  background-color: var(--COLOR-ACCENT-300);
-  color: var(--COLOR-MAIN-950);
-  font-size: 1rem;
+  border: 3px solid var(--COLOR-BLUE-300);
+  background-color: var(--COLOR-BLUE-300);
+  color: var(--PRIMARY-COLOR);
+  font-size: 1.6rem;
   transition: all 0.4s ease;
   text-transform: uppercase;
   font-weight: 500;
   border-radius: var(--BORDER-RADIUS);
+}
+.btn:hover {
+  color: var(--COLOR-BLUE-300);
+  background-color: var(--PRIMARY-COLOR);
 }
 .btn--icon {
   border: none;
@@ -124,15 +122,13 @@ body {
   position: absolute;
   top: 2rem;
   right: 2rem;
+  color: var(--COLOR-BLUE-300);
 }
-
-.btn:hover {
-  border-color: var(--COLOR-ACCENT-500);
-  color: var(--COLOR-ACCENT-500);
-  background-color: var(--COLOR-MAIN-950);
+.btn--icon:hover {
+  color: var(--COLOR-RED-400);
 }
 .error {
-  color: red;
+  color: var(--COLOR-RED-500);
 }
 .spinner {
   animation: spin 2s linear infinite;
@@ -180,11 +176,24 @@ body {
   margin-bottom: 3.5rem !important;
 }
 .tag {
-  color: var(--COLOR-MAIN-950);
-  background-color: var(--COLOR-TAG);
-  padding: 0.12rem 0.5rem;
+  display: inline-block;
+  font-size: 1.4rem;
+  color: var(--COLOR-GRAY-950);
+  background-color: var(--COLOR-GREEN-400);
+  padding: 0.5rem 1rem;
   text-transform: uppercase;
   font-weight: 700;
   border-radius: var(--BORDER-RADIUS);
   transition: all 0.5s ease;
+}
+.link:link,
+.link:visited {
+  font-size: 1.6rem;
+  text-decoration: none;
+  color: var(--COLOR-BLUE-500);
+}
+.link:hover,
+.link:active {
+  color: var(--COLOR-BLUE-300);
+  border-bottom: 1px solid var(--COLOR-BLUE-300);
 }

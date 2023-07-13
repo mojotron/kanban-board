@@ -1,0 +1,6 @@
+.DashboardProject {
+  grid-column: 2 / -1;
+  grid-row: 2 / -1;
+  border-top: var(--BORDER);
+  padding: 3rem;
+}
