@@ -116,7 +116,7 @@ const NewProjectForm = () => {
 
   return (
     <div className="overlay">
-      <form className="NewProjectForm" onSubmit={handleSubmit}>
+      <form className="Form" onSubmit={handleSubmit}>
         <button
           className="btn--icon"
           type="button"
@@ -126,7 +126,7 @@ const NewProjectForm = () => {
         </button>
 
         <h2 className="heading--secondary">New Project</h2>
-        <div className="NewProjectForm__item">
+        <div className="Form__item">
           <label htmlFor="new-project-name">Project Name</label>
           <input
             id="new-project-name"
@@ -142,7 +142,7 @@ const NewProjectForm = () => {
           />
         </div>
 
-        <div className="NewProjectForm__item">
+        <div className="Form__item">
           <label htmlFor="new-project-description">Project description</label>
           <textarea
             id="new-project-description"
@@ -156,9 +156,9 @@ const NewProjectForm = () => {
           />
         </div>
 
-        <div className="NewProjectForm__item">
+        <div className="Form__item">
           <label htmlFor="project-tags">Tags</label>
-          <div className="NewProjectForm__item__wrapper">
+          <div className="Form__item__wrapper">
             <input
               id="project-tags"
               type="text"
@@ -178,7 +178,7 @@ const NewProjectForm = () => {
               Add
             </button>
           </div>
-          <div className="NewProjectForm__item__tags-wrapper">
+          <div className="Form__item__tags-wrapper">
             {state.tags.map((tag, i) => (
               <p
                 key={tag + i}
@@ -192,7 +192,7 @@ const NewProjectForm = () => {
           </div>
         </div>
 
-        <div className="NewProjectForm__item mb--lg">
+        <div className="Form__item mb--lg">
           <label htmlFor="new-project-repo">Project repository</label>
           <input
             id="new-project-repo"
@@ -208,7 +208,7 @@ const NewProjectForm = () => {
         <button type="submit" className="btn">
           create
         </button>
-        <p className="NewProjectForm__note">
+        <p className="Form__note">
           You can update all fields later in your dashboard!
         </p>
       </form>

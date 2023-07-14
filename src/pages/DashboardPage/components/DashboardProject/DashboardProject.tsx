@@ -3,15 +3,30 @@ import { useKanbanStore } from '../../../../store';
 import { useOnSnapshotDocument } from '../../../../hooks/useOnSnapshotDocument';
 import { ProjectType } from '../../../../types/projectType';
 import { COLUMNS } from '../../../../constants/columns';
+import { useMemo } from 'react';
+import NewTaskForm from '../NewTaskForm/NewTaskForm';
 
 const DashboardProject = () => {
   const currentProject = useKanbanStore((state) => state.currentProject);
+  const currentTaskColumn = useKanbanStore((state) => state.currentTaskColumn);
+  const openNewTaskModal = useKanbanStore((state) => state.openNewTaskModal);
+  const setOpenNewTaskModal = useKanbanStore(
+    (state) => state.setOpenNewTaskModal
+  );
+
+  const setCurrentTaskColumn = useKanbanStore(
+    (state) => state.setCurrentTaskColumn
+  );
+
   const { document, isPending, error } = useOnSnapshotDocument<
     ProjectType & { id: string }
   >('projects', currentProject);
 
+  // const getColumnTasks = useMemo(() => {}, [document, currentTaskColumn]);
+
   return (
     <main className="DashboardProject">
+      {openNewTaskModal && <NewTaskForm />}
       {isPending && <h2>Loading...</h2>}
       {error && <h2 className="error">{error}</h2>}
 
@@ -42,14 +57,31 @@ const DashboardProject = () => {
           </header>
 
           <div className="DashboardProject__tasks">
-            <h2 className="heading--tertiary">Current Tasks</h2>
+            <div className="DashboardProject__tasks__header">
+              <h2 className="heading--secondary">Tasks</h2>
+              <button
+                className="btn"
+                onClick={(e) => {
+                  setOpenNewTaskModal(true);
+                }}
+              >
+                Create task
+              </button>
+            </div>
 
             <div className="DashboardProject__tasks__display">
               <div className="DashboardProject__tasks__display__tabs">
                 {Object.keys(COLUMNS).map((col) => (
-                  <button key={col}>{col.toLowerCase()}</button>
+                  <button
+                    onClick={() => setCurrentTaskColumn(COLUMNS[col])}
+                    className={`${
+                      COLUMNS[col] === currentTaskColumn ? 'active' : ''
+                    }`}
+                    key={col}
+                  >
+                    {col.toLowerCase()}
+                  </button>
                 ))}
-                <button className="active">finished</button>
               </div>
             </div>
           </div>
