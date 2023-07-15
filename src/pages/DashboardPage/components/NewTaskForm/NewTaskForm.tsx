@@ -1,20 +1,31 @@
-import { MutableRefObject, useEffect, useReducer, useRef } from 'react';
+import {
+  MutableRefObject,
+  useEffect,
+  useReducer,
+  useRef,
+  useCallback,
+  FormEvent,
+} from 'react';
 import { useKanbanStore } from '../../../../store';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { Timestamp } from 'firebase/firestore';
+import { TaskType, Priority } from '../../../../types/taskType';
+import { useFirestore } from '../../../../hooks/useFirestore';
+import { useUserData } from '../../../../context/UserDataContext';
 
 const NewTaskForm = () => {
   const closeModal = useKanbanStore((state) => state.setOpenNewTaskModal);
+  const { document } = useUserData();
+  console.log('HERE', document?.uid);
 
+  const { pending, error, addDocument } = useFirestore();
   const titleInputRef = useRef() as MutableRefObject<HTMLInputElement>;
-
-  type Priority = 'low' | 'medium' | 'high';
 
   type State = {
     title: string;
     description: string;
     priority: Priority;
-    deadline: undefined | string;
+    deadline: string;
   };
 
   type Action =
@@ -42,19 +53,47 @@ const NewTaskForm = () => {
       title: '',
       description: '',
       priority: 'low',
-      deadline: undefined,
+      deadline: '',
     }
   );
 
-  console.log(state);
+  const handleCloseModal = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') closeModal(false);
+    },
+    [closeModal]
+  );
 
   useEffect(() => {
     titleInputRef.current.focus();
+
+    window.addEventListener('keydown', handleCloseModal);
+    return () => window.removeEventListener('keydown', handleCloseModal);
   }, []);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!document) return;
+    await addDocument<TaskType>('tasks', {
+      adminUid: document.uid,
+      collaboratorUid: '',
+      title: state.title,
+      description: state.description,
+      notes: [],
+      createdAt: Timestamp.fromDate(new Date()),
+      deadline:
+        state.deadline === ''
+          ? null
+          : Timestamp.fromDate(new Date(state.deadline)),
+      priority: state.priority,
+    });
+    // TODO update project with task
+    closeModal(false);
+  };
 
   return (
     <div className="overlay">
-      <form className="Form" onSubmit={() => {}}>
+      <form className="Form" onSubmit={handleSubmit}>
         <button
           className="btn--icon"
           type="button"
@@ -126,10 +165,12 @@ const NewTaskForm = () => {
         </div>
 
         <button type="submit" className="btn">
-          create
+          {pending ? 'Loading...' : 'create'}
         </button>
-        <p className="Form__note">
-          You can update all fields later in your dashboard!
+        <p className={`Form__note ${error ? 'error' : ''}`}>
+          {error
+            ? `${error}`
+            : 'You can update all fields later in your dashboard!'}
         </p>
       </form>
     </div>
