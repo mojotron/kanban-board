@@ -13,12 +13,12 @@ import { TaskType, Priority } from '../../../../types/taskType';
 import { useFirestore } from '../../../../hooks/useFirestore';
 import { useUserData } from '../../../../context/UserDataContext';
 
-const NewTaskForm = () => {
+const NewTaskForm = ({ tasks }: { tasks: string[] }) => {
   const closeModal = useKanbanStore((state) => state.setOpenNewTaskModal);
+  const currentProject = useKanbanStore((state) => state.currentProject);
   const { document } = useUserData();
-  console.log('HERE', document?.uid);
 
-  const { pending, error, addDocument } = useFirestore();
+  const { pending, error, addDocument, updateDocument } = useFirestore();
   const titleInputRef = useRef() as MutableRefObject<HTMLInputElement>;
 
   type State = {
@@ -73,21 +73,23 @@ const NewTaskForm = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!document) return;
-    await addDocument<TaskType>('tasks', {
+    if (!document || !currentProject) return;
+    const newTask = await addDocument<TaskType>('tasks', {
       adminUid: document.uid,
       collaboratorUid: '',
       title: state.title,
       description: state.description,
       notes: [],
-      createdAt: Timestamp.fromDate(new Date()),
       deadline:
         state.deadline === ''
           ? null
           : Timestamp.fromDate(new Date(state.deadline)),
       priority: state.priority,
+      stage: 'backlog',
     });
-    // TODO update project with task
+    await updateDocument('projects', currentProject, {
+      tasks: [...tasks, newTask?.id],
+    });
     closeModal(false);
   };
 

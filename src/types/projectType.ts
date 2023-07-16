@@ -4,4 +4,5 @@ export type ProjectType = {
   description: string;
   tags: string[];
   repository: string;
+  tasks: string[];
 };

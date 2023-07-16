@@ -1,5 +1,5 @@
 import './KanbanBoard.css';
-import { COLUMNS } from '../../constants/columns';
+import { COLUMNS } from '../../constants/taskStages';
 
 import Column from './components/Column/Column';
 

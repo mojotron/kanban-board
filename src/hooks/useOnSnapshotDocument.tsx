@@ -6,7 +6,7 @@ export const useOnSnapshotDocument = <T,>(
   collectionName: string,
   docId: undefined | null | string
 ) => {
-  const [document, setDocument] = useState<null | T>(null);
+  const [document, setDocument] = useState<undefined | T>(undefined);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<null | string>(null);
 

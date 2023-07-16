@@ -1,4 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
+import { TASK_STAGES } from '../constants/taskStages';
 
 export type Note = {
   createdAt: Timestamp;
@@ -8,13 +9,16 @@ export type Note = {
 
 export type Priority = 'low' | 'medium' | 'high';
 
+const stages = [...TASK_STAGES] as const;
+type Stage = (typeof stages)[number];
+
 export type TaskType = {
   adminUid: string;
   collaboratorUid: string;
   title: string;
   description: string;
   notes: Note[];
-  createdAt: Timestamp;
   deadline: null | Timestamp;
   priority: Priority;
+  stage: Stage;
 };

@@ -2,9 +2,13 @@ import './DashboardProject.css';
 import { useKanbanStore } from '../../../../store';
 import { useOnSnapshotDocument } from '../../../../hooks/useOnSnapshotDocument';
 import { ProjectType } from '../../../../types/projectType';
-import { COLUMNS } from '../../../../constants/columns';
+import { TASK_STAGES } from '../../../../constants/taskStages';
 import { useMemo } from 'react';
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
+import { useCollectDocs } from '../../../../hooks/useCollectDocs';
+import { TaskType } from '../../../../types/taskType';
+
+type Task = TaskType & { id: string };
 
 const DashboardProject = () => {
   const currentProject = useKanbanStore((state) => state.currentProject);
@@ -13,7 +17,6 @@ const DashboardProject = () => {
   const setOpenNewTaskModal = useKanbanStore(
     (state) => state.setOpenNewTaskModal
   );
-
   const setCurrentTaskColumn = useKanbanStore(
     (state) => state.setCurrentTaskColumn
   );
@@ -21,15 +24,22 @@ const DashboardProject = () => {
   const { document, isPending, error } = useOnSnapshotDocument<
     ProjectType & { id: string }
   >('projects', currentProject);
+  const {
+    documents: tasks,
+    isPending: pendingTasks,
+    error: errorTasks,
+  } = useCollectDocs<Task>(document?.tasks, 'tasks');
+
+  console.log(tasks, pendingTasks, errorTasks);
 
   // const getColumnTasks = useMemo(() => {}, [document, currentTaskColumn]);
 
   return (
     <main className="DashboardProject">
-      {openNewTaskModal && <NewTaskForm />}
       {isPending && <h2>Loading...</h2>}
       {error && <h2 className="error">{error}</h2>}
 
+      {document && openNewTaskModal && <NewTaskForm tasks={document.tasks} />}
       {document && (
         <>
           <header className="DashboardProject__header">
@@ -61,7 +71,7 @@ const DashboardProject = () => {
               <h2 className="heading--secondary">Tasks</h2>
               <button
                 className="btn"
-                onClick={(e) => {
+                onClick={() => {
                   setOpenNewTaskModal(true);
                 }}
               >
@@ -71,17 +81,20 @@ const DashboardProject = () => {
 
             <div className="DashboardProject__tasks__display">
               <div className="DashboardProject__tasks__display__tabs">
-                {Object.keys(COLUMNS).map((col) => (
+                {TASK_STAGES.map((stage) => (
                   <button
-                    onClick={() => setCurrentTaskColumn(COLUMNS[col])}
-                    className={`${
-                      COLUMNS[col] === currentTaskColumn ? 'active' : ''
-                    }`}
-                    key={col}
+                    onClick={() => setCurrentTaskColumn(stage)}
+                    className={`${stage === currentTaskColumn ? 'active' : ''}`}
+                    key={stage}
                   >
-                    {col.toLowerCase()}
+                    {stage}
                   </button>
                 ))}
+              </div>
+
+              <div className="DashboardProject__tasks__display__tasks">
+                {tasks &&
+                  tasks.map((task) => <div key={task.id}>{task.title}</div>)}
               </div>
             </div>
           </div>
