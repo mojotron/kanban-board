@@ -7,7 +7,7 @@ export type Note = {
   text: string;
 };
 
-export type Priority = 'low' | 'medium' | 'high';
+export type Priority = 'low' | 'high' | 'very-high';
 
 const stages = [...TASK_STAGES] as const;
 type Stage = (typeof stages)[number];

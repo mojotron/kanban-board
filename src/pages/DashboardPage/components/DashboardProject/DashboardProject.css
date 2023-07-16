@@ -72,3 +72,10 @@
 .DashboardProject__tasks__display {
   background-color: var(--COLOR-GRAY-700);
 }
+.DashboardProject__tasks__display__tasks {
+  padding: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  overflow-y: scroll;
+}

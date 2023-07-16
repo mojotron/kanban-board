@@ -49,6 +49,12 @@ white space scale system linear progression
   --COLOR-GREEN-600: #16a34a;
   --COLOR-GREEN-700: #15803d;
 
+  --COLOR-YELLOW-300: #fde047;
+  --COLOR-YELLOW-400: #facc15;
+  --COLOR-YELLOW-500: #eab308;
+  --COLOR-YELLOW-600: #ca8a04;
+  --COLOR-YELLOW-700: #a16207;
+
   --PRIMARY-COLOR: var(--COLOR-GRAY-800);
   --SECONDARY-COLOR: var(--COLOR-GRAY-100);
 
@@ -264,4 +270,14 @@ body {
 .Form__item__tags-wrapper .tag:hover {
   background-color: var(--COLOR-ERROR);
   cursor: pointer;
+}
+
+.priority--low {
+  background-color: var(--COLOR-GREEN-400);
+}
+.priority--high {
+  background-color: var(--COLOR-YELLOW-300);
+}
+.priority--very-high {
+  background-color: var(--COLOR-RED-400);
 }

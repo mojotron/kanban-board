@@ -1,12 +1,18 @@
 import './DashboardProject.css';
-import { useKanbanStore } from '../../../../store';
-import { useOnSnapshotDocument } from '../../../../hooks/useOnSnapshotDocument';
-import { ProjectType } from '../../../../types/projectType';
-import { TASK_STAGES } from '../../../../constants/taskStages';
 import { useMemo } from 'react';
-import NewTaskForm from '../NewTaskForm/NewTaskForm';
+// firebase hooks
+import { useOnSnapshotDocument } from '../../../../hooks/useOnSnapshotDocument';
 import { useCollectDocs } from '../../../../hooks/useCollectDocs';
+// global store
+import { useKanbanStore } from '../../../../store';
+// components
+import NewTaskForm from '../NewTaskForm/NewTaskForm';
+import Task from '../../../../components/Task/Task';
+import PriorityLegend from '../../../../components/PriorityLegend/PriorityLegend';
+// types and constants
+import { ProjectType } from '../../../../types/projectType';
 import { TaskType } from '../../../../types/taskType';
+import { TASK_STAGES } from '../../../../constants/taskStages';
 
 type Task = TaskType & { id: string };
 
@@ -69,6 +75,7 @@ const DashboardProject = () => {
           <div className="DashboardProject__tasks">
             <div className="DashboardProject__tasks__header">
               <h2 className="heading--secondary">Tasks</h2>
+              <PriorityLegend />
               <button
                 className="btn"
                 onClick={() => {
@@ -94,7 +101,7 @@ const DashboardProject = () => {
 
               <div className="DashboardProject__tasks__display__tasks">
                 {tasks &&
-                  tasks.map((task) => <div key={task.id}>{task.title}</div>)}
+                  tasks.map((task) => <Task key={task.id} taskData={task} />)}
               </div>
             </div>
           </div>

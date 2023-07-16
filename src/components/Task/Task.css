@@ -1,0 +1,19 @@
+.Task {
+  border-radius: var(--BORDER-RADIUS);
+  overflow: hidden;
+  background-color: var(--COLOR-GRAY-300);
+  color: var(--COLOR-GRAY-700);
+}
+.Task__header,
+.Task__body {
+  padding: 1.6rem 2.4rem;
+}
+.Task__header {
+}
+.Task__header__heading {
+  font-size: 1.953rem;
+}
+
+.Task__body__description {
+  font-size: 1.6rem;
+}
