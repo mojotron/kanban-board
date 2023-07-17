@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 // firebase hooks
 import { useOnSnapshotDocument } from '../../../../hooks/useOnSnapshotDocument';
 import { useCollectDocs } from '../../../../hooks/useCollectDocs';
+import { useCollectProjectTasks } from '../../../../hooks/useCollectProjectTasks';
 // global store
 import { useKanbanStore } from '../../../../store';
 // components
@@ -16,15 +17,20 @@ import { TASK_STAGES } from '../../../../constants/taskStages';
 
 type Task = TaskType & { id: string };
 
+const count = <T,>(array: T[] | undefined, fn: (ele: T) => void) => {
+  if (!array) return 0;
+  return array.filter(fn).length;
+};
+
 const DashboardProject = () => {
   const currentProject = useKanbanStore((state) => state.currentProject);
-  const currentTaskColumn = useKanbanStore((state) => state.currentTaskColumn);
+  const currentTaskStage = useKanbanStore((state) => state.currentTaskStage);
   const openNewTaskModal = useKanbanStore((state) => state.openNewTaskModal);
   const setOpenNewTaskModal = useKanbanStore(
     (state) => state.setOpenNewTaskModal
   );
-  const setCurrentTaskColumn = useKanbanStore(
-    (state) => state.setCurrentTaskColumn
+  const setCurrentTaskStage = useKanbanStore(
+    (state) => state.setCurrentTaskStage
   );
 
   const { document, isPending, error } = useOnSnapshotDocument<
@@ -32,13 +38,16 @@ const DashboardProject = () => {
   >('projects', currentProject);
   const {
     documents: tasks,
-    isPending: pendingTasks,
+    pending: pendingTasks,
     error: errorTasks,
-  } = useCollectDocs<Task>(document?.tasks, 'tasks');
+  } = useCollectProjectTasks(document?.tasks);
 
-  console.log(tasks, pendingTasks, errorTasks);
+  const filteredStageTasks = useMemo((): Task[] | undefined => {
+    if (!tasks) return undefined;
+    return tasks.filter((task) => task.stage === currentTaskStage);
+  }, [tasks, currentTaskStage]);
 
-  // const getColumnTasks = useMemo(() => {}, [document, currentTaskColumn]);
+  console.log(filteredStageTasks, currentTaskStage);
 
   return (
     <main className="DashboardProject">
@@ -86,23 +95,31 @@ const DashboardProject = () => {
               </button>
             </div>
 
-            <div className="DashboardProject__tasks__display">
-              <div className="DashboardProject__tasks__display__tabs">
-                {TASK_STAGES.map((stage) => (
+            <div className="DashboardProject__tasks__tabs">
+              {TASK_STAGES.map((stage) => {
+                const countTasks = count(
+                  tasks as Task[],
+                  (ele) => ele.stage === stage
+                );
+
+                return (
                   <button
-                    onClick={() => setCurrentTaskColumn(stage)}
-                    className={`${stage === currentTaskColumn ? 'active' : ''}`}
+                    onClick={() => setCurrentTaskStage(stage)}
+                    className={`${stage === currentTaskStage ? 'active' : ''}`}
                     key={stage}
                   >
                     {stage}
+                    {countTasks > 0 && `(${countTasks})`}
                   </button>
-                ))}
-              </div>
+                );
+              })}
+            </div>
 
-              <div className="DashboardProject__tasks__display__tasks">
-                {tasks &&
-                  tasks.map((task) => <Task key={task.id} taskData={task} />)}
-              </div>
+            <div className="DashboardProject__tasks__display">
+              {filteredStageTasks &&
+                filteredStageTasks.map((task) => (
+                  <Task key={task.id} taskData={task} />
+                ))}
             </div>
           </div>
         </>

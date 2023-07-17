@@ -3,6 +3,10 @@
   overflow: hidden;
   background-color: var(--COLOR-GRAY-300);
   color: var(--COLOR-GRAY-700);
+  margin-bottom: 2.4rem;
+}
+.Task:last-child {
+  margin-bottom: 0;
 }
 .Task__header,
 .Task__body {

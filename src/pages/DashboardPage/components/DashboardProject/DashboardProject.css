@@ -39,21 +39,24 @@
 .DashboardProject__tasks {
   grid-row: 2 / -1;
   grid-column: 1 / 4;
+
   display: grid;
-  grid-template-rows: 1fr 11fr;
+  grid-template-rows: 1fr 1fr 10fr;
   row-gap: 0;
 }
 .DashboardProject__tasks__header {
+  grid-row: 1 / 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.DashboardProject__tasks__display__tabs {
+.DashboardProject__tasks__tabs {
+  grid-row: 2 / 3;
   display: flex;
   justify-content: flex-start;
   background-color: var(--COLOR-GRAY-500);
 }
-.DashboardProject__tasks__display__tabs button {
+.DashboardProject__tasks__tabs button {
   display: block;
   padding: 0.8rem;
   border: none;
@@ -63,19 +66,19 @@
   flex: 1 1 auto;
   cursor: pointer;
 }
-.DashboardProject__tasks__display__tabs button:hover {
+.DashboardProject__tasks__tabs button:hover {
   background-color: var(--COLOR-BLUE-500);
 }
-.DashboardProject__tasks__display__tabs button.active {
+.DashboardProject__tasks__tabs button.active {
   background-color: var(--COLOR-GRAY-700);
 }
 .DashboardProject__tasks__display {
+  overflow-y: scroll;
   background-color: var(--COLOR-GRAY-700);
 }
-.DashboardProject__tasks__display__tasks {
+.DashboardProject__tasks__display {
+  grid-row: 3 / -1;
   padding: 2.4rem;
-  display: flex;
-  flex-direction: column;
   gap: 2.4rem;
   overflow-y: scroll;
 }
