@@ -2,7 +2,6 @@ import './DashboardProject.css';
 import { useMemo } from 'react';
 // firebase hooks
 import { useOnSnapshotDocument } from '../../../../hooks/useOnSnapshotDocument';
-import { useCollectDocs } from '../../../../hooks/useCollectDocs';
 import { useCollectProjectTasks } from '../../../../hooks/useCollectProjectTasks';
 // global store
 import { useKanbanStore } from '../../../../store';
@@ -14,6 +13,7 @@ import PriorityLegend from '../../../../components/PriorityLegend/PriorityLegend
 import { ProjectType } from '../../../../types/projectType';
 import { TaskType } from '../../../../types/taskType';
 import { TASK_STAGES } from '../../../../constants/taskStages';
+import { useUserData } from '../../../../context/UserDataContext';
 
 type Task = TaskType & { id: string };
 
@@ -32,7 +32,7 @@ const DashboardProject = () => {
   const setCurrentTaskStage = useKanbanStore(
     (state) => state.setCurrentTaskStage
   );
-
+  const { document: user } = useUserData();
   const { document, isPending, error } = useOnSnapshotDocument<
     ProjectType & { id: string }
   >('projects', currentProject);
@@ -46,8 +46,6 @@ const DashboardProject = () => {
     if (!tasks) return undefined;
     return tasks.filter((task) => task.stage === currentTaskStage);
   }, [tasks, currentTaskStage]);
-
-  console.log(filteredStageTasks, currentTaskStage);
 
   return (
     <main className="DashboardProject">
@@ -85,14 +83,16 @@ const DashboardProject = () => {
             <div className="DashboardProject__tasks__header">
               <h2 className="heading--secondary">Tasks</h2>
               <PriorityLegend />
-              <button
-                className="btn"
-                onClick={() => {
-                  setOpenNewTaskModal(true);
-                }}
-              >
-                Create task
-              </button>
+              {document.adminUid === user?.uid && (
+                <button
+                  className="btn"
+                  onClick={() => {
+                    setOpenNewTaskModal(true);
+                  }}
+                >
+                  Create task
+                </button>
+              )}
             </div>
 
             <div className="DashboardProject__tasks__tabs">
@@ -116,12 +116,30 @@ const DashboardProject = () => {
             </div>
 
             <div className="DashboardProject__tasks__display">
+              {pendingTasks && <p>Loading...</p>}
+              {errorTasks && <p className="error">{errorTasks}</p>}
               {filteredStageTasks &&
                 filteredStageTasks.map((task) => (
                   <Task key={task.id} taskData={task} />
                 ))}
             </div>
           </div>
+
+          <div className="DashboardProject__messages">
+            <h3 className="heading--tertiary">Messages</h3>
+            <div className="DashboardProject__messages__body"></div>
+            <div className="DashboardProject__messages__controls"></div>
+          </div>
+
+          <div className="DashboardProject__team-members">
+            <h3 className="heading--tertiary">Team Members</h3>
+            <div className="DashboardProject__messages__body"></div>
+            <div className="DashboardProject__messages__controls"></div>
+          </div>
+
+          <button className="btn DashboardProject__btn-kanban">
+            View Kanban Board
+          </button>
         </>
       )}
     </main>
