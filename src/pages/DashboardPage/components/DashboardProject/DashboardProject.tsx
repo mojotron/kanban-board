@@ -14,6 +14,7 @@ import { ProjectType } from '../../../../types/projectType';
 import { TaskType } from '../../../../types/taskType';
 import { TASK_STAGES } from '../../../../constants/taskStages';
 import { useUserData } from '../../../../context/UserDataContext';
+import { Link } from '@tanstack/router';
 
 type Task = TaskType & { id: string };
 
@@ -137,9 +138,14 @@ const DashboardProject = () => {
             <div className="DashboardProject__messages__controls"></div>
           </div>
 
-          <button className="btn DashboardProject__btn-kanban">
+          <Link
+            from="/"
+            to={`/project/$projectId`}
+            params={{ projectId: document.id }}
+            className="btn DashboardProject__btn-kanban"
+          >
             View Kanban Board
-          </button>
+          </Link>
         </>
       )}
     </main>

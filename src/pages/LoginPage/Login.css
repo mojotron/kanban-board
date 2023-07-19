@@ -1,3 +1,9 @@
+.Login {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .Login,
 .Login__Main {
   display: flex;
@@ -6,11 +12,11 @@
   align-items: center;
 }
 .Login__Header {
-  margin-bottom: 3.5rem;
+  margin-bottom: 3.6rem;
 }
 .Login__Header p {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.953rem;
+  margin-bottom: 0.8rem;
 }
 .Login__Header p:last-child {
   margin-bottom: 0;
@@ -19,17 +25,17 @@
   color: transparent;
   background: linear-gradient(
     90deg,
-    var(--COLOR-ACCENT-500),
-    var(--COLOR-ACCENT-300),
-    var(--COLOR-MAIN-100)
+    var(--COLOR-YELLOW-500),
+    var(--COLOR-GRAY-100),
+    var(--COLOR-YELLOW-300)
   );
   background-clip: text;
 }
 .Login__Header h1 {
-  font-size: 3.815rem;
+  font-size: 5.96rem;
 
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
 }
 .Login__Main__Avatar {
-  margin-bottom: 2.5rem;
+  margin-bottom: 3.6rem;
 }
