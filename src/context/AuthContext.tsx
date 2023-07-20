@@ -39,14 +39,9 @@ const useAuthSource = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-      if (user) {
-        dispatch({ type: 'AUTH_IS_READY', payload: user });
-      } else {
-        dispatch({ type: 'LOGOUT', payload: null });
-      }
+      dispatch({ type: 'AUTH_IS_READY', payload: user as User });
+      unsubscribe();
     });
-
-    return unsubscribe;
   }, []);
 
   return { user, authIsReady, dispatch };
