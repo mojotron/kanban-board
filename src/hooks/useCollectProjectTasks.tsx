@@ -15,7 +15,7 @@ type Task = TaskType & { id: string };
 export const useCollectProjectTasks = (tasksIdList: string[] | undefined) => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<null | string>(null);
-  const [documents, setDocuments] = useState<null | Task[]>(null);
+  const [documents, setDocuments] = useState<undefined | Task[]>(undefined);
 
   useEffect(() => {
     if (!tasksIdList) return;

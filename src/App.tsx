@@ -2,13 +2,14 @@
 import Dashboard from './pages/DashboardPage/Dashboard';
 import Login from './pages/LoginPage/Login';
 // state
-import { AuthContextProvider, useAuth } from './context/AuthContext';
+import { useAuth } from './context/AuthContext';
 import { UserDataProvider } from './context/UserDataContext';
 // components
 import KanbanBoard from './pages/KanbanBoardPage/KanbanBoard';
 // router
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ReactNode } from 'react';
+import { ProjectProvider } from './context/ProjectContext';
 
 // helper components for page navigation
 type ProtectedProps = {
@@ -47,9 +48,11 @@ const App = () => {
             <Route
               path="/"
               element={
-                <ProtectedRoute condition={!!user} linkTo="login">
+                <ProtectedRoute condition={user !== null} linkTo="login">
                   <UserDataProvider>
-                    <Dashboard />
+                    <ProjectProvider>
+                      <Dashboard />
+                    </ProjectProvider>
                   </UserDataProvider>
                 </ProtectedRoute>
               }
@@ -57,11 +60,13 @@ const App = () => {
             <Route
               path="/login"
               element={
-                <ProtectedRoute condition={!user} linkTo="/">
+                <ProtectedRoute condition={user === null} linkTo="/">
                   <Login />
                 </ProtectedRoute>
               }
             />
+            <Route path="/kanban/:projectId" element={<KanbanBoard />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </BrowserRouter>
       )}

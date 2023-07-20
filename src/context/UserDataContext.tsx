@@ -4,7 +4,7 @@ import { useOnSnapshotDocument } from '../hooks/useOnSnapshotDocument';
 import { UserType } from '../types/userType';
 
 const useUserDataSource = (): {
-  document: null | UserType;
+  document: undefined | UserType;
   isPending: boolean;
   error: null | string;
 } => {

@@ -9,11 +9,14 @@ import { useKanbanStore } from '../../../../store';
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import Task from '../../../../components/Task/Task';
 import PriorityLegend from '../../../../components/PriorityLegend/PriorityLegend';
+import { Link } from 'react-router-dom';
 // types and constants
 import { ProjectType } from '../../../../types/projectType';
 import { TaskType } from '../../../../types/taskType';
 import { TASK_STAGES } from '../../../../constants/taskStages';
 import { useUserData } from '../../../../context/UserDataContext';
+
+import { useProject } from '../../../../context/ProjectContext';
 
 type Task = TaskType & { id: string };
 
@@ -33,14 +36,8 @@ const DashboardProject = () => {
     (state) => state.setCurrentTaskStage
   );
   const { document: user } = useUserData();
-  const { document, isPending, error } = useOnSnapshotDocument<
-    ProjectType & { id: string }
-  >('projects', currentProject);
-  const {
-    documents: tasks,
-    pending: pendingTasks,
-    error: errorTasks,
-  } = useCollectProjectTasks(document?.tasks);
+  const { project, projectErr, projectPending, tasks, tasksPending, tasksErr } =
+    useProject();
 
   const filteredStageTasks = useMemo((): Task[] | undefined => {
     if (!tasks) return undefined;
@@ -49,18 +46,18 @@ const DashboardProject = () => {
 
   return (
     <main className="DashboardProject">
-      {isPending && <h2>Loading...</h2>}
-      {error && <h2 className="error">{error}</h2>}
+      {projectPending && <h2>Loading...</h2>}
+      {projectErr && <h2 className="error">{projectErr}</h2>}
 
-      {document && openNewTaskModal && <NewTaskForm tasks={document.tasks} />}
-      {document && (
+      {project && openNewTaskModal && <NewTaskForm tasks={project.tasks} />}
+      {project && (
         <>
           <header className="DashboardProject__header">
             <div className="DashboardProject__header__title">
-              <h1>{document.name}</h1>
+              <h1>{project.name}</h1>
               <a
                 className="link"
-                href={document.repository}
+                href={project.repository}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -68,14 +65,14 @@ const DashboardProject = () => {
               </a>
             </div>
             <div className="DashboardProject__header__tags">
-              {document.tags.map((tag) => (
+              {project.tags.map((tag) => (
                 <div key={tag} className="tag">
                   {tag}
                 </div>
               ))}
             </div>
             <p className="DashboardProject__header__description">
-              {document.description}
+              {project.description}
             </p>
           </header>
 
@@ -83,7 +80,7 @@ const DashboardProject = () => {
             <div className="DashboardProject__tasks__header">
               <h2 className="heading--secondary">Tasks</h2>
               <PriorityLegend />
-              {document.adminUid === user?.uid && (
+              {project.adminUid === user?.uid && (
                 <button
                   className="btn"
                   onClick={() => {
@@ -116,8 +113,8 @@ const DashboardProject = () => {
             </div>
 
             <div className="DashboardProject__tasks__display">
-              {pendingTasks && <p>Loading...</p>}
-              {errorTasks && <p className="error">{errorTasks}</p>}
+              {tasksPending && <p>Loading...</p>}
+              {tasksErr && <p className="error">{tasksErr}</p>}
               {filteredStageTasks &&
                 filteredStageTasks.map((task) => (
                   <Task key={task.id} taskData={task} />
@@ -137,9 +134,12 @@ const DashboardProject = () => {
             <div className="DashboardProject__messages__controls"></div>
           </div>
 
-          <button className="btn DashboardProject__btn-kanban">
+          <Link
+            to={`/kanban/${project.id}`}
+            className="btn DashboardProject__btn-kanban"
+          >
             View Kanban Board
-          </button>
+          </Link>
         </>
       )}
     </main>

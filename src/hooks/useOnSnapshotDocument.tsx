@@ -7,12 +7,12 @@ export const useOnSnapshotDocument = <T,>(
   docId: undefined | null | string
 ) => {
   const [document, setDocument] = useState<undefined | T>(undefined);
-  const [isPending, setIsPending] = useState(false);
+  const [pending, setPending] = useState(false);
   const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
     if (!docId) return;
-    setIsPending(true);
+    setPending(true);
 
     let unsubscribe: Unsubscribe;
 
@@ -21,14 +21,14 @@ export const useOnSnapshotDocument = <T,>(
         const docRef = doc(firebaseFirestore, collectionName, docId);
         unsubscribe = onSnapshot(docRef, (doc) => {
           const data = { ...doc.data(), id: doc.id };
-          setIsPending(false);
+          setPending(false);
           setError(null);
           setDocument(data as T);
         });
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message);
-          setIsPending(false);
+          setPending(false);
         }
       }
     };
@@ -38,5 +38,5 @@ export const useOnSnapshotDocument = <T,>(
     return () => unsubscribe();
   }, [collectionName, docId]);
 
-  return { document, isPending, error };
+  return { document, pending, error };
 };
