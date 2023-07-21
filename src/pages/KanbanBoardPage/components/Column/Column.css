@@ -1,10 +1,9 @@
 .Column {
-  border: 3px solid var(--COLOR-WHITE);
-  border-radius: var(--BORDER-RADIUS);
-  width: 20%;
-  min-width: 250px;
-  height: 100%;
-  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* border-radius: var(--BORDER-RADIUS); */
+  border: 1px solid var(--COLOR-GRAY-100);
 }
 .Column__Header {
   padding: 1rem 2rem;
@@ -16,4 +15,7 @@
 }
 .Column__Tasks {
   padding: 0.5rem;
+}
+.Column__Tasks__Task-wrapper {
+  cursor: grab;
 }

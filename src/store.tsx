@@ -5,6 +5,7 @@ type State = {
   openNewTaskModal: boolean;
   currentProject: null | string;
   currentTaskStage: null | string;
+  draggedTask: null | string;
 };
 
 type Action = {
@@ -12,6 +13,7 @@ type Action = {
   setOpenNewTaskModal: (value: boolean) => void;
   setCurrentProject: (project: string | null) => void;
   setCurrentTaskStage: (column: string | null) => void;
+  setDraggedTask: (task: string | null) => void;
 };
 
 export const useKanbanStore = create<State & Action>()((set) => ({
@@ -19,9 +21,11 @@ export const useKanbanStore = create<State & Action>()((set) => ({
   openNewTaskModal: false,
   currentProject: null,
   currentTaskStage: null,
+  draggedTask: null,
   setOpenNewProjectModal: (value) => set({ openNewProjectModal: value }),
   setOpenNewTaskModal: (value) => set({ openNewTaskModal: value }),
   setCurrentProject: (project) => set({ currentProject: project }),
   setCurrentTaskStage: (stage: string | null) =>
     set({ currentTaskStage: stage }),
+  setDraggedTask: (task: string | null) => set({ draggedTask: task }),
 }));

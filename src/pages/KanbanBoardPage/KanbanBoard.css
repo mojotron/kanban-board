@@ -1,7 +1,9 @@
 .KanbanBoard {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 1fr;
+  column-gap: 0.8rem;
+  /* grid template columns are set dynamically in tsx file */
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 3.6rem;
 }

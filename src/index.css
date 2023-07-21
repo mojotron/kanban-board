@@ -165,13 +165,13 @@ body {
 }
 /* HELPER CLASSES */
 .mb--sm {
-  margin-bottom: 1.5rem !important;
+  margin-bottom: 1.6rem !important;
 }
 .mb--md {
-  margin-bottom: 2.5rem !important;
+  margin-bottom: 2.4rem !important;
 }
 .mb--lg {
-  margin-bottom: 3.5rem !important;
+  margin-bottom: 3.2rem !important;
 }
 .tag {
   display: inline-block;

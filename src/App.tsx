@@ -65,7 +65,18 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="/kanban/:projectId" element={<KanbanBoard />} />
+            <Route
+              path="/kanban/:projectId"
+              element={
+                <ProtectedRoute condition={user !== null} linkTo="login">
+                  <UserDataProvider>
+                    <ProjectProvider>
+                      <KanbanBoard />
+                    </ProjectProvider>
+                  </UserDataProvider>
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </BrowserRouter>
