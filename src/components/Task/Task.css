@@ -13,6 +13,9 @@
   padding: 1.6rem 2.4rem;
 }
 .Task__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .Task__header__heading {
   font-size: 1.953rem;
@@ -20,4 +23,13 @@
 
 .Task__body__description {
   font-size: 1.6rem;
+}
+.Task__add-button {
+  background: none;
+  background-color: var(--COLOR-GRAY-200);
+  border: 3px solid var(--COLOR-GRAY-500);
+  border-radius: 50%;
+  height: 5rem;
+  width: 5rem;
+  cursor: pointer;
 }

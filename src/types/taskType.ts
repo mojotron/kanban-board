@@ -14,7 +14,7 @@ type Stage = (typeof stages)[number];
 
 export type TaskType = {
   adminUid: string;
-  collaboratorUid: string;
+  assignToUid: string;
   title: string;
   description: string;
   notes: Note[];

@@ -1,8 +1,5 @@
 import './DashboardProject.css';
 import { useMemo } from 'react';
-// firebase hooks
-import { useOnSnapshotDocument } from '../../../../hooks/useOnSnapshotDocument';
-import { useCollectProjectTasks } from '../../../../hooks/useCollectProjectTasks';
 // global store
 import { useKanbanStore } from '../../../../store';
 // components
@@ -10,12 +7,11 @@ import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import Task from '../../../../components/Task/Task';
 import PriorityLegend from '../../../../components/PriorityLegend/PriorityLegend';
 import { Link } from 'react-router-dom';
-// types and constants
-import { ProjectType } from '../../../../types/projectType';
+// constants and types
 import { TaskType } from '../../../../types/taskType';
 import { TASK_STAGES } from '../../../../constants/taskStages';
+// use context hooks
 import { useUserData } from '../../../../context/UserDataContext';
-
 import { useProject } from '../../../../context/ProjectContext';
 
 type Task = TaskType & { id: string };
@@ -26,7 +22,6 @@ const count = <T,>(array: T[] | undefined, fn: (ele: T) => void) => {
 };
 
 const DashboardProject = () => {
-  const currentProject = useKanbanStore((state) => state.currentProject);
   const currentTaskStage = useKanbanStore((state) => state.currentTaskStage);
   const openNewTaskModal = useKanbanStore((state) => state.openNewTaskModal);
   const setOpenNewTaskModal = useKanbanStore(

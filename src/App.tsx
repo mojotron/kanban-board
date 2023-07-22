@@ -42,7 +42,7 @@ const App = () => {
   console.log('here', authIsReady, user);
   return (
     <div className="App">
-      {true && (
+      {authIsReady && (
         <BrowserRouter>
           <Routes>
             <Route

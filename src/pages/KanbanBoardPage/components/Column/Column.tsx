@@ -1,5 +1,5 @@
 import './Column.css';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useProject } from '../../../../context/ProjectContext';
 import Task from '../../../../components/Task/Task';
 import { useKanbanStore } from '../../../../store';
@@ -14,6 +14,7 @@ const Column = ({ title }: PropsType) => {
   const draggedTask = useKanbanStore((state) => state.draggedTask);
   const setDraggedTask = useKanbanStore((state) => state.setDraggedTask);
   const { updateDocument } = useFirestore();
+  const [drop, setDrop] = useState(false);
 
   const columnTasks = useMemo(
     () =>
@@ -29,13 +30,21 @@ const Column = ({ title }: PropsType) => {
   );
   return (
     <div
-      className="Column"
-      onDragOver={(e) => e.preventDefault()}
+      className={`Column ${drop ? 'drop-possible' : ''}`}
+      onDragOver={(e) => {
+        e.preventDefault();
+        setDrop(true);
+      }}
+      onDragLeave={(e) => {
+        e.preventDefault();
+        setDrop(false);
+      }}
       onDrop={async () => {
         if (!draggedTask) return;
         console.log(draggedTask);
         await updateDocument('tasks', draggedTask, { stage: title });
         setDraggedTask(null);
+        setDrop(false);
       }}
     >
       <header className="Column__Header">

@@ -1,9 +1,20 @@
 .KanbanBoard {
   display: grid;
+  grid-template-rows: 0.05fr 0.95fr;
+  width: 100vw;
+  height: 100vh;
+  padding: 3.6rem;
+}
+.KanbanBoard__header {
+  display: flex;
+  gap: 2.4rem;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 2.4rem;
+}
+.KanbanBoard__columns {
+  display: grid;
   grid-template-rows: 1fr;
   column-gap: 0.8rem;
   /* grid template columns are set dynamically in tsx file */
-  width: 100vw;
-  min-height: 100vh;
-  padding: 3.6rem;
 }

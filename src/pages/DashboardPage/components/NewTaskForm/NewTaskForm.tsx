@@ -76,7 +76,7 @@ const NewTaskForm = ({ tasks }: { tasks: string[] }) => {
     if (!document || !currentProject) return;
     const newTask = await addDocument<TaskType>('tasks', {
       adminUid: document.uid,
-      collaboratorUid: '',
+      assignToUid: '',
       title: state.title,
       description: state.description,
       notes: [],

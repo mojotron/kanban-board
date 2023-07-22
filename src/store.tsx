@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { TASK_STAGES } from './constants/taskStages';
 
 type State = {
   openNewProjectModal: boolean;
@@ -20,7 +21,7 @@ export const useKanbanStore = create<State & Action>()((set) => ({
   openNewProjectModal: false,
   openNewTaskModal: false,
   currentProject: null,
-  currentTaskStage: null,
+  currentTaskStage: TASK_STAGES[0],
   draggedTask: null,
   setOpenNewProjectModal: (value) => set({ openNewProjectModal: value }),
   setOpenNewTaskModal: (value) => set({ openNewTaskModal: value }),

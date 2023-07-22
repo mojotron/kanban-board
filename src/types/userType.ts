@@ -2,9 +2,9 @@ import { Timestamp } from 'firebase/firestore';
 
 export type UserType = {
   uid: string;
-  userName: string | null;
-  email: string | null;
-  photoUrl: string | null;
+  userName: string;
+  email: string;
+  photoUrl: string;
   managingProjects: string[];
   collaboratingProjects: string[];
   online: boolean;

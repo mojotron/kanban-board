@@ -4,6 +4,8 @@
   justify-content: flex-start;
   /* border-radius: var(--BORDER-RADIUS); */
   border: 1px solid var(--COLOR-GRAY-100);
+  overflow-y: scroll;
+  min-width: 0; /* NEW; needed for Firefox */
 }
 .Column__Header {
   padding: 1rem 2rem;
@@ -18,4 +20,7 @@
 }
 .Column__Tasks__Task-wrapper {
   cursor: grab;
+}
+.drop-possible {
+  border: 1px solid var(--COLOR-GREEN-500);
 }

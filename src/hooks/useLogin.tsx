@@ -41,9 +41,9 @@ export const useLogin = () => {
         // create user doc
         await setDocument<UserType>('users', user.uid, {
           uid: user.uid,
-          userName: user.providerData[0].displayName,
-          photoUrl: user.providerData[0].photoURL,
-          email: user.providerData[0].email,
+          userName: user.providerData[0].displayName || '',
+          photoUrl: user.providerData[0].photoURL || '',
+          email: user.providerData[0].email || '',
           online: true,
           managingProjects: [],
           collaboratingProjects: [],
