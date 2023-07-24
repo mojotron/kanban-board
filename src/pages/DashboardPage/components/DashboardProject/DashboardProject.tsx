@@ -5,12 +5,13 @@ import { useKanbanStore } from '../../../../store';
 // components
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import Task from '../../../../components/Task/Task';
+import TaskView from '../../../../components/TaskView/TaskView';
 import PriorityLegend from '../../../../components/PriorityLegend/PriorityLegend';
-import { Link } from 'react-router-dom';
 // constants and types
 import { TaskType } from '../../../../types/taskType';
 import { TASK_STAGES } from '../../../../constants/taskStages';
 // use context hooks
+import { Link } from 'react-router-dom';
 import { useUserData } from '../../../../context/UserDataContext';
 import { useProject } from '../../../../context/ProjectContext';
 
@@ -30,6 +31,7 @@ const DashboardProject = () => {
   const setCurrentTaskStage = useKanbanStore(
     (state) => state.setCurrentTaskStage
   );
+  const openViewTaskModal = useKanbanStore((state) => state.openViewTaskModal);
   const { document: user } = useUserData();
   const { project, projectErr, projectPending, tasks, tasksPending, tasksErr } =
     useProject();
@@ -45,6 +47,8 @@ const DashboardProject = () => {
       {projectErr && <h2 className="error">{projectErr}</h2>}
 
       {project && openNewTaskModal && <NewTaskForm tasks={project.tasks} />}
+      {openViewTaskModal && <TaskView />}
+
       {project && (
         <>
           <header className="DashboardProject__header">

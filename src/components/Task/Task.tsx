@@ -12,6 +12,7 @@ import { formatTime } from '../../utils/formatTime';
 import { useOnSnapshotDocument } from '../../hooks/useOnSnapshotDocument';
 import { useMemo } from 'react';
 import TextBox from '../TextBox/TextBox';
+import { useKanbanStore } from '../../store';
 
 type Props = {
   taskData: TaskType & { id: string };
@@ -24,6 +25,11 @@ const Task = ({ taskData }: Props) => {
     taskData.assignToUid
   );
 
+  const setCurrentTask = useKanbanStore((state) => state.setCurrentTask);
+  const setOpenViewTaskModal = useKanbanStore(
+    (state) => state.setOpenViewTaskModal
+  );
+
   const deadline = useMemo(() => {
     if (taskData.deadline === null) return;
     return {
@@ -32,13 +38,22 @@ const Task = ({ taskData }: Props) => {
     };
   }, [taskData.deadline]);
 
+  const handleClickViewTask = () => {
+    setCurrentTask(taskData);
+    setOpenViewTaskModal(true);
+  };
+
   return (
     <article className="Task">
       <header className={`Task__header priority--${taskData.priority}`}>
         <h3 className="Task__header__heading">{taskData.title}</h3>
 
         <div className="Task__header__controls">
-          <button className="Task__btn" title="inspect task">
+          <button
+            className="Task__btn"
+            title="view task"
+            onClick={handleClickViewTask}
+          >
             <AiFillEye size={25} />
           </button>
           <button className="Task__btn" title="edit task">
