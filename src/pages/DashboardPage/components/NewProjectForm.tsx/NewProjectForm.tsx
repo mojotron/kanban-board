@@ -1,7 +1,7 @@
 // stylesheet
 import './NewProjectForm.css';
-// icons
-import { AiOutlineCloseCircle } from 'react-icons/ai';
+// components
+import ModalCloseBtn from '../../../../components/ModalCloseBtn/ModalCloseBtn';
 // react hooks
 import {
   useCallback,
@@ -118,13 +118,7 @@ const NewProjectForm = () => {
   return (
     <div className="overlay">
       <form className="Form" onSubmit={handleSubmit}>
-        <button
-          className="btn--icon"
-          type="button"
-          onClick={() => closeModal(false)}
-        >
-          <AiOutlineCloseCircle size={30} color="var(--COLOR-ACCENT-500)" />
-        </button>
+        <ModalCloseBtn handleClose={() => closeModal(false)} />
 
         <h2 className="heading--secondary">New Project</h2>
         <div className="Form__item">

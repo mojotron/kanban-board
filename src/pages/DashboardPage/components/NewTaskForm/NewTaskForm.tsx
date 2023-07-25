@@ -7,7 +7,7 @@ import {
   FormEvent,
 } from 'react';
 import { useKanbanStore } from '../../../../store';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
+import ModalCloseBtn from '../../../../components/ModalCloseBtn/ModalCloseBtn';
 import { Timestamp } from 'firebase/firestore';
 import { TaskType, Priority } from '../../../../types/taskType';
 import { useFirestore } from '../../../../hooks/useFirestore';
@@ -96,13 +96,7 @@ const NewTaskForm = ({ tasks }: { tasks: string[] }) => {
   return (
     <div className="overlay">
       <form className="Form" onSubmit={handleSubmit}>
-        <button
-          className="btn--icon"
-          type="button"
-          onClick={() => closeModal(false)}
-        >
-          <AiOutlineCloseCircle size={30} color="var(--COLOR-ACCENT-500)" />
-        </button>
+        <ModalCloseBtn handleClose={() => closeModal(false)} />
 
         <h2 className="heading--secondary">New Task</h2>
         <div className="Form__item">

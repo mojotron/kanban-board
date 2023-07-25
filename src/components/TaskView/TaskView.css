@@ -1,0 +1,10 @@
+.TaskView {
+  padding: 6.4rem 3.2rem;
+  background-color: var(--COLOR-GRAY-500);
+  position: relative;
+  width: 70rem;
+  max-width: 70rem;
+}
+.green {
+  color: var(--COLOR-GREEN-500);
+}
