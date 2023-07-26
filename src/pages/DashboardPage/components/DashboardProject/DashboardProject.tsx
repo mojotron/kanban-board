@@ -14,6 +14,7 @@ import { TASK_STAGES } from '../../../../constants/taskStages';
 import { Link } from 'react-router-dom';
 import { useUserData } from '../../../../context/UserDataContext';
 import { useProject } from '../../../../context/ProjectContext';
+import TeamMembers from '../TeamMembers/TeamMembers';
 
 type Task = TaskType & { id: string };
 
@@ -127,11 +128,7 @@ const DashboardProject = () => {
             <div className="DashboardProject__messages__controls"></div>
           </div>
 
-          <div className="DashboardProject__team-members">
-            <h3 className="heading--tertiary">Team Members</h3>
-            <div className="DashboardProject__messages__body"></div>
-            <div className="DashboardProject__messages__controls"></div>
-          </div>
+          <TeamMembers />
 
           <Link
             to={`/kanban/${project.id}`}

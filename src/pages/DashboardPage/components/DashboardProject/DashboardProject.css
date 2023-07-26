@@ -99,7 +99,3 @@
   grid-column: 7 / -1;
   background-color: var(--COLOR-GRAY-500);
 }
-.DashboardProject__team-members {
-  grid-row: 6 / 8;
-  grid-column: 7 / -1;
-}

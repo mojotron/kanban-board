@@ -9,7 +9,7 @@ import Avatar from '../Avatar/Avatar';
 // helpers
 import { formatTime } from '../../utils/formatTime';
 // hooks
-import { useOnSnapshotDocument } from '../../hooks/useOnSnapshotDocument';
+import { useProject } from '../../context/ProjectContext';
 import { useMemo } from 'react';
 import TextBox from '../TextBox/TextBox';
 import { useKanbanStore } from '../../store';
@@ -19,11 +19,11 @@ type Props = {
 };
 
 const Task = ({ taskData }: Props) => {
-  // TODO later pass members data
-  const { document } = useOnSnapshotDocument<UserType>(
-    'users',
-    taskData.assignToUid
-  );
+  const { team } = useProject();
+
+  const collaborator = useMemo(() => {
+    return team?.find((member) => member.id === taskData.assignToUid);
+  }, [team]);
 
   const setCurrentTask = useKanbanStore((state) => state.setCurrentTask);
   const setOpenViewTaskModal = useKanbanStore(
@@ -59,10 +59,10 @@ const Task = ({ taskData }: Props) => {
           <button className="Task__btn" title="edit task">
             <AiFillEdit size={25} />
           </button>
-          {document ? (
+          {collaborator ? (
             <Avatar
-              imageUrl={document?.photoUrl}
-              userName={document?.userName}
+              imageUrl={collaborator.photoUrl}
+              userName={collaborator.userName}
               size="50"
             />
           ) : (

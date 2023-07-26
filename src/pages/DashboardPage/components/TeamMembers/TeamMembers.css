@@ -1,0 +1,17 @@
+.TeamMembers {
+  grid-row: 6 / 8;
+  grid-column: 7 / -1;
+}
+.TeamMember__list__item {
+  display: flex;
+  align-items: center;
+}
+.TeamMember__list__item__online {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+  position: relative;
+  right: 1rem;
+  top: 1rem;
+  background-color: var(--COLOR-GREEN-500);
+}
