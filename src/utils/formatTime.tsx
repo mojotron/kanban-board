@@ -41,3 +41,11 @@ export const formatTime = (time: number) => {
 
   return time;
 };
+
+export const formatLocalDate = (date: Date) => {
+  return new Intl.DateTimeFormat(navigator.language, {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  }).format(date);
+};

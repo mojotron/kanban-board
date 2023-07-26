@@ -75,7 +75,7 @@ const Task = ({ taskData }: Props) => {
       <main className={`Task__body`}>
         {deadline && (
           <span
-            className={`Task__body__deadline Task__body__deadline--${
+            className={`deadline-tag deadline-tag--${
               deadline.overDue > 0 ? 'red' : 'green'
             }`}
           >

@@ -58,6 +58,10 @@ white space scale system linear progression
   --PRIMARY-COLOR: var(--COLOR-GRAY-800);
   --SECONDARY-COLOR: var(--COLOR-GRAY-100);
 
+  --PRIORITY-LOW: var(--COLOR-GREEN-400);
+  --PRIORITY-HIGH: var(--COLOR-YELLOW-300);
+  --PRIORITY-VERY-HIGH: var(--COLOR-RED-400);
+
   --BORDER-RADIUS: 5px;
   --BORDER: 3px solid var(--COLOR-ACCENT-500);
 }
@@ -273,11 +277,28 @@ body {
 }
 
 .priority--low {
-  background-color: var(--COLOR-GREEN-400);
+  background-color: var(--PRIORITY-LOW);
 }
 .priority--high {
-  background-color: var(--COLOR-YELLOW-300);
+  background-color: var(--PRIORITY-HIGH);
 }
 .priority--very-high {
-  background-color: var(--COLOR-RED-400);
+  background-color: var(--PRIORITY-VERY-HIGH);
+}
+/* DEADLINE TAG */
+.deadline-tag {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  font-size: 1.6rem;
+  margin-bottom: 1.6rem;
+  background-color: var(--COLOR-GRAY-100);
+  border-radius: var(--BORDER-RADIUS);
+}
+.deadline-tag--green {
+  color: var(--COLOR-GREEN-500);
+  border: 3px solid var(--COLOR-GREEN-500);
+}
+.deadline-tag--red {
+  color: var(--COLOR-RED-500);
+  border: 3px solid var(--COLOR-RED-500);
 }

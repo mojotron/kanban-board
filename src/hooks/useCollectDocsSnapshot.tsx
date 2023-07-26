@@ -12,32 +12,35 @@ import { TaskType } from '../types/taskType';
 
 type Task = TaskType & { id: string };
 
-export const useCollectProjectTasks = (tasksIdList: string[] | undefined) => {
+export const useCollectDocsSnapshot = <T,>(
+  tasksIdList: string[] | undefined,
+  collectionName: string
+) => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<null | string>(null);
-  const [documents, setDocuments] = useState<undefined | Task[]>(undefined);
+  const [documents, setDocuments] = useState<undefined | T[]>(undefined);
 
   useEffect(() => {
-    if (!tasksIdList) return;
+    if (!tasksIdList || tasksIdList.length < 1) return;
     let isCancelled = false;
     let unsubscribe: Unsubscribe;
 
     const getDocuments = async () => {
       try {
         const q = query(
-          collection(firebaseFirestore, 'tasks'),
+          collection(firebaseFirestore, collectionName),
           where(documentId(), 'in', [...tasksIdList])
         );
 
-        unsubscribe = await onSnapshot(q, (snapshot) => {
-          const tasks: Task[] = [];
+        unsubscribe = onSnapshot(q, (snapshot) => {
+          const docs: T[] = [];
           snapshot.forEach((doc) =>
-            tasks.push({ ...doc.data(), id: doc.id } as Task)
+            docs.push({ ...doc.data(), id: doc.id } as T)
           );
           if (!isCancelled) {
             setError(null);
             setPending(false);
-            setDocuments(tasks);
+            setDocuments(docs);
           }
         });
       } catch (error) {
@@ -55,7 +58,7 @@ export const useCollectProjectTasks = (tasksIdList: string[] | undefined) => {
       isCancelled = true;
       unsubscribe();
     };
-  }, [tasksIdList]);
+  }, [tasksIdList, collectionName]);
 
   return { pending, error, documents };
 };

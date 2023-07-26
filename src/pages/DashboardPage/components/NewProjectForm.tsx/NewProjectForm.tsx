@@ -1,5 +1,3 @@
-// stylesheet
-import './NewProjectForm.css';
 // components
 import ModalCloseBtn from '../../../../components/ModalCloseBtn/ModalCloseBtn';
 // react hooks

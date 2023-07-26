@@ -4,14 +4,22 @@ import { useKanbanStore } from '../../store';
 import ModalCloseBtn from '../ModalCloseBtn/ModalCloseBtn';
 import Avatar from '../Avatar/Avatar';
 // utils
-import { formatTime } from '../../utils/formatTime';
+import { formatTime, formatLocalDate } from '../../utils/formatTime';
 // style
 import './TaskView.css';
-import { TASK_STAGES } from '../../constants/taskStages';
+import { useProject } from '../../context/ProjectContext';
 
 const TaskView = () => {
   const currentTask = useKanbanStore((state) => state.currentTask);
   const closeModal = useKanbanStore((state) => state.setOpenViewTaskModal);
+
+  const { team } = useProject();
+
+  const collaborator = useMemo(() => {
+    return team?.find((member) => member.id === currentTask?.assignToUid);
+  }, [team]);
+
+  console.log('collaborator', collaborator);
 
   useEffect(() => {}, []);
 
@@ -21,7 +29,7 @@ const TaskView = () => {
     if (currentTask.deadline === null) return;
 
     return {
-      date: new Date(currentTask.deadline.seconds * 1000).toLocaleDateString(),
+      date: formatLocalDate(new Date(currentTask.deadline.seconds * 1000)),
       formatted: formatTime(currentTask.deadline.seconds * 1000),
       overDue: (+new Date() - currentTask.deadline.seconds * 1000) / 1000,
     };
@@ -32,32 +40,52 @@ const TaskView = () => {
       <div className="TaskView">
         <ModalCloseBtn handleClose={() => closeModal(false)} />
 
-        <header>
-          <h2>{currentTask.title}</h2>
-          <p>priority: {currentTask.priority}</p>
-
-          <p>
-            current stage:{' '}
-            {TASK_STAGES.map((stage) => (
-              <span
-                key={stage}
-                className={stage === currentTask.stage ? 'green' : ''}
-              >
-                {stage}
-              </span>
-            ))}
-          </p>
-          {deadline && (
+        <header className="TaskView__header">
+          <div className="TaskView__header__info">
+            <h2>{currentTask.title}</h2>
             <p>
-              deadline: {deadline.date} ({deadline.formatted})
+              priority:{' '}
+              <span className={`priority--${currentTask.priority}`}>
+                {currentTask.priority}
+              </span>
             </p>
-          )}
+            <p>current stage: {currentTask.stage}</p>
+            {deadline && (
+              <p>
+                deadline: {deadline.date}
+                <span
+                  className={`deadline-tag deadline-tag--${
+                    deadline.overDue > 0 ? 'red' : 'green'
+                  }`}
+                >
+                  {deadline.formatted}
+                </span>
+              </p>
+            )}
+          </div>
+          <div className="TaskView__header__avatar">
+            {collaborator && (
+              <>
+                <h3>Assign to: {collaborator.userName}</h3>
+                <Avatar
+                  imageUrl={collaborator.photoUrl}
+                  size="100"
+                  userName={collaborator.userName}
+                />
+              </>
+            )}
+          </div>
         </header>
-        <div>
+        <div className="TaskView__body">
+          <h3>Description</h3>
           <p>{currentTask.description}</p>
-        </div>
-        <div>
-          <h3>Notes</h3>
+
+          {currentTask.notes.length > 0 && (
+            <>
+              <h3>Notes</h3>
+              <div></div>
+            </>
+          )}
         </div>
       </div>
     </div>

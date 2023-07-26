@@ -28,22 +28,6 @@
 .Task__header .Avatar {
   border: 3px solid var(--COLOR-GRAY-700);
 }
-.Task__body__deadline {
-  display: inline-block;
-  padding: 0.4rem 0.8rem;
-  font-size: 1.6rem;
-  margin-bottom: 1.6rem;
-  background-color: var(--COLOR-GRAY-100);
-  border-radius: var(--BORDER-RADIUS);
-}
-.Task__body__deadline--green {
-  color: var(--COLOR-GREEN-500);
-  border: 3px solid var(--COLOR-GREEN-500);
-}
-.Task__body__deadline--red {
-  color: var(--COLOR-RED-500);
-  border: 3px solid var(--COLOR-RED-500);
-}
 .Task__body__deadline__heading {
   font-weight: 600;
 }

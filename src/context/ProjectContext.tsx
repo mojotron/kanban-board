@@ -1,14 +1,16 @@
 // TODO
 // place to hold project, tasks, messages and collaborators
-import { ReactNode, createContext, useContext } from 'react';
+import { ReactNode, createContext, useContext, useMemo } from 'react';
 import { useOnSnapshotDocument } from '../hooks/useOnSnapshotDocument';
 import { ProjectType } from '../types/projectType';
 import { TaskType } from '../types/taskType';
 import { useKanbanStore } from '../store';
-import { useCollectProjectTasks } from '../hooks/useCollectProjectTasks';
+import { useCollectDocsSnapshot } from '../hooks/useCollectDocsSnapshot';
+import { UserType } from '../types/userType';
 
 type Project = ProjectType & { id: string };
 type Task = TaskType & { id: string };
+type User = UserType & { id: string };
 
 const useProjectSource = (): {
   project: undefined | Project;
@@ -17,6 +19,9 @@ const useProjectSource = (): {
   tasks: Task[] | undefined;
   tasksPending: boolean;
   tasksErr: null | string;
+  team: User[] | undefined;
+  teamPending: boolean;
+  teamErr: null | string;
 } => {
   const currentProject = useKanbanStore((state) => state.currentProject);
   // get project doc
@@ -30,9 +35,30 @@ const useProjectSource = (): {
     documents: tasks,
     pending: tasksPending,
     error: tasksErr,
-  } = useCollectProjectTasks(project?.tasks);
+  } = useCollectDocsSnapshot<Task>(project?.tasks, 'tasks');
 
-  return { project, projectErr, projectPending, tasks, tasksPending, tasksErr };
+  const members = useMemo(() => {
+    if (!project) return;
+    return [project.adminUid];
+  }, [project]);
+
+  const {
+    documents: team,
+    pending: teamPending,
+    error: teamErr,
+  } = useCollectDocsSnapshot<User>(members, 'users');
+
+  return {
+    project,
+    projectErr,
+    projectPending,
+    tasks,
+    tasksPending,
+    tasksErr,
+    team,
+    teamPending,
+    teamErr,
+  };
 };
 
 const ProjectContext = createContext<ReturnType<typeof useProjectSource>>(
