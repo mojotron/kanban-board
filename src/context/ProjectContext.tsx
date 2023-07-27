@@ -39,7 +39,7 @@ const useProjectSource = (): {
 
   const members = useMemo(() => {
     if (!project) return;
-    return [project.adminUid];
+    return [project.adminUid, ...project.members];
   }, [project]);
 
   const {

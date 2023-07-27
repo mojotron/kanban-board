@@ -21,3 +21,16 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+// collaboratingProjects
+// (array)
+// createdAt July 24, 2023 at 12:00:00 AM UTC+2
+// email "temp@example.com"
+// lastLoggedOut July 24, 2023 at 12:00:00 AM UTC+2
+// managingProjects
+// online true
+// photoUrl """"
+// projectsCompleted 0
+// tasksCompleted 0
+// uid "123456"
+// userName "test-1"

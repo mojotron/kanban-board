@@ -1,11 +1,22 @@
 .Avatar {
   border: 3px solid var(--COLOR-GRAY-200);
   border-radius: 50%;
-  overflow: hidden;
 }
 
 .Avatar__img {
   object-fit: cover;
   width: 100%;
   height: 100%;
+  border-radius: 50%;
+}
+.Avatar--active::after {
+  content: '';
+  display: block;
+  height: 1.2rem;
+  width: 1.2rem;
+  border-radius: 50%;
+  background-color: var(--COLOR-GREEN-400);
+  position: relative;
+  bottom: 1.5rem;
+  left: 3rem;
 }

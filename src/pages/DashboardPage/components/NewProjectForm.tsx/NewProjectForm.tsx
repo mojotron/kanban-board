@@ -103,6 +103,7 @@ const NewProjectForm = () => {
         tags: state.tags,
         repository: state.repository,
         tasks: [],
+        members: [],
       });
       await updateDocument('users', document.uid, {
         managingProjects: [...document.managingProjects, newProject?.id],
