@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useKanbanStore } from '../../store';
 // components
 import ModalCloseBtn from '../ModalCloseBtn/ModalCloseBtn';
@@ -11,6 +11,7 @@ import { useProject } from '../../context/ProjectContext';
 
 const TaskView = () => {
   const currentTask = useKanbanStore((state) => state.currentTask);
+  const setCurrentTask = useKanbanStore((state) => state.setCurrentTask);
   const closeModal = useKanbanStore((state) => state.setOpenViewTaskModal);
 
   const { team } = useProject();
@@ -22,6 +23,9 @@ const TaskView = () => {
   console.log('collaborator', collaborator);
 
   useEffect(() => {}, []);
+
+  // notes
+  const [addNote, setAddNote] = useState(false);
 
   if (currentTask === null) return;
 
@@ -38,7 +42,12 @@ const TaskView = () => {
   return (
     <div className="overlay">
       <div className="TaskView">
-        <ModalCloseBtn handleClose={() => closeModal(false)} />
+        <ModalCloseBtn
+          handleClose={() => {
+            setCurrentTask(null);
+            closeModal(false);
+          }}
+        />
 
         <header className="TaskView__header">
           <div className="TaskView__header__info">
@@ -77,15 +86,23 @@ const TaskView = () => {
           </div>
         </header>
         <div className="TaskView__body">
-          <h3>Description</h3>
-          <p>{currentTask.description}</p>
+          <div className="TaskView__body__description">
+            <h3>Description</h3>
+            <p>{currentTask.description}</p>
+          </div>
 
-          {currentTask.notes.length > 0 && (
-            <>
+          <div className="TaskView__body__notes">
+            <div className="TaskView__body__notes__header">
               <h3>Notes</h3>
-              <div></div>
-            </>
-          )}
+              <button onClick={() => setAddNote(true)}>New Note</button>
+            </div>
+            {addNote && (
+              <div>
+                <textarea maxLength={1000} />
+                <button>Add</button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

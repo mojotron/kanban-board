@@ -3,7 +3,6 @@ import './Task.css';
 import { AiOutlineUserAdd, AiFillEdit, AiFillEye } from 'react-icons/ai';
 // types
 import { TaskType } from '../../types/taskType';
-import { UserType } from '../../types/userType';
 // components
 import Avatar from '../Avatar/Avatar';
 // helpers
@@ -55,9 +54,6 @@ const Task = ({ taskData }: Props) => {
             onClick={handleClickViewTask}
           >
             <AiFillEye size={25} />
-          </button>
-          <button className="Task__btn" title="edit task">
-            <AiFillEdit size={25} />
           </button>
           {collaborator ? (
             <Avatar

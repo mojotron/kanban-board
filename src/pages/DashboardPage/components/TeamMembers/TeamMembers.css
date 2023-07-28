@@ -22,3 +22,8 @@
 .TeamMember__list__item__username {
   font-weight: 600;
 }
+a:link.TeamMember__list__item,
+a:visited.TeamMember__list__item {
+  color: var(--COLOR-GRAY-200);
+  text-decoration: none;
+}

@@ -33,6 +33,7 @@ const DashboardProject = () => {
     (state) => state.setCurrentTaskStage
   );
   const openViewTaskModal = useKanbanStore((state) => state.openViewTaskModal);
+
   const { document: user } = useUserData();
   const { project, projectErr, projectPending, tasks, tasksPending, tasksErr } =
     useProject();

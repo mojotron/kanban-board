@@ -30,10 +30,14 @@
 }
 .TaskView h3 {
   font-size: 1.953rem;
-  margin-bottom: 2.4rem;
 }
 .TaskView__body p {
   font-size: 1.563rem;
   list-style: 1.6;
   margin-bottom: 2.4rem;
+}
+.TaskView__body__notes__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
