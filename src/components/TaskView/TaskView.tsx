@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useKanbanStore } from '../../store';
+import { useFirestore } from '../../hooks/useFirestore';
 // components
 import ModalCloseBtn from '../ModalCloseBtn/ModalCloseBtn';
 import Avatar from '../Avatar/Avatar';
@@ -8,11 +9,25 @@ import { formatTime, formatLocalDate } from '../../utils/formatTime';
 // style
 import './TaskView.css';
 import { useProject } from '../../context/ProjectContext';
+import { Note, TaskType } from '../../types/taskType';
+import { Timestamp } from 'firebase/firestore';
+import { useUserData } from '../../context/UserDataContext';
+import { useOnSnapshotDocument } from '../../hooks/useOnSnapshotDocument';
+
+type Task = TaskType & { id: string };
 
 const TaskView = () => {
-  const currentTask = useKanbanStore((state) => state.currentTask);
+  const currentTaskId = useKanbanStore((state) => state.currentTask);
   const setCurrentTask = useKanbanStore((state) => state.setCurrentTask);
   const closeModal = useKanbanStore((state) => state.setOpenViewTaskModal);
+
+  const { document: user } = useUserData();
+  const { updateDocument, pending, error } = useFirestore();
+
+  const { document: currentTask } = useOnSnapshotDocument<Task>(
+    'tasks',
+    currentTaskId
+  );
 
   const { team } = useProject();
 
@@ -26,10 +41,25 @@ const TaskView = () => {
 
   // notes
   const [addNote, setAddNote] = useState(false);
+  const [noteText, setNoteText] = useState('');
 
-  if (currentTask === null) return;
+  const handleAddNote = async () => {
+    if (!user) return;
+    if (!currentTask) return;
+    const note: Note = {
+      createdAt: Timestamp.fromDate(new Date()),
+      author: user.uid,
+      text: noteText,
+    };
+    await updateDocument('tasks', currentTask?.id, {
+      notes: [...currentTask?.notes, note],
+    });
+    setAddNote(false);
+    setNoteText('');
+  };
 
   const deadline = useMemo(() => {
+    if (!currentTask) return;
     if (currentTask.deadline === null) return;
 
     return {
@@ -37,7 +67,9 @@ const TaskView = () => {
       formatted: formatTime(currentTask.deadline.seconds * 1000),
       overDue: (+new Date() - currentTask.deadline.seconds * 1000) / 1000,
     };
-  }, [currentTask.deadline]);
+  }, [currentTask]);
+
+  if (!currentTask) return;
 
   return (
     <div className="overlay">
@@ -98,10 +130,20 @@ const TaskView = () => {
             </div>
             {addNote && (
               <div>
-                <textarea maxLength={1000} />
-                <button>Add</button>
+                <textarea
+                  maxLength={1000}
+                  placeholder="add short note for other team members"
+                  value={noteText}
+                  onChange={(e) => setNoteText(e.target.value)}
+                />
+                <button onClick={handleAddNote}>Add</button>
               </div>
             )}
+            <div>
+              {currentTask.notes.map((note, i) => (
+                <p key={i}>{note.text}</p>
+              ))}
+            </div>
           </div>
         </div>
       </div>

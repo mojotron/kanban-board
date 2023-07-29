@@ -38,7 +38,7 @@ const Task = ({ taskData }: Props) => {
   }, [taskData.deadline]);
 
   const handleClickViewTask = () => {
-    setCurrentTask(taskData);
+    setCurrentTask(taskData.id);
     setOpenViewTaskModal(true);
   };
 

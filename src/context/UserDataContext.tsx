@@ -5,17 +5,17 @@ import { UserType } from '../types/userType';
 
 const useUserDataSource = (): {
   document: undefined | UserType;
-  isPending: boolean;
+  pending: boolean;
   error: null | string;
 } => {
   const { user } = useAuth();
 
-  const { document, isPending, error } = useOnSnapshotDocument<UserType>(
+  const { document, pending, error } = useOnSnapshotDocument<UserType>(
     'users',
     user?.uid
   );
 
-  return { document, isPending, error };
+  return { document, pending, error };
 };
 
 const UserDataContext = createContext<ReturnType<typeof useUserDataSource>>(
