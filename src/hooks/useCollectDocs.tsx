@@ -12,7 +12,7 @@ export const useCollectDocs = <T,>(
   const [isCancelled, setIsCanceled] = useState(false);
 
   useEffect(() => {
-    if (!Array.isArray(docsIdList)) return;
+    if (docsIdList === undefined) return;
 
     const getDocuments = async () => {
       try {

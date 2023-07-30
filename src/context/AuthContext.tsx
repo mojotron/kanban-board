@@ -24,7 +24,7 @@ const useAuthSource = () => {
       case 'LOGIN':
         return { ...state, user: action.payload };
       case 'LOGOUT':
-        return { ...state, user: null, authIsReady: false };
+        return { ...state, user: action.payload };
       case 'AUTH_IS_READY':
         return { ...state, authIsReady: true, user: action.payload };
       default:

@@ -6,9 +6,13 @@ import {
   BsDashCircle,
 } from 'react-icons/bs';
 import { useLogin } from '../../hooks/useLogin';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
   const { isPending, error, login } = useLogin();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="Login">
@@ -37,7 +41,13 @@ const Login = () => {
           <BsGithub size={100} color={'VAR(--COLOR-MAIN-50)'} />
         </div>
 
-        <button className="btn" onClick={login}>
+        <button
+          className="btn"
+          onClick={async () => {
+            await login();
+            navigate(`/`);
+          }}
+        >
           Sign in with Github
         </button>
 

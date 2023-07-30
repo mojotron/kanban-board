@@ -7,34 +7,23 @@ import { UserDataProvider } from './context/UserDataContext';
 // components
 import KanbanBoard from './pages/KanbanBoardPage/KanbanBoard';
 // router
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { ReactNode } from 'react';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from 'react-router-dom';
 import { ProjectProvider } from './context/ProjectContext';
+import UserLayout from './components/UserLayout/UserLayout';
 
 // helper components for page navigation
-type ProtectedProps = {
-  condition: boolean;
-  linkTo: string;
-  children: ReactNode;
-};
-const ProtectedRoute = ({ condition, linkTo, children }: ProtectedProps) => {
-  if (condition) {
-    return children;
-  } else {
-    return <Navigate to={linkTo} />;
-  }
-};
 
-// const Root = () => {
-//   return (
-//     <>
-//       <h1>Hello</h1>
-//       <Outlet />
-//     </>
-//   );
-// };
+const ProtectedRoutes = () => {
+  const { user } = useAuth();
 
-// const router = createBrowserRouter([{ path: '/', element: <Root /> }]);
+  return user !== null ? <Outlet /> : <Navigate to="login" />;
+};
 
 const App = () => {
   const { authIsReady, user } = useAuth();
@@ -45,39 +34,19 @@ const App = () => {
       {authIsReady && (
         <BrowserRouter>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute condition={user !== null} linkTo="login">
+            <Route element={<ProtectedRoutes />}>
+              <Route
+                path="/"
+                element={
                   <UserDataProvider>
-                    <ProjectProvider>
-                      <Dashboard />
-                    </ProjectProvider>
+                    <UserLayout />
                   </UserDataProvider>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <ProtectedRoute condition={user === null} linkTo="/">
-                  <Login />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/kanban/:projectId"
-              element={
-                <ProtectedRoute condition={user !== null} linkTo="login">
-                  <UserDataProvider>
-                    <ProjectProvider>
-                      <KanbanBoard />
-                    </ProjectProvider>
-                  </UserDataProvider>
-                </ProtectedRoute>
-              }
-            />
-            <Route path="*" element={<Navigate to="/" />} />
+                }
+              >
+                <Route index element={<p>works?</p>} />
+              </Route>
+            </Route>
+            <Route path="/login" element={<Login />} />
           </Routes>
         </BrowserRouter>
       )}
