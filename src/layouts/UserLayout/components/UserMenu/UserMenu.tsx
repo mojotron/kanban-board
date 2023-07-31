@@ -1,13 +1,13 @@
-import './DashboardMenu.css';
+import './UserMenu.css';
 import { useLogout } from '../../../../hooks/useLogout';
 import { useKanbanStore } from '../../../../store';
 
-const DashboardMenu = () => {
+const UserMenu = () => {
   const { logout } = useLogout();
   const openModal = useKanbanStore((state) => state.setOpenNewProjectModal);
 
   return (
-    <menu className="DashboardMenu">
+    <menu className="UserMenu">
       <button className="btn" onClick={() => openModal(true)}>
         Create Project
       </button>
@@ -21,4 +21,4 @@ const DashboardMenu = () => {
   );
 };
 
-export default DashboardMenu;
+export default UserMenu;

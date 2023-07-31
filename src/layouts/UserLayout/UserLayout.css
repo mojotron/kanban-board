@@ -1,4 +1,4 @@
-.Dashboard {
+.UserLayout {
   display: grid;
   grid-template-columns: 35rem repeat(4, 1fr);
   grid-template-rows: 4rem 1fr 1fr;
@@ -6,4 +6,8 @@
   column-gap: 0;
   height: 100vh;
   width: 100vw;
+}
+.UserLayout__container {
+  grid-column: 2 / -1;
+  grid-row: 2 / -1;
 }

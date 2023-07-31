@@ -1,20 +1,20 @@
-import './DashboardProject.css';
+import './Dashboard.css';
 import { useMemo } from 'react';
 // global store
-import { useKanbanStore } from '../../../../store';
+import { useKanbanStore } from '../../store';
 // components
-import NewTaskForm from '../NewTaskForm/NewTaskForm';
-import Task from '../../../../components/Task/Task';
-import TaskView from '../../../../components/TaskView/TaskView';
-import PriorityLegend from '../../../../components/PriorityLegend/PriorityLegend';
+import NewTaskForm from './components/NewTaskForm/NewTaskForm';
+import Task from '../../components/Task/Task';
+import TaskView from '../../components/TaskView/TaskView';
+import PriorityLegend from '../../components/PriorityLegend/PriorityLegend';
 // constants and types
-import { TaskType } from '../../../../types/taskType';
-import { TASK_STAGES } from '../../../../constants/taskStages';
+import { TaskType } from '../../types/taskType';
+import { TASK_STAGES } from '../../constants/taskStages';
 // use context hooks
 import { Link } from 'react-router-dom';
-import { useUserData } from '../../../../context/UserDataContext';
-import { useProject } from '../../../../context/ProjectContext';
-import TeamMembers from '../TeamMembers/TeamMembers';
+import { useUserData } from '../../context/UserDataContext';
+import { useProject } from '../../context/ProjectContext';
+import TeamMembers from './components/TeamMembers/TeamMembers';
 
 type Task = TaskType & { id: string };
 
@@ -23,7 +23,7 @@ const count = <T,>(array: T[] | undefined, fn: (ele: T) => void) => {
   return array.filter(fn).length;
 };
 
-const DashboardProject = () => {
+const Dashboard = () => {
   const currentTaskStage = useKanbanStore((state) => state.currentTaskStage);
   const openNewTaskModal = useKanbanStore((state) => state.openNewTaskModal);
   const setOpenNewTaskModal = useKanbanStore(
@@ -44,7 +44,7 @@ const DashboardProject = () => {
   }, [tasks, currentTaskStage]);
 
   return (
-    <main className="DashboardProject">
+    <main className="Dashboard">
       {projectPending && <h2>Loading...</h2>}
       {projectErr && <h2 className="error">{projectErr}</h2>}
 
@@ -53,8 +53,8 @@ const DashboardProject = () => {
 
       {project && (
         <>
-          <header className="DashboardProject__header">
-            <div className="DashboardProject__header__title">
+          <header className="Dashboard__header">
+            <div className="Dashboard__header__title">
               <h1>{project.name}</h1>
               <a
                 className="link"
@@ -65,20 +65,20 @@ const DashboardProject = () => {
                 project repository
               </a>
             </div>
-            <div className="DashboardProject__header__tags">
+            <div className="Dashboard__header__tags">
               {project.tags.map((tag) => (
                 <div key={tag} className="tag">
                   {tag}
                 </div>
               ))}
             </div>
-            <p className="DashboardProject__header__description">
+            <p className="Dashboard__header__description">
               {project.description}
             </p>
           </header>
 
-          <div className="DashboardProject__tasks">
-            <div className="DashboardProject__tasks__header">
+          <div className="Dashboard__tasks">
+            <div className="Dashboard__tasks__header">
               <h2 className="heading--secondary">Tasks</h2>
               <PriorityLegend />
               {project.adminUid === user?.uid && (
@@ -93,7 +93,7 @@ const DashboardProject = () => {
               )}
             </div>
 
-            <div className="DashboardProject__tasks__tabs">
+            <div className="Dashboard__tasks__tabs">
               {TASK_STAGES.map((stage) => {
                 const countTasks = count(
                   tasks as Task[],
@@ -113,7 +113,7 @@ const DashboardProject = () => {
               })}
             </div>
 
-            <div className="DashboardProject__tasks__display">
+            <div className="Dashboard__tasks__display">
               {tasksPending && <p>Loading...</p>}
               {tasksErr && <p className="error">{tasksErr}</p>}
               {filteredStageTasks &&
@@ -123,17 +123,17 @@ const DashboardProject = () => {
             </div>
           </div>
 
-          <div className="DashboardProject__messages">
+          <div className="Dashboard__messages">
             <h3 className="heading--tertiary">Messages</h3>
-            <div className="DashboardProject__messages__body"></div>
-            <div className="DashboardProject__messages__controls"></div>
+            <div className="Dashboard__messages__body"></div>
+            <div className="Dashboard__messages__controls"></div>
           </div>
 
           <TeamMembers />
 
           <Link
             to={`/kanban/${project.id}`}
-            className="btn DashboardProject__btn-kanban"
+            className="btn Dashboard__btn-kanban"
           >
             View Kanban Board
           </Link>
@@ -143,4 +143,4 @@ const DashboardProject = () => {
   );
 };
 
-export default DashboardProject;
+export default Dashboard;
