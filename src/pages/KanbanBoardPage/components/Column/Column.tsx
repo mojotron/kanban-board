@@ -1,7 +1,7 @@
 import './Column.css';
 import { useMemo, useState } from 'react';
 import { useProject } from '../../../../context/ProjectContext';
-import Task from '../../../../components/Task/Task';
+import Task from '../../../../components/TaskCard/TaskCard';
 import { useKanbanStore } from '../../../../store';
 import { useFirestore } from '../../../../hooks/useFirestore';
 

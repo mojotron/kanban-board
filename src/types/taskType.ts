@@ -22,3 +22,5 @@ export type TaskType = {
   priority: Priority;
   stage: Stage;
 };
+
+export type TaskWithId = TaskType & { id: string };

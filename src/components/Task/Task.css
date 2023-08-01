@@ -1,55 +1,44 @@
 .Task {
+  background-color: var(--COLOR-GRAY-200);
+  position: relative;
+  width: 70rem;
+  max-width: 70rem;
   border-radius: var(--BORDER-RADIUS);
   overflow: hidden;
-  background-color: var(--COLOR-GRAY-300);
-  color: var(--COLOR-GRAY-700);
-  margin-bottom: 2.4rem;
-}
-.Task:last-child {
-  margin-bottom: 0;
-}
-.Task__header,
-.Task__body {
-  padding: 1.6rem 2.4rem;
+  color: var(--COLOR-GRAY-800);
+  font-size: 1.6rem;
+  z-index: 99;
 }
 .Task__header {
+  padding: 4.8rem;
+  background-color: var(--COLOR-GRAY-300);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.Task__header__heading {
-  font-size: 1.953rem;
-}
-.Task__header__controls {
-  display: flex;
-  align-items: center;
   gap: 2.4rem;
 }
-.Task__header .Avatar {
-  border: 3px solid var(--COLOR-GRAY-700);
+.Task__header__info {
+  width: 60%;
 }
-.Task__body__deadline__heading {
-  font-weight: 600;
+.Task__header h2 {
+  font-size: 2.441rem;
+  margin-bottom: 2.4rem;
 }
-.Task__body__description {
-  font-size: 1.6rem;
+.Task__header p {
+  margin-bottom: 0.8rem;
 }
-.Task__btn {
-  border: none;
-  background: none;
-  border-radius: 50%;
-  height: 2.5rem;
-  width: 2.5rem;
-  cursor: pointer;
-  color: var(--COLOR-GRAY-700);
-  transition: all 0.3s ease;
+.Task__body {
+  padding: 4.8rem;
 }
-.Task__btn:hover {
-  color: var(--COLOR-GRAY-100);
+.Task h3 {
+  font-size: 1.953rem;
 }
-.Task__btn--add {
-  height: 5rem;
-  width: 5rem;
-  background-color: var(--COLOR-GRAY-200);
-  border: 3px solid var(--COLOR-GRAY-500);
+.Task__body p {
+  font-size: 1.563rem;
+  list-style: 1.6;
+  margin-bottom: 2.4rem;
 }
+.Task__body__notes__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* NOTES */

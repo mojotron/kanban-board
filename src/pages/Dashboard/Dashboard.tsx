@@ -4,8 +4,8 @@ import { useMemo } from 'react';
 import { useKanbanStore } from '../../store';
 // components
 import NewTaskForm from './components/NewTaskForm/NewTaskForm';
-import Task from '../../components/Task/Task';
-import TaskView from '../../components/TaskView/TaskView';
+import Task from '../../components/TaskCard/TaskCard';
+import TaskView from '../../components/Task/Task';
 import PriorityLegend from '../../components/PriorityLegend/PriorityLegend';
 // constants and types
 import { TaskType } from '../../types/taskType';

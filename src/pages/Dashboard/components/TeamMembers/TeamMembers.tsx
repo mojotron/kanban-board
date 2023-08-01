@@ -1,11 +1,13 @@
 import Avatar from '../../../../components/Avatar/Avatar';
 import { useProject } from '../../../../context/ProjectContext';
+import { useUserData } from '../../../../context/UserDataContext';
 import { formatTime } from '../../../../utils/formatTime';
 import './TeamMembers.css';
 import { Link } from 'react-router-dom';
 
 const TeamMembers = () => {
   const { team } = useProject();
+  const { document: user } = useUserData();
 
   return (
     <div className="TeamMembers">
@@ -15,7 +17,11 @@ const TeamMembers = () => {
           team.map((member) => {
             return (
               <li key={member.id}>
-                <Link to="" className="TeamMember__list__item">
+                <Link
+                  to={user?.uid === member.uid ? '/' : `/${member.userName}`}
+                  state={{ targetId: member.uid }}
+                  className="TeamMember__list__item"
+                >
                   <Avatar
                     imageUrl={member.photoUrl}
                     size="50"

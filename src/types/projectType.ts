@@ -7,3 +7,5 @@ export type ProjectType = {
   tasks: string[];
   members: string[];
 };
+
+export type ProjectWithId = ProjectType & { id: string };

@@ -1,0 +1,55 @@
+.TaskCard {
+  border-radius: var(--BORDER-RADIUS);
+  overflow: hidden;
+  background-color: var(--COLOR-GRAY-300);
+  color: var(--COLOR-GRAY-700);
+  margin-bottom: 2.4rem;
+}
+.TaskCard:last-child {
+  margin-bottom: 0;
+}
+.TaskCard__header,
+.TaskCard__body {
+  padding: 1.6rem 2.4rem;
+}
+.TaskCard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.TaskCard__header__heading {
+  font-size: 1.953rem;
+}
+.TaskCard__header__controls {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+}
+.TaskCard__header .Avatar {
+  border: 3px solid var(--COLOR-GRAY-700);
+}
+.TaskCard__body__deadline__heading {
+  font-weight: 600;
+}
+.TaskCard__body__description {
+  font-size: 1.6rem;
+}
+.TaskCard__btn {
+  border: none;
+  background: none;
+  border-radius: 50%;
+  height: 2.5rem;
+  width: 2.5rem;
+  cursor: pointer;
+  color: var(--COLOR-GRAY-700);
+  transition: all 0.3s ease;
+}
+.TaskCard__btn:hover {
+  color: var(--COLOR-GRAY-100);
+}
+.TaskCard__btn--add {
+  height: 5rem;
+  width: 5rem;
+  background-color: var(--COLOR-GRAY-200);
+  border: 3px solid var(--COLOR-GRAY-500);
+}

@@ -13,7 +13,6 @@ const UserAside = () => {
     document?.managingProjects,
     'projects'
   );
-  console.log(document);
 
   return (
     <aside className="UserAside">

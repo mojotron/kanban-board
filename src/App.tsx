@@ -14,6 +14,7 @@ import {
 
 import UserLayout from './layouts/UserLayout/UserLayout';
 import KanbanBoard from './pages/KanbanBoardPage/KanbanBoard';
+import Profile from './pages/Profile/Profile';
 
 // helper components for page navigation
 
@@ -26,7 +27,6 @@ const ProtectedRoutes = () => {
 const App = () => {
   const { authIsReady, user } = useAuth();
 
-  console.log('here', authIsReady, user);
   return (
     <div className="App">
       {authIsReady && (
@@ -35,7 +35,7 @@ const App = () => {
             <Route element={<ProtectedRoutes />}>
               <Route path="/" element={<UserLayout />}>
                 <Route index element={<Dashboard />} />
-                <Route path=":userName" element={<h3>yo</h3>} />
+                <Route path=":userName" element={<Profile />} />
               </Route>
               <Route path="/kanban/:projectId" element={<KanbanBoard />} />
             </Route>

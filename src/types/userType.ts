@@ -13,3 +13,5 @@ export type UserType = {
   lastLoggedOut: Timestamp;
   createdAt: Timestamp;
 };
+
+export type UserWithId = UserType & { id: string };
