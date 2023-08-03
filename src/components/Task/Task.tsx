@@ -4,10 +4,12 @@ import { useFirestore } from '../../hooks/useFirestore';
 // components
 import ModalCloseBtn from '../ModalCloseBtn/ModalCloseBtn';
 import Avatar from '../Avatar/Avatar';
+import UpdatableTextValue from '../UpdatableTextValue/UpdatableTextValue';
 // utils
 import { formatTime, formatLocalDate } from '../../utils/formatTime';
-// style
+// style & icons
 import './Task.css';
+//
 import { useProject } from '../../context/ProjectContext';
 import { Note, TaskWithId } from '../../types/taskType';
 import { Timestamp } from 'firebase/firestore';
@@ -81,7 +83,14 @@ const Task = () => {
 
         <header className="Task__header">
           <div className="Task__header__info">
-            <h2>{currentTask.title}</h2>
+            <UpdatableTextValue
+              displayValue={currentTask.title}
+              role="heading"
+              maxLength={100}
+              collectionName="tasks"
+              docId={currentTask.id}
+              property="title"
+            />
             <p>
               priority:{' '}
               <span className={`priority--${currentTask.priority}`}>
