@@ -1,9 +1,0 @@
-.UpdatableTextValue {
-  display: flex;
-}
-.UpdatableTextValue__btn--edit {
-  visibility: hidden;
-}
-.UpdatableTextValue:hover .UpdatableTextValue__btn--edit {
-  visibility: visible;
-}

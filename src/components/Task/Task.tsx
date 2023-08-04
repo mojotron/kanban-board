@@ -4,7 +4,8 @@ import { useFirestore } from '../../hooks/useFirestore';
 // components
 import ModalCloseBtn from '../ModalCloseBtn/ModalCloseBtn';
 import Avatar from '../Avatar/Avatar';
-import UpdatableTextValue from '../UpdatableTextValue/UpdatableTextValue';
+import UpdatableTextValue from '../Updatables/UpdatableTextValue/UpdatableTextValue';
+import UpdatableDateValue from '../Updatables/UpdatableDateValue/UpdatableDateValue';
 // utils
 import { formatTime, formatLocalDate } from '../../utils/formatTime';
 // style & icons
@@ -15,6 +16,7 @@ import { Note, TaskWithId } from '../../types/taskType';
 import { Timestamp } from 'firebase/firestore';
 import { useUserData } from '../../context/UserDataContext';
 import { useOnSnapshotDocument } from '../../hooks/useOnSnapshotDocument';
+import { TEXT_LENGTHS } from '../../constants/textLengths';
 
 const Task = () => {
   const currentTaskId = useKanbanStore((state) => state.currentTask);
@@ -86,7 +88,7 @@ const Task = () => {
             <UpdatableTextValue
               displayValue={currentTask.title}
               role="heading"
-              maxLength={100}
+              maxLength={TEXT_LENGTHS.task.title}
               collectionName="tasks"
               docId={currentTask.id}
               property="title"
@@ -98,6 +100,15 @@ const Task = () => {
               </span>
             </p>
             <p>current stage: {currentTask.stage}</p>
+            {currentTask.deadline !== null && (
+              <UpdatableDateValue
+                timestamp={currentTask.deadline}
+                displayDeadline={true}
+                collectionName="tasks"
+                docId={currentTask.id}
+                property="deadline"
+              />
+            )}
             {deadline && (
               <p>
                 deadline: {deadline.date}
@@ -127,7 +138,14 @@ const Task = () => {
         <div className="Task__body">
           <div className="Task__body__description">
             <h3>Description</h3>
-            <p>{currentTask.description}</p>
+            <UpdatableTextValue
+              displayValue={currentTask.description}
+              role="paragraph"
+              maxLength={TEXT_LENGTHS.task.description}
+              collectionName="tasks"
+              docId={currentTask.id}
+              property="description"
+            />
           </div>
 
           <div className="Task__body__notes">

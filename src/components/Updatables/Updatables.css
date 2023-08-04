@@ -1,0 +1,19 @@
+.Updatables {
+  display: flex;
+}
+.Updatables__display {
+  font-size: 1.563rem;
+}
+.Updatables__display--heading {
+  font-weight: 600;
+  font-size: 1.953rem;
+}
+.Updatables__display--paragraph {
+  font-weight: 400;
+}
+.Updatables__btn--edit {
+  visibility: hidden;
+}
+.Updatables:hover .Updatables__btn--edit {
+  visibility: visible;
+}

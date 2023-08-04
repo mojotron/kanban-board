@@ -154,7 +154,6 @@ const NewTaskForm = ({ tasks }: { tasks: string[] }) => {
             id="new-task-deadline"
             value={state.deadline}
             onChange={(e) => {
-              console.log(e.target.value);
               dispatch({ type: 'CHANGE_DEADLINE', payload: e.target.value });
             }}
           />
