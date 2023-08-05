@@ -42,8 +42,6 @@ const UpdatableDateValue = ({
     };
   }, [timestamp]);
 
-  console.log('overdue', dateObject.formatted);
-
   const handleCancelChange = () => {
     setDate(formatForInputTypeDate(new Date(timestamp.seconds * 1000)));
     setEdit(false);

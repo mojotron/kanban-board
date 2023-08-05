@@ -1,22 +1,25 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useKanbanStore } from '../../store';
-import { useFirestore } from '../../hooks/useFirestore';
 // components
 import ModalCloseBtn from '../ModalCloseBtn/ModalCloseBtn';
 import Avatar from '../Avatar/Avatar';
 import UpdatableTextValue from '../Updatables/UpdatableTextValue/UpdatableTextValue';
 import UpdatableDateValue from '../Updatables/UpdatableDateValue/UpdatableDateValue';
-// utils
-import { formatTime, formatLocalDate } from '../../utils/formatTime';
+import UpdatableSelectValue from '../Updatables/UpdatableSelectValue/UpdatableSelectValue';
+import TaskNotes from '../TaskNotes/TaskNotes';
 // style & icons
 import './Task.css';
-//
+// hooks
+import { useMemo, useState } from 'react';
+import { useKanbanStore } from '../../store';
+import { useFirestore } from '../../hooks/useFirestore';
 import { useProject } from '../../context/ProjectContext';
 import { Note, TaskWithId } from '../../types/taskType';
 import { Timestamp } from 'firebase/firestore';
 import { useUserData } from '../../context/UserDataContext';
 import { useOnSnapshotDocument } from '../../hooks/useOnSnapshotDocument';
+// constant
 import { TEXT_LENGTHS } from '../../constants/textLengths';
+import { PRIORITIES } from '../../constants/priorities';
+import { TASK_STAGES } from '../../constants/taskStages';
 
 const Task = () => {
   const currentTaskId = useKanbanStore((state) => state.currentTask);
@@ -36,11 +39,6 @@ const Task = () => {
   const collaborator = useMemo(() => {
     return team?.find((member) => member.id === currentTask?.assignToUid);
   }, [team]);
-
-  console.log('collaborator', collaborator);
-
-  useEffect(() => {}, []);
-
   // notes
   const [addNote, setAddNote] = useState(false);
   const [noteText, setNoteText] = useState('');
@@ -59,17 +57,6 @@ const Task = () => {
     setAddNote(false);
     setNoteText('');
   };
-
-  const deadline = useMemo(() => {
-    if (!currentTask) return;
-    if (currentTask.deadline === null) return;
-
-    return {
-      date: formatLocalDate(new Date(currentTask.deadline.seconds * 1000)),
-      formatted: formatTime(currentTask.deadline.seconds * 1000),
-      overDue: (+new Date() - currentTask.deadline.seconds * 1000) / 1000,
-    };
-  }, [currentTask]);
 
   if (!currentTask) return;
 
@@ -93,13 +80,20 @@ const Task = () => {
               docId={currentTask.id}
               property="title"
             />
-            <p>
-              priority:{' '}
-              <span className={`priority--${currentTask.priority}`}>
-                {currentTask.priority}
-              </span>
-            </p>
-            <p>current stage: {currentTask.stage}</p>
+            <UpdatableSelectValue
+              displayValue={currentTask.priority}
+              options={PRIORITIES}
+              collectionName="tasks"
+              docId={currentTask.id}
+              property="priority"
+            />
+            <UpdatableSelectValue
+              displayValue={currentTask.stage}
+              options={TASK_STAGES}
+              collectionName="tasks"
+              docId={currentTask.id}
+              property="stage"
+            />
             {currentTask.deadline !== null && (
               <UpdatableDateValue
                 timestamp={currentTask.deadline}
@@ -108,18 +102,6 @@ const Task = () => {
                 docId={currentTask.id}
                 property="deadline"
               />
-            )}
-            {deadline && (
-              <p>
-                deadline: {deadline.date}
-                <span
-                  className={`deadline-tag deadline-tag--${
-                    deadline.overDue > 0 ? 'red' : 'green'
-                  }`}
-                >
-                  {deadline.formatted}
-                </span>
-              </p>
             )}
           </div>
           <div className="Task__header__avatar">
