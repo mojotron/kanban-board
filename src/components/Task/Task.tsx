@@ -8,13 +8,10 @@ import TaskNotes from '../TaskNotes/TaskNotes';
 // style & icons
 import './Task.css';
 // hooks
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useKanbanStore } from '../../store';
-import { useFirestore } from '../../hooks/useFirestore';
 import { useProject } from '../../context/ProjectContext';
-import { Note, TaskWithId } from '../../types/taskType';
-import { Timestamp } from 'firebase/firestore';
-import { useUserData } from '../../context/UserDataContext';
+import { TaskWithId } from '../../types/taskType';
 import { useOnSnapshotDocument } from '../../hooks/useOnSnapshotDocument';
 // constant
 import { TEXT_LENGTHS } from '../../constants/textLengths';
@@ -25,9 +22,6 @@ const Task = () => {
   const currentTaskId = useKanbanStore((state) => state.currentTask);
   const setCurrentTask = useKanbanStore((state) => state.setCurrentTask);
   const closeModal = useKanbanStore((state) => state.setOpenViewTaskModal);
-
-  const { document: user } = useUserData();
-  const { updateDocument, pending, error } = useFirestore();
 
   const { document: currentTask } = useOnSnapshotDocument<TaskWithId>(
     'tasks',
@@ -40,23 +34,6 @@ const Task = () => {
     return team?.find((member) => member.id === currentTask?.assignToUid);
   }, [team]);
   // notes
-  const [addNote, setAddNote] = useState(false);
-  const [noteText, setNoteText] = useState('');
-
-  const handleAddNote = async () => {
-    if (!user) return;
-    if (!currentTask) return;
-    const note: Note = {
-      createdAt: Timestamp.fromDate(new Date()),
-      author: user.uid,
-      text: noteText,
-    };
-    await updateDocument('tasks', currentTask?.id, {
-      notes: [...currentTask?.notes, note],
-    });
-    setAddNote(false);
-    setNoteText('');
-  };
 
   if (!currentTask) return;
 
@@ -132,24 +109,7 @@ const Task = () => {
 
           <div className="Task__body__notes">
             <div className="Task__body__notes__header">
-              <h3>Notes</h3>
-              <button onClick={() => setAddNote(true)}>New Note</button>
-            </div>
-            {addNote && (
-              <div>
-                <textarea
-                  maxLength={1000}
-                  placeholder="add short note for other team members"
-                  value={noteText}
-                  onChange={(e) => setNoteText(e.target.value)}
-                />
-                <button onClick={handleAddNote}>Add</button>
-              </div>
-            )}
-            <div>
-              {currentTask.notes.map((note, i) => (
-                <p key={i}>{note.text}</p>
-              ))}
+              <TaskNotes notes={currentTask.notes} taskDocId={currentTask.id} />
             </div>
           </div>
         </div>
