@@ -1,0 +1,8 @@
+.TaskNote {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.TaskNote__createdAt {
+  font-size: 1rem;
+}

@@ -22,23 +22,20 @@
   font-size: 2.441rem;
   margin-bottom: 2.4rem;
 }
-.Task__header p {
-  margin-bottom: 0.8rem;
-}
 .Task__body {
   padding: 4.8rem;
 }
 .Task h3 {
   font-size: 1.953rem;
 }
-.Task__body p {
-  font-size: 1.563rem;
-  list-style: 1.6;
-  margin-bottom: 2.4rem;
-}
 .Task__body__notes__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.Task__btn--delete {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
 }
 /* NOTES */

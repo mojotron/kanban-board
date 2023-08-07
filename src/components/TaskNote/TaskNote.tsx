@@ -3,6 +3,7 @@ import { useProject } from '../../context/ProjectContext';
 import { useMemo } from 'react';
 import Avatar from '../Avatar/Avatar';
 import { formatTime } from '../../utils/formatTime';
+import './TaskNote.css';
 
 type PropsType = {
   data: Note;
@@ -18,14 +19,16 @@ const TaskNote = ({ data }: PropsType) => {
   if (!collaborator) return null;
 
   return (
-    <div>
+    <div className="TaskNote">
       <Avatar
         imageUrl={collaborator.photoUrl}
         size="25"
         userName={collaborator.userName}
       />
       <p>{data.text}</p>
-      <p>{formatTime(data.createdAt.seconds * 1000)}</p>
+      <p className="TaskNote__createAt">
+        {formatTime(data.createdAt.seconds * 1000)}
+      </p>
     </div>
   );
 };

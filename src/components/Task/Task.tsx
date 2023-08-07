@@ -7,6 +7,7 @@ import UpdatableSelectValue from '../Updatables/UpdatableSelectValue/UpdatableSe
 import TaskNotes from '../TaskNotes/TaskNotes';
 // style & icons
 import './Task.css';
+import { AiFillDelete } from 'react-icons/ai';
 // hooks
 import { useMemo } from 'react';
 import { useKanbanStore } from '../../store';
@@ -17,6 +18,7 @@ import { useOnSnapshotDocument } from '../../hooks/useOnSnapshotDocument';
 import { TEXT_LENGTHS } from '../../constants/textLengths';
 import { PRIORITIES } from '../../constants/priorities';
 import { TASK_STAGES } from '../../constants/taskStages';
+import { useFirestore } from '../../hooks/useFirestore';
 
 const Task = () => {
   const currentTaskId = useKanbanStore((state) => state.currentTask);
@@ -28,12 +30,35 @@ const Task = () => {
     currentTaskId
   );
 
-  const { team } = useProject();
+  const { deleteDocument, updateDocument } = useFirestore();
+
+  const { team, project } = useProject();
 
   const collaborator = useMemo(() => {
     return team?.find((member) => member.id === currentTask?.assignToUid);
   }, [team]);
-  // notes
+
+  const handleDeleteTask = async () => {
+    if (!currentTask) return;
+    if (!project) return;
+
+    try {
+      // remove task from project tasks
+      const filteredTasks = project?.tasks.filter(
+        (task) => task !== currentTask.id
+      );
+      setCurrentTask(null);
+      await updateDocument('projects', project.id, { tasks: filteredTasks });
+      await deleteDocument('tasks', currentTask.id);
+      closeModal(false);
+      // TODO error handling with router loader
+    } catch (error) {
+      console.log(error);
+    }
+    // delete task
+    // close task modal
+    // set stor current task to null
+  };
 
   if (!currentTask) return;
 
@@ -46,6 +71,10 @@ const Task = () => {
             closeModal(false);
           }}
         />
+
+        <button className="Task__btn--delete" onClick={handleDeleteTask}>
+          <AiFillDelete />
+        </button>
 
         <header className="Task__header">
           <div className="Task__header__info">
