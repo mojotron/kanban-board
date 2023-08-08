@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { Note } from '../../types/taskType';
 import { useUserData } from '../../context/UserDataContext';
 import { Timestamp } from 'firebase/firestore';
@@ -33,6 +34,7 @@ const TaskNotes = ({ notes, taskDocId }: PropsType) => {
   const handleAddNote = async () => {
     if (!user) return;
     const note: Note = {
+      id: uuidv4(),
       createdAt: Timestamp.fromDate(new Date()),
       author: user.uid,
       text: noteText,
@@ -48,6 +50,12 @@ const TaskNotes = ({ notes, taskDocId }: PropsType) => {
     setNoteText('');
     setNoteLength(0);
     setNewNote(false);
+  };
+
+  const handleDeleteNote = async (noteId: string) => {
+    const filteredNotes = notes.filter((note) => note.id !== noteId);
+    await updateDocument('tasks', taskDocId, { notes: filteredNotes });
+    console.log(filteredNotes);
   };
 
   return (
@@ -79,7 +87,11 @@ const TaskNotes = ({ notes, taskDocId }: PropsType) => {
       )}
       <div>
         {notes.map((note, i) => (
-          <TaskNote key={i} data={note} />
+          <TaskNote
+            key={i}
+            currentNote={note}
+            handleDeleteNote={handleDeleteNote}
+          />
         ))}
       </div>
     </div>

@@ -6,15 +6,16 @@ import { formatTime } from '../../utils/formatTime';
 import './TaskNote.css';
 
 type PropsType = {
-  data: Note;
+  currentNote: Note;
+  handleDeleteNote: (noteId: string) => void;
 };
 
-const TaskNote = ({ data }: PropsType) => {
+const TaskNote = ({ currentNote, handleDeleteNote }: PropsType) => {
   const { team } = useProject();
 
   const collaborator = useMemo(() => {
-    return team?.find((member) => member.id === data.author);
-  }, [data]);
+    return team?.find((member) => member.id === currentNote.author);
+  }, [currentNote]);
 
   if (!collaborator) return null;
 
@@ -25,10 +26,11 @@ const TaskNote = ({ data }: PropsType) => {
         size="25"
         userName={collaborator.userName}
       />
-      <p>{data.text}</p>
+      <p>{currentNote.text}</p>
       <p className="TaskNote__createAt">
-        {formatTime(data.createdAt.seconds * 1000)}
+        {formatTime(currentNote.createdAt.seconds * 1000)}
       </p>
+      <button onClick={() => handleDeleteNote(currentNote.id)}>delete</button>
     </div>
   );
 };

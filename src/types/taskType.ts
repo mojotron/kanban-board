@@ -2,6 +2,7 @@ import { Timestamp } from 'firebase/firestore';
 import { TASK_STAGES } from '../constants/taskStages';
 
 export type Note = {
+  id: string;
   createdAt: Timestamp;
   author: string; // firebase user id
   text: string;
