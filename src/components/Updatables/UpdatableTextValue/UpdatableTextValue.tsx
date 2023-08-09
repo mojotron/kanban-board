@@ -19,6 +19,7 @@ type PropsType = {
   displayValue: string;
   role: RoleType;
   maxLength: number;
+  handleUpdate: <T>(value: T) => void;
   collectionName: string;
   docId: string;
   property: string;
@@ -31,6 +32,7 @@ const UpdatableTextValue = ({
   collectionName,
   docId,
   property,
+  handleUpdate,
 }: PropsType) => {
   const { updateDocument } = useFirestore();
   const [edit, setEdit] = useState(false);
@@ -67,7 +69,6 @@ const UpdatableTextValue = ({
     if (text.length <= 1) return;
     try {
       await updateDocument(collectionName, docId, { [property]: text });
-      setEdit(false);
     } catch (error) {
       console.log(error);
     }
@@ -95,7 +96,12 @@ const UpdatableTextValue = ({
           <button onClick={handleCancelChange}>
             <AiFillCloseCircle size={15} />
           </button>
-          <button onClick={handleUpdateClick}>
+          <button
+            onClick={() => {
+              handleUpdate(text);
+              setEdit(false);
+            }}
+          >
             <AiFillRightCircle size={15} />
           </button>
           <span>

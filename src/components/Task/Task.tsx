@@ -55,9 +55,12 @@ const Task = () => {
     } catch (error) {
       console.log(error);
     }
-    // delete task
-    // close task modal
-    // set stor current task to null
+  };
+
+  const handleUpdateProperty = async <T,>(key: string, value: T) => {
+    if (!currentTask) return;
+
+    await updateDocument('tasks', currentTask.id, { [key]: value });
   };
 
   if (!currentTask) return;
@@ -85,6 +88,7 @@ const Task = () => {
               collectionName="tasks"
               docId={currentTask.id}
               property="title"
+              handleUpdate={(value) => handleUpdateProperty('title', value)}
             />
             <UpdatableSelectValue
               displayValue={currentTask.priority}

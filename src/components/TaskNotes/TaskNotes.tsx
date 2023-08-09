@@ -58,6 +58,8 @@ const TaskNotes = ({ notes, taskDocId }: PropsType) => {
     console.log(filteredNotes);
   };
 
+  const handleUpdateNote = async () => {};
+
   return (
     <div>
       <h3>Notes</h3>
@@ -91,6 +93,7 @@ const TaskNotes = ({ notes, taskDocId }: PropsType) => {
             key={i}
             currentNote={note}
             handleDeleteNote={handleDeleteNote}
+            handleUpdateNote={handleUpdateNote}
           />
         ))}
       </div>
