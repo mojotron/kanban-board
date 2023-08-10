@@ -11,24 +11,18 @@ import {
   formatTime,
   formatForInputTypeDate,
 } from '../../../utils/formatTime';
-import { useFirestore } from '../../../hooks/useFirestore';
 
 type PropsType = {
   timestamp: Timestamp;
   displayDeadline: boolean;
-  collectionName: string;
-  docId: string;
-  property: string;
+  handleUpdate: <T>(value: T) => void;
 };
 
 const UpdatableDateValue = ({
   timestamp,
   displayDeadline,
-  collectionName,
-  docId,
-  property,
+  handleUpdate,
 }: PropsType) => {
-  const { updateDocument } = useFirestore();
   const [edit, setEdit] = useState(false);
   const [date, setDate] = useState(
     formatForInputTypeDate(new Date(timestamp.seconds * 1000))
@@ -46,16 +40,6 @@ const UpdatableDateValue = ({
     setDate(formatForInputTypeDate(new Date(timestamp.seconds * 1000)));
     setEdit(false);
   };
-  const handleUpdateClick = async () => {
-    try {
-      await updateDocument(collectionName, docId, {
-        [property]: Timestamp.fromDate(new Date(date)),
-      });
-      setEdit(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="Updatables">
@@ -69,7 +53,12 @@ const UpdatableDateValue = ({
           <button onClick={handleCancelChange}>
             <AiFillCloseCircle size={15} />
           </button>
-          <button onClick={handleUpdateClick}>
+          <button
+            onClick={async () => {
+              handleUpdate(Timestamp.fromDate(new Date(date)));
+              setEdit(false);
+            }}
+          >
             <AiFillRightCircle size={15} />
           </button>
         </div>

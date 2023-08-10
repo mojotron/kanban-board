@@ -11,7 +11,6 @@ import {
   AiFillCloseCircle,
 } from 'react-icons/ai';
 import '../Updatables.css';
-import { useFirestore } from '../../../hooks/useFirestore';
 
 type RoleType = 'heading' | 'paragraph';
 
@@ -20,21 +19,14 @@ type PropsType = {
   role: RoleType;
   maxLength: number;
   handleUpdate: <T>(value: T) => void;
-  collectionName: string;
-  docId: string;
-  property: string;
 };
 
 const UpdatableTextValue = ({
   displayValue,
   role,
   maxLength,
-  collectionName,
-  docId,
-  property,
   handleUpdate,
 }: PropsType) => {
-  const { updateDocument } = useFirestore();
   const [edit, setEdit] = useState(false);
   const [text, setText] = useState(displayValue);
   const [textLength, setTextLength] = useState(displayValue.length);
@@ -63,15 +55,6 @@ const UpdatableTextValue = ({
   const handleCancelChange = () => {
     setText(displayValue);
     setEdit(false);
-  };
-
-  const handleUpdateClick = async () => {
-    if (text.length <= 1) return;
-    try {
-      await updateDocument(collectionName, docId, { [property]: text });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (

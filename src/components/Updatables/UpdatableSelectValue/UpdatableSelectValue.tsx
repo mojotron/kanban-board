@@ -5,41 +5,24 @@ import {
   AiFillRightCircle,
 } from 'react-icons/ai';
 import '../Updatables.css';
-import { useFirestore } from '../../../hooks/useFirestore';
 
 type PropsType = {
   displayValue: string;
   options: string[];
-  collectionName: string;
-  docId: string;
-  property: string;
+  handleUpdate: <T>(value: T) => void;
 };
 
 const UpdatableSelectValue = ({
   displayValue,
   options,
-  collectionName,
-  docId,
-  property,
+  handleUpdate,
 }: PropsType) => {
-  const { updateDocument } = useFirestore();
   const [edit, setEdit] = useState(false);
   const [selectedValue, setSelectedValue] = useState(displayValue);
 
   const handleCancelChange = () => {
     setSelectedValue(displayValue);
     setEdit(false);
-  };
-
-  const handleUpdateClick = async () => {
-    try {
-      await updateDocument(collectionName, docId, {
-        [property]: selectedValue,
-      });
-      setEdit(false);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -59,7 +42,12 @@ const UpdatableSelectValue = ({
           <button onClick={handleCancelChange}>
             <AiFillCloseCircle size={15} />
           </button>
-          <button onClick={handleUpdateClick}>
+          <button
+            onClick={() => {
+              handleUpdate(selectedValue);
+              setEdit(false);
+            }}
+          >
             <AiFillRightCircle size={15} />
           </button>
         </div>

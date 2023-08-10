@@ -85,32 +85,25 @@ const Task = () => {
               displayValue={currentTask.title}
               role="heading"
               maxLength={TEXT_LENGTHS.task.title}
-              collectionName="tasks"
-              docId={currentTask.id}
-              property="title"
               handleUpdate={(value) => handleUpdateProperty('title', value)}
             />
             <UpdatableSelectValue
               displayValue={currentTask.priority}
               options={PRIORITIES}
-              collectionName="tasks"
-              docId={currentTask.id}
-              property="priority"
+              handleUpdate={(value) => handleUpdateProperty('priority', value)}
             />
             <UpdatableSelectValue
               displayValue={currentTask.stage}
               options={TASK_STAGES}
-              collectionName="tasks"
-              docId={currentTask.id}
-              property="stage"
+              handleUpdate={(value) => handleUpdateProperty('stage', value)}
             />
             {currentTask.deadline !== null && (
               <UpdatableDateValue
                 timestamp={currentTask.deadline}
                 displayDeadline={true}
-                collectionName="tasks"
-                docId={currentTask.id}
-                property="deadline"
+                handleUpdate={(value) =>
+                  handleUpdateProperty('deadline', value)
+                }
               />
             )}
           </div>
@@ -134,9 +127,9 @@ const Task = () => {
               displayValue={currentTask.description}
               role="paragraph"
               maxLength={TEXT_LENGTHS.task.description}
-              collectionName="tasks"
-              docId={currentTask.id}
-              property="description"
+              handleUpdate={(value) =>
+                handleUpdateProperty('description', value)
+              }
             />
           </div>
 
