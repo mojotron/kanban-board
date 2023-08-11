@@ -10,7 +10,7 @@ import { TEXT_LENGTHS } from '../../constants/textLengths';
 type PropsType = {
   currentNote: Note;
   handleDeleteNote: (noteId: string) => void;
-  handleUpdateNote: (noteId: string) => void;
+  handleUpdateNote: (noteId: string, newText: string) => void;
 };
 
 const TaskNote = ({
@@ -33,19 +33,18 @@ const TaskNote = ({
         size="25"
         userName={collaborator.userName}
       />
-      <p>{currentNote.text}</p>
-
-      {/* <UpdatableTextValue
+      <UpdatableTextValue
         displayValue={currentNote.text}
         role="paragraph"
         maxLength={TEXT_LENGTHS.task.note}
-        collectionName='tasks'
-      /> */}
+        handleUpdate={(value) =>
+          handleUpdateNote(currentNote.id, value as string)
+        }
+      />
       <p className="TaskNote__createAt">
         {formatTime(currentNote.createdAt.seconds * 1000)}
       </p>
 
-      <button onClick={() => handleUpdateNote(currentNote.id)}>edit</button>
       <button onClick={() => handleDeleteNote(currentNote.id)}>delete</button>
     </div>
   );

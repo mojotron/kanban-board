@@ -55,10 +55,23 @@ const TaskNotes = ({ notes, taskDocId }: PropsType) => {
   const handleDeleteNote = async (noteId: string) => {
     const filteredNotes = notes.filter((note) => note.id !== noteId);
     await updateDocument('tasks', taskDocId, { notes: filteredNotes });
-    console.log(filteredNotes);
   };
 
-  const handleUpdateNote = async () => {};
+  const handleUpdateNote = async (noteId: string, newText: string) => {
+    const modifiedNotes = notes.map((note) => {
+      if (note.id === noteId) {
+        const newNote: Note = {
+          ...note,
+          text: newText,
+          createdAt: Timestamp.fromDate(new Date()),
+        };
+        return newNote;
+      } else {
+        return note;
+      }
+    });
+    await updateDocument('tasks', taskDocId, { notes: modifiedNotes });
+  };
 
   return (
     <div>
@@ -92,8 +105,10 @@ const TaskNotes = ({ notes, taskDocId }: PropsType) => {
           <TaskNote
             key={i}
             currentNote={note}
-            handleDeleteNote={handleDeleteNote}
-            handleUpdateNote={handleUpdateNote}
+            handleDeleteNote={(noteId) => handleDeleteNote(noteId)}
+            handleUpdateNote={(noteId, newText) =>
+              handleUpdateNote(noteId, newText)
+            }
           />
         ))}
       </div>
