@@ -1,15 +1,14 @@
 // components
 import ModalCloseBtn from '../ModalCloseBtn/ModalCloseBtn';
-import Avatar from '../Avatar/Avatar';
 import UpdatableTextValue from '../Updatables/UpdatableTextValue/UpdatableTextValue';
 import UpdatableDateValue from '../Updatables/UpdatableDateValue/UpdatableDateValue';
 import UpdatableSelectValue from '../Updatables/UpdatableSelectValue/UpdatableSelectValue';
 import TaskNotes from '../TaskNotes/TaskNotes';
+import TaskAssignment from '../TaskAssignment/TaskAssignment';
 // style & icons
 import './Task.css';
 import { AiFillDelete } from 'react-icons/ai';
 // hooks
-import { useMemo } from 'react';
 import { useKanbanStore } from '../../store';
 import { useProject } from '../../context/ProjectContext';
 import { TaskWithId } from '../../types/taskType';
@@ -32,11 +31,7 @@ const Task = () => {
 
   const { deleteDocument, updateDocument } = useFirestore();
 
-  const { team, project } = useProject();
-
-  const collaborator = useMemo(() => {
-    return team?.find((member) => member.id === currentTask?.assignToUid);
-  }, [team]);
+  const { project } = useProject();
 
   const handleDeleteTask = async () => {
     if (!currentTask) return;
@@ -108,16 +103,10 @@ const Task = () => {
             )}
           </div>
           <div className="Task__header__avatar">
-            {collaborator && (
-              <>
-                <h3>Assign to: {collaborator.userName}</h3>
-                <Avatar
-                  imageUrl={collaborator.photoUrl}
-                  size="100"
-                  userName={collaborator.userName}
-                />
-              </>
-            )}
+            <TaskAssignment
+              assignTo={currentTask.assignToUid}
+              taskStage={currentTask.stage}
+            />
           </div>
         </header>
         <div className="Task__body">
