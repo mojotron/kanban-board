@@ -106,6 +106,7 @@ const Task = () => {
             <TaskAssignment
               assignTo={currentTask.assignToUid}
               taskStage={currentTask.stage}
+              taskDocId={currentTask.id}
             />
           </div>
         </header>
