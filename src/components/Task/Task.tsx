@@ -18,11 +18,14 @@ import { TEXT_LENGTHS } from '../../constants/textLengths';
 import { PRIORITIES } from '../../constants/priorities';
 import { TASK_STAGES } from '../../constants/taskStages';
 import { useFirestore } from '../../hooks/useFirestore';
+import { useUserData } from '../../context/UserDataContext';
 
 const Task = () => {
   const currentTaskId = useKanbanStore((state) => state.currentTask);
   const setCurrentTask = useKanbanStore((state) => state.setCurrentTask);
   const closeModal = useKanbanStore((state) => state.setOpenViewTaskModal);
+
+  const { document: user } = useUserData();
 
   const { document: currentTask } = useOnSnapshotDocument<TaskWithId>(
     'tasks',
@@ -36,6 +39,11 @@ const Task = () => {
   const handleDeleteTask = async () => {
     if (!currentTask) return;
     if (!project) return;
+    if (currentTask.adminUid !== user?.uid) {
+      // TODO better popup
+      alert('Only admin can delete task');
+      return;
+    }
 
     try {
       // remove task from project tasks

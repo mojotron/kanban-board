@@ -11,7 +11,7 @@ export type Note = {
 export type Priority = 'low' | 'high' | 'very-high';
 
 const stages = [...TASK_STAGES] as const;
-type Stage = (typeof stages)[number];
+export type Stage = (typeof stages)[number];
 
 export type TaskType = {
   adminUid: string;
