@@ -7,20 +7,21 @@ import { useFirestore } from '../../hooks/useFirestore';
 import { AiOutlineUserAdd } from 'react-icons/ai';
 // components
 import Avatar from '../Avatar/Avatar';
+import { TaskWithId } from '../../types/taskType';
+import { useTaskMove } from '../../hooks/useTaskMove';
 
 type PropsType = {
-  assignTo: string;
-  taskStage: string;
-  taskDocId: string;
+  task: TaskWithId;
 };
 
-const TaskAssignment = ({ assignTo, taskStage, taskDocId }: PropsType) => {
+const TaskAssignment = ({ task }: PropsType) => {
   const { document: user } = useUserData();
   const { team, tasks } = useProject();
   const { updateDocument } = useFirestore();
+  const {} = useTaskMove(task);
 
   const collaborator = useMemo(() => {
-    return team?.find((member) => member.id === assignTo);
+    return team?.find((member) => member.id === task.assignToUid);
   }, [team]);
 
   const handleAssign = async () => {
@@ -30,7 +31,7 @@ const TaskAssignment = ({ assignTo, taskStage, taskDocId }: PropsType) => {
     // check if user has currently assign task on the project
     const haveTask = tasks?.find((task) => task.assignToUid === user?.uid);
     if (!haveTask) {
-      await updateDocument('tasks', taskDocId, {
+      await updateDocument('tasks', task.id, {
         assignToUid: user?.uid,
         stage: 'development',
       });
@@ -45,21 +46,21 @@ const TaskAssignment = ({ assignTo, taskStage, taskDocId }: PropsType) => {
     console.log('abandon task');
     // move to assignment stage
     // clean task assign to property
-    await updateDocument('tasks', taskDocId, {
+    await updateDocument('tasks', task.id, {
       assignToUid: '',
       stage: 'assignment',
     });
   };
 
   let markdown: ReactNode;
-  if (assignTo === '' && taskStage === 'assignment') {
+  if (task.assignToUid === '' && task.stage === 'assignment') {
     markdown = (
       <button onClick={handleAssign}>
         <AiOutlineUserAdd size={50} />
       </button>
     );
   }
-  if (assignTo !== '' && collaborator) {
+  if (task.assignToUid !== '' && collaborator) {
     markdown = (
       <>
         <Avatar
@@ -67,13 +68,13 @@ const TaskAssignment = ({ assignTo, taskStage, taskDocId }: PropsType) => {
           imageUrl={collaborator.photoUrl}
           userName={collaborator.userName}
         />
-        {assignTo === user?.uid && (
+        {task.assignToUid === user?.uid && (
           <button onClick={handleUnassign}>unassign</button>
         )}
       </>
     );
   }
-  if (taskStage === 'backlog') {
+  if (task.stage === 'backlog') {
     markdown = <p>Move to assignment stage for members to pick up task!</p>;
   }
 

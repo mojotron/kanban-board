@@ -5,6 +5,7 @@ import UpdatableDateValue from '../Updatables/UpdatableDateValue/UpdatableDateVa
 import UpdatableSelectValue from '../Updatables/UpdatableSelectValue/UpdatableSelectValue';
 import TaskNotes from '../TaskNotes/TaskNotes';
 import TaskAssignment from '../TaskAssignment/TaskAssignment';
+import TaskStages from '../TaskStages/TaskStages';
 // style & icons
 import './Task.css';
 import { AiFillDelete } from 'react-icons/ai';
@@ -21,8 +22,8 @@ import { useFirestore } from '../../hooks/useFirestore';
 import { useUserData } from '../../context/UserDataContext';
 
 const Task = () => {
-  const currentTaskId = useKanbanStore((state) => state.currentTask);
-  const setCurrentTask = useKanbanStore((state) => state.setCurrentTask);
+  const currentTaskId = useKanbanStore((state) => state.currentTaskId);
+  const setCurrentTaskId = useKanbanStore((state) => state.setCurrentTaskId);
   const closeModal = useKanbanStore((state) => state.setOpenViewTaskModal);
 
   const { document: user } = useUserData();
@@ -50,7 +51,7 @@ const Task = () => {
       const filteredTasks = project?.tasks.filter(
         (task) => task !== currentTask.id
       );
-      setCurrentTask(null);
+      setCurrentTaskId(null);
       await updateDocument('projects', project.id, { tasks: filteredTasks });
       await deleteDocument('tasks', currentTask.id);
       closeModal(false);
@@ -73,7 +74,7 @@ const Task = () => {
       <div className="Task">
         <ModalCloseBtn
           handleClose={() => {
-            setCurrentTask(null);
+            setCurrentTaskId(null);
             closeModal(false);
           }}
         />
@@ -95,11 +96,13 @@ const Task = () => {
               options={PRIORITIES}
               handleUpdate={(value) => handleUpdateProperty('priority', value)}
             />
-            <UpdatableSelectValue
+
+            <TaskStages task={currentTask} />
+            {/* <UpdatableSelectValue
               displayValue={currentTask.stage}
               options={TASK_STAGES}
               handleUpdate={(value) => handleUpdateProperty('stage', value)}
-            />
+            /> */}
             {currentTask.deadline !== null && (
               <UpdatableDateValue
                 timestamp={currentTask.deadline}
@@ -111,11 +114,7 @@ const Task = () => {
             )}
           </div>
           <div className="Task__header__avatar">
-            <TaskAssignment
-              assignTo={currentTask.assignToUid}
-              taskStage={currentTask.stage}
-              taskDocId={currentTask.id}
-            />
+            <TaskAssignment task={currentTask} />
           </div>
         </header>
         <div className="Task__body">
