@@ -6,6 +6,7 @@ import UpdatableSelectValue from '../Updatables/UpdatableSelectValue/UpdatableSe
 import TaskNotes from '../TaskNotes/TaskNotes';
 import TaskAssignment from '../TaskAssignment/TaskAssignment';
 import TaskStages from '../TaskStages/TaskStages';
+import ConfirmPopup from '../ConfirmPopup/ConfirmPopup';
 // style & icons
 import './Task.css';
 import { AiFillDelete } from 'react-icons/ai';
@@ -17,7 +18,6 @@ import { useOnSnapshotDocument } from '../../hooks/useOnSnapshotDocument';
 // constant
 import { TEXT_LENGTHS } from '../../constants/textLengths';
 import { PRIORITIES } from '../../constants/priorities';
-import { TASK_STAGES } from '../../constants/taskStages';
 import { useFirestore } from '../../hooks/useFirestore';
 import { useUserData } from '../../context/UserDataContext';
 
@@ -25,6 +25,7 @@ const Task = () => {
   const currentTaskId = useKanbanStore((state) => state.currentTaskId);
   const setCurrentTaskId = useKanbanStore((state) => state.setCurrentTaskId);
   const closeModal = useKanbanStore((state) => state.setOpenViewTaskModal);
+  const openConfirmModal = useKanbanStore((state) => state.openConfirmModal);
 
   const { document: user } = useUserData();
 
@@ -78,6 +79,8 @@ const Task = () => {
             closeModal(false);
           }}
         />
+
+        {openConfirmModal && <ConfirmPopup />}
 
         <button className="Task__btn--delete" onClick={handleDeleteTask}>
           <AiFillDelete />

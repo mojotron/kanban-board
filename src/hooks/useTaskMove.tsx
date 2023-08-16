@@ -66,14 +66,43 @@ export const useTaskMove = (task: TaskWithId) => {
   }, []);
 
   const toAssignment = useCallback(async () => {
-    console.log('yo');
-
     await updateTask('assignment');
   }, []);
-  const assign = useCallback(() => {}, []);
-  const unassign = useCallback(() => {}, []);
-  const developmentMove = useCallback(() => {}, []);
-  const toFinish = () => {};
 
-  return { isAdmin, isYourTask, toPlanning, toAssignment };
+  const assign = useCallback(async () => {
+    await updateTask('development', user?.uid);
+  }, []);
+
+  const unassign = useCallback(async () => {
+    await updateTask('development', '');
+  }, []);
+
+  const developmentMove = useCallback(async (newStage: Stage) => {
+    if (!TASK_STAGES_COLLABORATES.includes(task.stage)) return;
+    if (isYourTask()) {
+      console.log('hello', newStage);
+
+      await updateTask(newStage);
+    }
+  }, []);
+
+  const toFinish = useCallback(async () => {
+    if (!user) return;
+    await updateTask('finished');
+    await updateDocument('users', user?.uid, {
+      tasksCompleted: user?.tasksCompleted + 1,
+    });
+    // increment users completed tasks
+  }, []);
+
+  return {
+    isAdmin,
+    isYourTask,
+    toPlanning,
+    toAssignment,
+    assign,
+    unassign,
+    developmentMove,
+    toFinish,
+  };
 };

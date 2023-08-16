@@ -24,7 +24,7 @@ const TaskCard = ({ taskData }: Props) => {
     return team?.find((member) => member.id === taskData.assignToUid);
   }, [team]);
 
-  const setCurrentTask = useKanbanStore((state) => state.setCurrentTask);
+  const setCurrentTaskId = useKanbanStore((state) => state.setCurrentTaskId);
   const setOpenViewTaskModal = useKanbanStore(
     (state) => state.setOpenViewTaskModal
   );
@@ -38,7 +38,7 @@ const TaskCard = ({ taskData }: Props) => {
   }, [taskData.deadline]);
 
   const handleClickViewTask = () => {
-    setCurrentTask(taskData.id);
+    setCurrentTaskId(taskData.id);
     setOpenViewTaskModal(true);
   };
 

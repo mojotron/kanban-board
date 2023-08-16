@@ -1,0 +1,26 @@
+.ConfirmPopup__overlay,
+.ConfirmPopup__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ConfirmPopup__overlay {
+  background-color: red;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background-color: rgba(0, 0, 0, 0.33);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ConfirmPopup__wrapper {
+  height: 50%;
+  width: 50%;
+  background-color: var(--COLOR-GRAY-200);
+  border-radius: var(--BORDER-RADIUS);
+}

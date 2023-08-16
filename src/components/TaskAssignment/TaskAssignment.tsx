@@ -1,8 +1,8 @@
 // hooks
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { useProject } from '../../context/ProjectContext';
 import { useUserData } from '../../context/UserDataContext';
-import { useFirestore } from '../../hooks/useFirestore';
+import { useKanbanStore } from '../../store';
 // style & icons
 import { AiOutlineUserAdd } from 'react-icons/ai';
 // components
@@ -17,39 +17,33 @@ type PropsType = {
 const TaskAssignment = ({ task }: PropsType) => {
   const { document: user } = useUserData();
   const { team, tasks } = useProject();
-  const { updateDocument } = useFirestore();
-  const {} = useTaskMove(task);
+  const { assign, unassign } = useTaskMove(task);
+
+  const setOpenConfirmModal = useKanbanStore(
+    (state) => state.setOpenConfirmModal
+  );
 
   const collaborator = useMemo(() => {
     return team?.find((member) => member.id === task.assignToUid);
   }, [team]);
 
   const handleAssign = async () => {
-    // TODO after assignment does not render avatar !!!!!!!!!!!!!!!
-    console.log('take task');
-    // move task to development stage
-    // check if user has currently assign task on the project
-    const haveTask = tasks?.find((task) => task.assignToUid === user?.uid);
+    const haveTask = tasks?.find(
+      (task) => task.assignToUid === user?.uid && task.stage !== 'finished'
+    );
     if (!haveTask) {
-      await updateDocument('tasks', task.id, {
-        assignToUid: user?.uid,
-        stage: 'development',
-      });
+      await assign();
     } else {
-      // TODO better UI
       alert(`You are already assign to another task`);
     }
-    // await updateDocument();
-    // set assigNTo current user
   };
   const handleUnassign = async () => {
-    console.log('abandon task');
-    // move to assignment stage
-    // clean task assign to property
-    await updateDocument('tasks', task.id, {
-      assignToUid: '',
-      stage: 'assignment',
+    setOpenConfirmModal({
+      text: 'Hello',
+      handleConfirm: () => {},
+      handleCancel: () => {},
     });
+    // await unassign();
   };
 
   let markdown: ReactNode;
@@ -68,7 +62,7 @@ const TaskAssignment = ({ task }: PropsType) => {
           imageUrl={collaborator.photoUrl}
           userName={collaborator.userName}
         />
-        {task.assignToUid === user?.uid && (
+        {task.assignToUid === user?.uid && task.stage !== 'finished' && (
           <button onClick={handleUnassign}>unassign</button>
         )}
       </>
