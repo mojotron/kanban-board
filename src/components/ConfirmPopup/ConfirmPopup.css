@@ -23,4 +23,15 @@
   width: 50%;
   background-color: var(--COLOR-GRAY-200);
   border-radius: var(--BORDER-RADIUS);
+  flex-direction: column;
+  border: 3px solid var(--COLOR-GRAY-500);
+}
+.ConfirmPopup__wrapper__text {
+  font-size: 1.953rem;
+  margin-bottom: 2rem;
+  padding: 0 2rem;
+}
+.ConfirmPopup__wrapper__btns {
+  display: flex;
+  gap: 3rem;
 }

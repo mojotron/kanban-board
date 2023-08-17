@@ -2,9 +2,9 @@ import { create } from 'zustand';
 import { TASK_STAGES } from './constants/taskStages';
 
 export type ConfirmModalState = null | {
+  confirmBox: boolean;
   text: string;
   handleConfirm: () => void;
-  handleCancel: () => void;
 };
 
 type State = {

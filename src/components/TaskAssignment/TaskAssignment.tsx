@@ -9,6 +9,11 @@ import { AiOutlineUserAdd } from 'react-icons/ai';
 import Avatar from '../Avatar/Avatar';
 import { TaskWithId } from '../../types/taskType';
 import { useTaskMove } from '../../hooks/useTaskMove';
+// constants
+import {
+  POPUP_ALREADY_ON_TASK,
+  POPUP_UNASSIGN_TASK,
+} from '../../constants/confirmPopupTexts';
 
 type PropsType = {
   task: TaskWithId;
@@ -25,7 +30,7 @@ const TaskAssignment = ({ task }: PropsType) => {
 
   const collaborator = useMemo(() => {
     return team?.find((member) => member.id === task.assignToUid);
-  }, [team]);
+  }, [team, task]);
 
   const handleAssign = async () => {
     const haveTask = tasks?.find(
@@ -34,16 +39,19 @@ const TaskAssignment = ({ task }: PropsType) => {
     if (!haveTask) {
       await assign();
     } else {
-      alert(`You are already assign to another task`);
+      setOpenConfirmModal({
+        confirmBox: false,
+        text: POPUP_ALREADY_ON_TASK,
+        handleConfirm: () => {},
+      });
     }
   };
   const handleUnassign = async () => {
     setOpenConfirmModal({
-      text: 'Hello',
-      handleConfirm: () => {},
-      handleCancel: () => {},
+      confirmBox: true,
+      text: POPUP_UNASSIGN_TASK,
+      handleConfirm: () => unassign(),
     });
-    // await unassign();
   };
 
   let markdown: ReactNode;

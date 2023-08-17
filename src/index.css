@@ -130,6 +130,7 @@ body {
 .btn--icon:hover {
   color: var(--COLOR-RED-400);
 }
+
 .error {
   color: var(--COLOR-RED-500);
 }

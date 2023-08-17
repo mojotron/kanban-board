@@ -74,17 +74,20 @@ export const useTaskMove = (task: TaskWithId) => {
   }, []);
 
   const unassign = useCallback(async () => {
-    await updateTask('development', '');
+    await updateTask('assignment', '');
   }, []);
 
-  const developmentMove = useCallback(async (newStage: Stage) => {
-    if (!TASK_STAGES_COLLABORATES.includes(task.stage)) return;
-    if (isYourTask()) {
-      console.log('hello', newStage);
+  const developmentMove = useCallback(
+    async (newStage: Stage) => {
+      if (!TASK_STAGES_COLLABORATES.includes(task.stage)) return;
+      if (isYourTask()) {
+        console.log('hello', newStage);
 
-      await updateTask(newStage);
-    }
-  }, []);
+        await updateTask(newStage);
+      }
+    },
+    [task]
+  );
 
   const toFinish = useCallback(async () => {
     if (!user) return;
