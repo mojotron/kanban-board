@@ -19,8 +19,8 @@
   justify-content: center;
 }
 .ConfirmPopup__wrapper {
-  height: 50%;
-  width: 50%;
+  height: 22rem;
+  width: 40rem;
   background-color: var(--COLOR-GRAY-200);
   border-radius: var(--BORDER-RADIUS);
   flex-direction: column;
@@ -28,8 +28,9 @@
 }
 .ConfirmPopup__wrapper__text {
   font-size: 1.953rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   padding: 0 2rem;
+  color: var(--COLOR-GRAY-800);
 }
 .ConfirmPopup__wrapper__btns {
   display: flex;

@@ -5,6 +5,7 @@ import { AiOutlineUserAdd, AiFillEdit, AiFillEye } from 'react-icons/ai';
 import { TaskWithId } from '../../types/taskType';
 // components
 import Avatar from '../Avatar/Avatar';
+import TaskAssignment from '../TaskAssignment/TaskAssignment';
 // helpers
 import { formatTime } from '../../utils/formatTime';
 // hooks
@@ -18,12 +19,6 @@ type Props = {
 };
 
 const TaskCard = ({ taskData }: Props) => {
-  const { team } = useProject();
-
-  const collaborator = useMemo(() => {
-    return team?.find((member) => member.id === taskData.assignToUid);
-  }, [team]);
-
   const setCurrentTaskId = useKanbanStore((state) => state.setCurrentTaskId);
   const setOpenViewTaskModal = useKanbanStore(
     (state) => state.setOpenViewTaskModal
@@ -55,6 +50,8 @@ const TaskCard = ({ taskData }: Props) => {
           >
             <AiFillEye size={25} />
           </button>
+          <TaskAssignment task={taskData} />
+          {/*
           {collaborator ? (
             <Avatar
               imageUrl={collaborator.photoUrl}
@@ -68,7 +65,7 @@ const TaskCard = ({ taskData }: Props) => {
             >
               <AiOutlineUserAdd size={35} color={'var(--COLOR-GRAY-500)'} />
             </button>
-          )}
+          )} */}
         </div>
       </header>
       <main className={`TaskCard__body`}>

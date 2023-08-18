@@ -7,6 +7,7 @@ import NewTaskForm from './components/NewTaskForm/NewTaskForm';
 import Task from '../../components/TaskCard/TaskCard';
 import TaskView from '../../components/Task/Task';
 import PriorityLegend from '../../components/PriorityLegend/PriorityLegend';
+import ConfirmPopup from '../../components/ConfirmPopup/ConfirmPopup';
 // constants and types
 import { TaskType } from '../../types/taskType';
 import { TASK_STAGES } from '../../constants/taskStages';
@@ -33,6 +34,7 @@ const Dashboard = () => {
     (state) => state.setCurrentTaskStage
   );
   const openViewTaskModal = useKanbanStore((state) => state.openViewTaskModal);
+  const openConfirmModal = useKanbanStore((state) => state.openConfirmModal);
 
   const { document: user } = useUserData();
   const { project, projectErr, projectPending, tasks, tasksPending, tasksErr } =
@@ -45,6 +47,8 @@ const Dashboard = () => {
 
   return (
     <main className="Dashboard">
+      {openConfirmModal && <ConfirmPopup />}
+
       {projectPending && <h2>Loading...</h2>}
       {projectErr && <h2 className="error">{projectErr}</h2>}
 
