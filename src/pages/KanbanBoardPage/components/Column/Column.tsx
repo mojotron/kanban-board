@@ -1,9 +1,10 @@
 import './Column.css';
 import { useMemo, useState } from 'react';
 import { useProject } from '../../../../context/ProjectContext';
-import Task from '../../../../components/TaskCard/TaskCard';
+import TaskCard from '../../../../components/TaskCard/TaskCard';
 import { useKanbanStore } from '../../../../store';
 import { useFirestore } from '../../../../hooks/useFirestore';
+import { useTaskMove } from '../../../../hooks/useTaskMove';
 
 type PropsType = {
   title: string;
@@ -28,6 +29,7 @@ const Column = ({ title }: PropsType) => {
         }),
     [tasks]
   );
+
   return (
     <div
       className={`Column ${drop ? 'drop-possible' : ''}`}
@@ -50,14 +52,16 @@ const Column = ({ title }: PropsType) => {
       <header className="Column__Header">
         <h2>{title}</h2>
       </header>
+
       <main className="Column__Tasks">
         {columnTasks?.map((task) => (
           <div
             className="Column__Tasks__Task-wrapper mb--sm"
             draggable
             onDragStart={() => setDraggedTask(task.id)}
+            key={task.id}
           >
-            <Task key={task.id} taskData={task} />
+            <TaskCard taskData={task} />
           </div>
         ))}
       </main>

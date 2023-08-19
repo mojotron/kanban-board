@@ -6,10 +6,14 @@ import { useFirestore } from './useFirestore';
 import { TASK_STAGES_COLLABORATES } from '../constants/taskStages';
 // types
 import { TaskWithId, Stage } from '../types/taskType';
+import { useKanbanStore } from '../store';
 
 export const useTaskMove = (task: TaskWithId) => {
   const { document: user } = useUserData();
   const { updateDocument } = useFirestore();
+  const setOpenConfirmModal = useKanbanStore(
+    (state) => state.setOpenConfirmModal
+  );
 
   const updateTask = useCallback(async (stage: Stage, assignToUid?: string) => {
     await updateDocument('tasks', task.id, {
@@ -24,38 +28,31 @@ export const useTaskMove = (task: TaskWithId) => {
 
   const isMovable = useCallback(
     (newStage: Stage) => {
-      if (task.stage === 'backlog' && newStage === 'assignment') {
-        // moved by admin => update task stage to assignment
-      }
-      if (task.stage === 'assignment' && newStage === 'backlog') {
-        // moved by admin => update task stage to backlog
-      }
-      if (task.stage === 'assignment' && newStage === 'development') {
-        // moved when collaborator picks task (assign)
-        // => update task stage to development, task assignToUid to current user
-      }
+      if (task.stage === 'backlog' && newStage === 'assignment') return true;
+      if (task.stage === 'assignment' && newStage === 'backlog') return true;
+      if (task.stage === 'assignment' && newStage === 'development')
+        return true;
       if (
         TASK_STAGES_COLLABORATES.includes(task.stage) &&
         newStage === 'assignment'
-      ) {
-        // moved when collaborator drops task (unassign)
-        // => update task stage to assignment, task assignToUid to ""
-      }
+      )
+        return true;
       if (
         TASK_STAGES_COLLABORATES.includes(task.stage) &&
         TASK_STAGES_COLLABORATES.includes(newStage)
-      ) {
-        // moved between working stages by collaborator or admin
-        // update task stage to new value
-      }
+      )
+        return true;
+
       if (task.stage === 'complete' && newStage === 'finished') {
-        // moved my admin => update task stage to finished
-        // increment collaborators taskCompleted by 1
+        return true;
       }
       if (task.stage === 'finished') {
-        // unmovable task => purpose project history
-        alert('Task is finished, make new task!');
-        return;
+        setOpenConfirmModal({
+          confirmBox: false,
+          text: 'Task is finished, make new task!',
+          handleConfirm: () => {},
+        });
+        return false;
       }
     },
     [task]
