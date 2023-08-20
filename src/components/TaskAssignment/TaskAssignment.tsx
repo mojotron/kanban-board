@@ -22,7 +22,7 @@ type PropsType = {
 const TaskAssignment = ({ task }: PropsType) => {
   const { document: user } = useUserData();
   const { team, tasks } = useProject();
-  const { assign, unassign } = useTaskMove(task);
+  const { assign, unassign } = useTaskMove();
 
   const setOpenConfirmModal = useKanbanStore(
     (state) => state.setOpenConfirmModal
@@ -37,7 +37,7 @@ const TaskAssignment = ({ task }: PropsType) => {
       (task) => task.assignToUid === user?.uid && task.stage !== 'finished'
     );
     if (!haveTask) {
-      await assign();
+      await assign(task);
     } else {
       setOpenConfirmModal({
         confirmBox: false,
@@ -50,7 +50,7 @@ const TaskAssignment = ({ task }: PropsType) => {
     setOpenConfirmModal({
       confirmBox: true,
       text: POPUP_UNASSIGN_TASK,
-      handleConfirm: () => unassign(),
+      handleConfirm: () => unassign(task),
     });
   };
 

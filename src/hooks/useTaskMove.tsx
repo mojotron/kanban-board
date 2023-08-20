@@ -3,92 +3,101 @@ import { useCallback } from 'react';
 import { useUserData } from '../context/UserDataContext';
 import { useFirestore } from './useFirestore';
 // constants
-import { TASK_STAGES_COLLABORATES } from '../constants/taskStages';
+import { TASK_STAGES_COLLABORATES as DEV_STAGES } from '../constants/taskStages';
 // types
 import { TaskWithId, Stage } from '../types/taskType';
-import { useKanbanStore } from '../store';
 
-export const useTaskMove = (task: TaskWithId) => {
+export const useTaskMove = () => {
   const { document: user } = useUserData();
   const { updateDocument } = useFirestore();
-  const setOpenConfirmModal = useKanbanStore(
-    (state) => state.setOpenConfirmModal
-  );
 
-  const updateTask = useCallback(async (stage: Stage, assignToUid?: string) => {
-    await updateDocument('tasks', task.id, {
-      stage: stage,
-      ...(assignToUid !== undefined && { assignToUid }),
-    });
-  }, []);
-
-  const isAdmin = useCallback(() => user?.uid === task.adminUid, [task]);
-
-  const isYourTask = useCallback(() => user?.uid === task.assignToUid, [task]);
-
-  const isMovable = useCallback(
-    (newStage: Stage) => {
-      if (task.stage === 'backlog' && newStage === 'assignment') return true;
-      if (task.stage === 'assignment' && newStage === 'backlog') return true;
-      if (task.stage === 'assignment' && newStage === 'development')
-        return true;
-      if (
-        TASK_STAGES_COLLABORATES.includes(task.stage) &&
-        newStage === 'assignment'
-      )
-        return true;
-      if (
-        TASK_STAGES_COLLABORATES.includes(task.stage) &&
-        TASK_STAGES_COLLABORATES.includes(newStage)
-      )
-        return true;
-
-      if (task.stage === 'complete' && newStage === 'finished') {
-        return true;
-      }
-      if (task.stage === 'finished') {
-        setOpenConfirmModal({
-          confirmBox: false,
-          text: 'Task is finished, make new task!',
-          handleConfirm: () => {},
-        });
-        return false;
-      }
+  const updateTask = useCallback(
+    async (task: TaskWithId, newStage: Stage, assignToUid?: string) => {
+      await updateDocument('tasks', task.id, {
+        stage: newStage,
+        ...(assignToUid !== undefined && { assignToUid }),
+      });
     },
-    [task]
+    []
   );
 
-  const toPlanning = useCallback(async () => {
-    await updateTask('backlog');
+  const isAdmin = useCallback(
+    (task: TaskWithId) => user?.uid === task.adminUid,
+    []
+  );
+
+  const isYourTask = useCallback(
+    (task: TaskWithId) => user?.uid === task.assignToUid,
+    []
+  );
+
+  const isMovable = useCallback((oldStage: Stage, newStage: Stage) => {
+    if (oldStage === 'backlog' && newStage === 'assignment') return true;
+    if (oldStage === 'assignment' && newStage === 'backlog') return true;
+    if (oldStage === 'assignment' && newStage === 'development') return true;
+    if (DEV_STAGES.includes(oldStage) && newStage === 'assignment') return true;
+    if (DEV_STAGES.includes(oldStage) && DEV_STAGES.includes(newStage))
+      return true;
+    if (oldStage === 'complete' && newStage === 'finished') return true;
+    if (oldStage === 'finished') return false;
+    return false;
   }, []);
 
-  const toAssignment = useCallback(async () => {
-    await updateTask('assignment');
+  const moveTask = async (task: TaskWithId, newStage: Stage) => {
+    if (!isMovable(newStage, task.stage)) return;
+    if (task.stage === 'backlog' && newStage === 'assignment') {
+      await toAssignment(task);
+    }
+    if (task.stage === 'assignment' && newStage === 'backlog') {
+      await toPlanning(task);
+    }
+    if (task.stage === 'assignment' && newStage === 'development') {
+      await assign(task);
+    }
+    if (DEV_STAGES.includes(task.stage) && newStage === 'assignment') {
+      await unassign(task);
+    }
+    if (DEV_STAGES.includes(task.stage) && DEV_STAGES.includes(newStage)) {
+      await developmentMove(task, newStage);
+    }
+    if (task.stage === 'complete' && newStage === 'finished') {
+      await toFinish(task);
+    }
+    if (task.stage === 'finished') return;
+    return;
+  };
+
+  const toPlanning = useCallback(async (task: TaskWithId) => {
+    await updateTask(task, 'backlog');
   }, []);
 
-  const assign = useCallback(async () => {
-    await updateTask('development', user?.uid);
+  const toAssignment = useCallback(async (task: TaskWithId) => {
+    await updateTask(task, 'assignment');
   }, []);
 
-  const unassign = useCallback(async () => {
-    await updateTask('assignment', '');
+  const assign = useCallback(async (task: TaskWithId) => {
+    await updateTask(task, 'development', user?.uid);
+  }, []);
+
+  const unassign = useCallback(async (task: TaskWithId) => {
+    await updateTask(task, 'assignment', '');
   }, []);
 
   const developmentMove = useCallback(
-    async (newStage: Stage) => {
-      if (!TASK_STAGES_COLLABORATES.includes(task.stage)) return;
-      if (isYourTask()) {
+    async (task: TaskWithId, newStage: Stage) => {
+      if (!DEV_STAGES.includes(newStage)) return;
+      if (isYourTask(task)) {
         console.log('hello', newStage);
 
-        await updateTask(newStage);
+        await updateTask(task, newStage);
       }
     },
-    [task]
+    []
   );
 
-  const toFinish = useCallback(async () => {
+  const toFinish = useCallback(async (task: TaskWithId) => {
     if (!user) return;
-    await updateTask('finished');
+    await updateTask(task, 'finished');
     await updateDocument('users', user?.uid, {
       tasksCompleted: user?.tasksCompleted + 1,
     });
@@ -104,5 +113,7 @@ export const useTaskMove = (task: TaskWithId) => {
     unassign,
     developmentMove,
     toFinish,
+    isMovable,
+    moveTask,
   };
 };

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { TASK_STAGES } from './constants/taskStages';
+import { TaskWithId } from './types/taskType';
 
 export type ConfirmModalState = null | {
   confirmBox: boolean;
@@ -13,7 +14,7 @@ type State = {
   openViewTaskModal: boolean;
   currentProject: null | string;
   currentTaskStage: null | string;
-  draggedTask: null | string;
+  draggedTask: null | TaskWithId;
   currentTaskId: string | null;
   // confirm
   openConfirmModal: ConfirmModalState;
@@ -24,7 +25,7 @@ type Action = {
   setOpenNewTaskModal: (value: boolean) => void;
   setCurrentProject: (project: string | null) => void;
   setCurrentTaskStage: (column: string | null) => void;
-  setDraggedTask: (task: string | null) => void;
+  setDraggedTask: (task: TaskWithId | null) => void;
   setOpenViewTaskModal: (value: boolean) => void;
   setCurrentTaskId: (task: string | null) => void;
   setOpenConfirmModal: (value: ConfirmModalState) => void;
@@ -44,7 +45,7 @@ export const useKanbanStore = create<State & Action>()((set) => ({
   setCurrentProject: (project) => set({ currentProject: project }),
   setCurrentTaskStage: (stage: string | null) =>
     set({ currentTaskStage: stage }),
-  setDraggedTask: (task: string | null) => set({ draggedTask: task }),
+  setDraggedTask: (task: TaskWithId | null) => set({ draggedTask: task }),
   setOpenViewTaskModal: (value: boolean) => set({ openViewTaskModal: value }),
   setCurrentTaskId: (task: string | null) => set({ currentTaskId: task }),
 

@@ -15,19 +15,19 @@ const TaskStages = ({ task }: PropsType) => {
     toAssignment,
     developmentMove,
     toFinish,
-  } = useTaskMove(task);
+  } = useTaskMove();
 
   const stage = task.stage;
-  const admin = isAdmin();
-  const yourTask = isYourTask();
+  const admin = isAdmin(task);
+  const yourTask = isYourTask(task);
 
   return (
     <div>
       {admin && stage === 'backlog' && (
-        <button onClick={toAssignment}>move to assignment</button>
+        <button onClick={() => toAssignment(task)}>move to assignment</button>
       )}
       {admin && stage === 'assignment' && (
-        <button onClick={toPlanning}>move to backlog</button>
+        <button onClick={() => toPlanning(task)}>move to backlog</button>
       )}
       {TASK_STAGES_COLLABORATES.includes(task.stage) && (
         <UpdatableSelectValue
@@ -35,12 +35,12 @@ const TaskStages = ({ task }: PropsType) => {
           options={TASK_STAGES_COLLABORATES}
           handleUpdate={async (value) => {
             console.log(value);
-            await developmentMove(value as Stage);
+            await developmentMove(task, value as Stage);
           }}
         />
       )}
       {admin && stage === 'complete' && (
-        <button onClick={toFinish}>finish task</button>
+        <button onClick={() => toFinish(task)}>finish task</button>
       )}
     </div>
   );
