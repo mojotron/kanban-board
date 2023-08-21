@@ -9,9 +9,9 @@ export const TASK_STAGES: [
 
 export const TASK_STAGES_COLLABORATES = ['development', 'test', 'complete'];
 
-export const TASK_STAGES_KANBAN = [
+export const TASK_STAGES_KANBAN: [
   'assignment',
   'development',
   'test',
-  'complete',
-];
+  'complete'
+] = ['assignment', 'development', 'test', 'complete'];

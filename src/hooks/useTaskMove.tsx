@@ -4,12 +4,15 @@ import { useUserData } from '../context/UserDataContext';
 import { useFirestore } from './useFirestore';
 // constants
 import { TASK_STAGES_COLLABORATES as DEV_STAGES } from '../constants/taskStages';
+import { POPUP_UNASSIGN_TASK } from '../constants/confirmPopupTexts';
 // types
 import { TaskWithId, Stage } from '../types/taskType';
+import { useKanbanStore } from '../store';
 
 export const useTaskMove = () => {
   const { document: user } = useUserData();
   const { updateDocument } = useFirestore();
+  const { setOpenConfirmModal } = useKanbanStore();
 
   const updateTask = useCallback(
     async (task: TaskWithId, newStage: Stage, assignToUid?: string) => {
@@ -55,7 +58,11 @@ export const useTaskMove = () => {
       await assign(task);
     }
     if (DEV_STAGES.includes(task.stage) && newStage === 'assignment') {
-      await unassign(task);
+      setOpenConfirmModal({
+        confirmBox: true,
+        text: POPUP_UNASSIGN_TASK,
+        handleConfirm: async () => await unassign(task),
+      });
     }
     if (DEV_STAGES.includes(task.stage) && DEV_STAGES.includes(newStage)) {
       await developmentMove(task, newStage);

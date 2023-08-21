@@ -4,8 +4,8 @@ import { useMemo } from 'react';
 import { useKanbanStore } from '../../store';
 // components
 import NewTaskForm from './components/NewTaskForm/NewTaskForm';
-import Task from '../../components/TaskCard/TaskCard';
-import TaskView from '../../components/Task/Task';
+import TaskCard from '../../components/TaskCard/TaskCard';
+import Task from '../../components/Task/Task';
 import PriorityLegend from '../../components/PriorityLegend/PriorityLegend';
 import ConfirmPopup from '../../components/ConfirmPopup/ConfirmPopup';
 // constants and types
@@ -47,13 +47,13 @@ const Dashboard = () => {
 
   return (
     <main className="Dashboard">
-      {openConfirmModal && <ConfirmPopup />}
-
       {projectPending && <h2>Loading...</h2>}
       {projectErr && <h2 className="error">{projectErr}</h2>}
 
       {project && openNewTaskModal && <NewTaskForm tasks={project.tasks} />}
-      {openViewTaskModal && <TaskView />}
+
+      {openConfirmModal && <ConfirmPopup />}
+      {openViewTaskModal && <Task />}
 
       {project && (
         <>
@@ -122,7 +122,7 @@ const Dashboard = () => {
               {tasksErr && <p className="error">{tasksErr}</p>}
               {filteredStageTasks &&
                 filteredStageTasks.map((task) => (
-                  <Task key={task.id} taskData={task} />
+                  <TaskCard key={task.id} taskData={task} />
                 ))}
             </div>
           </div>
