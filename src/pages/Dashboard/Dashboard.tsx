@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import { useUserData } from '../../context/UserDataContext';
 import { useProject } from '../../context/ProjectContext';
 import TeamMembers from './components/TeamMembers/TeamMembers';
+import ProjectMessages from './components/PojectMessages/ProjectMessages';
 
 type Task = TaskType & { id: string };
 
@@ -127,11 +128,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="Dashboard__messages">
-            <h3 className="heading--tertiary">Messages</h3>
-            <div className="Dashboard__messages__body"></div>
-            <div className="Dashboard__messages__controls"></div>
-          </div>
+          <ProjectMessages />
 
           <TeamMembers />
 
