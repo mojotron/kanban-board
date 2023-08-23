@@ -94,8 +94,3 @@
 .btn.Dashboard__btn-kanban {
   background-color: var(--COLOR-YELLOW-500);
 }
-.Dashboard__messages {
-  grid-row: 1 / 6;
-  grid-column: 7 / -1;
-  background-color: var(--COLOR-GRAY-500);
-}

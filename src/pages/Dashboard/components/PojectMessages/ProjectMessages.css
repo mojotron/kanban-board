@@ -1,0 +1,39 @@
+.ProjectMessages {
+  grid-row: 1 / 6;
+  grid-column: 7 / -1;
+  background-color: var(--COLOR-GRAY-500);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.ProjectMessages h3 {
+  margin-bottom: 1rem;
+}
+.ProjectMessages__messages {
+  background-color: var(--COLOR-GRAY-200);
+  flex: 1 1 auto;
+  margin-bottom: 1rem;
+  overflow-y: scroll;
+}
+.ProjectMessages__controls {
+  min-height: 5rem;
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+.ProjectMessages__controls textarea {
+  flex: 1 1 auto;
+  padding: 0.5rem;
+  resize: none;
+  font-family: inherit;
+}
+.ProjectMessages__controls button {
+  background: none;
+  background-color: var(--COLOR-GRAY-700);
+  cursor: pointer;
+  border: 2px solid var(--COLOR-GRAY-100);
+  padding: 0.5rem;
+  border-radius: var(--BORDER-RADIUS);
+}
