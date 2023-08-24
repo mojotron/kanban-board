@@ -10,10 +10,14 @@
   margin-bottom: 1rem;
 }
 .ProjectMessages__messages {
+  padding: 1rem;
   background-color: var(--COLOR-GRAY-200);
   flex: 1 1 auto;
   margin-bottom: 1rem;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 .ProjectMessages__controls {
   min-height: 5rem;
