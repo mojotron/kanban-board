@@ -1,5 +1,3 @@
-// TODO
-// place to hold project, tasks, messages and collaborators
 import { ReactNode, createContext, useContext, useMemo } from 'react';
 import { useOnSnapshotDocument } from '../hooks/useOnSnapshotDocument';
 import { ProjectType } from '../types/projectType';
@@ -7,10 +5,12 @@ import { TaskType } from '../types/taskType';
 import { useKanbanStore } from '../store';
 import { useCollectDocsSnapshot } from '../hooks/useCollectDocsSnapshot';
 import { UserType } from '../types/userType';
+import { MessageType } from '../types/messageType';
 
 type Project = ProjectType & { id: string };
 type Task = TaskType & { id: string };
 type User = UserType & { id: string };
+type Message = MessageType & { id: string };
 
 const useProjectSource = (): {
   project: undefined | Project;
@@ -22,6 +22,9 @@ const useProjectSource = (): {
   team: User[] | undefined;
   teamPending: boolean;
   teamErr: null | string;
+  messages: Message[] | undefined;
+  messagesPending: boolean;
+  messagesErr: null | string;
 } => {
   const currentProject = useKanbanStore((state) => state.currentProject);
   // get project doc
@@ -48,6 +51,12 @@ const useProjectSource = (): {
     error: teamErr,
   } = useCollectDocsSnapshot<User>(members, 'users');
 
+  const {
+    documents: messages,
+    pending: messagesPending,
+    error: messagesErr,
+  } = useCollectDocsSnapshot<Message>(project?.messages, 'messages');
+
   return {
     project,
     projectErr,
@@ -58,6 +67,9 @@ const useProjectSource = (): {
     team,
     teamPending,
     teamErr,
+    messages,
+    messagesPending,
+    messagesErr,
   };
 };
 
