@@ -11,7 +11,7 @@ import { useProject } from '../../../../context/ProjectContext';
 
 const ProjectMessages = () => {
   const { document } = useUserData();
-  const { addDocument, updateDocument } = useFirestore();
+  const { addDocument, updateDocument, deleteDocument } = useFirestore();
   const { project, messages } = useProject();
   const [showEmojis, setShowEmojis] = useState(false);
   const [text, setText] = useState('');
@@ -28,10 +28,26 @@ const ProjectMessages = () => {
     await updateDocument('projects', project.id, {
       messages: [...project.messages, doc?.id],
     });
-    // TODO firebase rule for non admin user
 
-    console.log(newMsg);
     setText('');
+  };
+
+  const handleDeleteMessage = async (messageId: string) => {
+    if (!project || !messages) return;
+
+    const filteredMsgs = messages.filter((msg) => msg.id !== messageId);
+    console.log('1');
+
+    await deleteDocument('messages', messageId);
+    console.log('2');
+
+    await updateDocument('projects', project.id, {
+      messages: filteredMsgs,
+    });
+  };
+
+  const handleEditMessage = (messageId: string) => {
+    console.log(messageId);
   };
 
   return (
@@ -40,7 +56,12 @@ const ProjectMessages = () => {
 
       <div className="ProjectMessages__messages">
         {messages?.map((msg) => (
-          <Message key={Math.round(Math.random() * 1000)} data={msg} />
+          <Message
+            key={Math.round(Math.random() * 1000)}
+            data={msg}
+            onDelete={handleDeleteMessage}
+            onEdit={handleEditMessage}
+          />
         ))}
       </div>
 
