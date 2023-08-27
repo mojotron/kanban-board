@@ -14,16 +14,18 @@ const ProjectMessages = () => {
   const { addDocument, updateDocument, deleteDocument } = useFirestore();
   const { project, messages } = useProject();
   const [showEmojis, setShowEmojis] = useState(false);
+  // update message
+  const [updateMessage, setUpdateMessage] = useState<string | null>(null);
   const [text, setText] = useState('');
 
   const handleMessageSubmit = async () => {
-    if (!document || !project) return;
+    if (!document || !project || !text) return;
     const newMsg: MessageType = {
       authorUid: document.uid,
       text,
       createdAt: Timestamp.fromDate(new Date()),
     };
-
+    // TODO UPDATE
     const doc = await addDocument<MessageType>('messages', newMsg);
     await updateDocument('projects', project.id, {
       messages: [...project.messages, doc?.id],
@@ -47,7 +49,11 @@ const ProjectMessages = () => {
   };
 
   const handleEditMessage = (messageId: string) => {
-    console.log(messageId);
+    if (!messages) return;
+    const target = messages?.find((msg) => msg.id === messageId)?.text;
+    if (!target) return;
+    setUpdateMessage(messageId);
+    setText(target);
   };
 
   return (

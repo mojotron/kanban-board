@@ -17,6 +17,7 @@ import { useUserData } from '../../context/UserDataContext';
 import { useProject } from '../../context/ProjectContext';
 import TeamMembers from './components/TeamMembers/TeamMembers';
 import ProjectMessages from './components/PojectMessages/ProjectMessages';
+import ExpandedText from '../../components/ExpandedText/ExpandedText';
 
 type Task = TaskType & { id: string };
 
@@ -77,9 +78,11 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
-            <p className="Dashboard__header__description">
-              {project.description}
-            </p>
+            <ExpandedText
+              text={project.description}
+              hideWordsLength={20}
+              className="Dashboard__header__description"
+            />
           </header>
 
           <div className="Dashboard__tasks">
