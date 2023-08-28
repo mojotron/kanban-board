@@ -25,13 +25,18 @@ const ProjectMessages = () => {
       text,
       createdAt: Timestamp.fromDate(new Date()),
     };
-    // TODO UPDATE
-    const doc = await addDocument<MessageType>('messages', newMsg);
-    await updateDocument('projects', project.id, {
-      messages: [...project.messages, doc?.id],
-    });
+
+    if (updateMessage !== null) {
+      await updateDocument('messages', updateMessage, newMsg);
+    } else {
+      const doc = await addDocument<MessageType>('messages', newMsg);
+      await updateDocument('projects', project.id, {
+        messages: [...project.messages, doc?.id],
+      });
+    }
 
     setText('');
+    setUpdateMessage(null);
   };
 
   const handleDeleteMessage = async (messageId: string) => {
