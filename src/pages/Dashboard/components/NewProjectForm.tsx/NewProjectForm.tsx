@@ -105,6 +105,7 @@ const NewProjectForm = () => {
         tasks: [],
         members: [],
         messages: [],
+        public: false,
       });
       await updateDocument('users', document.uid, {
         managingProjects: [...document.managingProjects, newProject?.id],

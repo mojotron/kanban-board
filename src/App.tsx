@@ -10,6 +10,7 @@ import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
 import UserLayout from './layouts/UserLayout/UserLayout';
 import KanbanBoard from './pages/KanbanBoardPage/KanbanBoard';
 import Profile from './pages/Profile/Profile';
+import FindProjects from './pages/FindProjects/FindProjects';
 
 // helper components for page navigation
 
@@ -27,6 +28,7 @@ const App = () => {
                 <Route path=":userName" element={<Profile />} />
               </Route>
               <Route path="/kanban/:projectId" element={<KanbanBoard />} />
+              <Route path="/find-project" element={<FindProjects />} />
             </Route>
             <Route path="/login" element={<Login />} />
           </Routes>

@@ -18,6 +18,7 @@ import { useProject } from '../../context/ProjectContext';
 import TeamMembers from './components/TeamMembers/TeamMembers';
 import ProjectMessages from './components/PojectMessages/ProjectMessages';
 import ExpandedText from '../../components/ExpandedText/ExpandedText';
+import { useFirestore } from '../../hooks/useFirestore';
 
 type Task = TaskType & { id: string };
 
@@ -27,6 +28,7 @@ const count = <T,>(array: T[] | undefined, fn: (ele: T) => void) => {
 };
 
 const Dashboard = () => {
+  const { updateDocument } = useFirestore();
   const currentTaskStage = useKanbanStore((state) => state.currentTaskStage);
   const openNewTaskModal = useKanbanStore((state) => state.openNewTaskModal);
   const setOpenNewTaskModal = useKanbanStore(
@@ -46,6 +48,11 @@ const Dashboard = () => {
     if (!tasks) return undefined;
     return tasks.filter((task) => task.stage === currentTaskStage);
   }, [tasks, currentTaskStage]);
+
+  const handlePublicToggle = async () => {
+    if (!project) return;
+    await updateDocument('projects', project.id, { public: !project.public });
+  };
 
   return (
     <main className="Dashboard">
@@ -70,6 +77,9 @@ const Dashboard = () => {
               >
                 project repository
               </a>
+              <button className="btn" onClick={handlePublicToggle}>
+                {project.public ? 'Go Private' : 'Go Public'}
+              </button>
             </div>
             <div className="Dashboard__header__tags">
               {project.tags.map((tag) => (
