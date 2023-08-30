@@ -1,16 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCollectDataByQuery } from '../../hooks/useCollectDataByQuery';
 import { ProjectWithId } from '../../types/projectType';
 import ProjectCard from './components/ProjectCard';
 
 const FindProjects = () => {
-  const { getFirst } = useCollectDataByQuery(3, 'projects', undefined);
+  const { getFirst, getNext } = useCollectDataByQuery(3, 'projects', undefined);
   const [projects, setProjects] = useState<ProjectWithId[]>([]);
   // TODO project card component
   // TODO list cards
   // TODO project hook - last 10, by name, creator, tag
   // TODO search form
+
+  useEffect(() => {
+    getFirst().then((data) => data !== -1 && setProjects(data));
+  }, []);
+
   return (
     <div>
       FindProjects
@@ -19,11 +24,13 @@ const FindProjects = () => {
       </Link>
       <button
         onClick={async () => {
-          const data = await getFirst();
-          setProjects(data);
+          const data = await getNext();
+          console.log(data);
+
+          // setProjects((oldProjects) => [...oldProjects, ...data]);
         }}
       >
-        Projects
+        Find more projects
       </button>
       {projects.length > 0 &&
         projects.map((p) => <ProjectCard data={p} key={p.id} />)}

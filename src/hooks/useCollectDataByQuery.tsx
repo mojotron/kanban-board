@@ -7,6 +7,7 @@ import {
   getDocs,
   QueryDocumentSnapshot,
   DocumentData,
+  startAfter,
 } from 'firebase/firestore';
 import { useState, useCallback } from 'react';
 
@@ -23,7 +24,6 @@ export const useCollectDataByQuery = (
   const getFirst = useCallback(async () => {
     try {
       setIsFetching(true);
-      console.log('yo');
       const colRef = collection(firebaseFirestore, collectionName);
       const q = queryParam
         ? query(
@@ -53,13 +53,61 @@ export const useCollectDataByQuery = (
       setIsFetching(false);
 
       return results;
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   }, [firebaseFirestore, collectionName, queryParam, docLimit]);
 
   const getNext = useCallback(async () => {
+    console.log(endOfDocuments);
+
+    if (endOfDocuments) return -1;
+    if (isFetching) return -1;
     try {
-    } catch (error) {}
-  }, []);
+      setIsFetching(true);
+      const colRef = collection(firebaseFirestore, collectionName);
+
+      const q = queryParam
+        ? query(
+            colRef,
+            orderBy('createdAt', 'desc'),
+            orderBy(queryParam, 'desc'),
+            startAfter(lastDocument || 0),
+            limit(docLimit)
+          )
+        : query(
+            colRef,
+            orderBy('createdAt', 'desc'),
+            startAfter(lastDocument || 0),
+            limit(docLimit)
+          );
+
+      console.log('x');
+      const data = await getDocs(q);
+      console.log(data.size);
+      if (data.empty) {
+        setEndOfDocuments(true);
+        return -1;
+      }
+
+      const results: any = [];
+      let last: QueryDocumentSnapshot<DocumentData>;
+
+      data.docs.forEach((doc) => {
+        results.push({ ...doc.data(), id: doc.id });
+        last = doc;
+      });
+
+      setLastDocument(last!);
+      setIsFetching(false);
+
+      return results;
+    } catch (error) {
+      console.log(error);
+
+      throw error;
+    }
+  }, [firebaseFirestore, collectionName, queryParam, docLimit]);
 
   return { getFirst, getNext };
 };
