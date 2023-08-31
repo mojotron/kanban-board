@@ -1,0 +1,5 @@
+.ProjectCard {
+  background-color: var(--COLOR-GRAY-200);
+  color: var(--COLOR-GRAY-800);
+  padding: 3rem;
+}

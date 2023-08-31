@@ -7,8 +7,6 @@ import ProjectCard from './components/ProjectCard';
 const FindProjects = () => {
   const { getFirst, getNext } = useCollectDataByQuery(3, 'projects', undefined);
   const [projects, setProjects] = useState<ProjectWithId[]>([]);
-  // TODO project card component
-  // TODO list cards
   // TODO project hook - last 10, by name, creator, tag
   // TODO search form
 
@@ -25,9 +23,10 @@ const FindProjects = () => {
       <button
         onClick={async () => {
           const data = await getNext();
+          if (data === -1) return;
           console.log(data);
 
-          // setProjects((oldProjects) => [...oldProjects, ...data]);
+          setProjects((oldProjects) => [...oldProjects, ...data]);
         }}
       >
         Find more projects

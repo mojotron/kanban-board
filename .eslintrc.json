@@ -21,6 +21,8 @@
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
     "react/function-component-definition": false,
-    "react/react-in-jsx-scope": false
+    "react/react-in-jsx-scope": false,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

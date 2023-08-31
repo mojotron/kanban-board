@@ -16,8 +16,7 @@ export const useCollectDataByQuery = (
   collectionName: string,
   queryParam: string | undefined
 ) => {
-  const [lastDocument, setLastDocument] =
-    useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+  const [lastDocument, setLastDocument] = useState<any>(null);
   const [endOfDocuments, setEndOfDocuments] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
 
@@ -25,14 +24,7 @@ export const useCollectDataByQuery = (
     try {
       setIsFetching(true);
       const colRef = collection(firebaseFirestore, collectionName);
-      const q = queryParam
-        ? query(
-            colRef,
-            orderBy('createdAt', 'desc'),
-            orderBy(queryParam, 'desc'),
-            limit(docLimit)
-          )
-        : query(colRef, orderBy('createdAt', 'desc'), limit(docLimit));
+      const q = query(colRef, orderBy('createdAt', 'desc'), limit(docLimit));
 
       const data = await getDocs(q);
 
@@ -42,15 +34,14 @@ export const useCollectDataByQuery = (
       }
 
       const results: any = [];
-      let last: QueryDocumentSnapshot<DocumentData>;
 
       data.docs.forEach((doc) => {
         results.push({ ...doc.data(), id: doc.id });
-        last = doc;
       });
 
-      setLastDocument(last!);
       setIsFetching(false);
+      console.log('setting last doc');
+      setLastDocument(data.docs[data.docs.length - 1]);
 
       return results;
     } catch (error) {
@@ -59,6 +50,8 @@ export const useCollectDataByQuery = (
   }, [firebaseFirestore, collectionName, queryParam, docLimit]);
 
   const getNext = useCallback(async () => {
+    console.log('last doc is', lastDocument);
+
     console.log(endOfDocuments);
 
     if (endOfDocuments) return -1;
@@ -66,39 +59,31 @@ export const useCollectDataByQuery = (
     try {
       setIsFetching(true);
       const colRef = collection(firebaseFirestore, collectionName);
+      console.log('is there last doc', lastDocument);
 
-      const q = queryParam
-        ? query(
-            colRef,
-            orderBy('createdAt', 'desc'),
-            orderBy(queryParam, 'desc'),
-            startAfter(lastDocument || 0),
-            limit(docLimit)
-          )
-        : query(
-            colRef,
-            orderBy('createdAt', 'desc'),
-            startAfter(lastDocument || 0),
-            limit(docLimit)
-          );
+      const q = query(
+        colRef,
+        orderBy('createdAt', 'desc'),
+        startAfter(lastDocument || 0),
+        limit(docLimit)
+      );
 
       console.log('x');
       const data = await getDocs(q);
       console.log(data.size);
+
       if (data.empty) {
         setEndOfDocuments(true);
         return -1;
       }
 
       const results: any = [];
-      let last: QueryDocumentSnapshot<DocumentData>;
 
       data.docs.forEach((doc) => {
         results.push({ ...doc.data(), id: doc.id });
-        last = doc;
       });
 
-      setLastDocument(last!);
+      setLastDocument(data.docs[data.docs.length - 1]);
       setIsFetching(false);
 
       return results;
@@ -107,7 +92,7 @@ export const useCollectDataByQuery = (
 
       throw error;
     }
-  }, [firebaseFirestore, collectionName, queryParam, docLimit]);
+  }, [firebaseFirestore, collectionName, queryParam, docLimit, lastDocument]);
 
   return { getFirst, getNext };
 };
