@@ -5,7 +5,11 @@ import { ProjectWithId } from '../../types/projectType';
 import ProjectCard from './components/ProjectCard';
 
 const FindProjects = () => {
-  const { getFirst, getNext } = useCollectDataByQuery(3, 'projects', undefined);
+  const { getFirst, getNext, isFetching } = useCollectDataByQuery(
+    3,
+    'projects',
+    undefined
+  );
   const [projects, setProjects] = useState<ProjectWithId[]>([]);
   // TODO project hook - last 10, by name, creator, tag
   // TODO search form
@@ -14,22 +18,20 @@ const FindProjects = () => {
     getFirst().then((data) => data !== -1 && setProjects(data));
   }, []);
 
+  const handleLoadMore = async () => {
+    const data = await getNext();
+    if (data === -1) return; // there is no more docks
+    setProjects((oldProjects) => [...oldProjects, ...data]);
+  };
+
   return (
     <div>
       FindProjects
       <Link className="btn" to="/">
         Go back
       </Link>
-      <button
-        onClick={async () => {
-          const data = await getNext();
-          if (data === -1) return;
-          console.log(data);
-
-          setProjects((oldProjects) => [...oldProjects, ...data]);
-        }}
-      >
-        Find more projects
+      <button onClick={handleLoadMore}>
+        {isFetching ? 'Loading...' : 'Find more projects'}
       </button>
       {projects.length > 0 &&
         projects.map((p) => <ProjectCard data={p} key={p.id} />)}
