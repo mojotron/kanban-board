@@ -111,6 +111,27 @@ export const useFirestore = () => {
     []
   );
 
+  const getDocument = useCallback(
+    async <T,>(collectionName: string, docId: string) => {
+      try {
+        const docRef = doc(firebaseFirestore, collectionName, docId);
+        const docData = await getDoc(docRef);
+        if (!isCanceled) {
+          setError(null);
+          setPending(false);
+        }
+        return { ...docData.data(), id: docData.id } as T;
+      } catch (error) {
+        if (!isCanceled && error instanceof Error) {
+          console.log(error.message);
+          setError(error.message);
+          setPending(false);
+        }
+      }
+    },
+    []
+  );
+
   useEffect(() => {
     return () => setIsCanceled(true);
   }, []);
@@ -123,5 +144,6 @@ export const useFirestore = () => {
     updateDocument,
     deleteDocument,
     documentExist,
+    getDocument,
   };
 };

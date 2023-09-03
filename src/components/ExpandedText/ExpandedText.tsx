@@ -19,13 +19,19 @@ const ExpandedText = ({
 }: PropsType) => {
   const [isExpanded, setIsExpanded] = useState(expanded);
 
+  const words = text.split(' ');
+  const hide = words.length < hideWordsLength;
+
   const displayText = isExpanded
     ? text
-    : `${text.split(' ').slice(0, hideWordsLength).join(' ')}...`;
+    : `${words.slice(0, hideWordsLength).join(' ')}...`;
+
+  if (hide) return <div>{text}</div>;
 
   return (
     <div className={className}>
       {displayText}
+
       <button onClick={() => setIsExpanded((oldValue) => !oldValue)}>
         {isExpanded ? hideText : expandText}
       </button>
