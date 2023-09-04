@@ -39,13 +39,14 @@ const ProjectCard = ({ data }: PropsType) => {
           </span>
         ))}
         <p>Tasks {data.tasks.length}</p>
-        <p>Project created: {'placeholder'}</p>
+        {/* <p>Project created: {formatLocalDate(new Date(data.createdAt.seconds / 1000))}</p> */}
         <ExpandedText
           text={data.description}
           hideWordsLength={10}
           className="text"
         />
       </div>
+      {creator?.id !== data.adminUid && <button>Join</button>}
     </article>
   );
 };

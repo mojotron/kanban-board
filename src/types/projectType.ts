@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 export type ProjectType = {
   adminUid: string;
   name: string;
@@ -8,6 +10,7 @@ export type ProjectType = {
   members: string[];
   messages: string[];
   public: boolean;
+  createdAt: Timestamp;
 };
 
 export type ProjectWithId = ProjectType & { id: string };

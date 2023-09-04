@@ -1,0 +1,11 @@
+.FindProject {
+  margin: 3rem;
+}
+.FindProject__projects {
+  padding: 5rem 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 1rem;
+  row-gap: 1rem;
+  overflow-y: scroll;
+}

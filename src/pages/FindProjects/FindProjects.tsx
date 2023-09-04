@@ -5,6 +5,7 @@ import { ProjectWithId } from '../../types/projectType';
 import ProjectCard from './components/ProjectCard';
 import { FIND_BY_SELECT } from '../../constants/findProject';
 import { FindBy } from '../../types/findByType';
+import './FindProject.css';
 
 const FindProjects = () => {
   const { getFirst, getNext, isFetching } = useCollectDataByQuery(
@@ -27,7 +28,7 @@ const FindProjects = () => {
   };
 
   return (
-    <div>
+    <div className="FindProject">
       FindProjects
       <div>
         <label htmlFor="search-by">Search by</label>
@@ -53,8 +54,10 @@ const FindProjects = () => {
       <button onClick={handleLoadMore}>
         {isFetching ? 'Loading...' : 'Find more projects'}
       </button>
-      {projects.length > 0 &&
-        projects.map((p) => <ProjectCard data={p} key={p.id} />)}
+      <div className="FindProject__projects">
+        {projects.length > 0 &&
+          projects.map((p) => <ProjectCard data={p} key={p.id} />)}
+      </div>
     </div>
   );
 };

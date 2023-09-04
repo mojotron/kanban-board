@@ -15,6 +15,7 @@ import { useKanbanStore } from '../../../../store';
 import { useFirestore } from '../../../../hooks/useFirestore';
 import { ProjectType } from '../../../../types/projectType';
 import { useUserData } from '../../../../context/UserDataContext';
+import { Timestamp } from 'firebase/firestore';
 
 const NewProjectForm = () => {
   const { document } = useUserData();
@@ -106,6 +107,7 @@ const NewProjectForm = () => {
         members: [],
         messages: [],
         public: false,
+        createdAt: Timestamp.fromDate(new Date()),
       });
       await updateDocument('users', document.uid, {
         managingProjects: [...document.managingProjects, newProject?.id],
