@@ -108,6 +108,7 @@ const NewProjectForm = () => {
         messages: [],
         public: false,
         createdAt: Timestamp.fromDate(new Date()),
+        requests: [],
       });
       await updateDocument('users', document.uid, {
         managingProjects: [...document.managingProjects, newProject?.id],

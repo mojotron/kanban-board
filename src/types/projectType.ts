@@ -11,6 +11,7 @@ export type ProjectType = {
   messages: string[];
   public: boolean;
   createdAt: Timestamp;
+  requests: string[]
 };
 
 export type ProjectWithId = ProjectType & { id: string };
