@@ -19,6 +19,7 @@ import TeamMembers from './components/TeamMembers/TeamMembers';
 import ProjectMessages from './components/PojectMessages/ProjectMessages';
 import ExpandedText from '../../components/ExpandedText/ExpandedText';
 import { useFirestore } from '../../hooks/useFirestore';
+import Button from '../../components/Button/Button';
 
 type Task = TaskType & { id: string };
 
@@ -77,9 +78,12 @@ const Dashboard = () => {
               >
                 project repository
               </a>
-              <button className="btn" onClick={handlePublicToggle}>
+
+              <Button handleClick={handlePublicToggle}>
                 {project.public ? 'Go Private' : 'Go Public'}
-              </button>
+              </Button>
+
+              <button className="btn">Delete Project</button>
             </div>
             <div className="Dashboard__header__tags">
               {project.tags.map((tag) => (
@@ -100,14 +104,12 @@ const Dashboard = () => {
               <h2 className="heading--secondary">Tasks</h2>
               <PriorityLegend />
               {project.adminUid === user?.uid && (
-                <button
-                  className="btn"
-                  onClick={() => {
+                <Button
+                  handleClick={() => {
                     setOpenNewTaskModal(true);
                   }}
-                >
-                  Create task
-                </button>
+                  text="create task"
+                />
               )}
             </div>
 
