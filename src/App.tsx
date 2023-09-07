@@ -17,22 +17,38 @@ import FindProjects from './pages/FindProjects/FindProjects';
 const App = () => {
   const { authIsReady } = useAuth();
 
+  // TODO new routes
+  // login
+  // profile => current user or other user
+  // project => admin, collaborator, other => reroute or 404
+  // kanban board of a project
+  // find project
+  // find developer
+
   return (
     <div className="App">
       {authIsReady && (
         <BrowserRouter>
           <Routes>
             <Route element={<ProtectedRoutes />}>
-              <Route path="/" element={<UserLayout />}>
-                <Route index element={<Dashboard />} />
-                <Route path=":userName" element={<Profile />} />
-              </Route>
-              <Route path="/kanban/:projectId" element={<KanbanBoard />} />
-              <Route path="/find-project" element={<FindProjects />} />
+              <Route path="/" element={<UserLayout />}></Route>
             </Route>
             <Route path="/login" element={<Login />} />
           </Routes>
         </BrowserRouter>
+        // <BrowserRouter>
+        //   <Routes>
+        //     <Route element={<ProtectedRoutes />}>
+        //       <Route path="/" element={<UserLayout />}>
+        //         <Route index element={<Dashboard />} />
+        //         <Route path=":userName" element={<Profile />} />
+        //       </Route>
+        //       <Route path="/kanban/:projectId" element={<KanbanBoard />} />
+        //       <Route path="/find-project" element={<FindProjects />} />
+        //     </Route>
+        //     <Route path="/login" element={<Login />} />
+        //   </Routes>
+        // </BrowserRouter>
       )}
     </div>
   );
