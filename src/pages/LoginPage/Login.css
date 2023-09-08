@@ -24,7 +24,7 @@
 .Login__Header__Highlight {
   color: transparent;
   background: linear-gradient(
-    90deg,
+    45deg,
     var(--COLOR-YELLOW-500),
     var(--COLOR-GRAY-100),
     var(--COLOR-YELLOW-300)

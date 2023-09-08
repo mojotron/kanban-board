@@ -9,6 +9,9 @@ export type ConfirmModalState = null | {
 };
 
 type State = {
+  // new
+  showAside: boolean;
+  //
   openNewProjectModal: boolean;
   openNewTaskModal: boolean;
   openViewTaskModal: boolean;
@@ -21,6 +24,9 @@ type State = {
 };
 
 type Action = {
+  // new
+  setShowAside: (value: boolean) => void;
+  //
   setOpenNewProjectModal: (value: boolean) => void;
   setOpenNewTaskModal: (value: boolean) => void;
   setCurrentProject: (project: string | null) => void;
@@ -32,6 +38,10 @@ type Action = {
 };
 
 export const useKanbanStore = create<State & Action>()((set) => ({
+  // new
+  showAside: true,
+  setShowAside: (value) => set({ showAside: value }),
+  //
   openNewProjectModal: false,
   openNewTaskModal: false,
   currentProject: null,

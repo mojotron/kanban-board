@@ -313,3 +313,12 @@ body {
   display: flex;
   flex-direction: column;
 }
+.logo-highlight {
+  color: transparent;
+  background: linear-gradient(
+    90deg,
+    var(--COLOR-YELLOW-500),
+    var(--COLOR-GRAY-100)
+  );
+  background-clip: text;
+}
