@@ -40,7 +40,7 @@ type Action = {
 export const useKanbanStore = create<State & Action>()((set) => ({
   // new
   showAside: true,
-  setShowAside: (value) => set({ showAside: value }),
+  setShowAside: (value: boolean) => set({ showAside: value }),
   //
   openNewProjectModal: false,
   openNewTaskModal: false,

@@ -1,5 +1,18 @@
 .asideMenu {
-  width: 20rem;
   background-color: var(--COLOR-GRAY-500);
   height: 100vh;
+  position: relative;
+  padding: 5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  /* transition: all 0.2s ease-out; */
+}
+.btnDisplay {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+.asideMenu menu {
+  display: flex;
+  flex-direction: column;
 }
