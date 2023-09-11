@@ -1,0 +1,9 @@
+.link:link,
+.link:visited {
+  cursor: pointer;
+  color: var(--COLOR-GRAY-200);
+}
+.link:active,
+.link:hover {
+  color: var(--COLOR-BLUE-300);
+}

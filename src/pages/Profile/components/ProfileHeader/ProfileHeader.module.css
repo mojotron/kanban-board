@@ -1,0 +1,28 @@
+.header,
+.name {
+  display: flex;
+  align-items: center;
+}
+.header {
+  gap: 3rem;
+  margin-bottom: 7rem;
+}
+.header h2 {
+  font-size: 3.052rem;
+}
+.name {
+  gap: 1rem;
+}
+.online,
+.offline {
+  font-size: 1.563rem;
+}
+.online {
+  color: var(--COLOR-GREEN-500);
+}
+.offline {
+  color: var(--COLOR-RED-500);
+}
+.completed p {
+  font-size: 1.563rem;
+}

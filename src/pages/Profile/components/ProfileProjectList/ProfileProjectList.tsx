@@ -1,5 +1,7 @@
 import { useCollectDocs } from '../../../../hooks/useCollectDocs';
 import { ProjectWithId } from '../../../../types/projectType';
+// components
+import ProjectCard from '../../../../components/ProjectCard/ProjectCard';
 
 type PropsType = {
   header: string;
@@ -16,7 +18,7 @@ const ProfileProjectList = ({ header, projectList }: PropsType) => {
     <div>
       <h2>{header}</h2>
       {projects?.map((project) => (
-        <p key={project.id}>{project.name}</p>
+        <ProjectCard key={project.id} data={project} />
       ))}
     </div>
   );

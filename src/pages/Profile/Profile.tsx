@@ -1,9 +1,8 @@
 // hooks
 import { useParams } from 'react-router-dom';
-import { useOnSnapshotDocument } from '../../hooks/useOnSnapshotDocument';
-import { useUserData } from '../../context/UserDataContext';
-// types
-import { UserWithId } from '../../types/userType';
+
+import { useIsCurrentUser } from '../../hooks/useIsCurrentUser';
+
 // styles
 import styles from './Profile.module.css';
 // components
@@ -12,30 +11,23 @@ import ProfileProjectList from './components/ProfileProjectList/ProfileProjectLi
 
 const Profile = () => {
   const { userId } = useParams();
-  const { document: currentUser } = useUserData();
-  const isCurrentUser = userId === currentUser?.uid;
+  const { userData } = useIsCurrentUser(userId);
 
-  const { document: otherUser } = useOnSnapshotDocument<UserWithId>(
-    'users',
-    isCurrentUser ? null : userId
-  );
-
-  const data = isCurrentUser ? currentUser : otherUser;
-  if (!data) return;
+  if (!userData) return;
 
   return (
     <section>
-      <ProfileHeader user={data} />
-      {data.managingProjects.length > 0 && (
+      <ProfileHeader user={userData} />
+      {userData.managingProjects.length > 0 && (
         <ProfileProjectList
           header="Managing Projects"
-          projectList={data.managingProjects}
+          projectList={userData.managingProjects}
         />
       )}
-      {data.collaboratingProjects.length > 0 && (
+      {userData.collaboratingProjects.length > 0 && (
         <ProfileProjectList
           header="Projects Collaborating on"
-          projectList={data.collaboratingProjects}
+          projectList={userData.collaboratingProjects}
         />
       )}
     </section>

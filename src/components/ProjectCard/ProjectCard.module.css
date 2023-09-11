@@ -1,0 +1,5 @@
+.projectCard {
+  padding: 3rem;
+  border: 2px solid var(--COLOR-GRAY-200);
+  width: 40rem;
+}
