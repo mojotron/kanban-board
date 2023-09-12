@@ -4,26 +4,19 @@ import Login from './pages/LoginPage/Login';
 // state
 import { useAuth } from './context/AuthContext';
 // router
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
 import UserLayout from './layouts/UserLayout/UserLayout';
 import KanbanBoard from './pages/KanbanBoardPage/KanbanBoard';
 import Profile from './pages/Profile/Profile';
 import FindProjects from './pages/FindProjects/FindProjects';
+import { useUserData } from './context/UserDataContext';
 
 // helper components for page navigation
 
 const App = () => {
-  const { authIsReady } = useAuth();
-
-  // TODO new routes
-  // login
-  // profile => current user or other user
-  // project => admin, collaborator, other => reroute or 404
-  // kanban board of a project
-  // find project
-  // find developer
+  const { authIsReady, user } = useAuth();
 
   return (
     <div className="App">
@@ -32,7 +25,12 @@ const App = () => {
           <Routes>
             <Route element={<ProtectedRoutes />}>
               <Route path="/" element={<UserLayout />}>
+                <Route
+                  index
+                  element={<Navigate to={`/${user?.uid}`} replace />}
+                />
                 <Route path="/:userId" element={<Profile />} />
+                <Route path="/project/:projectId" element={<Profile />} />
               </Route>
             </Route>
             <Route path="/login" element={<Login />} />

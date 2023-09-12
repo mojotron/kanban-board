@@ -1,5 +1,22 @@
 .projectCard {
-  padding: 3rem;
   border: 2px solid var(--COLOR-GRAY-200);
   width: 40rem;
+  border-radius: var(--BORDER-RADIUS);
+  overflow: hidden;
+}
+.header {
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--COLOR-BLUE-400);
+}
+.admin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.body {
+  padding: 2rem;
 }

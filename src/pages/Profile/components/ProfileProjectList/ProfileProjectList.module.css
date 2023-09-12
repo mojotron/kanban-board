@@ -1,0 +1,8 @@
+.projects h2 {
+  font-size: 2.441rem;
+}
+.projectList {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}

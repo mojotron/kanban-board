@@ -1,33 +1,47 @@
+// hooks
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useIsCurrentUser } from '../../hooks/useIsCurrentUser';
 // types
-import { ProjectType } from '../../types/projectType';
+import { ProjectWithId } from '../../types/projectType';
 // styles
 import styles from './ProjectCard.module.css';
+// icon
+import { MdMoveToInbox as OpenIcon } from 'react-icons/md';
 // components
 import Avatar from '../Avatar/Avatar';
 import ExpandedText from '../ExpandedText/ExpandedText';
-import { useParams } from 'react-router-dom';
-import { useIsCurrentUser } from '../../hooks/useIsCurrentUser';
 
 type PropsType = {
-  data: ProjectType;
+  data: ProjectWithId;
 };
 
 const ProjectCard = ({ data }: PropsType) => {
   const { userId } = useParams();
+  const navigate = useNavigate();
   const { userData: creator } = useIsCurrentUser(userId);
 
   return (
     <article className={styles.projectCard}>
-      <h2>{data.name}</h2>
-      {creator && (
-        <Avatar
-          imageUrl={creator?.photoUrl}
-          size="25"
-          userName={creator?.userName}
-        />
-      )}
-      <h3>{creator?.userName}</h3>
-      <div>
+      <header className={styles.header}>
+        <h2>{data.name}</h2>
+        <Link to={`/project/${data.id}`}>
+          <OpenIcon size={30} />
+        </Link>
+
+        {creator && (
+          <figure className={styles.admin}>
+            <h3>Admin</h3>
+            <Avatar
+              imageUrl={creator.photoUrl}
+              size="50"
+              userName={creator.userName}
+            />
+            <h3>{creator.userName}</h3>
+          </figure>
+        )}
+      </header>
+
+      <div className={styles.body}>
         {data.tags.map((tag) => (
           <span key={tag} className="tag">
             {tag}

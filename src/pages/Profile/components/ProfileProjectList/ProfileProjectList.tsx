@@ -2,6 +2,8 @@ import { useCollectDocs } from '../../../../hooks/useCollectDocs';
 import { ProjectWithId } from '../../../../types/projectType';
 // components
 import ProjectCard from '../../../../components/ProjectCard/ProjectCard';
+// style
+import styles from './ProfileProjectList.module.css';
 
 type PropsType = {
   header: string;
@@ -15,11 +17,13 @@ const ProfileProjectList = ({ header, projectList }: PropsType) => {
   );
 
   return (
-    <div>
+    <div className={styles.projects}>
       <h2>{header}</h2>
-      {projects?.map((project) => (
-        <ProjectCard key={project.id} data={project} />
-      ))}
+      <div className={styles.projectList}>
+        {projects?.map((project) => (
+          <ProjectCard key={project.id} data={project} />
+        ))}
+      </div>
     </div>
   );
 };
