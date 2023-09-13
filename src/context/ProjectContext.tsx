@@ -1,9 +1,11 @@
 import { ReactNode, createContext, useContext, useMemo } from 'react';
 import { useOnSnapshotDocument } from '../hooks/useOnSnapshotDocument';
+import { useUserData } from './UserDataContext';
+import { useCollectDocsSnapshot } from '../hooks/useCollectDocsSnapshot';
+import { useParams } from 'react-router-dom';
+// types
 import { ProjectType } from '../types/projectType';
 import { TaskType } from '../types/taskType';
-import { useKanbanStore } from '../store';
-import { useCollectDocsSnapshot } from '../hooks/useCollectDocsSnapshot';
 import { UserType } from '../types/userType';
 import { MessageType } from '../types/messageType';
 
@@ -26,13 +28,13 @@ const useProjectSource = (): {
   messagesPending: boolean;
   messagesErr: null | string;
 } => {
-  const currentProject = useKanbanStore((state) => state.currentProject);
+  const { projectId } = useParams();
   // get project doc
   const {
     document: project,
     error: projectErr,
     pending: projectPending,
-  } = useOnSnapshotDocument<Project>('projects', currentProject);
+  } = useOnSnapshotDocument<Project>('projects', projectId);
 
   const {
     documents: tasks,
@@ -78,7 +80,10 @@ const ProjectContext = createContext<ReturnType<typeof useProjectSource>>(
 );
 
 export const useProject = () => {
-  return useContext(ProjectContext);
+  const context = useContext(ProjectContext);
+  if (!context)
+    throw new Error('useProject must be used inside ProjectProvider');
+  return context;
 };
 
 export const ProjectProvider = ({ children }: { children: ReactNode }) => {

@@ -30,7 +30,7 @@ const App = () => {
                   element={<Navigate to={`/${user?.uid}`} replace />}
                 />
                 <Route path="/:userId" element={<Profile />} />
-                <Route path="/project/:projectId" element={<Profile />} />
+                <Route path="/project/:projectId" element={<Dashboard />} />
               </Route>
             </Route>
             <Route path="/login" element={<Login />} />
