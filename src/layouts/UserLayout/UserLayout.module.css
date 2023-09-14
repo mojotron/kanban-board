@@ -4,7 +4,6 @@
   overflow: hidden;
 }
 .outletWrapper {
-  padding: 3rem;
   overflow-y: scroll;
   width: 100%;
 }

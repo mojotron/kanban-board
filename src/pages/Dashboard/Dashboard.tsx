@@ -1,4 +1,4 @@
-import './Dashboard.css';
+// import './Dashboard.css';
 import { useMemo } from 'react';
 // global store
 import { useKanbanStore } from '../../store';
@@ -20,6 +20,10 @@ import ProjectMessages from './components/PojectMessages/ProjectMessages';
 import ExpandedText from '../../components/ExpandedText/ExpandedText';
 import { useFirestore } from '../../hooks/useFirestore';
 import Button from '../../components/Button/Button';
+// refactor
+import ProjectMenu from './components/ProjectMenu/ProjectMenu';
+import Description from './components/Description/Description';
+import Tasks from './components/Tasks/Tasks';
 
 type Task = TaskType & { id: string };
 
@@ -67,7 +71,10 @@ const Dashboard = () => {
 
       {project && (
         <>
-          <header className="Dashboard__header">
+          <ProjectMenu />
+          <Description />
+          <Tasks />
+          {/* <header className="Dashboard__header">
             <div className="Dashboard__header__title">
               <h1>{project.name}</h1>
               <a
@@ -152,7 +159,7 @@ const Dashboard = () => {
             className="btn Dashboard__btn-kanban"
           >
             View Kanban Board
-          </Link>
+          </Link> */}
         </>
       )}
     </main>

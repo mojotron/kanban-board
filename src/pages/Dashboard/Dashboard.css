@@ -2,7 +2,7 @@
   height: 100%;
   width: 100%;
   border-top: var(--BORDER);
-  padding: 3.2rem;
+
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
