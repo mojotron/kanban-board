@@ -27,11 +27,6 @@ import Tasks from './components/Tasks/Tasks';
 
 type Task = TaskType & { id: string };
 
-const count = <T,>(array: T[] | undefined, fn: (ele: T) => void) => {
-  if (!array) return 0;
-  return array.filter(fn).length;
-};
-
 const Dashboard = () => {
   const { updateDocument } = useFirestore();
   const currentTaskStage = useKanbanStore((state) => state.currentTaskStage);

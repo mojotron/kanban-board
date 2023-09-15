@@ -1,0 +1,4 @@
+.tasksList {
+  overflow-y: scroll;
+  background-color: var(--COLOR-GRAY-700);
+}

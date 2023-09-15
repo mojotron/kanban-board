@@ -1,0 +1,21 @@
+.tabsMenu {
+  display: flex;
+  justify-content: flex-start;
+  background-color: var(--COLOR-GRAY-500);
+}
+.tabsMenuBtn {
+  display: block;
+  padding: 0.8rem;
+  border: none;
+  background: none;
+  color: white;
+  font-size: 1.6rem;
+  flex: 1 1 auto;
+  cursor: pointer;
+}
+.tabsMenuBtn:hover {
+  background-color: var(--COLOR-BLUE-500);
+}
+.active {
+  background-color: var(--COLOR-GRAY-700);
+}
