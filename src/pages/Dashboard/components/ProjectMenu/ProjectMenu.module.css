@@ -1,3 +1,32 @@
 .menu {
+  grid-column: 12 / 13;
+  grid-row: 1 / 2;
+}
+.menuList {
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  background-color: var(--COLOR-GRAY-600);
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  width: 20rem;
+  height: 22rem;
+}
+.menuBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 2rem;
+  color: var(--COLOR-GRAY-200);
+  border-bottom: 2px solid var(--COLOR-GRAY-600);
+}
+
+.menuBtn:hover {
+  font-weight: bold;
+  background-color: var(--COLOR-GRAY-500);
+  color: var(--COLOR-GRAY-100);
+  border-bottom: 2px solid var(--COLOR-BLUE-500);
 }

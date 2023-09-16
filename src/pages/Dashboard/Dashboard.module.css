@@ -1,11 +1,9 @@
-.Dashboard {
+.dashboard {
   height: 100%;
   width: 100%;
-  border-top: var(--BORDER);
-
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, 1fr);
   column-gap: 2.4rem;
   row-gap: 0.1rem;
   overflow-y: scroll;
