@@ -1,0 +1,21 @@
+.teamMembersList {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  overflow: hidden;
+  overflow-y: scroll;
+  background-color: var(--COLOR-GRAY-500);
+  padding: 2rem;
+  top: 10rem;
+  right: 10rem;
+}
+.teamMembersListItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.563rem;
+}
+.teamMembersListItemUsername {
+  font-weight: 600;
+}

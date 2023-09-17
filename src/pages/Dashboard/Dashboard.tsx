@@ -47,10 +47,13 @@ const Dashboard = () => {
       {project && (
         <>
           <ProjectMenu />
-          {/* <Description />
           <Tasks />
+          <TeamMembers />
           <ProjectMessages />
-          <TeamMembers /> */}
+          {/* <Description />
+          
+          
+           */}
         </>
       )}
     </main>

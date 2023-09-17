@@ -1,7 +1,9 @@
 .tabsMenu {
   display: flex;
   justify-content: flex-start;
-  background-color: var(--COLOR-GRAY-500);
+  background-color: var(--COLOR-GRAY-600);
+  width: 100%;
+  flex-wrap: wrap;
 }
 .tabsMenuBtn {
   display: block;

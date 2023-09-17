@@ -25,12 +25,12 @@ const ProjectMenu = () => {
             &#9652;
           </Button>
           <Button
-            text="Project repository"
+            text="Kanban board"
             handleClick={() => {}}
-            className={styles.menuBtn}
+            className={`${styles.menuBtn} ${styles.kanbanBtn}`}
           />
           <Button
-            text="Kanban board"
+            text="Project repository"
             handleClick={() => {}}
             className={styles.menuBtn}
           />

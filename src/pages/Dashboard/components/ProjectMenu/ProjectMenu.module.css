@@ -16,6 +16,7 @@
   height: 22rem;
 }
 .menuBtn {
+  font-size: 1.6rem;
   background: none;
   border: none;
   cursor: pointer;
@@ -23,10 +24,22 @@
   color: var(--COLOR-GRAY-200);
   border-bottom: 2px solid var(--COLOR-GRAY-600);
 }
-
+.kanbanBtn {
+  color: var(--COLOR-YELLOW-300);
+  font-weight: bold;
+}
 .menuBtn:hover {
   font-weight: bold;
   background-color: var(--COLOR-GRAY-500);
   color: var(--COLOR-GRAY-100);
   border-bottom: 2px solid var(--COLOR-BLUE-500);
+}
+.kanbanBtn {
+  color: var(--COLOR-YELLOW-300);
+  font-weight: bold;
+}
+.kanbanBtn:hover {
+  background-color: var(--COLOR-GRAY-500);
+  color: var(--COLOR-YELLOW-300);
+  border-bottom: 2px solid var(--COLOR-YELLOW-300);
 }

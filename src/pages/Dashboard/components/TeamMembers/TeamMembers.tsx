@@ -1,46 +1,25 @@
-import Avatar from '../../../../components/Avatar/Avatar';
+// styles
+import { useState } from 'react';
+import styles from './TeamMembers.module.css';
+import TeamMembersList from './TeamMembersList';
 import { useProject } from '../../../../context/ProjectContext';
-import { useUserData } from '../../../../context/UserDataContext';
-import { formatTime } from '../../../../utils/formatTime';
-import './TeamMembers.css';
-import { Link } from 'react-router-dom';
+import Button from '../../../../components/Button/Button';
 
 const TeamMembers = () => {
+  const [showMembers, setShowMembers] = useState(false);
   const { team } = useProject();
-  const { document: user } = useUserData();
+
+  const allMembers = team?.length;
+  const onlineMembers = team?.filter((m) => m.online);
 
   return (
-    <div className="TeamMembers">
-      <h3 className="heading--tertiary">TeamMembers</h3>
-      <ul className="TeamMembers__list">
-        {team &&
-          team.map((member) => {
-            return (
-              <li key={member.id}>
-                <Link
-                  to={user?.uid === member.uid ? '/' : `/${member.userName}`}
-                  state={{ targetId: member.uid }}
-                  className="TeamMember__list__item"
-                >
-                  <Avatar
-                    imageUrl={member.photoUrl}
-                    size="50"
-                    userName={member.userName}
-                    active={member.online}
-                  />
-                  <p className="TeamMember__list__item__username">
-                    {member.userName}
-                  </p>
-                  {!member.online && (
-                    <p>
-                      active {formatTime(member.lastLoggedOut.seconds * 1000)}
-                    </p>
-                  )}
-                </Link>
-              </li>
-            );
-          })}
-      </ul>
+    <div className={styles.teamMembers}>
+      <Button handleClick={() => setShowMembers((oldValue) => !oldValue)}>
+        TeamMembers {`${onlineMembers?.length}/${allMembers}`}
+        {showMembers ? '-' : '+'}
+      </Button>
+
+      {showMembers && <TeamMembersList />}
     </div>
   );
 };

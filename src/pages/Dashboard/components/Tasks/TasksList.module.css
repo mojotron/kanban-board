@@ -1,4 +1,6 @@
 .tasksList {
   overflow-y: scroll;
   background-color: var(--COLOR-GRAY-700);
+  height: 100%;
+  padding: 2rem;
 }

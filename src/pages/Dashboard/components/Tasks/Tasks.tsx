@@ -1,5 +1,3 @@
-// hooks
-import { useProject } from '../../../../context/ProjectContext';
 // styles
 import styles from './Tasks.module.css';
 // components
@@ -8,10 +6,6 @@ import TabsMenu from './TabsMenu';
 import TasksList from './TasksList';
 
 const Tasks = () => {
-  const { project } = useProject();
-
-  if (!project) return null;
-
   return (
     <div className={styles.tasks}>
       <TasksHeader />
