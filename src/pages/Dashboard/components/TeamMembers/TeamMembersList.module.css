@@ -1,14 +1,11 @@
 .teamMembersList {
-  position: absolute;
+  padding-top: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-  overflow: hidden;
   overflow-y: scroll;
-  background-color: var(--COLOR-GRAY-500);
-  padding: 2rem;
-  top: 10rem;
-  right: 10rem;
+  list-style: none;
+  flex: 1 1 auto;
 }
 .teamMembersListItem {
   display: flex;

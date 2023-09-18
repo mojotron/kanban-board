@@ -23,7 +23,7 @@ const TeamMembersList = () => {
               >
                 <Avatar
                   imageUrl={member.photoUrl}
-                  size="50"
+                  size="35"
                   userName={member.userName}
                   active={member.online}
                 />

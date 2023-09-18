@@ -22,6 +22,8 @@ const ExpandedText = ({
   const words = text.split(' ');
   const hide = words.length < hideWordsLength;
 
+  const lessText = `${words.slice(0, hideWordsLength).join(' ')}...`;
+
   const displayText = isExpanded
     ? text
     : `${words.slice(0, hideWordsLength).join(' ')}...`;

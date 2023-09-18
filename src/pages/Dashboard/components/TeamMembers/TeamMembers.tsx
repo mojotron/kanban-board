@@ -9,17 +9,18 @@ const TeamMembers = () => {
   const [showMembers, setShowMembers] = useState(false);
   const { team } = useProject();
 
-  const allMembers = team?.length;
-  const onlineMembers = team?.filter((m) => m.online);
+  const allMembers = team?.length || 0;
+  const onlineMembers = team?.filter((m) => m.online).length || 0;
 
   return (
     <div className={styles.teamMembers}>
-      <Button handleClick={() => setShowMembers((oldValue) => !oldValue)}>
-        TeamMembers {`${onlineMembers?.length}/${allMembers}`}
-        {showMembers ? '-' : '+'}
-      </Button>
-
-      {showMembers && <TeamMembersList />}
+      <h3>
+        Members{' '}
+        <span
+          className={styles.teamMembersCount}
+        >{`${onlineMembers}/${allMembers}`}</span>
+      </h3>
+      <TeamMembersList />
     </div>
   );
 };

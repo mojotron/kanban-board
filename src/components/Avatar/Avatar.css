@@ -2,7 +2,6 @@
   border: 3px solid var(--COLOR-GRAY-200);
   border-radius: 50%;
 }
-
 .Avatar__img {
   object-fit: cover;
   width: 100%;
@@ -17,6 +16,6 @@
   border-radius: 50%;
   background-color: var(--COLOR-GREEN-400);
   position: relative;
-  bottom: 1.5rem;
-  left: 3rem;
+  bottom: 1.2rem;
+  left: 2rem;
 }

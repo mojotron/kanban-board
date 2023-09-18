@@ -50,10 +50,7 @@ const Dashboard = () => {
           <Tasks />
           <TeamMembers />
           <ProjectMessages />
-          {/* <Description />
-          
-          
-           */}
+          <Description />
         </>
       )}
     </main>
