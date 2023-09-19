@@ -7,6 +7,7 @@ type PropsType = {
   expandText?: string;
   expanded?: boolean;
   className: string;
+  buttonClassName?: string;
 };
 
 const ExpandedText = ({
@@ -16,13 +17,12 @@ const ExpandedText = ({
   expandText = 'Show More',
   hideText = 'Show Less',
   className = '',
+  buttonClassName = '',
 }: PropsType) => {
   const [isExpanded, setIsExpanded] = useState(expanded);
 
   const words = text.split(' ');
   const hide = words.length < hideWordsLength;
-
-  const lessText = `${words.slice(0, hideWordsLength).join(' ')}...`;
 
   const displayText = isExpanded
     ? text
@@ -34,7 +34,10 @@ const ExpandedText = ({
     <div className={className}>
       {displayText}
 
-      <button onClick={() => setIsExpanded((oldValue) => !oldValue)}>
+      <button
+        className={buttonClassName}
+        onClick={() => setIsExpanded((oldValue) => !oldValue)}
+      >
         {isExpanded ? hideText : expandText}
       </button>
     </div>

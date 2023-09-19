@@ -3,4 +3,7 @@
   background-color: var(--COLOR-GRAY-700);
   height: 100%;
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }

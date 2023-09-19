@@ -1,40 +1,33 @@
-.TaskCard {
+.task {
   border-radius: var(--BORDER-RADIUS);
   overflow: hidden;
   background-color: var(--COLOR-GRAY-300);
   color: var(--COLOR-GRAY-700);
-  margin-bottom: 2.4rem;
 }
-.TaskCard:last-child {
-  margin-bottom: 0;
+.taskHeader,
+.taskBody {
+  padding: 1.25rem 2.5rem;
 }
-.TaskCard__header,
-.TaskCard__body {
-  padding: 1.6rem 2.4rem;
-}
-.TaskCard__header {
+.taskHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.TaskCard__header__heading {
-  font-size: 1.953rem;
+.taskBody {
+  padding: 2rem;
 }
-.TaskCard__header__controls {
+.taskHeader h3 {
+  font-size: 1.6rem;
+}
+.taskControls {
   display: flex;
   align-items: center;
   gap: 2.4rem;
 }
-.TaskCard__header .Avatar {
-  border: 3px solid var(--COLOR-GRAY-700);
+.taskDescription {
+  font-size: 1.25rem;
 }
-.TaskCard__body__deadline__heading {
-  font-weight: 600;
-}
-.TaskCard__body__description {
-  font-size: 1.6rem;
-}
-.TaskCard__btn {
+:global(.taskBtn) {
   border: none;
   background: none;
   border-radius: 50%;
@@ -44,8 +37,20 @@
   color: var(--COLOR-GRAY-700);
   transition: all 0.3s ease;
 }
-.TaskCard__btn:hover {
-  color: var(--COLOR-GRAY-100);
+:global(.taskBtn:hover) {
+  color: var(--COLOR-GRAY-200);
+}
+.expandBtn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--COLOR-GRAY-700);
+  position: relative;
+  left: 0.25rem;
+  transition: all 0.5s ease;
+}
+.expandBtn:hover {
+  color: var(--COLOR-GRAY-500);
 }
 .TaskCard__btn--add {
   height: 5rem;

@@ -31,7 +31,7 @@ const TeamMembersList = () => {
                   {member.userName}
                 </p>
                 {!member.online && (
-                  <p>
+                  <p className={styles.lastTimeActive}>
                     active {formatTime(member.lastLoggedOut.seconds * 1000)}
                   </p>
                 )}

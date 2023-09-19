@@ -1,42 +1,44 @@
 import Button from '../../../../components/Button/Button';
 import styles from './ProjectMenu.module.css';
 
-const menuConfig = [];
-
 const ProjectMenu = () => {
+  const menuConfig = [
+    {
+      text: 'Kanban Board',
+      className: `${styles.menuBtn} ${styles.kanbanBtn}`,
+      onClick: () => {},
+    },
+    {
+      text: 'Project repository',
+      className: `${styles.menuBtn}`,
+      onClick: () => {},
+    },
+    { text: 'Go public', className: `${styles.menuBtn}`, onClick: () => {} },
+    {
+      text: 'Create New Task',
+      className: `${styles.menuBtn}`,
+      onClick: () => {},
+    },
+    {
+      text: 'Delete Project',
+      className: `${styles.menuBtn}`,
+      onClick: () => {},
+    },
+    { text: 'Find Member', className: `${styles.menuBtn}`, onClick: () => {} },
+    { text: 'Edit Project', className: `${styles.menuBtn}`, onClick: () => {} },
+  ];
+
   return (
     <menu className={styles.menuList}>
-      <Button
-        text="Kanban board"
-        handleClick={() => {}}
-        className={`${styles.menuBtn} ${styles.kanbanBtn}`}
-      />
-      <Button
-        text="Project repository"
-        handleClick={() => {}}
-        className={styles.menuBtn}
-      />
-      {/* buttons */}
-      <Button
-        text="Go public"
-        handleClick={() => {}}
-        className={styles.menuBtn}
-      />
-      <Button
-        text="Create New Task"
-        handleClick={() => {}}
-        className={styles.menuBtn}
-      />
-      <Button
-        text="Delete Project"
-        handleClick={() => {}}
-        className={styles.menuBtn}
-      />
-      <Button
-        text="Find Member"
-        handleClick={() => {}}
-        className={styles.menuBtn}
-      />
+      {menuConfig.map((ele) => (
+        <Button
+          key={ele.text}
+          handleClick={ele.onClick}
+          className={ele.className}
+        >
+          {ele.text}
+        </Button>
+      ))}
     </menu>
   );
 };

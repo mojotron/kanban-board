@@ -1,0 +1,11 @@
+.deadline {
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding-bottom: 0.5rem;
+}
+.deadlineGreen {
+  color: var(--COLOR-GREEN-500);
+}
+.deadlineRed {
+  color: var(--COLOR-RED-500);
+}
