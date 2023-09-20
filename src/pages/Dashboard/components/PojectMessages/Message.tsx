@@ -3,9 +3,13 @@ import Avatar from '../../../../components/Avatar/Avatar';
 import { useProject } from '../../../../context/ProjectContext';
 import { useMemo } from 'react';
 import { formatTime } from '../../../../utils/formatTime';
-import './Message.css';
-import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
+import styles from './Message.module.css';
+import {
+  AiFillDelete as DeleteIcon,
+  AiFillEdit as EditIcon,
+} from 'react-icons/ai';
 import { useUserData } from '../../../../context/UserDataContext';
+import Button from '../../../../components/Button/Button';
 
 type PropsType = {
   data: MessageType & { id: string };
@@ -24,27 +28,27 @@ const Message = ({ data, onDelete, onEdit }: PropsType) => {
   if (!collaborator) return null;
 
   return (
-    <div className="Message">
+    <div className={styles.message}>
       <Avatar
         size="35"
         imageUrl={collaborator.photoUrl}
         userName={collaborator.userName}
       />
       <div className="Message__text">
-        <p className="Message__text__main">{data.text}</p>
-        <p className="Message__text__time">
+        <p className={styles.text}>{data.text}</p>
+        <p className={styles.time}>
           {formatTime(formatTime(data.createdAt.seconds * 1000))}
         </p>
       </div>
 
       {user?.uid === collaborator.id && (
-        <div className="Message__controls">
-          <button onClick={() => onEdit(data.id)}>
-            <AiFillEdit />
-          </button>
-          <button onClick={() => onDelete(data.id)}>
-            <AiFillDelete />
-          </button>
+        <div className={styles.controls}>
+          <Button handleClick={() => onEdit(data.id)} className={styles.btn}>
+            <EditIcon size={15} />
+          </Button>
+          <Button handleClick={() => onDelete(data.id)} className={styles.btn}>
+            <DeleteIcon size={15} />
+          </Button>
         </div>
       )}
     </div>

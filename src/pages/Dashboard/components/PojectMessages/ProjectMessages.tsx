@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import './ProjectMessages.css';
+import styles from './ProjectMessages.module.css';
 import { MessageType } from '../../../../types/messageType';
 import { Timestamp } from 'firebase/firestore';
-import Message from '../Message/Message';
+
 import { useUserData } from '../../../../context/UserDataContext';
 import { useFirestore } from '../../../../hooks/useFirestore';
 import { useProject } from '../../../../context/ProjectContext';
 import TextboxInput from '../../../../components/TextboxInput/TextboxInput';
+import MessageList from './MessageList';
 
 const ProjectMessages = () => {
   const { document } = useUserData();
@@ -60,26 +61,15 @@ const ProjectMessages = () => {
   };
 
   return (
-    <div className="ProjectMessages">
+    <section className={styles.messages}>
       <h3 className="heading--tertiary">Messages</h3>
-
-      <div className="ProjectMessages__messages">
-        {messages?.map((msg) => (
-          <Message
-            key={Math.round(Math.random() * 1000)}
-            data={msg}
-            onDelete={handleDeleteMessage}
-            onEdit={handleEditMessage}
-          />
-        ))}
-      </div>
-
+      <MessageList />
       <TextboxInput
         text={text}
         onTextChange={setText}
         onSubmitClick={() => console.log('works')}
       />
-    </div>
+    </section>
   );
 };
 

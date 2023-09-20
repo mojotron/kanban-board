@@ -1,0 +1,11 @@
+.messageList {
+  flex: 1 4 auto;
+  background-color: var(--COLOR-GRAY-600);
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: var(--BORDER-RADIUS);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow-y: scroll;
+}
