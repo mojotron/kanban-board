@@ -5,3 +5,10 @@ export type MessageType = {
   createdAt: Timestamp;
   text: string;
 };
+
+export type MessageTypeWithId = {
+  authorUid: string;
+  createdAt: Timestamp;
+  text: string;
+  id: string;
+};

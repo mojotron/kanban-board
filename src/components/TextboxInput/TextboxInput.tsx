@@ -8,21 +8,20 @@ import { TEXT_LENGTHS } from '../../constants/textLengths';
 import { BiWinkSmile as SmileIcon, BiSend as CtaIcon } from 'react-icons/bi';
 
 type PropsType = {
-  text: string;
-  onTextChange: Dispatch<SetStateAction<string>>;
   onSubmitClick: () => void;
 };
 
-const TextboxInput = ({ text, onTextChange, onSubmitClick }: PropsType) => {
+const TextboxInput = ({ onSubmitClick }: PropsType) => {
   const [showEmoji, setShowEmojis] = useState(false);
+  const [text, setText] = useState('');
 
   const handleAddEmoji = (e: EmojiClickData) => {
-    onTextChange((oldValue) => `${oldValue}${e.emoji}`);
+    setText((oldValue) => `${oldValue}${e.emoji}`);
   };
 
   const handleSubmit = () => {
     setShowEmojis(false);
-    onTextChange('');
+    setText('');
     onSubmitClick();
   };
 
@@ -43,7 +42,7 @@ const TextboxInput = ({ text, onTextChange, onSubmitClick }: PropsType) => {
           className={styles.textBox}
           placeholder="Type a message..."
           value={text}
-          onChange={(e) => onTextChange(e.target.value)}
+          onChange={(e) => setText(e.target.value)}
           maxLength={TEXT_LENGTHS.message.text}
           onFocus={() => setShowEmojis(false)}
         />
