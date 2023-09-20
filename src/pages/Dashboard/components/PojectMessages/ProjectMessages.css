@@ -19,25 +19,3 @@
   flex-direction: column;
   gap: 0.5rem;
 }
-.ProjectMessages__controls {
-  min-height: 5rem;
-  margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-}
-.ProjectMessages__controls textarea {
-  flex: 1 1 auto;
-  padding: 0.5rem;
-  resize: none;
-  font-family: inherit;
-}
-.ProjectMessages__controls button {
-  background: none;
-  background-color: var(--COLOR-GRAY-700);
-  cursor: pointer;
-  border: 2px solid var(--COLOR-GRAY-100);
-  padding: 0.5rem;
-  border-radius: var(--BORDER-RADIUS);
-}

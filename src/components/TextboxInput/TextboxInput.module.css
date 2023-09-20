@@ -1,0 +1,45 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.textWrapper {
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.textBox {
+  height: 100%;
+  min-width: 50px;
+  flex: 1 2 auto;
+  font-family: inherit;
+  border-radius: 3px;
+  border: none;
+  color: var(--COLOR-GRAY-800);
+  padding: 0.5rem;
+  resize: none;
+}
+.textBox:focus {
+  outline: none !important;
+  box-shadow: rgba(0, 0, 0, blue) 0px 5px 15px;
+  box-shadow: 0 0 10px var(--COLOR-BLUE-300);
+}
+.counter {
+  margin-left: auto;
+  margin-right: 3rem;
+  font-size: 1.25rem;
+  padding-top: 0.25rem;
+}
+.btn {
+  height: 100%;
+  width: 30px;
+
+  flex: 1 1 auto;
+  font-size: 2rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--COLOR-GRAY-200);
+}
