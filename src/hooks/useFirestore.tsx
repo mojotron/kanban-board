@@ -77,6 +77,7 @@ export const useFirestore = () => {
         return updatedDoc;
       } catch (error) {
         if (!isCanceled && error instanceof Error) {
+          console.log(error);
           setError(error.message);
           setPending(false);
         }

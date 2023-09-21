@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { TASK_STAGES } from './constants/taskStages';
 import { TaskWithId } from './types/taskType';
+import { MessageTypeWithId } from './types/messageType';
 
 export type ConfirmModalState = null | {
   confirmBox: boolean;
@@ -11,6 +12,7 @@ export type ConfirmModalState = null | {
 type State = {
   // new
   showAside: boolean;
+  updateMessage: null | MessageTypeWithId;
   //
   openNewProjectModal: boolean;
   openNewTaskModal: boolean;
@@ -26,6 +28,7 @@ type State = {
 type Action = {
   // new
   setShowAside: (value: boolean) => void;
+  setUpdateMessage: (value: null | MessageTypeWithId) => void;
   //
   setOpenNewProjectModal: (value: boolean) => void;
   setOpenNewTaskModal: (value: boolean) => void;
@@ -40,6 +43,9 @@ export const useKanbanStore = create<State & Action>()((set) => ({
   // new
   showAside: true,
   setShowAside: (value: boolean) => set({ showAside: value }),
+  updateMessage: null,
+  setUpdateMessage: (value: null | MessageTypeWithId) =>
+    set({ updateMessage: value }),
   //
   openNewProjectModal: false,
   openNewTaskModal: false,

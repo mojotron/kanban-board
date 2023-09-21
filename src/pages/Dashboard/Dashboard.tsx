@@ -49,7 +49,9 @@ const Dashboard = () => {
           <ProjectMenu />
           <Tasks />
           <TeamMembers />
+
           <ProjectMessages />
+
           <Description />
         </>
       )}

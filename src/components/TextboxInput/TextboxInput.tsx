@@ -8,21 +8,16 @@ import { TEXT_LENGTHS } from '../../constants/textLengths';
 import { BiWinkSmile as SmileIcon, BiSend as CtaIcon } from 'react-icons/bi';
 
 type PropsType = {
+  text: string;
+  onTextChange: Dispatch<SetStateAction<string>>;
   onSubmitClick: () => void;
 };
 
-const TextboxInput = ({ onSubmitClick }: PropsType) => {
+const TextboxInput = ({ text, onTextChange, onSubmitClick }: PropsType) => {
   const [showEmoji, setShowEmojis] = useState(false);
-  const [text, setText] = useState('');
 
   const handleAddEmoji = (e: EmojiClickData) => {
-    setText((oldValue) => `${oldValue}${e.emoji}`);
-  };
-
-  const handleSubmit = () => {
-    setShowEmojis(false);
-    setText('');
-    onSubmitClick();
+    onTextChange((oldValue) => `${oldValue}${e.emoji}`);
   };
 
   return (
@@ -42,11 +37,11 @@ const TextboxInput = ({ onSubmitClick }: PropsType) => {
           className={styles.textBox}
           placeholder="Type a message..."
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => onTextChange(e.target.value)}
           maxLength={TEXT_LENGTHS.message.text}
           onFocus={() => setShowEmojis(false)}
         />
-        <button className={styles.btn} onClick={handleSubmit}>
+        <button className={styles.btn} onClick={onSubmitClick}>
           <CtaIcon size={25} />
         </button>
       </div>

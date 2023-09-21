@@ -10,16 +10,17 @@ import {
 } from 'react-icons/ai';
 import { useUserData } from '../../../../context/UserDataContext';
 import Button from '../../../../components/Button/Button';
+import { useKanbanStore } from '../../../../store';
 
 type PropsType = {
   data: MessageType & { id: string };
   onDelete: (messageId: string) => void;
-  onEdit: (messageId: string) => void;
 };
 
-const Message = ({ data, onDelete, onEdit }: PropsType) => {
+const Message = ({ data, onDelete }: PropsType) => {
   const { document: user } = useUserData();
   const { team } = useProject();
+  const setUpdateMessage = useKanbanStore((store) => store.setUpdateMessage);
 
   const collaborator = useMemo(() => {
     return team?.find((member) => member.id === data.authorUid);
@@ -43,7 +44,10 @@ const Message = ({ data, onDelete, onEdit }: PropsType) => {
 
       {user?.uid === collaborator.id && (
         <div className={styles.controls}>
-          <Button handleClick={() => onEdit(data.id)} className={styles.btn}>
+          <Button
+            handleClick={() => setUpdateMessage(data)}
+            className={styles.btn}
+          >
             <EditIcon size={15} />
           </Button>
           <Button handleClick={() => onDelete(data.id)} className={styles.btn}>

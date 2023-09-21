@@ -7,6 +7,7 @@
   flex-direction: column;
 }
 .messages h3 {
+  font-size: 1.953rem;
   margin-bottom: 1rem;
 }
 .ProjectMessages__messages {
