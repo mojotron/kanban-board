@@ -8,14 +8,15 @@ import { useProject } from '../../../../context/ProjectContext';
 
 const ProjectMessages = () => {
   const { project } = useProject();
-  const { addMessage } = useMessages();
+  const { addMessage } = useMessages(project?.id!);
   const updateMessage = useKanbanStore((store) => store.updateMessage);
   const [text, setText] = useState('');
 
   console.log(project?.messages);
 
   const handleSubmit = async () => {
-    await addMessage(text);
+    if (!project) return;
+    await addMessage(text, project.messages);
     setText('');
   };
 

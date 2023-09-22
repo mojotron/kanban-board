@@ -11,10 +11,11 @@ import {
 import { useUserData } from '../../../../context/UserDataContext';
 import Button from '../../../../components/Button/Button';
 import { useKanbanStore } from '../../../../store';
+import { useMessages } from '../../../../hooks/useMessages';
 
 type PropsType = {
   data: MessageType & { id: string };
-  onDelete: (messageId: string) => void;
+  onDelete: () => void;
 };
 
 const Message = ({ data, onDelete }: PropsType) => {
@@ -50,7 +51,7 @@ const Message = ({ data, onDelete }: PropsType) => {
           >
             <EditIcon size={15} />
           </Button>
-          <Button handleClick={() => onDelete(data.id)} className={styles.btn}>
+          <Button handleClick={onDelete} className={styles.btn}>
             <DeleteIcon size={15} />
           </Button>
         </div>
