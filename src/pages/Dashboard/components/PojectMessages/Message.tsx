@@ -1,17 +1,20 @@
-import { MessageType } from '../../../../types/messageType';
-import Avatar from '../../../../components/Avatar/Avatar';
-import { useProject } from '../../../../context/ProjectContext';
+// hooks
 import { useMemo } from 'react';
+import { useProject } from '../../../../context/ProjectContext';
+import { useUserData } from '../../../../context/UserDataContext';
+import { useKanbanStore } from '../../../../store';
+// types
+import { MessageType } from '../../../../types/messageType';
+// components
+import Avatar from '../../../../components/Avatar/Avatar';
+import Button from '../../../../components/Button/Button';
 import { formatTime } from '../../../../utils/formatTime';
+// styles and icons
 import styles from './Message.module.css';
 import {
   AiFillDelete as DeleteIcon,
   AiFillEdit as EditIcon,
 } from 'react-icons/ai';
-import { useUserData } from '../../../../context/UserDataContext';
-import Button from '../../../../components/Button/Button';
-import { useKanbanStore } from '../../../../store';
-import { useMessages } from '../../../../hooks/useMessages';
 
 type PropsType = {
   data: MessageType & { id: string };

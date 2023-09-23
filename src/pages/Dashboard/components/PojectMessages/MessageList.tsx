@@ -1,9 +1,12 @@
-import styles from './MessagesList.module.css';
-import Message from './Message';
-import { useMessages } from '../../../../hooks/useMessages';
-
+// hooks
 import { useCollectDocsSnapshot } from '../../../../hooks/useCollectDocsSnapshot';
 import { useProject } from '../../../../context/ProjectContext';
+import { useMessages } from '../../../../hooks/useMessages';
+// styles
+import styles from './MessagesList.module.css';
+// components
+import Message from './Message';
+// types
 import { MessageTypeWithId } from '../../../../types/messageType';
 
 const MessageList = () => {

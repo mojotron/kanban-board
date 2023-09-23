@@ -3,21 +3,35 @@ import TextboxInput from '../../../../components/TextboxInput/TextboxInput';
 import MessageList from './MessageList';
 import { useMessages } from '../../../../hooks/useMessages';
 import { useKanbanStore } from '../../../../store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useProject } from '../../../../context/ProjectContext';
 
 const ProjectMessages = () => {
   const { project } = useProject();
-  const { addMessage } = useMessages(project?.id!);
-  const updateMessage = useKanbanStore((store) => store.updateMessage);
+  const { addMessage, updateMessage } = useMessages(project?.id!);
+  const msgToUpdate = useKanbanStore((store) => store.updateMessage);
+  const setUpdateMessage = useKanbanStore((store) => store.setUpdateMessage);
   const [text, setText] = useState('');
 
-  console.log(project?.messages);
+  console.log(msgToUpdate);
+
+  useEffect(() => {
+    if (msgToUpdate) {
+      setText(msgToUpdate.text);
+    }
+  }, [msgToUpdate]);
 
   const handleSubmit = async () => {
     if (!project) return;
-    await addMessage(text, project.messages);
-    setText('');
+    if (updateMessage === null) {
+      await addMessage(text, project.messages);
+      setText('');
+    } else {
+      if (!msgToUpdate) return;
+      updateMessage(msgToUpdate.id, text);
+      setUpdateMessage(null);
+      setText('');
+    }
   };
 
   return (
