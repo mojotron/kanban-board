@@ -19,9 +19,6 @@ const useProjectSource = (): {
   tasks: Task[] | undefined;
   tasksPending: boolean;
   tasksErr: null | string;
-  team: User[] | undefined;
-  teamPending: boolean;
-  teamErr: null | string;
 } => {
   const { projectId } = useParams();
   // get project doc
@@ -37,17 +34,6 @@ const useProjectSource = (): {
     error: tasksErr,
   } = useCollectDocsSnapshot<Task>(project?.tasks, 'tasks');
 
-  const members = useMemo(() => {
-    if (!project) return;
-    return [project.adminUid, ...project.members];
-  }, [project]);
-
-  const {
-    documents: team,
-    pending: teamPending,
-    error: teamErr,
-  } = useCollectDocsSnapshot<User>(members, 'users');
-
   return {
     project,
     projectErr,
@@ -55,9 +41,6 @@ const useProjectSource = (): {
     tasks,
     tasksPending,
     tasksErr,
-    team,
-    teamPending,
-    teamErr,
   };
 };
 

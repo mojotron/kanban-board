@@ -1,4 +1,3 @@
-import { useProject } from '../../../../context/ProjectContext';
 import { useUserData } from '../../../../context/UserDataContext';
 import { formatTime } from '../../../../utils/formatTime';
 import { Link } from 'react-router-dom';
@@ -6,10 +5,11 @@ import { Link } from 'react-router-dom';
 import Avatar from '../../../../components/Avatar/Avatar';
 // styles
 import styles from './TeamMembersList.module.css';
+import { useTeam } from '../../../../context/TeamContext';
 
 const TeamMembersList = () => {
-  const { team } = useProject();
-  const { document: user } = useUserData();
+  const { team, currentUser } = useTeam();
+
   return (
     <ul className={styles.teamMembersList}>
       {team &&
@@ -17,7 +17,7 @@ const TeamMembersList = () => {
           return (
             <li key={member.id}>
               <Link
-                to={user?.uid === member.uid ? '/' : `/${member.userName}`}
+                to={currentUser(member.id) ? '/' : `/${member.userName}`}
                 state={{ targetId: member.uid }}
                 className={styles.teamMembersListItem}
               >

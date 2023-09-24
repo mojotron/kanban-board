@@ -15,6 +15,7 @@ import Tasks from './components/Tasks/Tasks';
 import { TaskType } from '../../types/taskType';
 // styles
 import styles from './Dashboard.module.css';
+import { TeamProvider } from '../../context/TeamContext';
 
 const Dashboard = () => {
   const { updateDocument } = useFirestore();
@@ -48,9 +49,10 @@ const Dashboard = () => {
         <>
           <ProjectMenu />
           <Tasks />
-          <TeamMembers />
-
-          <ProjectMessages />
+          <TeamProvider>
+            <TeamMembers />
+            <ProjectMessages />
+          </TeamProvider>
 
           <Description />
         </>

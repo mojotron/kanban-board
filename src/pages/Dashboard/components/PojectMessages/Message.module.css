@@ -5,6 +5,7 @@
   display: flex;
   gap: 2rem;
   color: var(--COLOR-GRAY-800);
+  min-height: 5rem;
 }
 .controls {
   margin-left: auto;

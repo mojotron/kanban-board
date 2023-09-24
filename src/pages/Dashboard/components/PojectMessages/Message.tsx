@@ -1,10 +1,7 @@
 // hooks
-import { useMemo } from 'react';
-import { useProject } from '../../../../context/ProjectContext';
-import { useUserData } from '../../../../context/UserDataContext';
 import { useKanbanStore } from '../../../../store';
 // types
-import { MessageType } from '../../../../types/messageType';
+import { MessageTypeWithId } from '../../../../types/messageType';
 // components
 import Avatar from '../../../../components/Avatar/Avatar';
 import Button from '../../../../components/Button/Button';
@@ -15,30 +12,27 @@ import {
   AiFillDelete as DeleteIcon,
   AiFillEdit as EditIcon,
 } from 'react-icons/ai';
+import { UserWithId } from '../../../../types/userType';
 
 type PropsType = {
-  data: MessageType & { id: string };
+  data: MessageTypeWithId;
+  member: UserWithId | undefined;
+  currentUser: boolean;
   onDelete: () => void;
 };
 
-const Message = ({ data, onDelete }: PropsType) => {
-  const { document: user } = useUserData();
-  const { team } = useProject();
+const Message = ({ data, member, currentUser, onDelete }: PropsType) => {
   const setUpdateMessage = useKanbanStore((store) => store.setUpdateMessage);
-
-  const collaborator = useMemo(() => {
-    return team?.find((member) => member.id === data.authorUid);
-  }, [data, team]);
-
-  if (!collaborator) return null;
 
   return (
     <div className={styles.message}>
-      <Avatar
-        size="35"
-        imageUrl={collaborator.photoUrl}
-        userName={collaborator.userName}
-      />
+      {member && (
+        <Avatar
+          size="35"
+          imageUrl={member?.photoUrl}
+          userName={member?.userName}
+        />
+      )}
       <div className="Message__text">
         <p className={styles.text}>{data.text}</p>
         <p className={styles.time}>
@@ -46,7 +40,7 @@ const Message = ({ data, onDelete }: PropsType) => {
         </p>
       </div>
 
-      {user?.uid === collaborator.id && (
+      {currentUser && (
         <div className={styles.controls}>
           <Button
             handleClick={() => setUpdateMessage(data)}

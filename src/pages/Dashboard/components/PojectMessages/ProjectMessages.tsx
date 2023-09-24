@@ -13,8 +13,6 @@ const ProjectMessages = () => {
   const setUpdateMessage = useKanbanStore((store) => store.setUpdateMessage);
   const [text, setText] = useState('');
 
-  console.log(msgToUpdate);
-
   useEffect(() => {
     if (msgToUpdate) {
       setText(msgToUpdate.text);
@@ -23,12 +21,15 @@ const ProjectMessages = () => {
 
   const handleSubmit = async () => {
     if (!project) return;
-    if (updateMessage === null) {
+    console.log('hmm');
+    if (msgToUpdate === null) {
+      console.log('add');
+
       await addMessage(text, project.messages);
       setText('');
     } else {
       if (!msgToUpdate) return;
-      updateMessage(msgToUpdate.id, text);
+      await updateMessage(msgToUpdate.id, text);
       setUpdateMessage(null);
       setText('');
     }
@@ -37,6 +38,7 @@ const ProjectMessages = () => {
   return (
     <section className={styles.messages}>
       <h3>Messages</h3>
+
       <MessageList />
       <TextboxInput
         onSubmitClick={handleSubmit}

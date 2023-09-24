@@ -8,20 +8,27 @@ import styles from './MessagesList.module.css';
 import Message from './Message';
 // types
 import { MessageTypeWithId } from '../../../../types/messageType';
+import { useTeam } from '../../../../context/TeamContext';
 
 const MessageList = () => {
   const { project } = useProject();
+  const { team, getMember, currentUser } = useTeam();
   const { deleteMessage } = useMessages(project?.id!);
   const { documents: messages } = useCollectDocsSnapshot<MessageTypeWithId>(
     project?.messages,
     'messages'
   );
+
+  if (!messages && !team) return null;
+
   return (
     <ul className={styles.messageList}>
       {messages?.map((msg) => (
         <Message
           key={Math.round(Math.random() * 1000)}
           data={msg}
+          member={getMember(msg.authorUid)}
+          currentUser={currentUser(msg.authorUid)}
           onDelete={() => deleteMessage(msg.id, project?.messages!)}
         />
       ))}
