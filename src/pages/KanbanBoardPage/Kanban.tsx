@@ -1,4 +1,4 @@
-import './KanbanBoard.css';
+import styles from './Kanban.module.css';
 import { TASK_STAGES_KANBAN } from '../../constants/taskStages';
 import { useKanbanStore } from '../../store';
 import Column from './components/Column/Column';
@@ -13,7 +13,7 @@ const KanbanBoard = () => {
   const openConfirmModal = useKanbanStore((state) => state.openConfirmModal);
 
   return (
-    <div className="KanbanBoard">
+    <div className={styles.kanban}>
       {openConfirmModal && <ConfirmPopup />}
       {openViewTaskModal && <Task />}
 

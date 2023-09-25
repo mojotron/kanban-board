@@ -1,16 +1,14 @@
-import { ReactNode, createContext, useContext, useMemo } from 'react';
+import { ReactNode, createContext, useContext } from 'react';
 import { useOnSnapshotDocument } from '../hooks/useOnSnapshotDocument';
-import { useUserData } from './UserDataContext';
+
 import { useCollectDocsSnapshot } from '../hooks/useCollectDocsSnapshot';
 import { useParams } from 'react-router-dom';
 // types
 import { ProjectType } from '../types/projectType';
 import { TaskType } from '../types/taskType';
-import { UserType } from '../types/userType';
 
 type Project = ProjectType & { id: string };
 type Task = TaskType & { id: string };
-type User = UserType & { id: string };
 
 const useProjectSource = (): {
   project: undefined | Project;

@@ -27,13 +27,15 @@ const Message = ({ data, member, currentUser, onDelete }: PropsType) => {
   return (
     <div className={styles.message}>
       {member && (
-        <Avatar
-          size="35"
-          imageUrl={member?.photoUrl}
-          userName={member?.userName}
-        />
+        <div className={styles.avatarWrapper}>
+          <Avatar
+            size="35"
+            imageUrl={member?.photoUrl}
+            userName={member?.userName}
+          />
+        </div>
       )}
-      <div className="Message__text">
+      <div className={styles.textWrapper}>
         <p className={styles.text}>{data.text}</p>
         <p className={styles.time}>
           {formatTime(formatTime(data.createdAt.seconds * 1000))}

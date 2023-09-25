@@ -1,11 +1,12 @@
-import { useUserData } from '../../../../context/UserDataContext';
-import { formatTime } from '../../../../utils/formatTime';
+// hooks
+import { useTeam } from '../../../../context/TeamContext';
 import { Link } from 'react-router-dom';
+// helpers
+import { formatTime } from '../../../../utils/formatTime';
 // components
 import Avatar from '../../../../components/Avatar/Avatar';
 // styles
 import styles from './TeamMembersList.module.css';
-import { useTeam } from '../../../../context/TeamContext';
 
 const TeamMembersList = () => {
   const { team, currentUser } = useTeam();

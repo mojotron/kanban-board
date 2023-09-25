@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
 import UserLayout from './layouts/UserLayout/UserLayout';
-import KanbanBoard from './pages/KanbanBoardPage/KanbanBoard';
+import KanbanBoard from './pages/KanbanBoardPage/Kanban';
 import Profile from './pages/Profile/Profile';
 import FindProjects from './pages/FindProjects/FindProjects';
 import { useUserData } from './context/UserDataContext';
@@ -31,6 +31,7 @@ const App = () => {
                 />
                 <Route path="/:userId" element={<Profile />} />
                 <Route path="/project/:projectId" element={<Dashboard />} />
+                <Route path="/kanban/:projectId" element={<KanbanBoard />} />
               </Route>
             </Route>
             <Route path="/login" element={<Login />} />

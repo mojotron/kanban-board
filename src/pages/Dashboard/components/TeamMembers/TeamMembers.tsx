@@ -1,13 +1,10 @@
 // styles
-import { useState } from 'react';
 import styles from './TeamMembers.module.css';
 import TeamMembersList from './TeamMembersList';
-import { useProject } from '../../../../context/ProjectContext';
-import Button from '../../../../components/Button/Button';
+import { useTeam } from '../../../../context/TeamContext';
 
 const TeamMembers = () => {
-  const [showMembers, setShowMembers] = useState(false);
-  const { team } = useProject();
+  const { team } = useTeam();
 
   const allMembers = team?.length || 0;
   const onlineMembers = team?.filter((m) => m.online).length || 0;

@@ -1,11 +1,13 @@
 .message {
-  padding: 1rem 1.5rem;
+  padding: 1rem;
   background-color: var(--COLOR-GRAY-200);
   border-radius: var(--BORDER-RADIUS);
   display: flex;
-  gap: 2rem;
+  justify-content: flex-start;
+  gap: 1rem;
   color: var(--COLOR-GRAY-800);
   min-height: 5rem;
+  position: relative;
 }
 .controls {
   margin-left: auto;
@@ -18,6 +20,14 @@
   color: var(--COLOR-GRAY-600);
   cursor: pointer;
 }
+.textWrapper {
+  flex: 1 3 auto;
+}
+.controls,
+.avatarWrapper {
+  width: 35px;
+}
+
 .text {
   font-size: 1.4rem;
   color: var(--COLOR-GRAY-700);
