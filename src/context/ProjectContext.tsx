@@ -1,22 +1,25 @@
-import { ReactNode, createContext, useContext } from 'react';
+import { ReactNode, createContext, useCallback, useContext } from 'react';
 import { useOnSnapshotDocument } from '../hooks/useOnSnapshotDocument';
-
+import { useFirestore } from '../hooks/useFirestore';
 import { useCollectDocsSnapshot } from '../hooks/useCollectDocsSnapshot';
 import { useParams } from 'react-router-dom';
 // types
 import { ProjectType } from '../types/projectType';
-import { TaskType } from '../types/taskType';
+import { AddNewTaskType, TaskType, TaskWithId } from '../types/taskType';
+import { Timestamp } from 'firebase/firestore';
 
 type Project = ProjectType & { id: string };
-type Task = TaskType & { id: string };
 
 const useProjectSource = (): {
   project: undefined | Project;
   projectErr: null | string;
   projectPending: boolean;
-  tasks: Task[] | undefined;
+  tasks: TaskWithId[] | undefined;
   tasksPending: boolean;
   tasksErr: null | string;
+  createNewTask: (newTask: AddNewTaskType) => void;
+  firestorePending: boolean;
+  firestoreError: null | string;
 } => {
   const { projectId } = useParams();
   // get project doc
@@ -30,7 +33,35 @@ const useProjectSource = (): {
     documents: tasks,
     pending: tasksPending,
     error: tasksErr,
-  } = useCollectDocsSnapshot<Task>(project?.tasks, 'tasks');
+  } = useCollectDocsSnapshot<TaskWithId>(project?.tasks, 'tasks');
+
+  const {
+    addDocument,
+    updateDocument,
+    pending: firestorePending,
+    error: firestoreError,
+  } = useFirestore();
+
+  const createNewTask = useCallback(async (newTask: AddNewTaskType) => {
+    if (!project) return;
+    const data: TaskType = {
+      ...newTask,
+      adminUid: project?.adminUid,
+      assignToUid: '',
+      notes: [],
+      stage: 'backlog',
+      deadline:
+        newTask.deadline === ''
+          ? null
+          : Timestamp.fromDate(new Date(newTask.deadline)),
+    };
+    const doc = await addDocument<TaskType>('tasks', data);
+    if (!doc) return;
+    await updateDocument('projects', project.id, {
+      tasks: [...project.tasks, doc.id],
+    });
+    console.log(newTask);
+  }, []);
 
   return {
     project,
@@ -39,6 +70,9 @@ const useProjectSource = (): {
     tasks,
     tasksPending,
     tasksErr,
+    createNewTask,
+    firestorePending,
+    firestoreError,
   };
 };
 

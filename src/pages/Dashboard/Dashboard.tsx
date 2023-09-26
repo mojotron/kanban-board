@@ -16,14 +16,14 @@ import { TaskType } from '../../types/taskType';
 // styles
 import styles from './Dashboard.module.css';
 import { TeamProvider } from '../../context/TeamContext';
+import { useMemo, useState } from 'react';
+import { MenuOptionType } from '../../types/menuOption';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Dashboard = () => {
   const { updateDocument } = useFirestore();
-
-  const openNewTaskModal = useKanbanStore((state) => state.openNewTaskModal);
-  const setOpenNewTaskModal = useKanbanStore(
-    (state) => state.setOpenNewTaskModal
-  );
+  const navigate = useNavigate();
+  const { projectId } = useParams();
 
   const openViewTaskModal = useKanbanStore((state) => state.openViewTaskModal);
   const openConfirmModal = useKanbanStore((state) => state.openConfirmModal);
@@ -35,19 +35,47 @@ const Dashboard = () => {
     await updateDocument('projects', project.id, { public: !project.public });
   };
 
+  const [openNewTask, setOpenNewTask] = useState(false);
+
+  const menuOptions: MenuOptionType[] = useMemo(() => {
+    return [
+      {
+        text: 'Kanban Board',
+        className: `${styles.menuBtn} ${styles.kanbanBtn}`,
+        handleClick: () => navigate(`/kanban/${projectId}`),
+      },
+      {
+        text: 'Edit Project',
+        className: `${styles.menuBtn}`,
+        handleClick: () => setOpenNewTask(true),
+      },
+      {
+        text: 'Create New Task',
+        className: `${styles.menuBtn}`,
+        handleClick: () => setOpenNewTask(true),
+      },
+
+      {
+        text: 'Find Collaborator',
+        className: `${styles.menuBtn}`,
+        handleClick: () => {},
+      },
+    ];
+  }, []);
+
   return (
     <main className={styles.dashboard}>
       {projectPending && <h2>Loading...</h2>}
       {projectErr && <h2 className="error">{projectErr}</h2>}
 
-      {project && openNewTaskModal && <NewTaskForm tasks={project.tasks} />}
+      {openNewTask && <NewTaskForm onClose={() => setOpenNewTask(false)} />}
 
       {openConfirmModal && <ConfirmPopup />}
       {openViewTaskModal && <Task />}
 
       {project && (
         <>
-          <ProjectMenu />
+          <ProjectMenu menuOptions={menuOptions} />
           <Tasks />
           <TeamProvider>
             <TeamMembers />

@@ -15,7 +15,6 @@ type State = {
   updateMessage: null | MessageTypeWithId;
   //
   openNewProjectModal: boolean;
-  openNewTaskModal: boolean;
   openViewTaskModal: boolean;
 
   currentTaskStage: null | string;
@@ -31,7 +30,6 @@ type Action = {
   setUpdateMessage: (value: null | MessageTypeWithId) => void;
   //
   setOpenNewProjectModal: (value: boolean) => void;
-  setOpenNewTaskModal: (value: boolean) => void;
   setCurrentTaskStage: (column: string | null) => void;
   setDraggedTask: (task: TaskWithId | null) => void;
   setOpenViewTaskModal: (value: boolean) => void;
@@ -48,14 +46,12 @@ export const useKanbanStore = create<State & Action>()((set) => ({
     set({ updateMessage: value }),
   //
   openNewProjectModal: false,
-  openNewTaskModal: false,
   currentTaskStage: TASK_STAGES[0],
   draggedTask: null,
   openViewTaskModal: false,
   currentTaskId: null,
   openConfirmModal: null,
   setOpenNewProjectModal: (value) => set({ openNewProjectModal: value }),
-  setOpenNewTaskModal: (value) => set({ openNewTaskModal: value }),
   setCurrentTaskStage: (stage: string | null) =>
     set({ currentTaskStage: stage }),
   setDraggedTask: (task: TaskWithId | null) => set({ draggedTask: task }),

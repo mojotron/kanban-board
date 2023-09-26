@@ -27,4 +27,11 @@ export type TaskType = {
   stage: Stage;
 };
 
+export type AddNewTaskType = {
+  title: string;
+  description: string;
+  deadline: string;
+  priority: Priority;
+};
+
 export type TaskWithId = TaskType & { id: string };

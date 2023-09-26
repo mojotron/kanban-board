@@ -3,22 +3,18 @@ import {
   useEffect,
   useReducer,
   useRef,
-  useCallback,
   FormEvent,
 } from 'react';
-import { useKanbanStore } from '../../../../store';
 import ModalCloseBtn from '../../../../components/ModalCloseBtn/ModalCloseBtn';
-import { Timestamp } from 'firebase/firestore';
-import { TaskType, Priority } from '../../../../types/taskType';
-import { useFirestore } from '../../../../hooks/useFirestore';
-import { useUserData } from '../../../../context/UserDataContext';
+import { AddNewTaskType, Priority } from '../../../../types/taskType';
+import { useProject } from '../../../../context/ProjectContext';
 
-const NewTaskForm = ({ tasks }: { tasks: string[] }) => {
-  const closeModal = useKanbanStore((state) => state.setOpenNewTaskModal);
-  const currentProject = useKanbanStore((state) => state.currentProject);
-  const { document } = useUserData();
+type PropsType = {
+  onClose: () => void;
+};
 
-  const { pending, error, addDocument, updateDocument } = useFirestore();
+const NewTaskForm = ({ onClose }: PropsType) => {
+  const { createNewTask, firestorePending, firestoreError } = useProject();
   const titleInputRef = useRef() as MutableRefObject<HTMLInputElement>;
 
   type State = {
@@ -57,46 +53,35 @@ const NewTaskForm = ({ tasks }: { tasks: string[] }) => {
     }
   );
 
-  const handleCloseModal = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === 'Escape') closeModal(false);
-    },
-    [closeModal]
-  );
+  const handleCloseModal = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') onClose();
+  };
 
   useEffect(() => {
-    titleInputRef.current.focus();
-
     window.addEventListener('keydown', handleCloseModal);
     return () => window.removeEventListener('keydown', handleCloseModal);
   }, []);
 
+  useEffect(() => {
+    titleInputRef.current.focus();
+  }, []);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!document || !currentProject) return;
-    const newTask = await addDocument<TaskType>('tasks', {
-      adminUid: document.uid,
-      assignToUid: '',
+    const newTask: AddNewTaskType = {
       title: state.title,
       description: state.description,
-      notes: [],
-      deadline:
-        state.deadline === ''
-          ? null
-          : Timestamp.fromDate(new Date(state.deadline)),
+      deadline: state.deadline,
       priority: state.priority,
-      stage: 'backlog',
-    });
-    await updateDocument('projects', currentProject, {
-      tasks: [...tasks, newTask?.id],
-    });
-    closeModal(false);
+    };
+    await createNewTask(newTask);
+    onClose();
   };
 
   return (
     <div className="overlay">
       <form className="Form" onSubmit={handleSubmit}>
-        <ModalCloseBtn handleClose={() => closeModal(false)} />
+        <ModalCloseBtn handleClose={onClose} />
 
         <h2 className="heading--secondary">New Task</h2>
         <div className="Form__item">
@@ -160,11 +145,11 @@ const NewTaskForm = ({ tasks }: { tasks: string[] }) => {
         </div>
 
         <button type="submit" className="btn">
-          {pending ? 'Loading...' : 'create'}
+          {firestorePending ? 'Loading...' : 'Create'}
         </button>
-        <p className={`Form__note ${error ? 'error' : ''}`}>
-          {error
-            ? `${error}`
+        <p className={`Form__note ${firestoreError ? 'error' : ''}`}>
+          {firestoreError
+            ? `${firestoreError}`
             : 'You can update all fields later in your dashboard!'}
         </p>
       </form>
