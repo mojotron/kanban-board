@@ -1,5 +1,6 @@
 .Updatables {
   display: flex;
+  cursor: text;
 }
 .Updatables__display {
   font-size: 1.563rem;
@@ -13,6 +14,7 @@
 }
 .Updatables__btn--edit {
   visibility: hidden;
+  cursor: pointer;
 }
 .Updatables:hover .Updatables__btn--edit {
   visibility: visible;

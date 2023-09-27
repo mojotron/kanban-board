@@ -1,0 +1,15 @@
+.edit {
+  background-color: var(--COLOR-GRAY-600);
+  border-radius: var(--BORDER-RADIUS);
+  width: 100dvw;
+  max-width: 60rem;
+  min-height: 10rem;
+  margin: 0.5rem;
+  padding: 3rem 2rem;
+  position: relative;
+}
+.btnClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}

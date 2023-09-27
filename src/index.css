@@ -150,6 +150,7 @@ body {
   }
 }
 .overlay {
+  z-index: 99;
   width: 100vw;
   height: 100vh;
   position: absolute;

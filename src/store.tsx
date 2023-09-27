@@ -16,7 +16,6 @@ type State = {
   //
   openNewProjectModal: boolean;
   openViewTaskModal: boolean;
-
   currentTaskStage: null | string;
   draggedTask: null | TaskWithId;
   currentTaskId: string | null;

@@ -11,6 +11,7 @@ import ProjectMessages from './components/PojectMessages/ProjectMessages';
 import ProjectMenu from './components/ProjectMenu/ProjectMenu';
 import Description from './components/Description/Description';
 import Tasks from './components/Tasks/Tasks';
+import EditProject from './components/EditProject/EditProject';
 // types
 import { TaskType } from '../../types/taskType';
 // styles
@@ -36,6 +37,7 @@ const Dashboard = () => {
   };
 
   const [openNewTask, setOpenNewTask] = useState(false);
+  const [openEditProject, setOpenEditProject] = useState(false);
 
   const menuOptions: MenuOptionType[] = useMemo(() => {
     return [
@@ -45,9 +47,9 @@ const Dashboard = () => {
         handleClick: () => navigate(`/kanban/${projectId}`),
       },
       {
-        text: 'Edit Project',
+        text: 'Project Details',
         className: `${styles.menuBtn}`,
-        handleClick: () => setOpenNewTask(true),
+        handleClick: () => setOpenEditProject(true),
       },
       {
         text: 'Create New Task',
@@ -68,20 +70,22 @@ const Dashboard = () => {
       {projectPending && <h2>Loading...</h2>}
       {projectErr && <h2 className="error">{projectErr}</h2>}
 
-      {openNewTask && <NewTaskForm onClose={() => setOpenNewTask(false)} />}
-
       {openConfirmModal && <ConfirmPopup />}
       {openViewTaskModal && <Task />}
 
       {project && (
         <>
+          {openNewTask && <NewTaskForm onClose={() => setOpenNewTask(false)} />}
+          {openEditProject && (
+            <EditProject onClose={() => setOpenEditProject(false)} />
+          )}
+
           <ProjectMenu menuOptions={menuOptions} />
           <Tasks />
           <TeamProvider>
             <TeamMembers />
             <ProjectMessages />
           </TeamProvider>
-
           <Description />
         </>
       )}

@@ -8,6 +8,7 @@ import {
 import ModalCloseBtn from '../../../../components/ModalCloseBtn/ModalCloseBtn';
 import { AddNewTaskType, Priority } from '../../../../types/taskType';
 import { useProject } from '../../../../context/ProjectContext';
+import { useCloseOnEscape } from '../../../../hooks/useCloseOnEscape';
 
 type PropsType = {
   onClose: () => void;
@@ -16,6 +17,7 @@ type PropsType = {
 const NewTaskForm = ({ onClose }: PropsType) => {
   const { createNewTask, firestorePending, firestoreError } = useProject();
   const titleInputRef = useRef() as MutableRefObject<HTMLInputElement>;
+  useCloseOnEscape(onClose);
 
   type State = {
     title: string;
@@ -52,15 +54,6 @@ const NewTaskForm = ({ onClose }: PropsType) => {
       deadline: '',
     }
   );
-
-  const handleCloseModal = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') onClose();
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleCloseModal);
-    return () => window.removeEventListener('keydown', handleCloseModal);
-  }, []);
 
   useEffect(() => {
     titleInputRef.current.focus();
