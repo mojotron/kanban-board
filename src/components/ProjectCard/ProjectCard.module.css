@@ -11,12 +11,6 @@
   align-items: center;
   background-color: var(--COLOR-BLUE-400);
 }
-.admin {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 .body {
   padding: 2rem;
 }

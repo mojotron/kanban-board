@@ -12,8 +12,6 @@ import ProjectMenu from './components/ProjectMenu/ProjectMenu';
 import Description from './components/Description/Description';
 import Tasks from './components/Tasks/Tasks';
 import EditProject from './components/EditProject/EditProject';
-// types
-import { TaskType } from '../../types/taskType';
 // styles
 import styles from './Dashboard.module.css';
 import { TeamProvider } from '../../context/TeamContext';
@@ -75,18 +73,20 @@ const Dashboard = () => {
 
       {project && (
         <>
-          {openNewTask && <NewTaskForm onClose={() => setOpenNewTask(false)} />}
-          {openEditProject && (
-            <EditProject onClose={() => setOpenEditProject(false)} />
-          )}
-
-          <ProjectMenu menuOptions={menuOptions} />
-          <Tasks />
           <TeamProvider>
+            {openNewTask && (
+              <NewTaskForm onClose={() => setOpenNewTask(false)} />
+            )}
+            {openEditProject && (
+              <EditProject onClose={() => setOpenEditProject(false)} />
+            )}
+
+            <ProjectMenu menuOptions={menuOptions} />
+            <Tasks />
             <TeamMembers />
             <ProjectMessages />
+            <Description />
           </TeamProvider>
-          <Description />
         </>
       )}
     </main>

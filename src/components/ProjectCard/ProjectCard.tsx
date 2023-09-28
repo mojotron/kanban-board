@@ -10,6 +10,7 @@ import { MdMoveToInbox as OpenIcon } from 'react-icons/md';
 // components
 import Avatar from '../Avatar/Avatar';
 import ExpandedText from '../ExpandedText/ExpandedText';
+import AdminAvatar from '../AdminAvatar/AdminAvatar';
 
 type PropsType = {
   data: ProjectWithId;
@@ -28,17 +29,7 @@ const ProjectCard = ({ data }: PropsType) => {
           <OpenIcon size={30} />
         </Link>
 
-        {creator && (
-          <figure className={styles.admin}>
-            <h3>Admin</h3>
-            <Avatar
-              imageUrl={creator.photoUrl}
-              size="50"
-              userName={creator.userName}
-            />
-            <h3>{creator.userName}</h3>
-          </figure>
-        )}
+        {creator && <AdminAvatar admin={creator} />}
       </header>
 
       <div className={styles.body}>

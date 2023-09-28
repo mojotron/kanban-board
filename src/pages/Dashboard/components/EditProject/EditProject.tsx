@@ -5,9 +5,10 @@ import styles from './EditProject.module.css';
 import Button from '../../../../components/Button/Button';
 import UpdatableTextValue from '../../../../components/Updatables/UpdatableTextValue/UpdatableTextValue';
 import { TEXT_LENGTHS } from '../../../../constants/textLengths';
-import UpdatableSelectValue from '../../../../components/Updatables/UpdatableSelectValue/UpdatableSelectValue';
-import { PRIORITIES } from '../../../../constants/priorities';
 import OuterLink from '../../../../components/OuterLink/OuterLink';
+import TagsList from '../../../../components/TagsList/TagsList';
+import AdminAvatar from '../../../../components/AdminAvatar/AdminAvatar';
+import { useTeam } from '../../../../context/TeamContext';
 
 type PropsType = {
   onClose: () => void;
@@ -15,6 +16,7 @@ type PropsType = {
 const EditProject = ({ onClose }: PropsType) => {
   useCloseOnEscape(onClose);
   const { project } = useProject();
+  const { getMember } = useTeam();
 
   if (!project) return null;
 
@@ -22,19 +24,27 @@ const EditProject = ({ onClose }: PropsType) => {
     <div className="overlay">
       <div className={styles.edit}>
         <Button className={styles.btnClose} handleClick={onClose}>
-          X
+          &times;
         </Button>
+        <header className={styles.header}>
+          <div className={styles.headerLeft}>
+            <UpdatableTextValue
+              displayValue={project.name}
+              handleUpdate={() => {}}
+              role="heading"
+              maxLength={TEXT_LENGTHS.project.title}
+            />
+            <OuterLink to={project.repository}>Repository</OuterLink>
+            <TagsList tags={project.tags} />
+          </div>
 
-        <UpdatableTextValue
-          displayValue={project.name}
-          handleUpdate={() => {}}
-          role="heading"
-          maxLength={TEXT_LENGTHS.project.title}
-        />
-
-        <Button handleClick={() => {}}>Go Public</Button>
-
-        <OuterLink to={project.repository}>Repository</OuterLink>
+          <div className={styles.headerRight}>
+            <Button handleClick={() => {}} className={styles.btnPublic}>
+              Make Project {project.public ? 'Private' : 'Public'}
+            </Button>
+            <AdminAvatar admin={getMember(project.adminUid)} />
+          </div>
+        </header>
 
         <UpdatableTextValue
           displayValue={project.description}
