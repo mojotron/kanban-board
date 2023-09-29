@@ -9,6 +9,7 @@ import OuterLink from '../../../../components/OuterLink/OuterLink';
 import TagsList from '../../../../components/TagsList/TagsList';
 import AdminAvatar from '../../../../components/AdminAvatar/AdminAvatar';
 import { useTeam } from '../../../../context/TeamContext';
+import UpdateText from '../../../../components/UpdateText/UpdateText';
 
 type PropsType = {
   onClose: () => void;
@@ -28,13 +29,8 @@ const EditProject = ({ onClose }: PropsType) => {
         </Button>
         <header className={styles.header}>
           <div className={styles.headerLeft}>
-            <UpdatableTextValue
-              displayValue={project.name}
-              handleUpdate={() => {}}
-              role="heading"
-              maxLength={TEXT_LENGTHS.project.title}
-            />
-            <OuterLink to={project.repository}>Repository</OuterLink>
+            <UpdateText text={project.name} />
+            <OuterLink to={project.repository}>Project Repository</OuterLink>
             <TagsList tags={project.tags} />
           </div>
 
@@ -46,12 +42,7 @@ const EditProject = ({ onClose }: PropsType) => {
           </div>
         </header>
 
-        <UpdatableTextValue
-          displayValue={project.description}
-          handleUpdate={() => {}}
-          role="paragraph"
-          maxLength={TEXT_LENGTHS.project.description}
-        />
+        <UpdateText text={project.description} type="textarea" />
       </div>
     </div>
   );

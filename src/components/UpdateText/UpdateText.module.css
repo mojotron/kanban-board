@@ -1,0 +1,19 @@
+.update {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid red;
+}
+.updateBtn {
+  background: none;
+  border: none;
+  color: var(--COLOR-YELLOW-400);
+  height: 2.4rem;
+  width: 2.4rem;
+  cursor: pointer;
+  visibility: hidden;
+  margin-bottom: auto;
+}
+.update:hover .updateBtn {
+  visibility: visible;
+}

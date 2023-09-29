@@ -1,9 +1,13 @@
 .link:link,
 .link:visited {
   cursor: pointer;
-  color: var(--COLOR-GRAY-200);
+  color: var(--COLOR-BLUE-300);
+  text-decoration: none;
+  font-size: 1.25rem;
+  letter-spacing: 1px;
 }
 .link:active,
 .link:hover {
   color: var(--COLOR-BLUE-300);
+  text-decoration: underline;
 }
