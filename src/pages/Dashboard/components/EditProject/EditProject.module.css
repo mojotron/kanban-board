@@ -8,7 +8,13 @@
   padding: 6rem 3rem;
   position: relative;
 }
-.title {
+.projectName {
+  font-size: 2.441rem;
+  margin-bottom: 1rem;
+}
+.projectDescription {
+  font-size: 1.6rem;
+  line-height: 1.6;
 }
 .header {
   display: flex;
@@ -19,8 +25,9 @@
 .headerLeft {
 }
 .headerRight {
+  margin-bottom: auto;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 .btnClose,
 .btnPublic {

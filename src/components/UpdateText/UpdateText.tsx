@@ -1,18 +1,15 @@
 import { useState } from 'react';
 import styles from './UpdateText.module.css';
-import {
-  AiFillEdit as IconEdit,
-  AiFillRightCircle as IconSubmit,
-  AiFillCloseCircle as IconClose,
-} from 'react-icons/ai';
+import { AiFillEdit as IconEdit } from 'react-icons/ai';
 import UpdateControls from './UpdateControls';
 import UpdateInput from './UpdateInput';
 
 type PropsType = {
   text: string;
-  updatable?: boolean;
+  updatable?: boolean; // for admin only
   className?: string;
   type?: 'input' | 'textarea';
+  maxLength?: number;
 };
 
 const UpdateText = ({
@@ -20,6 +17,7 @@ const UpdateText = ({
   updatable = true,
   className = '',
   type = 'input',
+  maxLength = 100,
 }: PropsType) => {
   const [textValue, setTextValue] = useState(text);
   const [update, setUpdate] = useState(false);
@@ -27,7 +25,12 @@ const UpdateText = ({
   if (update)
     return (
       <div>
-        <UpdateInput value={textValue} onChange={setTextValue} type={type} />
+        <UpdateInput
+          value={textValue}
+          onChange={setTextValue}
+          type={type}
+          maxLength={maxLength}
+        />
 
         <UpdateControls onClose={() => setUpdate(false)} onSubmit={() => {}} />
       </div>
@@ -40,9 +43,11 @@ const UpdateText = ({
       ) : (
         <p className={`${className}`}>{text}</p>
       )}
-      <button className={styles.updateBtn} onClick={() => setUpdate(true)}>
-        <IconEdit size={18} />
-      </button>
+      {updatable && (
+        <button className={styles.updateBtn} onClick={() => setUpdate(true)}>
+          <IconEdit size={18} />
+        </button>
+      )}
     </div>
   );
 };

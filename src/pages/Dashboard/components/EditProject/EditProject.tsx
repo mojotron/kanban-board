@@ -29,7 +29,11 @@ const EditProject = ({ onClose }: PropsType) => {
         </Button>
         <header className={styles.header}>
           <div className={styles.headerLeft}>
-            <UpdateText text={project.name} />
+            <UpdateText
+              text={project.name}
+              maxLength={TEXT_LENGTHS.project.title}
+              className={styles.projectName}
+            />
             <OuterLink to={project.repository}>Project Repository</OuterLink>
             <TagsList tags={project.tags} />
           </div>
@@ -42,7 +46,12 @@ const EditProject = ({ onClose }: PropsType) => {
           </div>
         </header>
 
-        <UpdateText text={project.description} type="textarea" />
+        <UpdateText
+          text={project.description}
+          type="textarea"
+          maxLength={TEXT_LENGTHS.project.description}
+          className={styles.projectDescription}
+        />
       </div>
     </div>
   );

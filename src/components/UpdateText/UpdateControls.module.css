@@ -1,0 +1,24 @@
+.controls {
+  display: flex;
+  position: relative;
+  bottom: 1.5rem;
+}
+.controls button {
+  border: none;
+  background: none;
+}
+.btnClose {
+  color: var(--COLOR-RED-400);
+}
+.btnClose:hover {
+  color: var(--COLOR-RED-500);
+}
+.btnSubmit {
+  color: var(--COLOR-GREEN-400);
+}
+.btnSubmit:hover {
+  color: var(--COLOR-GREEN-500);
+}
+.controls button {
+  color: va;
+}
