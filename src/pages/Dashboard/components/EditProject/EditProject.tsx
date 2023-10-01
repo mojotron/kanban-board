@@ -1,15 +1,16 @@
+// hooks
 import { useCloseOnEscape } from '../../../../hooks/useCloseOnEscape';
 import { useProject } from '../../../../context/ProjectContext';
-// styles
-import styles from './EditProject.module.css';
-import Button from '../../../../components/Button/Button';
-import UpdatableTextValue from '../../../../components/Updatables/UpdatableTextValue/UpdatableTextValue';
-import { TEXT_LENGTHS } from '../../../../constants/textLengths';
-import OuterLink from '../../../../components/OuterLink/OuterLink';
+import { useTeam } from '../../../../context/TeamContext';
+// components
 import TagsList from '../../../../components/TagsList/TagsList';
 import AdminAvatar from '../../../../components/AdminAvatar/AdminAvatar';
-import { useTeam } from '../../../../context/TeamContext';
+import Button from '../../../../components/Button/Button';
 import UpdateText from '../../../../components/UpdateText/UpdateText';
+// styles
+import styles from './EditProject.module.css';
+// constants
+import { TEXT_LENGTHS } from '../../../../constants/textLengths';
 
 type PropsType = {
   onClose: () => void;
@@ -34,7 +35,16 @@ const EditProject = ({ onClose }: PropsType) => {
               maxLength={TEXT_LENGTHS.project.title}
               className={styles.projectName}
             />
-            <OuterLink to={project.repository}>Project Repository</OuterLink>
+
+            <UpdateText
+              text=""
+              link={{
+                to: project.repository,
+                label: true,
+                labelText: 'Project Repository',
+              }}
+            />
+
             <TagsList tags={project.tags} />
           </div>
 
