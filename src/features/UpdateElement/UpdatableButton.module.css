@@ -1,0 +1,12 @@
+.updateBtn {
+  background: none;
+  border: none;
+  color: var(--COLOR-GRAY-400);
+  height: 2.4rem;
+  width: 2.4rem;
+  cursor: pointer;
+  margin-bottom: auto;
+}
+.updateBtn:hover {
+  color: var(--COLOR-GRAY-300);
+}

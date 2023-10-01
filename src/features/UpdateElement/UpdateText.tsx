@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import styles from './UpdateText.module.css';
-import { AiFillEdit as IconEdit } from 'react-icons/ai';
 import UpdateControls from './UpdateControls';
 import UpdateInput from './UpdateInput';
-import OuterLink from '../OuterLink/OuterLink';
+import OuterLink from '../../components/OuterLink/OuterLink';
+import UpdateButton from '../UpdateElement/UpdateButton';
 
 type LinkConfig = {
   to: string;
@@ -18,6 +17,7 @@ type PropsType = {
   maxLength?: number;
   type?: 'input' | 'textarea';
   link?: undefined | LinkConfig; // update link
+  onUpdate: () => void;
 };
 // make text element updatable (one line, paragraph or link)
 const UpdateText = ({
@@ -27,13 +27,14 @@ const UpdateText = ({
   type = 'input',
   maxLength = 100,
   link = undefined,
+  onUpdate,
 }: PropsType) => {
   const [textValue, setTextValue] = useState(() => (link ? link.to : text));
   const [update, setUpdate] = useState(false);
 
   if (update)
     return (
-      <div>
+      <div style={{ display: 'flex' }}>
         <UpdateInput
           value={textValue}
           onChange={setTextValue}
@@ -41,12 +42,12 @@ const UpdateText = ({
           maxLength={maxLength}
         />
 
-        <UpdateControls onClose={() => setUpdate(false)} onSubmit={() => {}} />
+        <UpdateControls onClose={() => setUpdate(false)} onSubmit={onUpdate} />
       </div>
     );
 
   return (
-    <div className={styles.update}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       {type === 'input' && !link && <h3 className={`${className}`}>{text}</h3>}
       {type === 'textarea' && !link && <p className={`${className}`}>{text}</p>}
       {link && (
@@ -55,11 +56,7 @@ const UpdateText = ({
         </OuterLink>
       )}
 
-      {updatable && (
-        <button className={styles.updateBtn} onClick={() => setUpdate(true)}>
-          <IconEdit size={18} />
-        </button>
-      )}
+      {updatable && <UpdateButton onClick={setUpdate} />}
     </div>
   );
 };

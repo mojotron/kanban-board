@@ -3,10 +3,10 @@ import { useCloseOnEscape } from '../../../../hooks/useCloseOnEscape';
 import { useProject } from '../../../../context/ProjectContext';
 import { useTeam } from '../../../../context/TeamContext';
 // components
-import TagsList from '../../../../components/TagsList/TagsList';
 import AdminAvatar from '../../../../components/AdminAvatar/AdminAvatar';
 import Button from '../../../../components/Button/Button';
-import UpdateText from '../../../../components/UpdateText/UpdateText';
+import UpdateText from '../../../../features/UpdateElement/UpdateText';
+import UpdateList from '../../../../features/UpdateElement/UpdateList';
 // styles
 import styles from './EditProject.module.css';
 // constants
@@ -34,6 +34,7 @@ const EditProject = ({ onClose }: PropsType) => {
               text={project.name}
               maxLength={TEXT_LENGTHS.project.title}
               className={styles.projectName}
+              onUpdate={() => {}}
             />
 
             <UpdateText
@@ -43,9 +44,10 @@ const EditProject = ({ onClose }: PropsType) => {
                 label: true,
                 labelText: 'Project Repository',
               }}
+              onUpdate={() => {}}
             />
 
-            <TagsList tags={project.tags} />
+            <UpdateList list={project.tags} />
           </div>
 
           <div className={styles.headerRight}>
@@ -61,6 +63,7 @@ const EditProject = ({ onClose }: PropsType) => {
           type="textarea"
           maxLength={TEXT_LENGTHS.project.description}
           className={styles.projectDescription}
+          onUpdate={() => {}}
         />
       </div>
     </div>
