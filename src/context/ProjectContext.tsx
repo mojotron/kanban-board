@@ -14,6 +14,10 @@ const useProjectSource = (): {
   project: undefined | Project;
   projectErr: null | string;
   projectPending: boolean;
+  updateProjectField: <K extends keyof ProjectType>(
+    field: K,
+    value: ProjectType[K]
+  ) => void;
   tasks: TaskWithId[] | undefined;
   tasksPending: boolean;
   tasksErr: null | string;
@@ -22,6 +26,12 @@ const useProjectSource = (): {
   firestoreError: null | string;
 } => {
   const { projectId } = useParams();
+  const {
+    addDocument,
+    updateDocument,
+    pending: firestorePending,
+    error: firestoreError,
+  } = useFirestore();
   // get project doc
   const {
     document: project,
@@ -29,18 +39,21 @@ const useProjectSource = (): {
     pending: projectPending,
   } = useOnSnapshotDocument<Project>('projects', projectId);
 
+  const updateProjectField = useCallback(
+    async <K extends keyof ProjectType>(field: K, value: ProjectType[K]) => {
+      if (!project) return;
+      console.log('hello fro hook');
+
+      await updateDocument('projects', project.id, { [field]: value });
+    },
+    []
+  );
+
   const {
     documents: tasks,
     pending: tasksPending,
     error: tasksErr,
   } = useCollectDocsSnapshot<TaskWithId>(project?.tasks, 'tasks');
-
-  const {
-    addDocument,
-    updateDocument,
-    pending: firestorePending,
-    error: firestoreError,
-  } = useFirestore();
 
   const createNewTask = useCallback(async (newTask: AddNewTaskType) => {
     if (!project) return;
@@ -67,6 +80,7 @@ const useProjectSource = (): {
     project,
     projectErr,
     projectPending,
+    updateProjectField,
     tasks,
     tasksPending,
     tasksErr,

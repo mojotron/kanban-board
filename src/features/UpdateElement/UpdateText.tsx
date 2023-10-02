@@ -17,7 +17,7 @@ type PropsType = {
   maxLength?: number;
   type?: 'input' | 'textarea';
   link?: undefined | LinkConfig; // update link
-  onUpdate: () => void;
+  onUpdate: (value: string) => void;
 };
 // make text element updatable (one line, paragraph or link)
 const UpdateText = ({
@@ -42,7 +42,13 @@ const UpdateText = ({
           maxLength={maxLength}
         />
 
-        <UpdateControls onClose={() => setUpdate(false)} onSubmit={onUpdate} />
+        <UpdateControls
+          onClose={() => setUpdate(false)}
+          onSubmit={async () => {
+            await onUpdate(textValue);
+            setUpdate(false);
+          }}
+        />
       </div>
     );
 

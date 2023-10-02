@@ -17,7 +17,7 @@ type PropsType = {
 };
 const EditProject = ({ onClose }: PropsType) => {
   useCloseOnEscape(onClose);
-  const { project } = useProject();
+  const { project, updateProjectField } = useProject();
   const { getMember } = useTeam();
 
   if (!project) return null;
@@ -34,7 +34,7 @@ const EditProject = ({ onClose }: PropsType) => {
               text={project.name}
               maxLength={TEXT_LENGTHS.project.title}
               className={styles.projectName}
-              onUpdate={() => {}}
+              onUpdate={async (newName) => updateProjectField('name', newName)}
             />
 
             <UpdateText
@@ -44,7 +44,7 @@ const EditProject = ({ onClose }: PropsType) => {
                 label: true,
                 labelText: 'Project Repository',
               }}
-              onUpdate={() => {}}
+              onUpdate={(newLink) => updateProjectField('repository', newLink)}
             />
 
             <UpdateList list={project.tags} />
@@ -63,7 +63,9 @@ const EditProject = ({ onClose }: PropsType) => {
           type="textarea"
           maxLength={TEXT_LENGTHS.project.description}
           className={styles.projectDescription}
-          onUpdate={() => {}}
+          onUpdate={async (newDescription) =>
+            updateProjectField('description', newDescription)
+          }
         />
       </div>
     </div>
