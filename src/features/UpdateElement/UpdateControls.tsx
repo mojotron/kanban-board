@@ -1,23 +1,54 @@
 import {
-  AiFillRightCircle as IconSubmit,
-  AiFillCloseCircle as IconClose,
+  AiFillDelete as IconDelete,
+  AiFillEdit as IconEdit,
+  AiOutlineSend as IconSubmit,
+  AiOutlineClose as IconClose,
 } from 'react-icons/ai';
 import styles from './UpdateControls.module.css';
 
-type PropsType = {
-  onClose: () => void;
-  onSubmit: () => void;
+// submit, edit, delete, cancel
+
+type ButtonType = 'submit' | 'edit' | 'delete' | 'close';
+type ControlButtonType = {
+  type: ButtonType;
+  onClick: () => void;
 };
 
-const UpdateControls = ({ onClose, onSubmit }: PropsType) => {
+const GenerateIcon = ({ type, size }: { type: ButtonType; size: number }) => {
+  switch (type) {
+    case 'submit':
+      return <IconSubmit size={size} />;
+    case 'close':
+      return <IconClose size={size} />;
+    case 'edit':
+      return <IconEdit size={size} />;
+    case 'delete':
+      return <IconDelete size={size} />;
+  }
+};
+
+type PropsType = {
+  config: ControlButtonType[];
+  btnSize?: number;
+  className?: undefined | string;
+};
+
+const UpdateControls = ({
+  config,
+  btnSize = 15,
+  className = undefined,
+}: PropsType) => {
   return (
     <div className={styles.controls}>
-      <button onClick={onClose} className={styles.btnClose}>
-        <IconClose size={18} />
-      </button>
-      <button onClick={onSubmit} className={styles.btnSubmit}>
-        <IconSubmit size={18} />
-      </button>
+      {config.map((btn, i) => (
+        <button
+          className={`${styles.btn}${className ? ` ${className}` : ''}`}
+          key={i}
+          onClick={btn.onClick}
+        >
+          <GenerateIcon type={btn.type} size={btnSize} />
+        </button>
+      ))}
     </div>
   );
 };

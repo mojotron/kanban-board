@@ -43,11 +43,19 @@ const UpdateText = ({
         />
 
         <UpdateControls
-          onClose={() => setUpdate(false)}
-          onSubmit={async () => {
-            await onUpdate(textValue);
-            setUpdate(false);
-          }}
+          config={[
+            {
+              type: 'close',
+              onClick: () => setUpdate(false),
+            },
+            {
+              type: 'submit',
+              onClick: () => {
+                onUpdate(textValue);
+                setUpdate(false);
+              },
+            },
+          ]}
         />
       </div>
     );

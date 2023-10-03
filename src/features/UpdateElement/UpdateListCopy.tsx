@@ -6,9 +6,10 @@ import styles from './UpdateListCopy.module.css';
 type PropsType = {
   list: string[];
   onClose: () => void;
+  onUpdate: (newList: string[]) => void;
 };
 
-const UpdateListCopy = ({ list, onClose }: PropsType) => {
+const UpdateListCopy = ({ list, onClose, onUpdate }: PropsType) => {
   const [items, setItems] = useState(() => [...list]);
   const [newItem, setNewItem] = useState('');
 
@@ -42,14 +43,37 @@ const UpdateListCopy = ({ list, onClose }: PropsType) => {
       </ul>
 
       <div className={styles.newItemBox}>
-        <label>Add new Item</label>
-        <input value={newItem} onChange={(e) => setNewItem(e.target.value)} />
+        <div className={styles.newItemInput}>
+          <label>Add new Item</label>
+          <input value={newItem} onChange={(e) => setNewItem(e.target.value)} />
+        </div>
         <UpdateControls
-          onClose={onClose}
-          onSubmit={() => {
-            handleAddItem();
-            setNewItem('');
-          }}
+          config={[
+            { type: 'close', onClick: () => setNewItem('') },
+            {
+              type: 'submit',
+              onClick: () => {
+                handleAddItem();
+                setNewItem('');
+              },
+            },
+          ]}
+        />
+      </div>
+
+      <div>
+        <p>Update Tags</p>
+        <UpdateControls
+          config={[
+            { type: 'close', onClick: onClose },
+            {
+              type: 'submit',
+              onClick: () => {
+                onUpdate(items);
+                onClose();
+              },
+            },
+          ]}
         />
       </div>
     </div>

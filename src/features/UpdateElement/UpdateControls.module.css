@@ -1,22 +1,15 @@
 .controls {
   display: flex;
 }
-.controls button {
+.btn {
   border: none;
   background: none;
+  color: var(--COLOR-GRAY-300);
+  height: 2rem;
+  width: 2rem;
+  cursor: pointer;
+  transition: all 0.3 ease;
 }
-.btnClose {
-  color: var(--COLOR-RED-400);
-}
-.btnClose:hover {
-  color: var(--COLOR-RED-500);
-}
-.btnSubmit {
-  color: var(--COLOR-GREEN-400);
-}
-.btnSubmit:hover {
-  color: var(--COLOR-GREEN-500);
-}
-.controls button {
-  color: va;
+.btn:hover {
+  color: var(--COLOR-BLUE-300);
 }

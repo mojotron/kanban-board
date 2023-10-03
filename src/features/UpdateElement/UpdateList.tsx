@@ -5,18 +5,22 @@ import UpdateListCopy from './UpdateListCopy';
 type PropsType = {
   updatable?: boolean;
   list: string[];
-  onAdd?: () => void;
-  onEdit?: () => void;
-  onDelete?: () => void;
+  onUpdate: (newList: string[]) => void;
   listStyle?: string;
   itemStyle?: string;
 };
 
-const UpdateList = ({ list, updatable = true }: PropsType) => {
+const UpdateList = ({ list, updatable = true, onUpdate }: PropsType) => {
   const [openEdit, setOpenEdit] = useState(false);
 
   if (openEdit) {
-    return <UpdateListCopy list={list} onClose={() => setOpenEdit(false)} />;
+    return (
+      <UpdateListCopy
+        list={list}
+        onClose={() => setOpenEdit(false)}
+        onUpdate={onUpdate}
+      />
+    );
   }
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>

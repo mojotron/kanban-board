@@ -1,11 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './UpdateListItem.module.css';
-import {
-  AiFillDelete as IconDelete,
-  AiFillEdit as IconEdit,
-  AiOutlineSend as IconSubmit,
-  AiOutlineClose as IconClose,
-} from 'react-icons/ai';
+import UpdateControls from './UpdateControls';
 
 type PropsType = {
   value: string;
@@ -40,30 +35,26 @@ const UpdateListItem = ({ value, onUpdate, onDelete }: PropsType) => {
 
       <div className={styles.controls}>
         {openEdit && (
-          <>
-            <button
-              className={styles.btn}
-              onClick={() => {
-                onUpdate(value, newValue);
-                setOpenEdit(false);
-              }}
-            >
-              <IconSubmit size={15} />
-            </button>
-            <button className={styles.btn} onClick={() => setOpenEdit(false)}>
-              <IconClose size={15} />
-            </button>
-          </>
+          <UpdateControls
+            config={[
+              {
+                type: 'submit',
+                onClick: () => {
+                  onUpdate(value, newValue);
+                  setOpenEdit(false);
+                },
+              },
+              { type: 'close', onClick: () => setOpenEdit(false) },
+            ]}
+          />
         )}
         {!openEdit && (
-          <>
-            <button className={styles.btn} onClick={() => setOpenEdit(true)}>
-              <IconEdit size={15} />
-            </button>
-            <button className={styles.btn} onClick={() => onDelete(value)}>
-              <IconDelete size={15} />
-            </button>
-          </>
+          <UpdateControls
+            config={[
+              { type: 'edit', onClick: () => setOpenEdit(true) },
+              { type: 'delete', onClick: () => onDelete(value) },
+            ]}
+          />
         )}
       </div>
     </li>

@@ -47,7 +47,14 @@ const EditProject = ({ onClose }: PropsType) => {
               onUpdate={(newLink) => updateProjectField('repository', newLink)}
             />
 
-            <UpdateList list={project.tags} />
+            <UpdateList
+              list={project.tags}
+              onUpdate={(newTags) => {
+                console.log('new tags', newTags);
+
+                updateProjectField('tags', newTags);
+              }}
+            />
           </div>
 
           <div className={styles.headerRight}>
