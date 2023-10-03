@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import UpdateButton from './UpdateButton';
+import UpdateButton from '../components/UpdateButton';
 import UpdateListCopy from './UpdateListCopy';
+import ItemsList from './ItemsList';
 
 type PropsType = {
   updatable?: boolean;
@@ -22,15 +23,11 @@ const UpdateList = ({ list, updatable = true, onUpdate }: PropsType) => {
       />
     );
   }
+
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <ul>
-        {list.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
+    <ItemsList list={list}>
       {updatable && <UpdateButton onClick={setOpenEdit} />}
-    </div>
+    </ItemsList>
   );
 };
 

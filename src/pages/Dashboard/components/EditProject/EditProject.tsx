@@ -5,8 +5,8 @@ import { useTeam } from '../../../../context/TeamContext';
 // components
 import AdminAvatar from '../../../../components/AdminAvatar/AdminAvatar';
 import Button from '../../../../components/Button/Button';
-import UpdateText from '../../../../features/UpdateElement/UpdateText';
-import UpdateList from '../../../../features/UpdateElement/UpdateList';
+import UpdateText from '../../../../features/UpdateElement/UpdateText/UpdateText';
+import UpdateList from '../../../../features/UpdateElement/UpdateList/UpdateList';
 // styles
 import styles from './EditProject.module.css';
 // constants
@@ -49,11 +49,7 @@ const EditProject = ({ onClose }: PropsType) => {
 
             <UpdateList
               list={project.tags}
-              onUpdate={(newTags) => {
-                console.log('new tags', newTags);
-
-                updateProjectField('tags', newTags);
-              }}
+              onUpdate={(newTags) => updateProjectField('tags', newTags)}
             />
           </div>
 

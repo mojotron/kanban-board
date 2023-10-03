@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import UpdateListItem from './UpdateListItem';
-import UpdateControls from './UpdateControls';
+import UpdateControls from '../components/UpdateControls';
 import styles from './UpdateListCopy.module.css';
 
 type PropsType = {
@@ -30,7 +30,6 @@ const UpdateListCopy = ({ list, onClose, onUpdate }: PropsType) => {
   };
   return (
     <div>
-      {/* make own component and move list and handlers inside */}
       <ul className={styles.list}>
         {items.map((item, index) => (
           <UpdateListItem
@@ -69,6 +68,8 @@ const UpdateListCopy = ({ list, onClose, onUpdate }: PropsType) => {
             {
               type: 'submit',
               onClick: () => {
+                console.log(items);
+
                 onUpdate(items);
                 onClose();
               },

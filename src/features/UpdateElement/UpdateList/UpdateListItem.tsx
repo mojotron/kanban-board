@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './UpdateListItem.module.css';
-import UpdateControls from './UpdateControls';
+import UpdateControls from '../components/UpdateControls';
 
 type PropsType = {
   value: string;

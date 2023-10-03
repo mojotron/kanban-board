@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { AiFillEdit as IconEdit } from 'react-icons/ai';
-import styles from './UpdatableButton.module.css';
+import styles from './UpdateButton.module.css';
 
 const UpdateButton = ({
   onClick,

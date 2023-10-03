@@ -41,7 +41,9 @@ const useProjectSource = (): {
 
   const updateProjectField = useCallback(
     async <K extends keyof ProjectType>(field: K, value: ProjectType[K]) => {
-      if (!project) return;
+      console.log('hook', value);
+
+      if (project === undefined) return;
       console.log('hello from hook');
 
       await updateDocument('projects', project.id, { [field]: value });

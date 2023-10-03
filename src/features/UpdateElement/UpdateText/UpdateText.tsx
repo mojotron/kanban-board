@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import UpdateControls from './UpdateControls';
+import UpdateControls from '../components/UpdateControls';
 import UpdateInput from './UpdateInput';
-import OuterLink from '../../components/OuterLink/OuterLink';
-import UpdateButton from '../UpdateElement/UpdateButton';
+import OuterLink from '../../../components/OuterLink/OuterLink';
+import UpdateButton from '../components/UpdateButton';
 
 type LinkConfig = {
   to: string;
