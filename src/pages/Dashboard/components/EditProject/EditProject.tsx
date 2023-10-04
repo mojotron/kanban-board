@@ -50,6 +50,8 @@ const EditProject = ({ onClose }: PropsType) => {
             <UpdateList
               list={project.tags}
               onUpdate={(newTags) => updateProjectField('tags', newTags)}
+              listStyle={styles.tags}
+              itemStyle="tag"
             />
           </div>
 

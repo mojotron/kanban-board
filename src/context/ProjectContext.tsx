@@ -42,7 +42,7 @@ const useProjectSource = (): {
   const updateProjectField = useCallback(
     async <K extends keyof ProjectType>(field: K, value: ProjectType[K]) => {
       console.log('hook', value);
-
+      console.log(project);
       if (project === undefined) return;
       console.log('hello from hook');
 

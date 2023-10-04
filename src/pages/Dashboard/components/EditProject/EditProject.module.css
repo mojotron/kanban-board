@@ -10,7 +10,6 @@
 }
 .projectName {
   font-size: 2.441rem;
-  margin-bottom: 1rem;
 }
 .projectDescription {
   font-size: 1.6rem;
@@ -23,6 +22,9 @@
   margin-bottom: 3rem;
 }
 .headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 .headerRight {
   margin-bottom: auto;
@@ -32,18 +34,21 @@
 .btnClose,
 .btnPublic {
   cursor: pointer;
-  color: var(--COLOR-YELLOW-400);
   border: none;
   background: none;
   font-size: bold;
 }
+.btnClose {
+  color: var(--COLOR-YELLOW-400);
+}
 .btnPublic {
-  border: 1px solid var(--COLOR-GRAY-600);
+  color: var(--COLOR-BLUE-400);
+  border: 1px solid var(--COLOR-BLUE-400);
   padding: 0.5rem 2rem;
+  border-radius: var(--BORDER-RADIUS);
 }
 .btnPublic:hover {
-  border-color: var(--COLOR-YELLOW-400);
-  background-color: var(--COLOR-GRAY-400);
+  background-color: var(--COLOR-BLUE-400);
   color: var(--COLOR-GRAY-800);
   border-radius: var(--BORDER-RADIUS);
 }
@@ -55,4 +60,10 @@
 }
 .btnClose:hover {
   color: var(--COLOR-RED-400);
+}
+.tags {
+  list-style: none;
+  gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
 }

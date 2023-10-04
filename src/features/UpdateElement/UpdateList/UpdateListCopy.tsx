@@ -13,9 +13,9 @@ const UpdateListCopy = ({ list, onClose, onUpdate }: PropsType) => {
   const [items, setItems] = useState(() => [...list]);
   const [newItem, setNewItem] = useState('');
 
-  // TODO helper to check if item is the same
   const handleAddItem = () => {
     if (newItem === '') return;
+    if (items.includes(newItem)) return;
     setItems((oldItems) => [...oldItems, newItem]);
   };
 
@@ -24,6 +24,7 @@ const UpdateListCopy = ({ list, onClose, onUpdate }: PropsType) => {
   };
 
   const handleUpdateItem = (oldValue: string, newValue: string) => {
+    if (items.includes(newValue)) return;
     setItems((oldItems) =>
       oldItems.map((item) => (item === oldValue ? newValue : item))
     );

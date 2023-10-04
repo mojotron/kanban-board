@@ -11,7 +11,13 @@ type PropsType = {
   itemStyle?: string;
 };
 
-const UpdateList = ({ list, updatable = true, onUpdate }: PropsType) => {
+const UpdateList = ({
+  list,
+  updatable = true,
+  onUpdate,
+  listStyle,
+  itemStyle,
+}: PropsType) => {
   const [openEdit, setOpenEdit] = useState(false);
 
   if (openEdit) {
@@ -25,7 +31,7 @@ const UpdateList = ({ list, updatable = true, onUpdate }: PropsType) => {
   }
 
   return (
-    <ItemsList list={list}>
+    <ItemsList list={list} listStyle={listStyle} itemStyle={itemStyle}>
       {updatable && <UpdateButton onClick={setOpenEdit} />}
     </ItemsList>
   );
