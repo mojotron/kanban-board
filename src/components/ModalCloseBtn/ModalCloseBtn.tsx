@@ -1,13 +1,13 @@
-import { AiOutlineCloseCircle } from 'react-icons/ai';
+import styles from './ModalCloseBtn.module.css';
 
-type Props = {
+type PropsType = {
   handleClose: () => void;
 };
 
-const ModalCloseBtn = ({ handleClose }: Props) => {
+const ModalCloseBtn = ({ handleClose }: PropsType) => {
   return (
-    <button className="btn--icon" type="button" onClick={handleClose}>
-      <AiOutlineCloseCircle size={30} color="var(--COLOR-BLUE-500)" />
+    <button className={styles.btn} type="button" onClick={handleClose}>
+      &times;
     </button>
   );
 };

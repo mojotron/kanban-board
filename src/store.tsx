@@ -15,10 +15,8 @@ type State = {
   updateMessage: null | MessageTypeWithId;
   //
   openNewProjectModal: boolean;
-  openViewTaskModal: boolean;
   currentTaskStage: null | string;
   draggedTask: null | TaskWithId;
-  currentTaskId: string | null;
   // confirm
   openConfirmModal: ConfirmModalState;
 };
@@ -31,8 +29,6 @@ type Action = {
   setOpenNewProjectModal: (value: boolean) => void;
   setCurrentTaskStage: (column: string | null) => void;
   setDraggedTask: (task: TaskWithId | null) => void;
-  setOpenViewTaskModal: (value: boolean) => void;
-  setCurrentTaskId: (task: string | null) => void;
   setOpenConfirmModal: (value: ConfirmModalState) => void;
 };
 
@@ -47,14 +43,10 @@ export const useKanbanStore = create<State & Action>()((set) => ({
   openNewProjectModal: false,
   currentTaskStage: TASK_STAGES[0],
   draggedTask: null,
-  openViewTaskModal: false,
-  currentTaskId: null,
   openConfirmModal: null,
   setOpenNewProjectModal: (value) => set({ openNewProjectModal: value }),
   setCurrentTaskStage: (stage: string | null) =>
     set({ currentTaskStage: stage }),
   setDraggedTask: (task: TaskWithId | null) => set({ draggedTask: task }),
-  setOpenViewTaskModal: (value: boolean) => set({ openViewTaskModal: value }),
-  setCurrentTaskId: (task: string | null) => set({ currentTaskId: task }),
   setOpenConfirmModal: (value) => set({ openConfirmModal: value }),
 }));

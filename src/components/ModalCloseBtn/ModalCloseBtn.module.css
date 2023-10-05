@@ -1,0 +1,17 @@
+.btn {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: bold;
+  font-size: 2.5rem;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+}
+.btn {
+  color: var(--COLOR-YELLOW-400);
+}
+
+.btn:hover {
+  color: var(--COLOR-RED-400);
+}

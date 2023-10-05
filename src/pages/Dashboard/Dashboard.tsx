@@ -1,11 +1,7 @@
 // hooks
-import { useKanbanStore } from '../../store';
 import { useProject } from '../../context/ProjectContext';
-import { useFirestore } from '../../hooks/useFirestore';
 // components
 import NewTaskForm from './components/NewTaskForm/NewTaskForm';
-import Task from '../../components/Task/Task';
-import ConfirmPopup from '../../components/ConfirmPopup/ConfirmPopup';
 import TeamMembers from './components/TeamMembers/TeamMembers';
 import ProjectMessages from './components/PojectMessages/ProjectMessages';
 import ProjectMenu from './components/ProjectMenu/ProjectMenu';
@@ -20,19 +16,10 @@ import { MenuOptionType } from '../../types/menuOption';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const Dashboard = () => {
-  const { updateDocument } = useFirestore();
   const navigate = useNavigate();
   const { projectId } = useParams();
 
-  const openViewTaskModal = useKanbanStore((state) => state.openViewTaskModal);
-  const openConfirmModal = useKanbanStore((state) => state.openConfirmModal);
-
   const { project, projectErr, projectPending } = useProject();
-
-  const handlePublicToggle = async () => {
-    if (!project) return;
-    await updateDocument('projects', project.id, { public: !project.public });
-  };
 
   const [openNewTask, setOpenNewTask] = useState(false);
   const [openEditProject, setOpenEditProject] = useState(false);
@@ -63,32 +50,25 @@ const Dashboard = () => {
     ];
   }, []);
 
+  if (project === undefined) return;
+
   return (
     <main className={styles.dashboard}>
       {projectPending && <h2>Loading...</h2>}
       {projectErr && <h2 className="error">{projectErr}</h2>}
 
-      {openConfirmModal && <ConfirmPopup />}
-      {openViewTaskModal && <Task />}
+      <TeamProvider>
+        {openNewTask && <NewTaskForm onClose={() => setOpenNewTask(false)} />}
+        {openEditProject && (
+          <EditProject onClose={() => setOpenEditProject(false)} />
+        )}
 
-      {project && (
-        <>
-          <TeamProvider>
-            {openNewTask && (
-              <NewTaskForm onClose={() => setOpenNewTask(false)} />
-            )}
-            {openEditProject && (
-              <EditProject onClose={() => setOpenEditProject(false)} />
-            )}
-
-            <ProjectMenu menuOptions={menuOptions} />
-            <Tasks />
-            <TeamMembers />
-            <ProjectMessages />
-            <Description />
-          </TeamProvider>
-        </>
-      )}
+        <ProjectMenu menuOptions={menuOptions} />
+        <Tasks />
+        <TeamMembers />
+        <ProjectMessages />
+        <Description />
+      </TeamProvider>
     </main>
   );
 };

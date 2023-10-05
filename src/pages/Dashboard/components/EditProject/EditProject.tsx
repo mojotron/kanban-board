@@ -11,6 +11,7 @@ import UpdateList from '../../../../features/UpdateElement/UpdateList/UpdateList
 import styles from './EditProject.module.css';
 // constants
 import { TEXT_LENGTHS } from '../../../../constants/textLengths';
+import ModalCloseBtn from '../../../../components/ModalCloseBtn/ModalCloseBtn';
 
 type PropsType = {
   onClose: () => void;
@@ -25,9 +26,8 @@ const EditProject = ({ onClose }: PropsType) => {
   return (
     <div className="overlay">
       <div className={styles.edit}>
-        <Button className={styles.btnClose} handleClick={onClose}>
-          &times;
-        </Button>
+        <ModalCloseBtn handleClose={onClose} />
+
         <header className={styles.header}>
           <div className={styles.headerLeft}>
             <UpdateText
@@ -56,7 +56,10 @@ const EditProject = ({ onClose }: PropsType) => {
           </div>
 
           <div className={styles.headerRight}>
-            <Button handleClick={() => {}} className={styles.btnPublic}>
+            <Button
+              handleClick={() => updateProjectField('public', !project.public)}
+              className={styles.btnPublic}
+            >
               Make Project {project.public ? 'Private' : 'Public'}
             </Button>
             <AdminAvatar admin={getMember(project.adminUid)} />
