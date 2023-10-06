@@ -47,3 +47,16 @@
   right: 2rem;
 }
 /* NOTES */
+.notes {
+  list-style: none;
+  max-width: 75%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 0.75rem;
+}
+.note {
+  border-radius: var(--BORDER-RADIUS);
+  background-color: var(--COLOR-GRAY-400);
+  padding: 0.5rem 2rem;
+}

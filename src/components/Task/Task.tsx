@@ -2,8 +2,9 @@
 import ModalCloseBtn from '../ModalCloseBtn/ModalCloseBtn';
 import UpdatableDateValue from '../Updatables/UpdatableDateValue/UpdatableDateValue';
 import UpdatableSelectValue from '../Updatables/UpdatableSelectValue/UpdatableSelectValue';
-import TaskNotes from '../TaskNotes/TaskNotes';
 import TaskAssignment from '../TaskAssignment/TaskAssignment';
+import UpdateText from '../../features/UpdateElement/UpdateText/UpdateText';
+import UpdateList from '../../features/UpdateElement/UpdateList/UpdateList';
 import TaskStages from '../TaskStages/TaskStages';
 // style & icons
 import styles from './Task.module.css';
@@ -15,7 +16,6 @@ import { TaskWithId } from '../../types/taskType';
 import { TEXT_LENGTHS } from '../../constants/textLengths';
 import { PRIORITIES } from '../../constants/priorities';
 import { POPUP_DELETE_TASK } from '../../constants/confirmPopupTexts';
-import UpdateText from '../../features/UpdateElement/UpdateText/UpdateText';
 
 type PropsType = {
   taskData: TaskWithId;
@@ -64,20 +64,20 @@ const Task = ({ taskData, onClose }: PropsType) => {
         </header>
 
         <div className={styles.body}>
-          <div className="Task__body__description">
-            <h3>Description</h3>
-            <UpdateText
-              text={taskData.description}
-              type="textarea"
-              onUpdate={() => {}}
-            />
-          </div>
+          <h3>Description</h3>
+          <UpdateText
+            text={taskData.description}
+            type="textarea"
+            onUpdate={() => {}}
+          />
 
-          <div className="Task__body__notes">
-            <div className="Task__body__notes__header">
-              <TaskNotes notes={taskData.notes} taskDocId={taskData.id} />
-            </div>
-          </div>
+          <h3>Notes</h3>
+          <UpdateList
+            list={taskData.notes}
+            onUpdate={() => {}}
+            listStyle={styles.notes}
+            itemStyle={styles.note}
+          />
         </div>
       </div>
     </div>

@@ -1,12 +1,12 @@
 import { Timestamp } from 'firebase/firestore';
 import { TASK_STAGES, TASK_STAGES_COLLABORATES } from '../constants/taskStages';
 
-export type Note = {
-  id: string;
-  createdAt: Timestamp;
-  author: string; // firebase user id
-  text: string;
-};
+// export type Note = {
+//   id: string;
+//   createdAt: Timestamp;
+//   author: string; // firebase user id
+//   text: string;
+// };
 
 export type Priority = 'low' | 'high' | 'very-high';
 
@@ -21,7 +21,7 @@ export type TaskType = {
   assignToUid: string;
   title: string;
   description: string;
-  notes: Note[];
+  notes: string[];
   deadline: null | Timestamp;
   priority: Priority;
   stage: Stage;
