@@ -42,7 +42,7 @@ export const formatTime = (time: number) => {
   return time;
 };
 
-export const formatLocalDate = (date: Date) => {
+export const formatLocalDate = (date: number | Date) => {
   return new Intl.DateTimeFormat(navigator.language, {
     year: 'numeric',
     month: 'numeric',

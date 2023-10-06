@@ -1,7 +1,5 @@
 // components
 import ModalCloseBtn from '../ModalCloseBtn/ModalCloseBtn';
-import UpdatableDateValue from '../Updatables/UpdatableDateValue/UpdatableDateValue';
-import UpdatableSelectValue from '../Updatables/UpdatableSelectValue/UpdatableSelectValue';
 import TaskAssignment from '../TaskAssignment/TaskAssignment';
 import UpdateText from '../../features/UpdateElement/UpdateText/UpdateText';
 import UpdateList from '../../features/UpdateElement/UpdateList/UpdateList';
@@ -16,6 +14,8 @@ import { TaskWithId } from '../../types/taskType';
 import { TEXT_LENGTHS } from '../../constants/textLengths';
 import { PRIORITIES } from '../../constants/priorities';
 import { POPUP_DELETE_TASK } from '../../constants/confirmPopupTexts';
+import UpdateDate from '../../features/UpdateElement/UpdateDate/UpdateDate';
+import UpdateSelect from '../../features/UpdateElement/UpdateSelect/UpdateSelect';
 
 type PropsType = {
   taskData: TaskWithId;
@@ -42,20 +42,16 @@ const Task = ({ taskData, onClose }: PropsType) => {
               maxLength={TEXT_LENGTHS.task.title}
             />
 
-            <UpdatableSelectValue
-              displayValue={taskData.priority}
+            <UpdateSelect
+              currentOption={taskData.priority}
               options={PRIORITIES}
-              handleUpdate={() => {}}
+              onUpdate={() => {}}
             />
 
             <TaskStages task={taskData} />
 
             {taskData.deadline !== null && (
-              <UpdatableDateValue
-                timestamp={taskData.deadline}
-                displayDeadline={true}
-                handleUpdate={() => {}}
-              />
+              <UpdateDate timestamp={taskData.deadline} onUpdate={() => {}} />
             )}
           </div>
           <div className={styles.headerRight}>
