@@ -26,25 +26,20 @@
   flex: 1 1 auto;
   margin-right: 3rem;
 }
-.Task__header h2 {
-  font-size: 2.441rem;
-  margin-bottom: 2.4rem;
-}
-.Task__body {
-  padding: 4.8rem;
-}
-.Task h3 {
-  font-size: 1.953rem;
-}
-.Task__body__notes__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 .btnDelete {
   position: absolute;
   bottom: 2rem;
   right: 2rem;
+  background: none;
+  border: none;
+  height: 2rem;
+  width: 2rem;
+  display: block;
+  cursor: pointer;
+  color: var(--COLOR-RED-400);
+}
+.btnDelete:hover {
+  color: var(--COLOR-RED-500);
 }
 /* NOTES */
 .notes {

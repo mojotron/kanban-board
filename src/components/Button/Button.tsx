@@ -7,8 +7,6 @@ type PropsType = {
   children?: ReactNode | null;
 };
 
-const buttonStyle: CSSProperties = {};
-
 const Button = ({
   handleClick,
   className = '',
@@ -16,7 +14,7 @@ const Button = ({
   text = 'Click',
 }: PropsType) => {
   return (
-    <button style={buttonStyle} className={className} onClick={handleClick}>
+    <button className={className} onClick={handleClick}>
       {children ? children : text}
     </button>
   );

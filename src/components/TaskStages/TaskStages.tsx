@@ -1,7 +1,9 @@
 import { useTaskMove } from '../../hooks/useTaskMove';
 import { Stage, TaskWithId } from '../../types/taskType';
 import { TASK_STAGES_COLLABORATES } from '../../constants/taskStages';
-import UpdatableSelectValue from '../Updatables/UpdatableSelectValue/UpdatableSelectValue';
+import UpdateSelect from '../../features/UpdateElement/UpdateSelect/UpdateSelect';
+import Button from '../Button/Button';
+import styles from './TaskStages.module.css';
 
 type PropsType = {
   task: TaskWithId;
@@ -24,23 +26,29 @@ const TaskStages = ({ task }: PropsType) => {
   return (
     <div>
       {admin && stage === 'backlog' && (
-        <button onClick={() => toAssignment(task)}>move to assignment</button>
+        <Button handleClick={() => toAssignment(task)} className={styles.btn}>
+          move to assignment
+        </Button>
       )}
       {admin && stage === 'assignment' && (
-        <button onClick={() => toPlanning(task)}>move to backlog</button>
+        <Button handleClick={() => toPlanning(task)} className={styles.btn}>
+          move to backlog
+        </Button>
       )}
       {TASK_STAGES_COLLABORATES.includes(task.stage) && (
-        <UpdatableSelectValue
-          displayValue={task.stage}
+        <UpdateSelect
+          currentOption={task.stage}
           options={TASK_STAGES_COLLABORATES}
-          handleUpdate={async (value) => {
+          onUpdate={async (value) => {
             console.log(value);
             await developmentMove(task, value as Stage);
           }}
         />
       )}
       {admin && stage === 'complete' && (
-        <button onClick={() => toFinish(task)}>finish task</button>
+        <Button handleClick={() => toFinish(task)} className={styles.btn}>
+          finish task
+        </Button>
       )}
     </div>
   );

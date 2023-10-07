@@ -1,5 +1,5 @@
 .teamMembers {
-  grid-row: 3 / 8;
+  grid-row: 5 / 9;
   grid-column: 1 / 4;
   display: flex;
   flex-direction: column;

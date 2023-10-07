@@ -7,7 +7,7 @@ type PropsType = {
   options: string[];
   currentOption: string;
   updatable?: boolean;
-  onUpdate: () => void;
+  onUpdate: (value: string) => void;
 };
 
 const UpdateSelect = ({

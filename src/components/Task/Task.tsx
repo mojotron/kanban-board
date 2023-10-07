@@ -4,6 +4,7 @@ import TaskAssignment from '../TaskAssignment/TaskAssignment';
 import UpdateText from '../../features/UpdateElement/UpdateText/UpdateText';
 import UpdateList from '../../features/UpdateElement/UpdateList/UpdateList';
 import TaskStages from '../TaskStages/TaskStages';
+import Button from '../Button/Button';
 // style & icons
 import styles from './Task.module.css';
 import { AiFillDelete } from 'react-icons/ai';
@@ -29,10 +30,9 @@ const Task = ({ taskData, onClose }: PropsType) => {
     <div className="overlay">
       <div className={styles.task}>
         <ModalCloseBtn handleClose={onClose} />
-
-        <button className={styles.btnDelete} onClick={() => {}}>
+        <Button handleClick={() => {}} className={styles.btnDelete}>
           <AiFillDelete />
-        </button>
+        </Button>
 
         <header className={styles.header}>
           <div className={styles.headerLeft}>

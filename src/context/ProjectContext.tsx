@@ -22,6 +22,11 @@ const useProjectSource = (): {
   tasksPending: boolean;
   tasksErr: null | string;
   createNewTask: (newTask: AddNewTaskType) => void;
+  updateTaskField: <K extends keyof TaskType>(
+    field: K,
+    value: TaskType[K],
+    taskDocId: string
+  ) => void;
   firestorePending: boolean;
   firestoreError: null | string;
 } => {
@@ -74,6 +79,18 @@ const useProjectSource = (): {
     console.log(newTask);
   }, []);
 
+  const updateTaskField = useCallback(
+    async <K extends keyof TaskType>(
+      key: K,
+      value: TaskType[K],
+      taskDocId: string
+    ) => {
+      if (project === undefined) return;
+      console.log(value);
+    },
+    [project]
+  );
+
   return {
     project,
     projectErr,
@@ -83,6 +100,7 @@ const useProjectSource = (): {
     tasksPending,
     tasksErr,
     createNewTask,
+    updateTaskField,
     firestorePending,
     firestoreError,
   };

@@ -1,0 +1,17 @@
+.btn {
+  cursor: pointer;
+  border: none;
+  background: none;
+  border: 1px solid var(--COLOR-BLUE-400);
+  border-radius: var(--BORDER-RADIUS);
+  padding: 0.5rem 2rem;
+  color: var(--COLOR-BLUE-400);
+  transition: all 0.5s ease-in-out;
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.btn:hover {
+  background-color: var(--COLOR-BLUE-400);
+  color: var(--COLOR-GRAY-200);
+}
