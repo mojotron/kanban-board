@@ -4,14 +4,12 @@ import { useFirestore } from '../hooks/useFirestore';
 import { useCollectDocsSnapshot } from '../hooks/useCollectDocsSnapshot';
 import { useParams } from 'react-router-dom';
 // types
-import { ProjectType } from '../types/projectType';
+import { ProjectType, ProjectWithId } from '../types/projectType';
 import { AddNewTaskType, TaskType, TaskWithId } from '../types/taskType';
 import { Timestamp } from 'firebase/firestore';
 
-type Project = ProjectType & { id: string };
-
 const useProjectSource = (): {
-  project: undefined | Project;
+  project: undefined | ProjectWithId;
   projectErr: null | string;
   projectPending: boolean;
   updateProjectField: <K extends keyof ProjectType>(
@@ -42,7 +40,7 @@ const useProjectSource = (): {
     document: project,
     error: projectErr,
     pending: projectPending,
-  } = useOnSnapshotDocument<Project>('projects', projectId);
+  } = useOnSnapshotDocument<ProjectWithId>('projects', projectId);
 
   const updateProjectField = useCallback(
     async <K extends keyof ProjectType>(field: K, value: ProjectType[K]) => {
@@ -81,15 +79,20 @@ const useProjectSource = (): {
 
   const updateTaskField = useCallback(
     async <K extends keyof TaskType>(
-      key: K,
+      field: K,
       value: TaskType[K],
       taskDocId: string
     ) => {
+      console.log('HELLO');
+
       if (project === undefined) return;
-      console.log(value);
+      console.log(field, value, taskDocId);
+      await updateDocument('tasks', taskDocId, { [field]: value });
     },
     [project]
   );
+  // move tasks from stage to stage
+  // const moveTask = useCallback(async () => {}, [project]);
 
   return {
     project,

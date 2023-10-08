@@ -46,7 +46,10 @@ const UpdateText = ({
           config={[
             {
               type: 'close',
-              onClick: () => setUpdate(false),
+              onClick: () => {
+                setUpdate(false);
+                setTextValue(text);
+              },
             },
             {
               type: 'submit',

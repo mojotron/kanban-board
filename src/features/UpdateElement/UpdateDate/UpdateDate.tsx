@@ -10,14 +10,16 @@ import UpdateControls from '../components/UpdateControls';
 import styles from './UpdateDate.module.css';
 
 type PropsType = {
-  timestamp: Timestamp;
+  timestamp: Timestamp | null;
   updatable?: boolean;
-  onUpdate: () => void;
+  onUpdate: (value: Timestamp) => void;
 };
 
-const UpdateDate = ({ timestamp, updatable = true }: PropsType) => {
+const UpdateDate = ({ timestamp, onUpdate, updatable = true }: PropsType) => {
   const [dateString, setDateString] = useState(() =>
-    formatForInputTypeDate(new Date(timestamp.seconds * 1000))
+    formatForInputTypeDate(
+      timestamp ? new Date(timestamp.seconds * 1000) : new Date()
+    )
   );
   const [edit, setEdit] = useState(false);
 
@@ -30,7 +32,7 @@ const UpdateDate = ({ timestamp, updatable = true }: PropsType) => {
     };
   }, [dateString]);
 
-  console.log(dateString);
+  console.log(dateObject.overDue);
 
   if (edit)
     return (
@@ -42,11 +44,16 @@ const UpdateDate = ({ timestamp, updatable = true }: PropsType) => {
         />
         <UpdateControls
           config={[
-            { type: 'close', onClick: () => setEdit(false) },
+            {
+              type: 'close',
+              onClick: () => {
+                setEdit(false);
+              },
+            },
             {
               type: 'submit',
               onClick: () => {
-                // TODO
+                onUpdate(Timestamp.fromDate(new Date(dateObject.date)));
                 setEdit(false);
               },
             },
@@ -57,10 +64,15 @@ const UpdateDate = ({ timestamp, updatable = true }: PropsType) => {
 
   return (
     <div className={styles.update}>
-      <p>{dateObject.date}</p>
-      <p className={dateObject.overDue ? styles.red : styles.green}>
-        {dateObject.formatted}
-      </p>
+      {timestamp && (
+        <>
+          <p>{dateObject.date}</p>
+          <p className={dateObject.overDue > 0 ? styles.red : styles.green}>
+            {dateObject.formatted}
+          </p>
+        </>
+      )}
+      {!timestamp && <p>Add task deadline</p>}
       {updatable && <UpdateButton onClick={() => setEdit(true)} />}
     </div>
   );

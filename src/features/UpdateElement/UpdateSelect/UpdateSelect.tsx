@@ -13,6 +13,7 @@ type PropsType = {
 const UpdateSelect = ({
   currentOption,
   options,
+  onUpdate,
   updatable = true,
 }: PropsType) => {
   const [selectedValue, setSelectedValue] = useState(currentOption);
@@ -33,11 +34,17 @@ const UpdateSelect = ({
         </select>
         <UpdateControls
           config={[
-            { type: 'close', onClick: () => setEdit(false) },
+            {
+              type: 'close',
+              onClick: () => {
+                setEdit(false);
+                setSelectedValue(currentOption);
+              },
+            },
             {
               type: 'submit',
               onClick: () => {
-                // TODO
+                onUpdate(selectedValue);
                 setEdit(false);
               },
             },
