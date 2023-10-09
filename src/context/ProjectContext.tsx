@@ -32,6 +32,7 @@ const useProjectSource = (): {
     developerId: string,
     numOfFinishedTasks: number
   ) => void;
+  deleteTask: (taskDocId: string) => void;
   firestorePending: boolean;
   firestoreError: null | string;
 } => {
@@ -39,6 +40,7 @@ const useProjectSource = (): {
   const {
     addDocument,
     updateDocument,
+    deleteDocument,
     pending: firestorePending,
     error: firestoreError,
   } = useFirestore();
@@ -82,7 +84,6 @@ const useProjectSource = (): {
       await updateDocument('projects', project.id, {
         tasks: [...project.tasks, doc.id],
       });
-      console.log(newTask);
     },
     [project]
   );
@@ -136,6 +137,17 @@ const useProjectSource = (): {
     [project]
   );
 
+  const deleteTask = useCallback(
+    async (taskDocId: string) => {
+      if (project === undefined) return;
+      await deleteDocument('tasks', taskDocId);
+      await updateDocument('projects', project.id, {
+        tasks: project?.tasks.filter((task) => task !== taskDocId),
+      });
+    },
+    [project]
+  );
+
   return {
     project,
     projectErr,
@@ -149,6 +161,7 @@ const useProjectSource = (): {
     assignTask,
     unassignTask,
     finishTask,
+    deleteTask,
     firestorePending,
     firestoreError,
   };

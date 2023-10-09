@@ -24,13 +24,16 @@ type PropsType = {
 };
 
 const Task = ({ taskData, onClose }: PropsType) => {
-  const { updateTaskField } = useProject();
+  const { project, updateTaskField, deleteTask } = useProject();
 
   return (
     <div className="overlay">
       <div className={styles.task}>
         <ModalCloseBtn handleClose={onClose} />
-        <Button handleClick={() => {}} className={styles.btnDelete}>
+        <Button
+          handleClick={() => deleteTask(taskData.id)}
+          className={styles.btnDelete}
+        >
           <AiFillDelete />
         </Button>
 
