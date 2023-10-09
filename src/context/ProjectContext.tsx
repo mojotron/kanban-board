@@ -25,6 +25,13 @@ const useProjectSource = (): {
     value: TaskType[K],
     taskDocId: string
   ) => void;
+  assignTask: (assignToUid: string, taskDocId: string) => void;
+  unassignTask: (taskDocId: string) => void;
+  finishTask: (
+    taskDocId: string,
+    developerId: string,
+    numOfFinishedTasks: number
+  ) => void;
   firestorePending: boolean;
   firestoreError: null | string;
 } => {
@@ -56,26 +63,29 @@ const useProjectSource = (): {
     error: tasksErr,
   } = useCollectDocsSnapshot<TaskWithId>(project?.tasks, 'tasks');
 
-  const createNewTask = useCallback(async (newTask: AddNewTaskType) => {
-    if (!project) return;
-    const data: TaskType = {
-      ...newTask,
-      adminUid: project?.adminUid,
-      assignToUid: '',
-      notes: [],
-      stage: 'backlog',
-      deadline:
-        newTask.deadline === ''
-          ? null
-          : Timestamp.fromDate(new Date(newTask.deadline)),
-    };
-    const doc = await addDocument<TaskType>('tasks', data);
-    if (!doc) return;
-    await updateDocument('projects', project.id, {
-      tasks: [...project.tasks, doc.id],
-    });
-    console.log(newTask);
-  }, []);
+  const createNewTask = useCallback(
+    async (newTask: AddNewTaskType) => {
+      if (!project) return;
+      const data: TaskType = {
+        ...newTask,
+        adminUid: project?.adminUid,
+        assignToUid: null,
+        notes: [],
+        stage: 'backlog',
+        deadline:
+          newTask.deadline === ''
+            ? null
+            : Timestamp.fromDate(new Date(newTask.deadline)),
+      };
+      const doc = await addDocument<TaskType>('tasks', data);
+      if (!doc) return;
+      await updateDocument('projects', project.id, {
+        tasks: [...project.tasks, doc.id],
+      });
+      console.log(newTask);
+    },
+    [project]
+  );
 
   const updateTaskField = useCallback(
     async <K extends keyof TaskType>(
@@ -83,16 +93,48 @@ const useProjectSource = (): {
       value: TaskType[K],
       taskDocId: string
     ) => {
-      console.log('HELLO');
-
       if (project === undefined) return;
-      console.log(field, value, taskDocId);
       await updateDocument('tasks', taskDocId, { [field]: value });
     },
     [project]
   );
-  // move tasks from stage to stage
-  // const moveTask = useCallback(async () => {}, [project]);
+
+  const assignTask = useCallback(
+    async (assignToUid: string, taskDocId: string) => {
+      if (project === undefined) return;
+      await updateDocument('tasks', taskDocId, {
+        assignToUid,
+        stage: 'development',
+      });
+    },
+    [project]
+  );
+
+  const unassignTask = useCallback(
+    async (taskDocId: string) => {
+      if (project === undefined) return;
+      await updateDocument('tasks', taskDocId, {
+        assignToUid: null,
+        stage: 'assignment',
+      });
+    },
+    [project]
+  );
+
+  const finishTask = useCallback(
+    async (
+      taskDocId: string,
+      developerId: string,
+      numOfFinishedTasks: number
+    ) => {
+      if (project === undefined) return;
+      await updateTaskField('stage', 'finished', taskDocId);
+      await updateDocument('users', developerId, {
+        tasksCompleted: numOfFinishedTasks,
+      });
+    },
+    [project]
+  );
 
   return {
     project,
@@ -104,6 +146,9 @@ const useProjectSource = (): {
     tasksErr,
     createNewTask,
     updateTaskField,
+    assignTask,
+    unassignTask,
+    finishTask,
     firestorePending,
     firestoreError,
   };

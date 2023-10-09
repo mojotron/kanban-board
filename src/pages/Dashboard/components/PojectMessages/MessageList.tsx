@@ -12,7 +12,7 @@ import { useTeam } from '../../../../context/TeamContext';
 
 const MessageList = () => {
   const { project } = useProject();
-  const { team, getMember, currentUser } = useTeam();
+  const { team, getMember, isCurrentUser } = useTeam();
   const { deleteMessage } = useMessages(project?.id!);
   const { documents: messages } = useCollectDocsSnapshot<MessageTypeWithId>(
     project?.messages,
@@ -28,7 +28,7 @@ const MessageList = () => {
           key={Math.round(Math.random() * 1000)}
           data={msg}
           member={getMember(msg.authorUid)}
-          currentUser={currentUser(msg.authorUid)}
+          currentUser={isCurrentUser(msg.authorUid)}
           onDelete={() => deleteMessage(msg.id, project?.messages!)}
         />
       ))}

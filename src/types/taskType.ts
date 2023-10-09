@@ -18,7 +18,7 @@ export type DevStage = (typeof developmentStages)[number];
 
 export type TaskType = {
   adminUid: string;
-  assignToUid: string;
+  assignToUid: string | null;
   title: string;
   description: string;
   notes: string[];

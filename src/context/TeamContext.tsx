@@ -1,41 +1,52 @@
-import { ReactNode, createContext, useCallback, useContext } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+} from 'react';
 import { useProject } from './ProjectContext';
 import { UserWithId } from '../types/userType';
 import { useCollectDocs } from '../hooks/useCollectDocs';
 import { useUserData } from './UserDataContext';
 
-export const useTeamSource = () => {
+export const useTeamSource = (): {
+  team: UserWithId[] | null;
+  teamPending: boolean;
+  teamError: null | string;
+  isCurrentUser: (userId: string) => boolean;
+  getMember: (userUid: string) => undefined | UserWithId;
+} => {
   const { document: user } = useUserData();
   const { project } = useProject();
   const {
     documents: team,
-    isPending,
-    error,
+    isPending: teamPending,
+    error: teamError,
   } = useCollectDocs<UserWithId>(
     [project?.adminUid!, ...project?.members!],
     'users'
   );
 
+  const isCurrentUser = useCallback(
+    (userId: string) => {
+      return userId === user?.uid;
+    },
+    [user]
+  );
   const getMember = useCallback(
-    (authorId: string) => {
-      return team?.find((member) => member.id === authorId);
+    (userId: string) => {
+      return team?.find((member) => member.id === userId);
     },
     [team]
   );
 
-  const currentUser = useCallback(
-    (authorId: string) => {
-      return user?.uid === authorId;
-    },
-    [user]
-  );
-
   return {
     team,
-    isPending,
-    error,
+    teamPending,
+    teamError,
     getMember,
-    currentUser,
+    isCurrentUser,
   };
 };
 

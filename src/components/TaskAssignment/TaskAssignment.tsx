@@ -1,9 +1,7 @@
 // hooks
 import { ReactNode, useMemo } from 'react';
+import { useTeam } from '../../context/TeamContext';
 import { useProject } from '../../context/ProjectContext';
-import { useUserData } from '../../context/UserDataContext';
-import { useKanbanStore } from '../../store';
-import { useTaskMove } from '../../hooks/useTaskMove';
 // style & icons
 import { AiOutlineUserAdd } from 'react-icons/ai';
 // components
@@ -18,6 +16,7 @@ import {
 } from '../../constants/confirmPopupTexts';
 // styles
 import styles from './TaskAssignment.module.css';
+import { useUserData } from '../../context/UserDataContext';
 
 type PropsType = {
   task: TaskWithId;
@@ -25,48 +24,54 @@ type PropsType = {
 
 const TaskAssignment = ({ task }: PropsType) => {
   const { document: user } = useUserData();
-  const { team, tasks } = useProject();
-  const { assign, unassign } = useTaskMove();
-
-  const setOpenConfirmModal = useKanbanStore(
-    (state) => state.setOpenConfirmModal
-  );
+  const { getMember } = useTeam();
+  const { assignTask, unassignTask } = useProject();
 
   const collaborator = useMemo(() => {
-    return team?.find((member) => member.id === task.assignToUid);
-  }, [team, task]);
+    return getMember(task.adminUid);
+  }, [getMember, task]);
+
+  const assignedTCurrentUser = task.assignToUid === user?.uid;
+  // const currentUserIsAdmin = task.adminUid === user?.uid;
 
   const handleAssign = async () => {
-    const haveTask = tasks?.find(
-      (task) => task.assignToUid === user?.uid && task.stage !== 'finished'
-    );
-    if (!haveTask) {
-      await assign(task);
-    } else {
-      setOpenConfirmModal({
-        confirmBox: false,
-        text: POPUP_ALREADY_ON_TASK,
-        handleConfirm: () => {},
-      });
-    }
+    // const haveTask = tasks?.find(
+    //   (task) => task.assignToUid === user?.uid && task.stage !== 'finished'
+    // );
+    // if (!haveTask) {
+    //   await assign(task);
+    // } else {
+    //   setOpenConfirmModal({
+    //     confirmBox: false,
+    //     text: POPUP_ALREADY_ON_TASK,
+    //     handleConfirm: () => {},
+    //   });
+    // }
   };
   const handleUnassign = async () => {
-    setOpenConfirmModal({
-      confirmBox: true,
-      text: POPUP_UNASSIGN_TASK,
-      handleConfirm: () => unassign(task),
-    });
+    // setOpenConfirmModal({
+    //   confirmBox: true,
+    //   text: POPUP_UNASSIGN_TASK,
+    //   handleConfirm: () => unassign(task),
+    // });
   };
 
+  if (!user) return null;
+
   let markdown: ReactNode;
-  if (task.assignToUid === '' && task.stage === 'assignment') {
+  // unassign task add user icon
+  if (task.assignToUid === null && task.stage === 'assignment') {
     markdown = (
-      <Button handleClick={handleAssign} className="taskBtn">
-        <AiOutlineUserAdd size={25} />
+      <Button
+        handleClick={() => assignTask(user?.uid, task.id)}
+        className="taskBtn"
+      >
+        <AiOutlineUserAdd size={50} color="white" />
       </Button>
     );
   }
-  if (task.assignToUid !== '' && collaborator) {
+  // assigned task => user avatar and button for unassign
+  if (task.assignToUid !== null && collaborator) {
     markdown = (
       <>
         <Avatar
@@ -74,8 +79,11 @@ const TaskAssignment = ({ task }: PropsType) => {
           imageUrl={collaborator.photoUrl}
           userName={collaborator.userName}
         />
-        {task.assignToUid === user?.uid && task.stage !== 'finished' && (
-          <Button handleClick={handleUnassign} className="taskBtn">
+        {assignedTCurrentUser && task.stage !== 'finished' && (
+          <Button
+            handleClick={() => unassignTask(task.id)}
+            className={styles.unassignBtn}
+          >
             unassign
           </Button>
         )}

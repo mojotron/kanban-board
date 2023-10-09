@@ -12,7 +12,7 @@ import styles from './UpdateDate.module.css';
 type PropsType = {
   timestamp: Timestamp | null;
   updatable?: boolean;
-  onUpdate: (value: Timestamp) => void;
+  onUpdate: (value: Timestamp | null) => void;
 };
 
 const UpdateDate = ({ timestamp, onUpdate, updatable = true }: PropsType) => {
@@ -54,6 +54,13 @@ const UpdateDate = ({ timestamp, onUpdate, updatable = true }: PropsType) => {
               type: 'submit',
               onClick: () => {
                 onUpdate(Timestamp.fromDate(new Date(dateObject.date)));
+                setEdit(false);
+              },
+            },
+            {
+              type: 'delete',
+              onClick: () => {
+                onUpdate(null);
                 setEdit(false);
               },
             },

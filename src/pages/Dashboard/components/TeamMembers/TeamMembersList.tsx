@@ -9,7 +9,7 @@ import Avatar from '../../../../components/Avatar/Avatar';
 import styles from './TeamMembersList.module.css';
 
 const TeamMembersList = () => {
-  const { team, currentUser } = useTeam();
+  const { team, isCurrentUser } = useTeam();
 
   return (
     <ul className={styles.teamMembersList}>
@@ -18,7 +18,7 @@ const TeamMembersList = () => {
           return (
             <li key={member.id}>
               <Link
-                to={currentUser(member.id) ? '/' : `/${member.userName}`}
+                to={isCurrentUser(member.id) ? '/' : `/${member.userName}`}
                 state={{ targetId: member.uid }}
                 className={styles.teamMembersListItem}
               >
