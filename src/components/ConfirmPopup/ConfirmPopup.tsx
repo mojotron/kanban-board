@@ -1,30 +1,44 @@
-import './ConfirmPopup.css';
-import { useKanbanStore } from '../../store';
+import Button from '../Button/Button';
+import styles from './ConfirmPopup.module.css';
+import {
+  AiOutlineCheckCircle as IconConfirm,
+  AiOutlineCloseCircle as IconCancel,
+} from 'react-icons/ai';
 
-const ConfirmPopup = () => {
-  const data = useKanbanStore((state) => state.openConfirmModal);
+type PropsType = {
+  message: string;
+  onCancel: () => void;
+  onConfirm: () => void;
+  alert?: boolean;
+};
 
-  const handleCancel = useKanbanStore((state) => state.setOpenConfirmModal);
-
+const ConfirmPopup = ({
+  message,
+  onCancel,
+  onConfirm,
+  alert = false,
+}: PropsType) => {
   return (
-    <div className="ConfirmPopup__overlay">
-      <div className="ConfirmPopup__wrapper">
-        <p className="ConfirmPopup__wrapper__text">{data?.text}</p>
-        <div className="ConfirmPopup__wrapper__btns">
-          {data?.confirmBox && (
-            <button
-              className="btn"
-              onClick={() => {
-                data?.handleConfirm();
-                handleCancel(null);
-              }}
+    <div className="overlay" style={{ zIndex: '110' }}>
+      <div className={styles.popup}>
+        <h3 className={styles.message}>{message}</h3>
+        <div className={styles.controls}>
+          <Button
+            handleClick={onCancel}
+            className={`${styles.btn} ${styles.red} ${
+              alert ? styles.left : ''
+            }`}
+          >
+            <IconCancel />
+          </Button>
+          {!alert && (
+            <Button
+              handleClick={onConfirm}
+              className={`${styles.btn} ${styles.green} `}
             >
-              Confirm
-            </button>
+              <IconConfirm />
+            </Button>
           )}
-          <button className="btn" onClick={() => handleCancel(null)}>
-            {data?.confirmBox ? 'Cancel' : 'Ok'}
-          </button>
         </div>
       </div>
     </div>

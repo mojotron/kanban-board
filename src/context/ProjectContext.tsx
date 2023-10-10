@@ -33,6 +33,7 @@ const useProjectSource = (): {
     numOfFinishedTasks: number
   ) => void;
   deleteTask: (taskDocId: string) => void;
+  memberHasTask: (memberId: string) => boolean;
   firestorePending: boolean;
   firestoreError: null | string;
 } => {
@@ -148,6 +149,14 @@ const useProjectSource = (): {
     [project]
   );
 
+  const memberHasTask = useCallback(
+    (memberId: string) => {
+      const onTask = tasks?.find((task) => task.assignToUid === memberId);
+      return onTask !== undefined;
+    },
+    [tasks]
+  );
+
   return {
     project,
     projectErr,
@@ -162,6 +171,7 @@ const useProjectSource = (): {
     unassignTask,
     finishTask,
     deleteTask,
+    memberHasTask,
     firestorePending,
     firestoreError,
   };

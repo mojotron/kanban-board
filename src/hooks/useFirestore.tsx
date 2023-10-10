@@ -20,6 +20,7 @@ export const useFirestore = () => {
     async <T,>(collectionName: string, data: T) => {
       const colRef = collection(firebaseFirestore, collectionName);
       setPending(true);
+      setError(null);
       try {
         const createdAt = Timestamp.fromDate(new Date());
         const newDoc = await addDoc(colRef, { ...data, createdAt });
@@ -42,6 +43,7 @@ export const useFirestore = () => {
   const setDocument = useCallback(
     async <T,>(collectionName: string, docId: string, data: T) => {
       setPending(true);
+      setError(null);
       try {
         const docRef = doc(firebaseFirestore, collectionName, docId);
         const createdAt = Timestamp.fromDate(new Date());
@@ -52,8 +54,6 @@ export const useFirestore = () => {
         }
       } catch (error) {
         if (!isCanceled && error instanceof Error) {
-          console.log('error here');
-
           console.log(error.message);
           setError(error.message);
           setPending(false);
@@ -67,6 +67,7 @@ export const useFirestore = () => {
     async (collectionName: string, docId: string, data: any) => {
       try {
         setPending(true);
+        setError(null);
         const docRef = doc(firebaseFirestore, collectionName, docId);
         await updateDoc(docRef, { ...data });
         const updatedDoc = await getDoc(docRef);
@@ -114,6 +115,8 @@ export const useFirestore = () => {
 
   const getDocument = useCallback(
     async <T,>(collectionName: string, docId: string) => {
+      setPending(true);
+      setError(null);
       try {
         const docRef = doc(firebaseFirestore, collectionName, docId);
         const docData = await getDoc(docRef);

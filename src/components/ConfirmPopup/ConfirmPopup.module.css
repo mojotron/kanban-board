@@ -1,0 +1,47 @@
+.popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  border: 3px solid var(--COLOR-BLUE-500);
+  border-radius: var(--BORDER-RADIUS);
+  width: 35rem;
+  max-width: 90vw;
+  min-height: 15rem;
+  background-color: var(--COLOR-GRAY-300);
+  padding: 3rem;
+}
+.message {
+  font-size: 1.563rem;
+  color: var(--COLOR-GRAY-600);
+}
+.controls {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.btn {
+  border: none;
+  background: none;
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  font-size: 2.5rem;
+  color: var(--COLOR-GRAY-600);
+}
+.red {
+  color: var(--COLOR-RED-500);
+}
+.red:hover {
+  color: var(--COLOR-RED-400);
+}
+.green {
+  color: var(--COLOR-GREEN-500);
+}
+.green:hover {
+  color: var(--COLOR-GREEN-400);
+}
+.left {
+  margin-left: auto;
+}

@@ -32,8 +32,6 @@ const UpdateDate = ({ timestamp, onUpdate, updatable = true }: PropsType) => {
     };
   }, [dateString]);
 
-  console.log(dateObject.overDue);
-
   if (edit)
     return (
       <div className={styles.update}>

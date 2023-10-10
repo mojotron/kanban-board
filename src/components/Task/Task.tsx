@@ -17,6 +17,10 @@ import { PRIORITIES } from '../../constants/priorities';
 import { POPUP_DELETE_TASK } from '../../constants/confirmPopupTexts';
 import UpdateDate from '../../features/UpdateElement/UpdateDate/UpdateDate';
 import UpdateSelect from '../../features/UpdateElement/UpdateSelect/UpdateSelect';
+import { useState } from 'react';
+import ConfirmPopup from '../ConfirmPopup/ConfirmPopup';
+import { useUserData } from '../../context/UserDataContext';
+import { useCloseOnEscape } from '../../hooks/useCloseOnEscape';
 
 type PropsType = {
   taskData: TaskWithId;
@@ -24,18 +28,36 @@ type PropsType = {
 };
 
 const Task = ({ taskData, onClose }: PropsType) => {
-  const { project, updateTaskField, deleteTask } = useProject();
+  const { document: user } = useUserData();
+  const { updateTaskField, deleteTask } = useProject();
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  useCloseOnEscape(onClose);
+
+  const isAdmin = user?.uid === taskData.adminUid;
 
   return (
     <div className="overlay">
+      {showDeleteConfirm && (
+        <ConfirmPopup
+          message={POPUP_DELETE_TASK}
+          onCancel={() => setShowDeleteConfirm(false)}
+          onConfirm={() => {
+            deleteTask(taskData.id);
+            setShowDeleteConfirm(false);
+          }}
+        />
+      )}
+
       <div className={styles.task}>
         <ModalCloseBtn handleClose={onClose} />
-        <Button
-          handleClick={() => deleteTask(taskData.id)}
-          className={styles.btnDelete}
-        >
-          <AiFillDelete />
-        </Button>
+        {isAdmin && (
+          <Button
+            handleClick={() => setShowDeleteConfirm(true)}
+            className={styles.btnDelete}
+          >
+            <AiFillDelete />
+          </Button>
+        )}
 
         <header className={styles.header}>
           <div className={styles.headerLeft}>
@@ -43,6 +65,7 @@ const Task = ({ taskData, onClose }: PropsType) => {
               text={taskData.title}
               onUpdate={(value) => updateTaskField('title', value, taskData.id)}
               maxLength={TEXT_LENGTHS.task.title}
+              updatable={isAdmin}
             />
 
             <UpdateSelect
@@ -51,6 +74,7 @@ const Task = ({ taskData, onClose }: PropsType) => {
               onUpdate={(value) =>
                 updateTaskField('priority', value as Priority, taskData.id)
               }
+              updatable={isAdmin}
             />
 
             <TaskStages task={taskData} />
@@ -60,6 +84,7 @@ const Task = ({ taskData, onClose }: PropsType) => {
               onUpdate={(value) =>
                 updateTaskField('deadline', value, taskData.id)
               }
+              updatable={isAdmin}
             />
           </div>
           <div className={styles.headerRight}>
@@ -75,6 +100,7 @@ const Task = ({ taskData, onClose }: PropsType) => {
             onUpdate={(value) =>
               updateTaskField('description', value, taskData.id)
             }
+            updatable={isAdmin}
           />
 
           <h3>Notes</h3>
@@ -83,6 +109,7 @@ const Task = ({ taskData, onClose }: PropsType) => {
             onUpdate={(value) => updateTaskField('notes', value, taskData.id)}
             listStyle={styles.notes}
             itemStyle={styles.note}
+            updatable={isAdmin}
           />
         </div>
       </div>
