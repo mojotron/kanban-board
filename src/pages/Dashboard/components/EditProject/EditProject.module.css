@@ -29,24 +29,8 @@
 .headerRight {
   margin-bottom: auto;
   display: flex;
-  align-items: flex-start;
-}
-.btnPublic {
-  cursor: pointer;
-  border: none;
-  background: none;
-  font-size: bold;
-}
-.btnPublic {
-  color: var(--COLOR-BLUE-400);
-  border: 1px solid var(--COLOR-BLUE-400);
-  padding: 0.5rem 2rem;
-  border-radius: var(--BORDER-RADIUS);
-}
-.btnPublic:hover {
-  background-color: var(--COLOR-BLUE-400);
-  color: var(--COLOR-GRAY-800);
-  border-radius: var(--BORDER-RADIUS);
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 .tags {
   list-style: none;

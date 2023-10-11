@@ -9,9 +9,10 @@ export type ProjectType = {
   tasks: string[];
   members: string[];
   messages: string[];
-  public: boolean;
   createdAt: Timestamp;
-  requests: string[]
+  requests: string[];
+  public: boolean;
+  finished: boolean;
 };
 
 export type ProjectWithId = ProjectType & { id: string };

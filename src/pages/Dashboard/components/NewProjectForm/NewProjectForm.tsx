@@ -107,6 +107,7 @@ const NewProjectForm = () => {
         members: [],
         messages: [],
         public: false,
+        finished: false,
         createdAt: Timestamp.fromDate(new Date()),
         requests: [],
       });

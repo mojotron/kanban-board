@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useCallback, useContext } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+} from 'react';
 import { useOnSnapshotDocument } from '../hooks/useOnSnapshotDocument';
 import { useFirestore } from '../hooks/useFirestore';
 import { useCollectDocsSnapshot } from '../hooks/useCollectDocsSnapshot';
@@ -7,11 +13,13 @@ import { useParams } from 'react-router-dom';
 import { ProjectType, ProjectWithId } from '../types/projectType';
 import { AddNewTaskType, TaskType, TaskWithId } from '../types/taskType';
 import { Timestamp } from 'firebase/firestore';
+import { useUserData } from './UserDataContext';
 
 const useProjectSource = (): {
   project: undefined | ProjectWithId;
   projectErr: null | string;
   projectPending: boolean;
+  isAdmin: boolean;
   updateProjectField: <K extends keyof ProjectType>(
     field: K,
     value: ProjectType[K]
@@ -37,6 +45,7 @@ const useProjectSource = (): {
   firestorePending: boolean;
   firestoreError: null | string;
 } => {
+  const { document: user } = useUserData();
   const { projectId } = useParams();
   const {
     addDocument,
@@ -59,6 +68,10 @@ const useProjectSource = (): {
     },
     [project]
   );
+
+  const isAdmin = useMemo(() => {
+    return user?.uid === project?.adminUid;
+  }, [user, project]);
 
   const {
     documents: tasks,
@@ -161,6 +174,7 @@ const useProjectSource = (): {
     project,
     projectErr,
     projectPending,
+    isAdmin,
     updateProjectField,
     tasks,
     tasksPending,

@@ -1,7 +1,10 @@
 .admin {
+  text-decoration: none;
+  color: var(--COLOR-GRAY-200);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 10rem;
+  cursor: pointer;
 }

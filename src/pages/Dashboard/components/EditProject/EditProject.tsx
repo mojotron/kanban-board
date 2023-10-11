@@ -4,9 +4,9 @@ import { useProject } from '../../../../context/ProjectContext';
 import { useTeam } from '../../../../context/TeamContext';
 // components
 import AdminAvatar from '../../../../components/AdminAvatar/AdminAvatar';
-import Button from '../../../../components/Button/Button';
 import UpdateText from '../../../../features/UpdateElement/UpdateText/UpdateText';
 import UpdateList from '../../../../features/UpdateElement/UpdateList/UpdateList';
+import AdminControls from './AdminControls';
 // styles
 import styles from './EditProject.module.css';
 // constants
@@ -18,7 +18,7 @@ type PropsType = {
 };
 const EditProject = ({ onClose }: PropsType) => {
   useCloseOnEscape(onClose);
-  const { project, updateProjectField } = useProject();
+  const { project, updateProjectField, isAdmin } = useProject();
   const { getMember } = useTeam();
 
   if (!project) return null;
@@ -35,6 +35,7 @@ const EditProject = ({ onClose }: PropsType) => {
               maxLength={TEXT_LENGTHS.project.title}
               className={styles.projectName}
               onUpdate={async (newName) => updateProjectField('name', newName)}
+              updatable={isAdmin}
             />
 
             <UpdateText
@@ -45,6 +46,7 @@ const EditProject = ({ onClose }: PropsType) => {
                 labelText: 'Project Repository',
               }}
               onUpdate={(newLink) => updateProjectField('repository', newLink)}
+              updatable={isAdmin}
             />
 
             <UpdateList
@@ -52,16 +54,12 @@ const EditProject = ({ onClose }: PropsType) => {
               onUpdate={(newTags) => updateProjectField('tags', newTags)}
               listStyle={styles.tags}
               itemStyle="tag"
+              updatable={isAdmin}
             />
           </div>
 
           <div className={styles.headerRight}>
-            <Button
-              handleClick={() => updateProjectField('public', !project.public)}
-              className={styles.btnPublic}
-            >
-              Make Project {project.public ? 'Private' : 'Public'}
-            </Button>
+            {isAdmin && <AdminControls />}
             <AdminAvatar admin={getMember(project.adminUid)} />
           </div>
         </header>
@@ -74,6 +72,7 @@ const EditProject = ({ onClose }: PropsType) => {
           onUpdate={async (newDescription) =>
             updateProjectField('description', newDescription)
           }
+          updatable={isAdmin}
         />
       </div>
     </div>

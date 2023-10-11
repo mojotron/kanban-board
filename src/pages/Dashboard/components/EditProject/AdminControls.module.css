@@ -1,0 +1,39 @@
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.btn {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: bold;
+  color: var(--COLOR-GRAY-300);
+  border: 1px solid var(--COLOR-GRAY-300);
+  padding: 0.5rem 2rem;
+  border-radius: var(--BORDER-RADIUS);
+}
+.btnBlue {
+  color: var(--COLOR-BLUE-400);
+  border-color: var(--COLOR-BLUE-400);
+}
+.btnGreen {
+  color: var(--COLOR-GREEN-400);
+  border-color: var(--COLOR-GREEN-400);
+}
+.btnRed {
+  color: var(--COLOR-RED-400);
+  border: 1px solid var(--COLOR-RED-400);
+}
+.btnBlue:hover {
+  color: var(--COLOR-GRAY-800);
+  background-color: var(--COLOR-BLUE-400);
+}
+.btnGreen:hover {
+  color: var(--COLOR-GRAY-800);
+  background-color: var(--COLOR-GREEN-400);
+}
+.btnRed:hover {
+  color: var(--COLOR-GRAY-800);
+  background-color: var(--COLOR-RED-400);
+}
