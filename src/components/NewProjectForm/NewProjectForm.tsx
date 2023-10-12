@@ -1,27 +1,18 @@
 // components
-import ModalCloseBtn from '../../../../components/ModalCloseBtn/ModalCloseBtn';
+import ModalCloseBtn from '../ModalCloseBtn/ModalCloseBtn';
 // react hooks
-import {
-  useCallback,
-  useEffect,
-  useReducer,
-  useRef,
-  MutableRefObject,
-  FormEvent,
-} from 'react';
-// store
-import { useKanbanStore } from '../../../../store';
+import { useEffect, useReducer, useRef, FormEvent } from 'react';
 // firestore
-import { useFirestore } from '../../../../hooks/useFirestore';
-import { ProjectType } from '../../../../types/projectType';
-import { useUserData } from '../../../../context/UserDataContext';
+import { useFirestore } from '../../hooks/useFirestore';
+import { ProjectType } from '../../types/projectType';
+import { useUserData } from '../../context/UserDataContext';
 import { Timestamp } from 'firebase/firestore';
+import { useCloseOnEscape } from '../../hooks/useCloseOnEscape';
 
-const NewProjectForm = () => {
+const NewProjectForm = ({ onClose }: { onClose: () => void }) => {
   const { document } = useUserData();
-
-  const closeModal = useKanbanStore((state) => state.setOpenNewProjectModal);
   const { pending, error, addDocument, updateDocument } = useFirestore();
+  useCloseOnEscape(onClose);
 
   type State = {
     name: string;
@@ -75,20 +66,10 @@ const NewProjectForm = () => {
     }
   );
 
-  const usernameRef = useRef() as MutableRefObject<HTMLInputElement>;
-
-  const handleCloseModal = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === 'Escape') closeModal(false);
-    },
-    [closeModal]
-  );
+  const usernameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     usernameRef?.current?.focus();
-
-    window.addEventListener('keydown', handleCloseModal);
-    return () => window.removeEventListener('keydown', handleCloseModal);
   }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -106,15 +87,15 @@ const NewProjectForm = () => {
         tasks: [],
         members: [],
         messages: [],
+        requests: [],
+        createdAt: Timestamp.fromDate(new Date()),
         public: false,
         finished: false,
-        createdAt: Timestamp.fromDate(new Date()),
-        requests: [],
       });
       await updateDocument('users', document.uid, {
         managingProjects: [...document.managingProjects, newProject?.id],
       });
-      closeModal(false);
+      onClose();
     } catch (error) {
       console.log(error);
     }
@@ -123,7 +104,7 @@ const NewProjectForm = () => {
   return (
     <div className="overlay">
       <form className="Form" onSubmit={handleSubmit}>
-        <ModalCloseBtn handleClose={() => closeModal(false)} />
+        <ModalCloseBtn handleClose={onClose} />
 
         <h2 className="heading--secondary">New Project</h2>
         <div className="Form__item">

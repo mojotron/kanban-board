@@ -14,7 +14,6 @@ type State = {
   showAside: boolean;
   updateMessage: null | MessageTypeWithId;
   //
-  openNewProjectModal: boolean;
   currentTaskStage: null | string;
   draggedTask: null | TaskWithId;
   // confirm
@@ -26,7 +25,6 @@ type Action = {
   setShowAside: (value: boolean) => void;
   setUpdateMessage: (value: null | MessageTypeWithId) => void;
   //
-  setOpenNewProjectModal: (value: boolean) => void;
   setCurrentTaskStage: (column: string | null) => void;
   setDraggedTask: (task: TaskWithId | null) => void;
   setOpenConfirmModal: (value: ConfirmModalState) => void;
@@ -40,11 +38,9 @@ export const useKanbanStore = create<State & Action>()((set) => ({
   setUpdateMessage: (value: null | MessageTypeWithId) =>
     set({ updateMessage: value }),
   //
-  openNewProjectModal: false,
   currentTaskStage: TASK_STAGES[0],
   draggedTask: null,
   openConfirmModal: null,
-  setOpenNewProjectModal: (value) => set({ openNewProjectModal: value }),
   setCurrentTaskStage: (stage: string | null) =>
     set({ currentTaskStage: stage }),
   setDraggedTask: (task: TaskWithId | null) => set({ draggedTask: task }),

@@ -11,9 +11,11 @@ import {
   POPUP_DELETE_PROJECT,
   POPUP_FINISH_PROJECT,
 } from '../../../../constants/confirmPopupTexts';
+import { useTeam } from '../../../../context/TeamContext';
 
 const AdminControls = () => {
-  const { project, updateProjectField } = useProject();
+  const { project, updateProjectField, deleteProject } = useProject();
+  const { team } = useTeam();
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
   const [openFinishPopup, setOpenFinishPopup] = useState(false);
 
@@ -25,7 +27,7 @@ const AdminControls = () => {
         <ConfirmPopup
           message={POPUP_DELETE_PROJECT}
           onCancel={() => setOpenDeletePopup(false)}
-          onConfirm={() => {}}
+          onConfirm={() => deleteProject(team ?? [])}
         />
       )}
       {openFinishPopup && (

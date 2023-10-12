@@ -16,6 +16,8 @@ import { MenuOptionType } from '../../types/menuOption';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const Dashboard = () => {
+  console.log('DASBOARD mount');
+
   const navigate = useNavigate();
   const { projectId } = useParams();
 

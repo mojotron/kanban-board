@@ -136,6 +136,23 @@ export const useFirestore = () => {
     []
   );
 
+  const deleteListOfDocuments = useCallback(
+    async (collectionName: string, docIdList: string[]) => {
+      try {
+        await Promise.all(
+          docIdList.map(async (docId) => {
+            await deleteDoc(doc(firebaseFirestore, collectionName, docId));
+          })
+        );
+      } catch (error) {
+        if (error instanceof Error) {
+          throw error;
+        }
+      }
+    },
+    []
+  );
+
   useEffect(() => {
     return () => setIsCanceled(true);
   }, []);
@@ -149,5 +166,6 @@ export const useFirestore = () => {
     deleteDocument,
     documentExist,
     getDocument,
+    deleteListOfDocuments,
   };
 };

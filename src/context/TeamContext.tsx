@@ -1,10 +1,4 @@
-import {
-  ReactNode,
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-} from 'react';
+import { ReactNode, createContext, useCallback, useContext } from 'react';
 import { useProject } from './ProjectContext';
 import { UserWithId } from '../types/userType';
 import { useCollectDocs } from '../hooks/useCollectDocs';
@@ -27,6 +21,8 @@ export const useTeamSource = (): {
     [project?.adminUid!, ...project?.members!],
     'users'
   );
+
+  console.log(team);
 
   const isCurrentUser = useCallback(
     (userId: string) => {

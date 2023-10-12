@@ -8,12 +8,13 @@ import {
 import { useOnSnapshotDocument } from '../hooks/useOnSnapshotDocument';
 import { useFirestore } from '../hooks/useFirestore';
 import { useCollectDocsSnapshot } from '../hooks/useCollectDocsSnapshot';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 // types
 import { ProjectType, ProjectWithId } from '../types/projectType';
 import { AddNewTaskType, TaskType, TaskWithId } from '../types/taskType';
 import { Timestamp } from 'firebase/firestore';
 import { useUserData } from './UserDataContext';
+import { UserWithId } from '../types/userType';
 
 const useProjectSource = (): {
   project: undefined | ProjectWithId;
@@ -24,6 +25,7 @@ const useProjectSource = (): {
     field: K,
     value: ProjectType[K]
   ) => void;
+  deleteProject: (team: UserWithId[]) => void;
   tasks: TaskWithId[] | undefined;
   tasksPending: boolean;
   tasksErr: null | string;
@@ -51,6 +53,7 @@ const useProjectSource = (): {
     addDocument,
     updateDocument,
     deleteDocument,
+    deleteListOfDocuments,
     pending: firestorePending,
     error: firestoreError,
   } = useFirestore();
@@ -60,6 +63,8 @@ const useProjectSource = (): {
     error: projectErr,
     pending: projectPending,
   } = useOnSnapshotDocument<ProjectWithId>('projects', projectId);
+
+  const navigate = useNavigate();
 
   const updateProjectField = useCallback(
     async <K extends keyof ProjectType>(field: K, value: ProjectType[K]) => {
@@ -78,6 +83,37 @@ const useProjectSource = (): {
     pending: tasksPending,
     error: tasksErr,
   } = useCollectDocsSnapshot<TaskWithId>(project?.tasks, 'tasks');
+
+  const deleteProject = useCallback(
+    async (team: UserWithId[]) => {
+      if (!user || !project) return;
+      // remove project from collaborators collaboratingProjects list
+      await Promise.all(
+        team.map(async (member) => {
+          const filteredProjects = member.collaboratingProjects.filter(
+            (projectId) => projectId !== project?.id
+          );
+          updateDocument('users', member.id, {
+            collaboratingProjects: filteredProjects,
+          });
+        })
+      );
+      // remove project id from admin managingProjects list
+      const filteredProjects = user?.managingProjects.filter(
+        (projectId) => projectId !== project?.id
+      );
+      await updateDocument('users', user?.uid, {
+        managingProjects: filteredProjects,
+      });
+      // delete all tasks
+      deleteListOfDocuments('tasks', project.tasks);
+      // delete project
+      deleteDocument('projects', project.id);
+      // navigate to admin profile
+      navigate(`/${user.uid}`);
+    },
+    [project, user]
+  );
 
   const createNewTask = useCallback(
     async (newTask: AddNewTaskType) => {
@@ -176,6 +212,7 @@ const useProjectSource = (): {
     projectPending,
     isAdmin,
     updateProjectField,
+    deleteProject,
     tasks,
     tasksPending,
     tasksErr,
