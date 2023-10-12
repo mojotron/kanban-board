@@ -1,4 +1,11 @@
-import { ReactNode, createContext, useCallback, useContext } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useProject } from './ProjectContext';
 import { UserWithId } from '../types/userType';
 import { useCollectDocs } from '../hooks/useCollectDocs';
@@ -13,14 +20,18 @@ export const useTeamSource = (): {
 } => {
   const { document: user } = useUserData();
   const { project } = useProject();
+  const [allMembers, setAllMembers] = useState<string[] | undefined>(undefined);
+
+  useEffect(() => {
+    if (!project) return;
+    setAllMembers([project.adminUid, ...project.members]);
+  }, [project]);
+
   const {
     documents: team,
     isPending: teamPending,
     error: teamError,
-  } = useCollectDocs<UserWithId>(
-    [project?.adminUid!, ...project?.members!],
-    'users'
-  );
+  } = useCollectDocs<UserWithId>(allMembers, 'users');
 
   console.log(team);
 

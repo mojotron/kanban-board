@@ -16,12 +16,13 @@ import { MenuOptionType } from '../../types/menuOption';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const Dashboard = () => {
-  console.log('DASBOARD mount');
+  console.log('DAShBOARD mount');
 
   const navigate = useNavigate();
   const { projectId } = useParams();
 
   const { project, projectErr, projectPending } = useProject();
+  console.log('project', project);
 
   const [openNewTask, setOpenNewTask] = useState(false);
   const [openEditProject, setOpenEditProject] = useState(false);

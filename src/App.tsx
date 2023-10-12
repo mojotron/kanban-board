@@ -12,6 +12,7 @@ import KanbanBoard from './pages/KanbanBoardPage/Kanban';
 import Profile from './pages/Profile/Profile';
 import FindProjects from './pages/FindProjects/FindProjects';
 import { useUserData } from './context/UserDataContext';
+import { ProjectProvider } from './context/ProjectContext';
 
 // helper components for page navigation
 
@@ -30,7 +31,16 @@ const App = () => {
                   element={<Navigate to={`/${user?.uid}`} replace />}
                 />
                 <Route path="/:userId" element={<Profile />} />
-                <Route path="/project/:projectId" element={<Dashboard />} />
+                <Route
+                  path="/project/:projectId"
+                  element={
+                    <>
+                      <ProjectProvider>
+                        <Dashboard />
+                      </ProjectProvider>
+                    </>
+                  }
+                />
                 <Route path="/kanban/:projectId" element={<KanbanBoard />} />
               </Route>
             </Route>
