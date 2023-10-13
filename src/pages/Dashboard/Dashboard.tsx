@@ -3,7 +3,7 @@ import { useProject } from '../../context/ProjectContext';
 // components
 import NewTaskForm from './components/NewTaskForm/NewTaskForm';
 import TeamMembers from './components/TeamMembers/TeamMembers';
-import ProjectMessages from './components/PojectMessages/ProjectMessages';
+import ProjectMessages from './components/ProjectMessages/ProjectMessages';
 import ProjectMenu from './components/ProjectMenu/ProjectMenu';
 import Description from './components/Description/Description';
 import Tasks from './components/Tasks/Tasks';
@@ -16,13 +16,10 @@ import { MenuOptionType } from '../../types/menuOption';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const Dashboard = () => {
-  console.log('DAShBOARD mount');
-
   const navigate = useNavigate();
   const { projectId } = useParams();
 
   const { project, projectErr, projectPending } = useProject();
-  console.log('project', project);
 
   const [openNewTask, setOpenNewTask] = useState(false);
   const [openEditProject, setOpenEditProject] = useState(false);
@@ -31,27 +28,30 @@ const Dashboard = () => {
     return [
       {
         text: 'Kanban Board',
-        className: `${styles.menuBtn} ${styles.kanbanBtn}`,
         handleClick: () => navigate(`/kanban/${projectId}`),
+        disabled: false,
       },
       {
         text: 'Project Details',
-        className: `${styles.menuBtn}`,
         handleClick: () => setOpenEditProject(true),
+        disabled: false,
       },
       {
-        text: 'Create New Task',
-        className: `${styles.menuBtn}`,
-        handleClick: () => setOpenNewTask(true),
+        text: `Create New Task`,
+        handleClick: () => {
+          if (project?.finished) return;
+          setOpenNewTask(true);
+        },
+        disabled: project?.finished ?? false,
       },
 
       {
         text: 'Find Collaborator',
-        className: `${styles.menuBtn}`,
         handleClick: () => {},
+        disabled: false,
       },
     ];
-  }, []);
+  }, [project?.finished]);
 
   if (project === undefined) return;
 

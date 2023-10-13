@@ -32,3 +32,11 @@
   background-color: var(--COLOR-GRAY-500);
   color: var(--COLOR-YELLOW-300);
 }
+.menuBtn:disabled {
+  opacity: 0.5;
+}
+.menuBtn:hover:disabled {
+  font-weight: normal;
+  background-color: var(--COLOR-GRAY-800);
+  cursor: auto;
+}

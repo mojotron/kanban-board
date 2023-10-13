@@ -18,6 +18,7 @@ const ProjectMenu = ({ menuOptions }: PropsType) => {
               ? `${styles.menuBtn} ${styles.kanbanBtn}`
               : `${styles.menuBtn}`
           }
+          disabled={ele.disabled}
         >
           {ele.text}
         </Button>

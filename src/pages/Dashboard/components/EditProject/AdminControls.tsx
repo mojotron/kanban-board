@@ -14,7 +14,8 @@ import {
 import { useTeam } from '../../../../context/TeamContext';
 
 const AdminControls = () => {
-  const { project, updateProjectField, deleteProject } = useProject();
+  const { project, updateProjectField, deleteProject, finishProject } =
+    useProject();
   const { team } = useTeam();
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
   const [openFinishPopup, setOpenFinishPopup] = useState(false);
@@ -34,7 +35,10 @@ const AdminControls = () => {
         <ConfirmPopup
           message={POPUP_FINISH_PROJECT}
           onCancel={() => setOpenFinishPopup(false)}
-          onConfirm={() => {}}
+          onConfirm={async () => {
+            await finishProject(team ?? []);
+            setOpenFinishPopup(false);
+          }}
         />
       )}
 
@@ -48,8 +52,9 @@ const AdminControls = () => {
       <Button
         handleClick={() => setOpenFinishPopup(true)}
         className={`${styles.btn} ${styles.btnGreen}`}
+        disabled={project.finished}
       >
-        Finish Project
+        {project.finished ? 'Already Finished' : 'Finish Project'}
       </Button>
 
       <Button

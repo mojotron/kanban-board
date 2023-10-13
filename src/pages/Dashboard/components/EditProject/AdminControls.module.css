@@ -37,3 +37,13 @@
   color: var(--COLOR-GRAY-800);
   background-color: var(--COLOR-RED-400);
 }
+.btn:disabled {
+  color: white;
+}
+.btn:disabled {
+  opacity: 0.5;
+  color: var(--COLOR-GRAY-300);
+  border: 1px solid var(--COLOR-GRAY-300);
+  background: none;
+  cursor: auto;
+}

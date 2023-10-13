@@ -5,6 +5,7 @@ type PropsType = {
   className?: string;
   text?: string;
   children?: ReactNode | null;
+  disabled?: boolean;
 };
 
 const Button = ({
@@ -12,9 +13,10 @@ const Button = ({
   className = '',
   children = null,
   text = 'Click',
+  disabled = false,
 }: PropsType) => {
   return (
-    <button className={className} onClick={handleClick}>
+    <button className={className} onClick={handleClick} disabled={disabled}>
       {children ? children : text}
     </button>
   );

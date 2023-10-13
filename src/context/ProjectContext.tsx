@@ -26,6 +26,7 @@ const useProjectSource = (): {
     value: ProjectType[K]
   ) => void;
   deleteProject: (team: UserWithId[]) => void;
+  finishProject: (team: UserWithId[]) => void;
   tasks: TaskWithId[] | undefined;
   tasksPending: boolean;
   tasksErr: null | string;
@@ -93,7 +94,7 @@ const useProjectSource = (): {
           const filteredProjects = member.collaboratingProjects.filter(
             (projectId) => projectId !== project?.id
           );
-          updateDocument('users', member.id, {
+          await updateDocument('users', member.id, {
             collaboratingProjects: filteredProjects,
           });
         })
@@ -106,13 +107,58 @@ const useProjectSource = (): {
         managingProjects: filteredProjects,
       });
       // delete all tasks
-      deleteListOfDocuments('tasks', project.tasks);
-      // delete project
-      deleteDocument('projects', project.id);
+      await deleteListOfDocuments('tasks', project.tasks);
+      // delete all messages
+      await deleteListOfDocuments('messages', project.messages);
       // navigate to admin profile
       navigate(`/${user.uid}`);
+      // delete project
+      await deleteDocument('projects', project.id);
     },
     [project, user]
+  );
+
+  const finishProject = useCallback(
+    async (team: UserWithId[]) => {
+      if (!project || !tasks) return;
+      if (project.finished) return;
+
+      await Promise.all(
+        team.map(async (member) => {
+          // add to all users projectsCompleted +1 if they have completed at least one
+          // task (add doesn't need completed task)
+          const hasFinishedTask = tasks.find(
+            (task) =>
+              task.stage === 'finished' && task.assignToUid === member.id
+          );
+          if (
+            hasFinishedTask !== undefined ||
+            member.uid === project.adminUid
+          ) {
+            await updateDocument('users', member.id, {
+              projectsCompleted: member.projectsCompleted + 1,
+            });
+          }
+        })
+      );
+
+      // delete all task that are not finished & update project prop to finish
+      const finishedTasks = tasks
+        .filter((task) => task.stage === 'finished')
+        .map((task) => task.id);
+
+      const unfinishedTasks = tasks
+        .filter((task) => task.stage !== 'finished')
+        .map((task) => task.id);
+
+      await deleteListOfDocuments('tasks', unfinishedTasks);
+
+      await updateDocument('projects', project.id, {
+        tasks: finishedTasks,
+        finished: true,
+      });
+    },
+    [project, tasks]
   );
 
   const createNewTask = useCallback(
@@ -200,7 +246,9 @@ const useProjectSource = (): {
 
   const memberHasTask = useCallback(
     (memberId: string) => {
-      const onTask = tasks?.find((task) => task.assignToUid === memberId);
+      const onTask = tasks?.find(
+        (task) => task.assignToUid === memberId && task.stage !== 'finished'
+      );
       return onTask !== undefined;
     },
     [tasks]
@@ -213,6 +261,7 @@ const useProjectSource = (): {
     isAdmin,
     updateProjectField,
     deleteProject,
+    finishProject,
     tasks,
     tasksPending,
     tasksErr,

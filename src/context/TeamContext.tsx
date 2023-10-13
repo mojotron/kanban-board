@@ -33,8 +33,6 @@ export const useTeamSource = (): {
     error: teamError,
   } = useCollectDocs<UserWithId>(allMembers, 'users');
 
-  console.log(team);
-
   const isCurrentUser = useCallback(
     (userId: string) => {
       return userId === user?.uid;
