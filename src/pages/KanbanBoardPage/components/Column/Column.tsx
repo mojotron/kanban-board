@@ -22,6 +22,8 @@ const Column = ({ title }: PropsType) => {
 
   const { isMovable, moveTask } = useTaskMove();
 
+  console.log(tasks);
+
   const columnTasks = useMemo(
     () =>
       tasks

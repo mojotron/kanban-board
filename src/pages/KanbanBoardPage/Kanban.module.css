@@ -1,20 +1,33 @@
 .kanban {
   display: grid;
   grid-template-rows: 0.05fr 0.95fr;
-
   width: 100%;
   height: 100vh;
   padding: 2rem;
 }
-.KanbanBoard__header {
+.header {
   display: flex;
   gap: 2.4rem;
   align-items: center;
   justify-content: flex-end;
 }
-.KanbanBoard__columns {
+.columns {
   display: grid;
   grid-template-rows: 1fr;
   column-gap: 0.8rem;
   /* grid template columns are set dynamically in tsx file */
+}
+.dashboardLink {
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid var(--COLOR-BLUE-400);
+  border-radius: var(--BORDER-RADIUS);
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: var(--COLOR-BLUE-400);
+}
+.dashboardLink:hover {
+  background: var(--COLOR-BLUE-400);
+  color: var(--COLOR-GRAY-900);
 }
