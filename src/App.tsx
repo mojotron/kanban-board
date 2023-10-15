@@ -41,7 +41,16 @@ const App = () => {
                     </>
                   }
                 />
-                <Route path="/kanban/:projectId" element={<KanbanBoard />} />
+                <Route
+                  path="/kanban/:projectId"
+                  element={
+                    <>
+                      <ProjectProvider>
+                        <KanbanBoard />
+                      </ProjectProvider>
+                    </>
+                  }
+                />
               </Route>
             </Route>
             <Route path="/login" element={<Login />} />
