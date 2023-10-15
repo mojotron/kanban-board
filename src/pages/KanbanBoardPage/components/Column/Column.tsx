@@ -14,6 +14,10 @@ import { isTaskMovable } from '../../../../utils/isTaskMovable';
 // constants
 import { TASK_STAGES_COLLABORATES } from '../../../../constants/taskStages';
 import ConfirmPopup from '../../../../components/ConfirmPopup/ConfirmPopup';
+import {
+  POPUP_ALREADY_ON_TASK,
+  POPUP_UNASSIGN_TASK,
+} from '../../../../constants/confirmPopupTexts';
 
 type PropsType = {
   columnName: Stage;
@@ -29,6 +33,13 @@ const Column = ({ columnName }: PropsType) => {
 
   const [drop, setDrop] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
+  type ConfirmType = {
+    type: 'already-assign' | 'unassign';
+    taskId: string;
+  };
+  const [confirmType, setConfirmType] = useState<ConfirmType | undefined>(
+    undefined
+  );
 
   const columnTasks = useMemo(
     () =>
@@ -49,8 +60,12 @@ const Column = ({ columnName }: PropsType) => {
     if (draggedTask === null) return;
     const userAlreadyHaveTask = memberHasTask(user.uid);
 
-    if (isTaskMovable(draggedTask.stage, columnName, userAlreadyHaveTask)) {
-      setDrop(true);
+    if (isTaskMovable(draggedTask.stage, columnName)) {
+      if (draggedTask.stage === 'assignment' && columnName === 'development') {
+        if (!userAlreadyHaveTask) setDrop(true);
+      } else {
+        setDrop(true);
+      }
     }
   };
 
@@ -59,17 +74,23 @@ const Column = ({ columnName }: PropsType) => {
     if (draggedTask === null) return;
     const userAlreadyHaveTask = memberHasTask(user.uid);
 
-    if (isTaskMovable(draggedTask.stage, columnName, userAlreadyHaveTask)) {
+    if (isTaskMovable(draggedTask.stage, columnName)) {
       // assign task
       if (draggedTask.stage === 'assignment' && columnName === 'development') {
-        assignTask(user.uid, draggedTask.id);
+        if (userAlreadyHaveTask) {
+          setOpenConfirm(true);
+          setConfirmType({ type: 'already-assign', taskId: '' });
+        } else {
+          assignTask(user.uid, draggedTask.id);
+        }
       }
       // unassign task
       else if (
         TASK_STAGES_COLLABORATES.includes(draggedTask.stage) &&
         columnName === 'assignment'
       ) {
-        unassignTask(draggedTask.id);
+        setOpenConfirm(true);
+        setConfirmType({ type: 'unassign', taskId: draggedTask.id });
       } else {
         updateTaskField('stage', columnName as Stage, draggedTask.id);
       }
@@ -84,15 +105,32 @@ const Column = ({ columnName }: PropsType) => {
     setDrop(false);
   };
 
-  const handleCloseConfirm = () =>{}
+  const handleConfirm = () => {
+    if (confirmType?.type === 'already-assign') {
+      return () => {};
+    }
+    if (confirmType?.type === 'unassign') {
+      unassignTask(confirmType.taskId);
+    }
+    setOpenConfirm(false);
+    setConfirmType(undefined);
+  };
 
   return (
     <>
       {openConfirm && (
         <ConfirmPopup
-          message="hello"
-          onCancel={() => {}}
-          onConfirm={() => {}}
+          message={
+            confirmType?.type === 'already-assign'
+              ? POPUP_ALREADY_ON_TASK
+              : POPUP_UNASSIGN_TASK
+          }
+          onCancel={() => {
+            setOpenConfirm(false);
+            setConfirmType(undefined);
+          }}
+          onConfirm={handleConfirm}
+          alert={confirmType?.type === 'already-assign'}
         />
       )}
 
