@@ -16,8 +16,14 @@ import { useState, useMemo } from 'react';
 import { useKanbanStore } from '../../store';
 // buttons config object
 import type { MenuItemType } from './MenuList';
+import { useLogout } from '../../hooks/useLogout';
+import { useNavigate } from 'react-router-dom';
+import { useUserData } from '../../context/UserDataContext';
 
 const AsideMenu = () => {
+  const { logout } = useLogout();
+  const navigate = useNavigate();
+  const { document: user } = useUserData();
   const showAside = useKanbanStore((state) => state.showAside);
   const setShowAside = useKanbanStore((state) => state.setShowAside);
   const [openNewProject, setOpenNewProject] = useState(false);
@@ -26,16 +32,12 @@ const AsideMenu = () => {
     return [
       {
         text: 'create project',
-        onClick: () => {
-          console.log('hello');
-
-          setOpenNewProject(true);
-        },
+        onClick: () => setOpenNewProject(true),
       },
       { text: 'find project', onClick: () => {} },
       { text: 'find developer', onClick: () => {} },
-      { text: 'profile', onClick: () => {} },
-      { text: 'logout', onClick: () => {} },
+      { text: 'profile', onClick: () => navigate(`/${user?.uid}`) },
+      { text: 'logout', onClick: () => logout() },
     ];
   }, []);
 
@@ -56,7 +58,7 @@ const AsideMenu = () => {
       </Button>
 
       {showAside && (
-        <menu>
+        <menu className={styles.menu}>
           <Logo />
           <MenuList buttons={buttons} />
           <CopyRight />

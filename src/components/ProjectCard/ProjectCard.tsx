@@ -1,6 +1,6 @@
 // hooks
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useIsCurrentUser } from '../../hooks/useIsCurrentUser';
+import { Link } from 'react-router-dom';
+
 // types
 import { ProjectWithId } from '../../types/projectType';
 // styles
@@ -8,7 +8,6 @@ import styles from './ProjectCard.module.css';
 // icon
 import { MdMoveToInbox as OpenIcon } from 'react-icons/md';
 // components
-import Avatar from '../Avatar/Avatar';
 import ExpandedText from '../ExpandedText/ExpandedText';
 import AdminAvatar from '../AdminAvatar/AdminAvatar';
 
@@ -17,10 +16,6 @@ type PropsType = {
 };
 
 const ProjectCard = ({ data }: PropsType) => {
-  const { userId } = useParams();
-  const navigate = useNavigate();
-  const { userData: creator } = useIsCurrentUser(userId);
-
   return (
     <article className={styles.projectCard}>
       <header className={styles.header}>
@@ -29,7 +24,7 @@ const ProjectCard = ({ data }: PropsType) => {
           <OpenIcon size={30} />
         </Link>
 
-        {creator && <AdminAvatar admin={creator} />}
+        <AdminAvatar type={'adminUid'} data={data.adminUid} />
       </header>
 
       <div className={styles.body}>
@@ -46,7 +41,6 @@ const ProjectCard = ({ data }: PropsType) => {
           className="text"
         />
       </div>
-      {creator?.uid !== data.adminUid && <button>Join</button>}
     </article>
   );
 };

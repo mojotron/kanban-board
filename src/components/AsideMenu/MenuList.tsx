@@ -1,4 +1,5 @@
 import Button from '../Button/Button';
+import styles from './MenuList.module.css';
 
 export type MenuItemType = {
   text: string;
@@ -11,9 +12,14 @@ type PropsType = {
 
 const MenuList = ({ buttons }: PropsType) => {
   return (
-    <menu className="flex-col">
+    <menu className={styles.list}>
       {buttons.map((ele) => (
-        <Button key={ele.text} text={ele.text} handleClick={ele.onClick} />
+        <Button
+          key={ele.text}
+          text={ele.text}
+          handleClick={ele.onClick}
+          className={styles.item}
+        />
       ))}
     </menu>
   );

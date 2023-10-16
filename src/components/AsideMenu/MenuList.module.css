@@ -1,0 +1,20 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.item {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-transform: capitalize;
+  color: var(--COLOR-GRAY-200);
+  font-size: 1.6rem;
+  width: 100%;
+  padding: 0.5rem 0;
+  transition: all 0.3s ease;
+}
+.item:hover {
+  color: var(--COLOR-YELLOW-300);
+  background-color: var(--COLOR-GRAY-600);
+}

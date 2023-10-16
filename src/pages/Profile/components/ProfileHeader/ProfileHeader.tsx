@@ -11,10 +11,11 @@ import { AiFillGithub as GithubIcon } from 'react-icons/ai';
 import OuterLink from '../../../../components/OuterLink/OuterLink';
 
 type PropsType = {
-  user: UserType;
+  user: UserType | undefined;
 };
 
 const ProfileHeader = ({ user }: PropsType) => {
+  if (!user) return;
   return (
     <header className={styles.header}>
       <Avatar imageUrl={user.photoUrl} userName={user.userName} size="100" />

@@ -7,7 +7,7 @@ import styles from './ProfileProjectList.module.css';
 
 type PropsType = {
   header: string;
-  projectList: string[];
+  projectList: string[] | undefined;
 };
 
 const ProfileProjectList = ({ header, projectList }: PropsType) => {
@@ -19,11 +19,13 @@ const ProfileProjectList = ({ header, projectList }: PropsType) => {
   return (
     <div className={styles.projects}>
       <h2>{header}</h2>
-      <div className={styles.projectList}>
-        {projects?.map((project) => (
-          <ProjectCard key={project.id} data={project} />
-        ))}
-      </div>
+      {projectList && (
+        <div className={styles.projectList}>
+          {projects?.map((project) => (
+            <ProjectCard key={project.id} data={project} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

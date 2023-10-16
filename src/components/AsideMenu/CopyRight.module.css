@@ -1,0 +1,14 @@
+.copy {
+  margin-top: auto;
+  text-align: center;
+  font-size: 1.25rem;
+  color: var(--COLOR-GRAY-100);
+}
+.link {
+  color: var(--COLOR-GRAY-100);
+  text-decoration: none;
+}
+.link:hover,
+.link:active {
+  color: var(--COLOR-YELLOW-300);
+}

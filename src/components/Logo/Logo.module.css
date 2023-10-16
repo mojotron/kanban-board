@@ -1,5 +1,7 @@
 .logo {
+  width: 100%;
 }
 .logo h1 {
   font-size: 3.052rem;
+  margin-left: 2rem;
 }

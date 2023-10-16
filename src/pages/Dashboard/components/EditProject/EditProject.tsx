@@ -23,6 +23,8 @@ const EditProject = ({ onClose }: PropsType) => {
 
   if (!project) return null;
 
+  const adminData = getMember(project.adminUid);
+
   return (
     <div className="overlay">
       <div className={styles.edit}>
@@ -60,7 +62,7 @@ const EditProject = ({ onClose }: PropsType) => {
 
           <div className={styles.headerRight}>
             {isAdmin && <AdminControls />}
-            <AdminAvatar admin={getMember(project.adminUid)} />
+            {adminData && <AdminAvatar type={'adminObject'} data={adminData} />}
           </div>
         </header>
 
