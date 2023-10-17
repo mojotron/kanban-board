@@ -18,7 +18,7 @@ const ProfileProjectList = ({ header, projectList }: PropsType) => {
 
   return (
     <div className={styles.projects}>
-      <h2>{header}</h2>
+      <h2 className={styles.projectsHeading}>{header}</h2>
       {projectList && (
         <div className={styles.projectList}>
           {projects?.map((project) => (

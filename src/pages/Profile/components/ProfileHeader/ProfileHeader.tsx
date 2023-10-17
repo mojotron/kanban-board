@@ -27,6 +27,7 @@ const ProfileHeader = ({ user }: PropsType) => {
               <GithubIcon size={30} />
             </OuterLink>
           </div>
+
           <p className={user.online ? styles.online : styles.offline}>
             {user.online
               ? 'online'
@@ -35,6 +36,7 @@ const ProfileHeader = ({ user }: PropsType) => {
                 )}`}
           </p>
         </div>
+
         <div className={styles.completed}>
           <p>Finished projects: {user.projectsCompleted}</p>
           <p>Task Completed: {user.tasksCompleted}</p>

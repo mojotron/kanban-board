@@ -6,7 +6,7 @@ type PropsType = {
   hideText?: string;
   expandText?: string;
   expanded?: boolean;
-  className: string;
+  className?: string;
   buttonClassName?: string;
 };
 

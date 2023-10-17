@@ -1,46 +1,57 @@
 // hooks
-import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { useUserData } from '../../context/UserDataContext';
 // types
 import { ProjectWithId } from '../../types/projectType';
 // styles
 import styles from './ProjectCard.module.css';
-// icon
-import { MdMoveToInbox as OpenIcon } from 'react-icons/md';
 // components
-import ExpandedText from '../ExpandedText/ExpandedText';
 import AdminAvatar from '../AdminAvatar/AdminAvatar';
+import TagsList from '../TagsList/TagsList';
 
 type PropsType = {
   data: ProjectWithId;
 };
 
 const ProjectCard = ({ data }: PropsType) => {
-  return (
-    <article className={styles.projectCard}>
-      <header className={styles.header}>
-        <h2>{data.name}</h2>
-        <Link to={`/project/${data.id}`}>
-          <OpenIcon size={30} />
-        </Link>
+  const navigate = useNavigate();
+  const { document: user } = useUserData();
 
-        <AdminAvatar type={'adminUid'} data={data.adminUid} />
+  const shortDescription = data.description.split(' ').slice(0, 20).join(' ');
+
+  if (!user) return;
+
+  const userWorkingOnProject = () => {
+    return (
+      data.adminUid === user.uid || user.collaboratingProjects.includes(data.id)
+    );
+  };
+
+  return (
+    <article
+      className={styles.projectCard}
+      onClick={() => {
+        if (userWorkingOnProject())
+          navigate(`/project/${data.id}
+      `);
+      }}
+    >
+      <header className={styles.header}>
+        <h2 className={styles.heading}>{data.name}</h2>
       </header>
 
-      <div className={styles.body}>
-        {data.tags.map((tag) => (
-          <span key={tag} className="tag">
-            {tag}
-          </span>
-        ))}
-        <p>Tasks {data.tasks.length}</p>
-        {/* <p>Project created: {formatLocalDate(new Date(data.createdAt.seconds / 1000))}</p> */}
-        <ExpandedText
-          text={data.description}
-          hideWordsLength={10}
-          className="text"
-        />
-      </div>
+      <section className={styles.body}>
+        <div className={styles.bodyLeft}>
+          <TagsList tags={data.tags} />
+          <p className={styles.tasks}>
+            Current tasks:{' '}
+            <span className={styles.tasksNumber}>{data.tasks.length}</span>
+          </p>
+
+          <p className={styles.description}>{shortDescription}</p>
+        </div>
+        <AdminAvatar type={'adminUid'} data={data.adminUid} />
+      </section>
     </article>
   );
 };

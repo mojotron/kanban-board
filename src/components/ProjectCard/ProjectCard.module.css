@@ -1,16 +1,38 @@
 .projectCard {
-  border: 2px solid var(--COLOR-GRAY-200);
-  width: 40rem;
+  width: 32rem;
   border-radius: var(--BORDER-RADIUS);
   overflow: hidden;
+  cursor: pointer;
+}
+.projectCard:hover {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 .header {
   padding: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--COLOR-BLUE-400);
+  background-color: var(--COLOR-BLUE-600);
+  border-bottom: 1px solid var(--COLOR-GRAY-400);
+}
+.heading {
+  font-size: 1.953rem;
 }
 .body {
-  padding: 2rem;
+  padding: 2rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--COLOR-GRAY-600);
+}
+.tasks,
+.tasksNumber {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+.tasksNumber {
+  font-weight: 600;
+}
+.description {
+  font-size: 1.25rem;
 }

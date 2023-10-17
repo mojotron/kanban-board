@@ -62,7 +62,7 @@ white space scale system linear progression
   --PRIORITY-HIGH: var(--COLOR-YELLOW-300);
   --PRIORITY-VERY-HIGH: var(--COLOR-RED-400);
 
-  --BORDER-RADIUS: 5px;
+  --BORDER-RADIUS: 4px;
   --BORDER: 3px solid var(--COLOR-ACCENT-500);
 }
 
@@ -186,13 +186,14 @@ body {
 }
 .tag {
   display: inline-block;
-  font-size: 1.4rem;
-  color: var(--COLOR-GRAY-950);
-  background-color: var(--COLOR-GREEN-400);
-  padding: 0.5rem 1rem;
-  text-transform: uppercase;
-  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--COLOR-GREEN-300);
+  background-color: var(--COLOR-GRAY-700);
+  letter-spacing: 1px;
+  padding: 0.25rem 1.25rem;
+  font-weight: 400;
   border-radius: var(--BORDER-RADIUS);
+  border: 1px solid var(--COLOR-GREEN-300);
   transition: all 0.5s ease;
 }
 .link:link,
