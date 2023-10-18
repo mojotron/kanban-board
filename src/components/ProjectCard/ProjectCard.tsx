@@ -32,7 +32,7 @@ const ProjectCard = ({ data }: PropsType) => {
       className={styles.projectCard}
       onClick={() => {
         if (userWorkingOnProject())
-          navigate(`/project/${data.id}
+          navigate(`/dashboard/${data.id}
       `);
       }}
     >

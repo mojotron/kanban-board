@@ -13,6 +13,7 @@ import Profile from './pages/Profile/Profile';
 import FindProjects from './pages/FindProjects/FindProjects';
 import { useUserData } from './context/UserDataContext';
 import { ProjectProvider } from './context/ProjectContext';
+import ProjectDetails from './pages/ProjectDetails/ProjectDetails';
 
 // helper components for page navigation
 
@@ -32,7 +33,7 @@ const App = () => {
                 />
                 <Route path="/:userId" element={<Profile />} />
                 <Route
-                  path="/project/:projectId"
+                  path="/dashboard/:projectId"
                   element={
                     <>
                       <ProjectProvider>
@@ -52,6 +53,7 @@ const App = () => {
                   }
                 />
               </Route>
+              <Route path="/project/:projectId" element={<ProjectDetails />} />
             </Route>
             <Route path="/login" element={<Login />} />
           </Routes>

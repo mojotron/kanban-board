@@ -123,8 +123,8 @@ export const useFirestore = () => {
         if (!isCanceled) {
           setError(null);
           setPending(false);
+          return { ...docData.data(), id: docData.id } as T;
         }
-        return { ...docData.data(), id: docData.id } as T;
       } catch (error) {
         if (!isCanceled && error instanceof Error) {
           console.log(error.message);
