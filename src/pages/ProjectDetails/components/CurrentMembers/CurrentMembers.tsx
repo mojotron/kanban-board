@@ -1,7 +1,9 @@
+import { useMemo } from 'react';
 import AdminAvatar from '../../../../components/AdminAvatar/AdminAvatar';
 import { useCollectDocs } from '../../../../hooks/useCollectDocs';
 import { UserWithId } from '../../../../types/userType';
 import Collaborator from './Collaborator';
+import styles from './CurrentMembers.module.css';
 
 type PropsType = {
   adminUid: string;
@@ -14,23 +16,34 @@ const CurrentMembers = ({ adminUid, membersUid }: PropsType) => {
     'users'
   );
 
-  if (!members) return null;
+  const admin = useMemo(
+    () => members?.find((member) => member.uid === adminUid),
+    [adminUid, members]
+  );
 
-  const admin = members.find((member) => member.uid === adminUid);
-  const collaborators = members.filter((member) => member.id !== adminUid);
-  console.log(members);
+  const collaborators = useMemo(
+    () => members?.filter((member) => member.id !== adminUid) ?? [],
+    [adminUid, members]
+  );
+
+  if (!admin) return null;
 
   return (
-    <div>
-      <h3>Current Members</h3>
-      <AdminAvatar type="adminObject" data={admin as UserWithId} />
-      {collaborators.map((col) => (
-        <Collaborator
-          key={col.id}
-          userName={col.userName}
-          imageUrl={col.photoUrl}
-        />
-      ))}
+    <div className={styles.team}>
+      <h3 className={styles.heading}>Current Members</h3>
+      <div className={styles.members}>
+        <AdminAvatar type="adminObject" data={admin as UserWithId} />
+        <ul>
+          {collaborators.map((col) => (
+            <Collaborator
+              key={col.id}
+              userName={col.userName}
+              imageUrl={col.photoUrl}
+              userId={col.id}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

@@ -1,16 +1,21 @@
+import { useNavigate } from 'react-router-dom';
 import Avatar from '../../../../components/Avatar/Avatar';
+import styles from './Collaborator.module.css';
 
 type PropsType = {
   userName: string;
   imageUrl: string;
+  userId: string;
 };
 
-const Collaborator = ({ userName, imageUrl }: PropsType) => {
+const Collaborator = ({ userName, imageUrl, userId }: PropsType) => {
+  const navigate = useNavigate();
+
   return (
-    <div>
-      <p>{userName}</p>
+    <li className={styles.collaborator} onClick={() => navigate(`/${userId}`)}>
       <Avatar userName={userName} imageUrl={imageUrl} size="25" />
-    </div>
+      <p>{userName}</p>
+    </li>
   );
 };
 

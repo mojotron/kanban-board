@@ -1,0 +1,47 @@
+.header {
+  grid-row: 1 / 2;
+  grid-column: 1 / -1;
+}
+.info {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+.heading {
+  font-size: 2.441rem;
+  padding-bottom: 1rem;
+}
+.bonus {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+}
+.green {
+  color: var(--COLOR-GREEN-400);
+}
+.red {
+  color: var(--COLOR-RED-400);
+}
+.btnJoin {
+  display: inline-block;
+  background: none;
+  background-color: var(--COLOR-GREEN-400);
+  height: 3rem;
+  padding: 0.5rem 2rem;
+  border: 1px solid var(--COLOR-GREEN-400);
+  border-radius: var(--BORDER-RADIUS);
+  font-size: 1.4rem;
+  text-transform: capitalize;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btnJoin:hover {
+  background: none;
+  color: var(--COLOR-GREEN-400);
+}
+.description {
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+}

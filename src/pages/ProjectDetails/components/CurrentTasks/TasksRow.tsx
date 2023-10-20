@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Stage, TaskWithId } from '../../../../types/taskType';
+import styles from './TasksRow.module.css';
 
 type PropsType = {
   stage: Stage;
@@ -12,10 +13,10 @@ const TasksRow = ({ stage, tasks }: PropsType) => {
     [stage, tasks]
   );
   return (
-    <div>
+    <li className={styles.row}>
       <span>{stage}</span>
-      <span>{tasksNumber}</span>
-    </div>
+      <span className={styles.bold}>{tasksNumber}</span>
+    </li>
   );
 };
 

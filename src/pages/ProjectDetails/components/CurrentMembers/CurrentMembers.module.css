@@ -1,0 +1,15 @@
+.team {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.heading {
+  font-size: 1.9rem;
+}
+.members {
+  display: flex;
+  margin-left: -2rem;
+}
+.collaborators {
+  list-style: none;
+}

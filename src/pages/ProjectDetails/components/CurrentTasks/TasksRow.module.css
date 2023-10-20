@@ -1,0 +1,13 @@
+.row {
+  padding: 0.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.25rem;
+}
+.bold {
+  font-weight: 700;
+}
+
+.row:nth-child(odd) {
+  background-color: var(--COLOR-GRAY-700);
+}
