@@ -11,6 +11,7 @@ import CopyRight from './CopyRight';
 import MenuList from './MenuList';
 import Button from '../Button/Button';
 import NewProjectForm from '../NewProjectForm/NewProjectForm';
+import Notifications from '../../features/Notifications/Notifications';
 // hooks
 import { useState, useMemo } from 'react';
 import { useKanbanStore } from '../../store';
@@ -60,6 +61,7 @@ const AsideMenu = () => {
       {showAside && (
         <menu className={styles.menu}>
           <Logo />
+          <Notifications />
           <MenuList buttons={buttons} />
           <CopyRight />
         </menu>
