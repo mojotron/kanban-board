@@ -6,6 +6,10 @@ type PropsType = {
   notification: NotificationTypeWithId;
 };
 
+// project-accept => [user] accepted your request to join [project]
+// project-reject => [user] rejected your request to join [project]
+// project-leave  => [user] have left [project]
+
 const NotificationItem = ({ notification }: PropsType) => {
   return (
     <li className={styles.notification}>

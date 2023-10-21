@@ -4,8 +4,8 @@ export type NotificationType = {
   createdAt: Timestamp;
   isOpened: boolean;
   type: 'project-accept' | 'project-reject' | 'project-leave';
-  name: string;
-  link: string;
+  user: { name: string; docId: string };
+  project: { name: string; docId: string };
 };
 
 export type NotificationTypeWithId = NotificationType & { id: string };

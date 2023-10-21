@@ -10,28 +10,12 @@ const Notifications = () => {
 
   const tempNotifications: NotificationTypeWithId[] = [
     {
-      id: '1',
+      id: 'a',
+      createdAt: Timestamp.fromDate(new Date()),
+      isOpened: false,
       type: 'project-accept',
-      name: 'new project',
-      link: 'aaaa',
-      createdAt: Timestamp.fromDate(new Date()),
-      isOpened: false,
-    },
-    {
-      id: '1',
-      type: 'project-reject',
-      name: 'new project',
-      link: 'aaaa',
-      createdAt: Timestamp.fromDate(new Date()),
-      isOpened: false,
-    },
-    {
-      id: '1',
-      type: 'project-leave',
-      name: 'new project',
-      link: 'aaaa',
-      createdAt: Timestamp.fromDate(new Date()),
-      isOpened: false,
+      user: { name: 'Mojotron', docId: 'string' },
+      project: { name: 'new project', docId: 'string' },
     },
   ];
 
