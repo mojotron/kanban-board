@@ -1,5 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
-import { NotificationType } from '../features/Notifications/typesNotifications';
+import { NotificationType } from '../features/Notifications/types/typesNotifications';
 
 export type UserType = {
   uid: string;

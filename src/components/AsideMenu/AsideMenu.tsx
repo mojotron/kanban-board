@@ -45,7 +45,7 @@ const AsideMenu = () => {
   return (
     <aside
       className={styles.asideMenu}
-      style={{ width: showAside ? '20rem' : '2rem' }}
+      style={{ width: showAside ? '35rem' : '2rem' }}
     >
       {openNewProject && (
         <NewProjectForm onClose={() => setOpenNewProject(false)} />

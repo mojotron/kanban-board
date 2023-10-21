@@ -3,9 +3,9 @@ import { Timestamp } from 'firebase/firestore';
 export type NotificationType = {
   createdAt: Timestamp;
   isOpened: boolean;
-  text: string;
-  typeOfDoc: 'user' | 'project';
-  docId: string;
+  type: 'project-accept' | 'project-reject' | 'project-leave';
+  name: string;
+  link: string;
 };
 
 export type NotificationTypeWithId = NotificationType & { id: string };

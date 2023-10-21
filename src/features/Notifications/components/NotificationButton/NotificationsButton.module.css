@@ -1,0 +1,28 @@
+.btnNotification {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--COLOR-GRAY-200);
+  font-size: 1.6rem;
+}
+.btnNotification:hover {
+  color: var(--COLOR-YELLOW-300);
+  background-color: var(--COLOR-GRAY-600);
+}
+.notificationCount {
+  background-color: var(--COLOR-RED-400);
+  border-radius: 50%;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  color: var(--COLOR-GRAY-200);
+}
