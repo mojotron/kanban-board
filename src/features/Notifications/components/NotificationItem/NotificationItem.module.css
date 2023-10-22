@@ -1,6 +1,53 @@
 .notification {
-  padding: 0.5rem 1.5rem;
+  padding: 1rem 2rem;
   background-color: var(--COLOR-GRAY-200);
   border-radius: var(--BORDER-RADIUS);
   color: var(--COLOR-GRAY-700);
+  font-size: 1.25rem;
+  line-height: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.notificationWrapper {
+  margin-bottom: 0.5rem;
+}
+.notificationUser,
+.notificationProject {
+  color: var(--COLOR-BLUE-400);
+  text-decoration: none;
+}
+.notificationUser {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  position: relative;
+  top: 0.5rem;
+}
+.notificationProject:hover,
+.notificationUser:hover {
+  color: var(--COLOR-BLUE-600);
+  text-decoration: underline;
+}
+.notificationTimestamp {
+  color: var(--COLOR-GRAY-500);
+  font-size: 1rem;
+  margin-left: auto;
+}
+.notificationBtnDelete {
+  height: 1.5rem;
+  width: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+  color: var(--COLOR-RED-400);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.notificationBtnDelete:hover {
+  color: var(--COLOR-RED-600);
 }

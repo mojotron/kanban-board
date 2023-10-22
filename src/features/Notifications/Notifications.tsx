@@ -14,8 +14,36 @@ const Notifications = () => {
       createdAt: Timestamp.fromDate(new Date()),
       isOpened: false,
       type: 'project-accept',
-      user: { name: 'Mojotron', docId: 'string' },
-      project: { name: 'new project', docId: 'string' },
+      user: {
+        userName: 'mojotron',
+        docId: '3FH1RTMNasZ2ssaxeSZSdevj6u22',
+        imageUrl: 'https://avatars.githubusercontent.com/u/26403607?v=4',
+      },
+      project: { name: 'new project', docId: 'sOhrd3oScWpTZSKr6ES3' },
+    },
+    {
+      id: 'a',
+      createdAt: Timestamp.fromDate(new Date()),
+      isOpened: false,
+      type: 'project-reject',
+      user: {
+        userName: 'mojotron',
+        docId: '3FH1RTMNasZ2ssaxeSZSdevj6u22',
+        imageUrl: 'https://avatars.githubusercontent.com/u/26403607?v=4',
+      },
+      project: { name: 'new project', docId: 'sOhrd3oScWpTZSKr6ES3' },
+    },
+    {
+      id: 'a',
+      createdAt: Timestamp.fromDate(new Date()),
+      isOpened: false,
+      type: 'project-leave',
+      user: {
+        userName: 'mojotron',
+        docId: '3FH1RTMNasZ2ssaxeSZSdevj6u22',
+        imageUrl: 'https://avatars.githubusercontent.com/u/26403607?v=4',
+      },
+      project: { name: 'new project', docId: 'sOhrd3oScWpTZSKr6ES3' },
     },
   ];
 
