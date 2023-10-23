@@ -24,8 +24,6 @@ const getText = (option: NotificationOptionType) => {
 type PropsType = {
   notification: NotificationTypeWithId;
 };
-// TODO
-// link to dashboard if user is on project or to projectDetails
 
 const NotificationItem = ({ notification }: PropsType) => {
   const { document: user } = useUserData();

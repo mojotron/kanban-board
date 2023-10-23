@@ -65,13 +65,9 @@ const App = () => {
         //   <Routes>
         //     <Route element={<ProtectedRoutes />}>
         //       <Route path="/" element={<UserLayout />}>
-        //         <Route index element={<Dashboard />} />
-        //         <Route path=":userName" element={<Profile />} />
         //       </Route>
-        //       <Route path="/kanban/:projectId" element={<KanbanBoard />} />
         //       <Route path="/find-project" element={<FindProjects />} />
         //     </Route>
-        //     <Route path="/login" element={<Login />} />
         //   </Routes>
         // </BrowserRouter>
       )}

@@ -22,7 +22,7 @@ const Notifications = () => {
       project: { name: 'new project', docId: 'sOhrd3oScWpTZSKr6ES3' },
     },
     {
-      id: 'a',
+      id: 'b',
       createdAt: Timestamp.fromDate(new Date()),
       isOpened: false,
       type: 'project-reject',
@@ -34,7 +34,7 @@ const Notifications = () => {
       project: { name: 'new project', docId: 'sOhrd3oScWpTZSKr6ES3' },
     },
     {
-      id: 'a',
+      id: 'c',
       createdAt: Timestamp.fromDate(new Date()),
       isOpened: false,
       type: 'project-leave',

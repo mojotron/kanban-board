@@ -8,4 +8,5 @@
   gap: 0.5rem;
   list-style: none;
   padding: 1rem;
+  border-bottom: 1px solid var(--COLOR-GRAY-300);
 }
