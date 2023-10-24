@@ -14,6 +14,7 @@ import FindProjects from './pages/FindProjects/FindProjects';
 import { useUserData } from './context/UserDataContext';
 import { ProjectProvider } from './context/ProjectContext';
 import ProjectDetails from './pages/ProjectDetails/ProjectDetails';
+import Search from './features/Search/Search';
 
 // helper components for page navigation
 
@@ -52,6 +53,7 @@ const App = () => {
                     </>
                   }
                 />
+                <Route path="/search" element={<Search />} />
                 <Route
                   path="/project/:projectId"
                   element={<ProjectDetails />}
