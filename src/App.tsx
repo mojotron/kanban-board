@@ -5,13 +5,10 @@ import Login from './pages/LoginPage/Login';
 import { useAuth } from './context/AuthContext';
 // router
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
 import UserLayout from './layouts/UserLayout/UserLayout';
 import KanbanBoard from './pages/KanbanBoardPage/Kanban';
 import Profile from './pages/Profile/Profile';
-import FindProjects from './pages/FindProjects/FindProjects';
-import { useUserData } from './context/UserDataContext';
 import { ProjectProvider } from './context/ProjectContext';
 import ProjectDetails from './pages/ProjectDetails/ProjectDetails';
 import Search from './features/Search/Search';
@@ -53,7 +50,7 @@ const App = () => {
                     </>
                   }
                 />
-                <Route path="/search" element={<Search />} />
+                <Route path="/search/:collectionName" element={<Search />} />
                 <Route
                   path="/project/:projectId"
                   element={<ProjectDetails />}
@@ -61,6 +58,7 @@ const App = () => {
               </Route>
             </Route>
             <Route path="/login" element={<Login />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </BrowserRouter>
         // <BrowserRouter>

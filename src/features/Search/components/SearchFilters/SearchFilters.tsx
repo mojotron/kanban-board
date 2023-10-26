@@ -32,8 +32,6 @@ const SearchFilters = () => {
   const [currentFilter, setCurrentFilter] = useState<Filters>('latest');
   const searchBarRef = useRef<HTMLInputElement>(null);
 
-  console.log(currentFilter);
-
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(searchQuery);
