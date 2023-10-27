@@ -8,38 +8,61 @@ import {
   startAfter,
   DocumentData,
 } from 'firebase/firestore';
-import { useCallback, createContext, useReducer } from 'react';
+import {
+  useCallback,
+  createContext,
+  useReducer,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+} from 'react';
 import { firebaseFirestore } from '../../../firebase/config';
 import { UserWithId } from '../../../types/userType';
 import { ProjectWithId } from '../../../types/projectType';
 
 const DOC_LIMIT = 2;
 
-export const useSearchSource = () => {
-  type StateType = {
-    collectionName: 'projects' | 'users';
-    filter: string;
-    queryParam: string;
-    lastDocument: QueryDocumentSnapshot<DocumentData> | null;
-    endOfDocuments: boolean;
-    isFetching: boolean;
-    error: null | string;
-    documents: ProjectWithId[] | UserWithId[];
-  };
-  type ActionType =
-    | { type: 'SET_COLLECTION'; payload: 'project' | 'users' }
-    | { type: 'SET_FILTER' }
-    | { type: 'SET_END_OF_DOCUMENTS'; payload: boolean }
-    | { type: 'SET_FETCHING'; payload: boolean }
-    | { type: 'SET_ERROR'; payload: null | string }
-    | {
-        type: 'SET_DOCUMENTS';
-        payload: {
-          data: ProjectWithId[] | UserWithId[];
-          lastDoc: QueryDocumentSnapshot<DocumentData>;
-        };
-      };
+// SEARCH SOURCE
+type DocOption = UserWithId | ProjectWithId;
 
+type DocCollectionOption = DocOption[];
+
+type DocCollectionType = 'projects' | 'users';
+
+type StateType = {
+  collectionName: DocCollectionType;
+  filter: string;
+  queryParam: string;
+  lastDocument: QueryDocumentSnapshot<DocumentData> | null;
+  endOfDocuments: boolean;
+  isFetching: boolean;
+  error: null | string;
+  documents: DocCollectionOption;
+};
+
+type ActionType =
+  | { type: 'SET_COLLECTION'; payload: 'project' | 'users' }
+  | { type: 'SET_FILTER' }
+  | { type: 'SET_END_OF_DOCUMENTS'; payload: boolean }
+  | { type: 'SET_FETCHING'; payload: boolean }
+  | { type: 'SET_ERROR'; payload: null | string }
+  | {
+      type: 'SET_DOCUMENTS';
+      payload: {
+        data: DocCollectionOption;
+        lastDoc: QueryDocumentSnapshot<DocumentData>;
+      };
+    };
+
+export const useSearchSource = (): {
+  documents: DocCollectionOption;
+  isFetching: boolean;
+  error: null | string;
+  endOfDocuments: boolean;
+  getNext: () => Promise<void>;
+  collectionName: DocCollectionType;
+} => {
   const [
     {
       isFetching,
@@ -92,6 +115,9 @@ export const useSearchSource = () => {
     }
   );
 
+  // FLAG FOR INITIAL RENDER, ref is not lost with rerenders
+  const isInit = useRef(false);
+
   const getFirst = useCallback(async () => {
     try {
       dispatch({ type: 'SET_FETCHING', payload: false });
@@ -105,11 +131,12 @@ export const useSearchSource = () => {
       if (docSnapshots.empty) {
         dispatch({ type: 'SET_END_OF_DOCUMENTS', payload: true });
       } else {
-        const data: T[] = [];
+        const data: DocCollectionOption = [];
         docSnapshots.forEach((doc) => {
-          data.push({ ...doc.data(), id: doc.id } as T);
+          data.push({ ...doc.data(), id: doc.id } as DocOption);
         });
         const lastDoc = docSnapshots.docs[docSnapshots.docs.length - 1];
+
         dispatch({ type: 'SET_DOCUMENTS', payload: { data, lastDoc } });
       }
     } catch (error) {
@@ -139,11 +166,12 @@ export const useSearchSource = () => {
         dispatch({ type: 'SET_END_OF_DOCUMENTS', payload: true });
         return;
       }
-      const data: T[] = [];
+      const data: DocCollectionOption = [];
       docSnapshots.forEach((doc) => {
-        data.push({ ...doc.data(), id: doc.id } as T);
+        data.push({ ...doc.data(), id: doc.id } as DocOption);
       });
       const lastDoc = docSnapshots.docs[docSnapshots.docs.length - 1];
+
       dispatch({ type: 'SET_DOCUMENTS', payload: { data, lastDoc } });
     } catch (error) {
       if (error instanceof Error) {
@@ -152,16 +180,38 @@ export const useSearchSource = () => {
     }
   }, [collectionName, lastDocument, endOfDocuments]);
 
+  useEffect(() => {
+    if (isInit.current === true) return;
+    getFirst();
+    isInit.current = true;
+  }, []);
+
   return {
-    getFirst,
     getNext,
     isFetching,
     error,
     documents,
     endOfDocuments,
+    collectionName,
   };
 };
-
+// SEARCH CONTEXT
 const SearchContext = createContext<ReturnType<typeof useSearchSource>>(
   {} as unknown as ReturnType<typeof useSearchSource>
 );
+// SEARCH USE CONTEXT HOOK
+export const useSearch = () => {
+  const context = useContext(SearchContext);
+  if (!context)
+    throw new Error('useSearch must be used inside SearchContextProvider!');
+  return context;
+};
+// SEARCH PROVIDER
+type ProviderProps = { children: ReactNode };
+export const SearchContextProvider = ({ children }: ProviderProps) => {
+  return (
+    <SearchContext.Provider value={useSearchSource()}>
+      {children}
+    </SearchContext.Provider>
+  );
+};
