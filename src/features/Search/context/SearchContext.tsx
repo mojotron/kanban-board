@@ -18,8 +18,10 @@ import {
   useRef,
 } from 'react';
 import { firebaseFirestore } from '../../../firebase/config';
-import { UserWithId } from '../../../types/userType';
-import { ProjectWithId } from '../../../types/projectType';
+import type { UserWithId } from '../../../types/userType';
+import type { ProjectWithId } from '../../../types/projectType';
+import type { FilterTypes } from '../types/filterTypes';
+import { useParams } from 'react-router-dom';
 
 const DOC_LIMIT = 2;
 
@@ -31,8 +33,7 @@ type DocCollectionOption = DocOption[];
 type DocCollectionType = 'projects' | 'users';
 
 type StateType = {
-  collectionName: DocCollectionType;
-  filter: string;
+  filter: FilterTypes;
   queryParam: string;
   lastDocument: QueryDocumentSnapshot<DocumentData> | null;
   endOfDocuments: boolean;
@@ -42,8 +43,8 @@ type StateType = {
 };
 
 type ActionType =
-  | { type: 'SET_COLLECTION'; payload: 'project' | 'users' }
   | { type: 'SET_FILTER' }
+  | { type: 'UPDATE_QUERY_PARAM'; payload: string }
   | { type: 'SET_END_OF_DOCUMENTS'; payload: boolean }
   | { type: 'SET_FETCHING'; payload: boolean }
   | { type: 'SET_ERROR'; payload: null | string }
@@ -60,26 +61,25 @@ export const useSearchSource = (): {
   isFetching: boolean;
   error: null | string;
   endOfDocuments: boolean;
-  getNext: () => Promise<void>;
   collectionName: DocCollectionType;
+  getNext: () => Promise<void>;
+  filter: FilterTypes;
+  updateFilter: (newFilter: FilterTypes) => void;
+  updateQuery: (newSearchTerm: string) => void;
 } => {
+  const { collectionName } = useParams<{
+    collectionName?: DocCollectionType;
+  }>();
   const [
-    {
-      isFetching,
-      error,
-      endOfDocuments,
-      lastDocument,
-      collectionName,
-      documents,
-    },
+    { isFetching, error, endOfDocuments, lastDocument, documents, filter },
     dispatch,
   ] = useReducer(
     (state: StateType, action: ActionType) => {
       switch (action.type) {
-        case 'SET_COLLECTION':
-          return { ...state };
         case 'SET_FILTER':
           return { ...state };
+        case 'UPDATE_QUERY_PARAM':
+          return { ...state, queryParam: action.payload };
         case 'SET_END_OF_DOCUMENTS':
           return {
             ...state,
@@ -101,11 +101,12 @@ export const useSearchSource = (): {
             lastDocument: action.payload.lastDoc,
             isFetching: false,
           };
+        default:
+          return { ...state };
       }
     },
     {
-      collectionName: 'projects',
-      filter: '',
+      filter: 'latest',
       queryParam: '',
       lastDocument: null,
       endOfDocuments: false,
@@ -119,6 +120,7 @@ export const useSearchSource = (): {
   const isInit = useRef(false);
 
   const getFirst = useCallback(async () => {
+    if (collectionName === undefined) return;
     try {
       dispatch({ type: 'SET_FETCHING', payload: false });
 
@@ -147,6 +149,7 @@ export const useSearchSource = (): {
   }, [collectionName]);
 
   const getNext = useCallback(async () => {
+    if (collectionName === undefined) return;
     if (endOfDocuments === true) return;
     if (isFetching === true) return;
 
@@ -186,13 +189,26 @@ export const useSearchSource = (): {
     isInit.current = true;
   }, []);
 
+  // dispatch handlers
+  const updateFilter = (newFilter: FilterTypes) => {
+    console.log(newFilter);
+  };
+
+  const updateQuery = (newSearchTerm: string) => {
+    const cleanedUp = newSearchTerm.trim();
+    console.log(cleanedUp);
+  };
+
   return {
     getNext,
     isFetching,
     error,
     documents,
     endOfDocuments,
-    collectionName,
+    collectionName: collectionName || 'projects',
+    filter,
+    updateFilter,
+    updateQuery,
   };
 };
 // SEARCH CONTEXT

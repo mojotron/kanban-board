@@ -1,6 +1,8 @@
 import { FormEvent, useRef, useState } from 'react';
 import styles from './SearchFilters.module.css';
 import { AiOutlineSearch as IconSearch } from 'react-icons/ai';
+import type { FilterTypes } from '../../types/filterTypes';
+import { useSearch } from '../../context/SearchContext';
 
 const filtersConfig = [
   {
@@ -25,11 +27,10 @@ const filtersConfig = [
   },
 ];
 
-type Filters = 'latest' | 'project' | 'tag' | 'username';
-
 const SearchFilters = () => {
+  const { filter, updateFilter } = useSearch();
+
   const [searchQuery, setSearchQuery] = useState('');
-  const [currentFilter, setCurrentFilter] = useState<Filters>('latest');
   const searchBarRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -41,7 +42,7 @@ const SearchFilters = () => {
     <form className={styles.searchForm} onSubmit={handleSubmit}>
       <div
         className={`${styles.searchContainer} ${
-          currentFilter === 'latest' ? styles.disabled : ''
+          filter === 'latest' ? styles.disabled : ''
         }`}
         onClick={() => searchBarRef.current?.focus()}
       >
@@ -58,7 +59,7 @@ const SearchFilters = () => {
         Search for
         <select
           className={styles.searchFiltersSelect}
-          onChange={(e) => setCurrentFilter(e.target.value as Filters)}
+          onChange={(e) => updateFilter(e.target.value as FilterTypes)}
         >
           {filtersConfig.map((ele) => (
             <option key={ele.value} value={ele.value}>
