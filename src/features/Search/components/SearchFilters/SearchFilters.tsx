@@ -1,41 +1,17 @@
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useRef } from 'react';
 import styles from './SearchFilters.module.css';
 import { AiOutlineSearch as IconSearch } from 'react-icons/ai';
-import type { FilterTypes } from '../../types/filterTypes';
+import type { ProjectFilterTypes } from '../../types/filterTypes';
 import { useSearch } from '../../context/SearchContext';
-
-const filtersConfig = [
-  {
-    display: 'latest projects',
-    value: 'latest',
-    default: true,
-  },
-  {
-    display: 'project by name',
-    value: 'project',
-    default: false,
-  },
-  {
-    display: 'project by tag',
-    value: 'tag',
-    default: false,
-  },
-  {
-    display: 'user by name',
-    value: 'username',
-    default: false,
-  },
-];
+import { PROJECT_FILTERS } from '../../constants/filters';
 
 const SearchFilters = () => {
-  const { filter, updateFilter } = useSearch();
-
-  const [searchQuery, setSearchQuery] = useState('');
+  const { searchTerm, updateSearchTerm, filter, updateFilter } = useSearch();
   const searchBarRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(searchQuery);
+    console.log('hello');
   };
 
   return (
@@ -51,7 +27,8 @@ const SearchFilters = () => {
           type="search"
           ref={searchBarRef}
           className={styles.searchBar}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={searchTerm}
+          onChange={(e) => updateSearchTerm(e.target.value)}
         />
       </div>
 
@@ -59,11 +36,11 @@ const SearchFilters = () => {
         Search for
         <select
           className={styles.searchFiltersSelect}
-          onChange={(e) => updateFilter(e.target.value as FilterTypes)}
+          onChange={(e) => updateFilter(e.target.value as ProjectFilterTypes)}
         >
-          {filtersConfig.map((ele) => (
-            <option key={ele.value} value={ele.value}>
-              {ele.display}
+          {PROJECT_FILTERS.map((ele) => (
+            <option key={ele} value={ele}>
+              {ele}
             </option>
           ))}
         </select>

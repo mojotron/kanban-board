@@ -20,7 +20,7 @@ import {
 import { firebaseFirestore } from '../../../firebase/config';
 import type { UserWithId } from '../../../types/userType';
 import type { ProjectWithId } from '../../../types/projectType';
-import type { FilterTypes } from '../types/filterTypes';
+import type { ProjectFilterTypes } from '../types/filterTypes';
 import { useParams } from 'react-router-dom';
 
 const DOC_LIMIT = 2;
@@ -33,8 +33,8 @@ type DocCollectionOption = DocOption[];
 type DocCollectionType = 'projects' | 'users';
 
 type StateType = {
-  filter: FilterTypes;
-  queryParam: string;
+  filter: ProjectFilterTypes;
+  searchTerm: string;
   lastDocument: QueryDocumentSnapshot<DocumentData> | null;
   endOfDocuments: boolean;
   isFetching: boolean;
@@ -43,8 +43,8 @@ type StateType = {
 };
 
 type ActionType =
-  | { type: 'SET_FILTER' }
-  | { type: 'UPDATE_QUERY_PARAM'; payload: string }
+  | { type: 'SET_FILTER'; payload: FilterTypes }
+  | { type: 'UPDATE_SEARCH_TERM'; payload: string }
   | { type: 'SET_END_OF_DOCUMENTS'; payload: boolean }
   | { type: 'SET_FETCHING'; payload: boolean }
   | { type: 'SET_ERROR'; payload: null | string }
@@ -63,23 +63,32 @@ export const useSearchSource = (): {
   endOfDocuments: boolean;
   collectionName: DocCollectionType;
   getNext: () => Promise<void>;
-  filter: FilterTypes;
-  updateFilter: (newFilter: FilterTypes) => void;
-  updateQuery: (newSearchTerm: string) => void;
+  filter: ProjectFilterTypes;
+  updateFilter: (newFilter: ProjectFilterTypes) => void;
+  searchTerm: string;
+  updateSearchTerm: (newSearchTerm: string) => void;
 } => {
   const { collectionName } = useParams<{
     collectionName?: DocCollectionType;
   }>();
   const [
-    { isFetching, error, endOfDocuments, lastDocument, documents, filter },
+    {
+      isFetching,
+      error,
+      endOfDocuments,
+      lastDocument,
+      documents,
+      filter,
+      searchTerm,
+    },
     dispatch,
   ] = useReducer(
     (state: StateType, action: ActionType) => {
       switch (action.type) {
         case 'SET_FILTER':
-          return { ...state };
-        case 'UPDATE_QUERY_PARAM':
-          return { ...state, queryParam: action.payload };
+          return { ...state, filter: action.payload };
+        case 'UPDATE_SEARCH_TERM':
+          return { ...state, searchTerm: action.payload };
         case 'SET_END_OF_DOCUMENTS':
           return {
             ...state,
@@ -107,7 +116,7 @@ export const useSearchSource = (): {
     },
     {
       filter: 'latest',
-      queryParam: '',
+      searchTerm: '',
       lastDocument: null,
       endOfDocuments: false,
       isFetching: false,
@@ -119,7 +128,7 @@ export const useSearchSource = (): {
   // FLAG FOR INITIAL RENDER, ref is not lost with rerenders
   const isInit = useRef(false);
 
-  const getFirst = useCallback(async () => {
+  const getFirst = useCallback(() => {
     if (collectionName === undefined) return;
     try {
       dispatch({ type: 'SET_FETCHING', payload: false });
@@ -190,13 +199,14 @@ export const useSearchSource = (): {
   }, []);
 
   // dispatch handlers
-  const updateFilter = (newFilter: FilterTypes) => {
+  const updateFilter = (newFilter: ProjectFilterTypes) => {
+    dispatch({ type: 'SET_FILTER', payload: newFilter });
     console.log(newFilter);
   };
 
-  const updateQuery = (newSearchTerm: string) => {
+  const updateSearchTerm = (newSearchTerm: string) => {
     const cleanedUp = newSearchTerm.trim();
-    console.log(cleanedUp);
+    dispatch({ type: 'UPDATE_SEARCH_TERM', payload: cleanedUp });
   };
 
   return {
@@ -208,7 +218,8 @@ export const useSearchSource = (): {
     collectionName: collectionName || 'projects',
     filter,
     updateFilter,
-    updateQuery,
+    searchTerm,
+    updateSearchTerm,
   };
 };
 // SEARCH CONTEXT
@@ -223,10 +234,11 @@ export const useSearch = () => {
   return context;
 };
 // SEARCH PROVIDER
-type ProviderProps = { children: ReactNode };
-export const SearchContextProvider = ({ children }: ProviderProps) => {
+type ProviderProps = { config: string; children: ReactNode };
+
+export const SearchContextProvider = ({ children, config }: ProviderProps) => {
   return (
-    <SearchContext.Provider value={useSearchSource()}>
+    <SearchContext.Provider value={useSearchSource(config)}>
       {children}
     </SearchContext.Provider>
   );

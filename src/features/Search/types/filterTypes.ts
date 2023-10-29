@@ -1,13 +1,7 @@
-export const FILTERS: ['latest', 'project', 'tag', 'username'] = [
-  'latest',
-  'project',
-  'tag',
-  'username',
-];
+import { PROJECT_FILTERS, USER_FILTERS } from '../constants/filters';
 
-// const stages = [...TASK_STAGES] as const;
-// export type Stage = (typeof stages)[number];
+const projectFilters = [...PROJECT_FILTERS] as const;
+export type ProjectFilterTypes = (typeof projectFilters)[number];
 
-const filters = [...FILTERS] as const;
-
-export type FilterTypes = (typeof filters)[number];
+const userFilters = [...USER_FILTERS] as const;
+export type UserFilerTypes = (typeof userFilters)[number];
