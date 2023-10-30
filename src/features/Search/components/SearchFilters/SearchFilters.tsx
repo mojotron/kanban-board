@@ -2,7 +2,7 @@ import { FormEvent, useRef } from 'react';
 import styles from './SearchFilters.module.css';
 import { AiOutlineSearch as IconSearch } from 'react-icons/ai';
 import type { ProjectFilterTypes } from '../../types/filterTypes';
-import { useSearch } from '../../context/SearchContext';
+import { useSearch } from '../../context/SearchProjectContext';
 import { PROJECT_FILTERS } from '../../constants/filters';
 
 const SearchFilters = () => {

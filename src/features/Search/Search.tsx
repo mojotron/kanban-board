@@ -1,6 +1,6 @@
 import SearchFilters from './components/SearchFilters/SearchFilters';
 import SearchResults from './components/SearchResults/SearchResults';
-import { SearchContextProvider } from './context/SearchContext';
+import { SearchContextProvider } from './context/SearchProjectContext';
 import styles from './Search.module.css';
 
 const Search = () => {

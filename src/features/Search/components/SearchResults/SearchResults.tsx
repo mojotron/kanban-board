@@ -1,12 +1,13 @@
 import Button from '../../../../components/Button/Button';
 import ProjectCard from '../../../../components/ProjectCard/ProjectCard';
 import { ProjectWithId } from '../../../../types/projectType';
-import { useSearch } from '../../context/SearchContext';
+import { useSearch } from '../../context/SearchProjectContext';
 import styles from './SearchResults.module.css';
 
 const SearchResults = () => {
-  const { collectionName, documents, isFetching, endOfDocuments, getNext } =
-    useSearch();
+  const { documents, isFetching, endOfDocuments, getNext } = useSearch();
+
+  const collectionName = true ? 'projects' : 'users';
 
   return (
     <>

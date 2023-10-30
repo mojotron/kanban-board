@@ -8,87 +8,57 @@ import {
   startAfter,
   DocumentData,
 } from 'firebase/firestore';
-import {
-  useCallback,
-  createContext,
-  useReducer,
-  ReactNode,
-  useContext,
-  useEffect,
-  useRef,
-} from 'react';
+import { useCallback, useReducer, useEffect, useRef } from 'react';
 import { firebaseFirestore } from '../../../firebase/config';
-import type { UserWithId } from '../../../types/userType';
-import type { ProjectWithId } from '../../../types/projectType';
-import type { ProjectFilterTypes } from '../types/filterTypes';
-import { useParams } from 'react-router-dom';
 
 const DOC_LIMIT = 2;
 
-// SEARCH SOURCE
-type DocOption = UserWithId | ProjectWithId;
-
-type DocCollectionOption = DocOption[];
-
-type DocCollectionType = 'projects' | 'users';
-
-type StateType = {
-  filter: ProjectFilterTypes;
-  searchTerm: string;
-  lastDocument: QueryDocumentSnapshot<DocumentData> | null;
-  endOfDocuments: boolean;
-  isFetching: boolean;
+export const useSearchProject = <DocType, FilterType>(
+  collectionName: string,
+  defaultFilter: FilterType
+): {
+  documents: DocType[];
   error: null | string;
-  documents: DocCollectionOption;
-};
-
-type ActionType =
-  | { type: 'SET_FILTER'; payload: FilterTypes }
-  | { type: 'UPDATE_SEARCH_TERM'; payload: string }
-  | { type: 'SET_END_OF_DOCUMENTS'; payload: boolean }
-  | { type: 'SET_FETCHING'; payload: boolean }
-  | { type: 'SET_ERROR'; payload: null | string }
-  | {
-      type: 'SET_DOCUMENTS';
-      payload: {
-        data: DocCollectionOption;
-        lastDoc: QueryDocumentSnapshot<DocumentData>;
-      };
-    };
-
-export const useSearchSource = (): {
-  documents: DocCollectionOption;
   isFetching: boolean;
-  error: null | string;
-  endOfDocuments: boolean;
-  collectionName: DocCollectionType;
   getNext: () => Promise<void>;
-  filter: ProjectFilterTypes;
-  updateFilter: (newFilter: ProjectFilterTypes) => void;
-  searchTerm: string;
-  updateSearchTerm: (newSearchTerm: string) => void;
+  endOfDocuments: boolean;
+  filter: FilterType;
+  updateFilter: (value: FilterType) => void;
+  updateSearchTerm: (value: string) => void;
 } => {
-  const { collectionName } = useParams<{
-    collectionName?: DocCollectionType;
-  }>();
+  type StateType = {
+    filter: FilterType;
+    searchTerm: string;
+    lastDocument: QueryDocumentSnapshot<DocumentData> | null;
+    endOfDocuments: boolean;
+    isFetching: boolean;
+    error: null | string;
+    documents: DocType[];
+  };
+
+  type ActionType =
+    | { type: 'SET_SEARCH_TERM'; payload: string }
+    | { type: 'SET_FILTER'; payload: FilterType }
+    | { type: 'SET_END_OF_DOCUMENTS'; payload: boolean }
+    | { type: 'SET_FETCHING'; payload: boolean }
+    | { type: 'SET_ERROR'; payload: null | string }
+    | {
+        type: 'SET_DOCUMENTS';
+        payload: {
+          data: DocType[];
+          lastDoc: QueryDocumentSnapshot<DocumentData>;
+        };
+      };
   const [
-    {
-      isFetching,
-      error,
-      endOfDocuments,
-      lastDocument,
-      documents,
-      filter,
-      searchTerm,
-    },
+    { isFetching, error, endOfDocuments, lastDocument, documents, filter },
     dispatch,
   ] = useReducer(
     (state: StateType, action: ActionType) => {
       switch (action.type) {
+        case 'SET_SEARCH_TERM':
+          return { ...state, searchTerm: action.payload };
         case 'SET_FILTER':
           return { ...state, filter: action.payload };
-        case 'UPDATE_SEARCH_TERM':
-          return { ...state, searchTerm: action.payload };
         case 'SET_END_OF_DOCUMENTS':
           return {
             ...state,
@@ -103,20 +73,18 @@ export const useSearchSource = (): {
           const newDocs = [
             ...state.documents,
             ...action.payload.data,
-          ] as ProjectWithId[];
+          ] as DocType[];
           return {
             ...state,
             documents: newDocs,
             lastDocument: action.payload.lastDoc,
             isFetching: false,
           };
-        default:
-          return { ...state };
       }
     },
     {
-      filter: 'latest',
       searchTerm: '',
+      filter: defaultFilter,
       lastDocument: null,
       endOfDocuments: false,
       isFetching: false,
@@ -128,8 +96,7 @@ export const useSearchSource = (): {
   // FLAG FOR INITIAL RENDER, ref is not lost with rerenders
   const isInit = useRef(false);
 
-  const getFirst = useCallback(() => {
-    if (collectionName === undefined) return;
+  const getFirst = useCallback(async () => {
     try {
       dispatch({ type: 'SET_FETCHING', payload: false });
 
@@ -142,9 +109,9 @@ export const useSearchSource = (): {
       if (docSnapshots.empty) {
         dispatch({ type: 'SET_END_OF_DOCUMENTS', payload: true });
       } else {
-        const data: DocCollectionOption = [];
+        const data: DocType[] = [];
         docSnapshots.forEach((doc) => {
-          data.push({ ...doc.data(), id: doc.id } as DocOption);
+          data.push({ ...doc.data(), id: doc.id } as DocType);
         });
         const lastDoc = docSnapshots.docs[docSnapshots.docs.length - 1];
 
@@ -158,7 +125,6 @@ export const useSearchSource = (): {
   }, [collectionName]);
 
   const getNext = useCallback(async () => {
-    if (collectionName === undefined) return;
     if (endOfDocuments === true) return;
     if (isFetching === true) return;
 
@@ -178,9 +144,9 @@ export const useSearchSource = (): {
         dispatch({ type: 'SET_END_OF_DOCUMENTS', payload: true });
         return;
       }
-      const data: DocCollectionOption = [];
+      const data: DocType[] = [];
       docSnapshots.forEach((doc) => {
-        data.push({ ...doc.data(), id: doc.id } as DocOption);
+        data.push({ ...doc.data(), id: doc.id } as DocType);
       });
       const lastDoc = docSnapshots.docs[docSnapshots.docs.length - 1];
 
@@ -198,48 +164,17 @@ export const useSearchSource = (): {
     isInit.current = true;
   }, []);
 
-  // dispatch handlers
-  const updateFilter = (newFilter: ProjectFilterTypes) => {
-    dispatch({ type: 'SET_FILTER', payload: newFilter });
-    console.log(newFilter);
-  };
-
-  const updateSearchTerm = (newSearchTerm: string) => {
-    const cleanedUp = newSearchTerm.trim();
-    dispatch({ type: 'UPDATE_SEARCH_TERM', payload: cleanedUp });
-  };
+  const updateSearchTerm = (value: string) => {};
+  const updateFilter = (value: FilterType) => {};
 
   return {
+    documents,
     getNext,
     isFetching,
     error,
-    documents,
     endOfDocuments,
-    collectionName: collectionName || 'projects',
     filter,
-    updateFilter,
-    searchTerm,
     updateSearchTerm,
+    updateFilter,
   };
-};
-// SEARCH CONTEXT
-const SearchContext = createContext<ReturnType<typeof useSearchSource>>(
-  {} as unknown as ReturnType<typeof useSearchSource>
-);
-// SEARCH USE CONTEXT HOOK
-export const useSearch = () => {
-  const context = useContext(SearchContext);
-  if (!context)
-    throw new Error('useSearch must be used inside SearchContextProvider!');
-  return context;
-};
-// SEARCH PROVIDER
-type ProviderProps = { config: string; children: ReactNode };
-
-export const SearchContextProvider = ({ children, config }: ProviderProps) => {
-  return (
-    <SearchContext.Provider value={useSearchSource(config)}>
-      {children}
-    </SearchContext.Provider>
-  );
 };
