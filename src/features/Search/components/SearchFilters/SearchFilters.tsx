@@ -1,12 +1,23 @@
 import { FormEvent, useRef } from 'react';
 import styles from './SearchFilters.module.css';
 import { AiOutlineSearch as IconSearch } from 'react-icons/ai';
-import type { ProjectFilterTypes } from '../../types/filterTypes';
-import { useSearch } from '../../context/SearchProjectContext';
-import { PROJECT_FILTERS } from '../../constants/filters';
 
-const SearchFilters = () => {
-  const { searchTerm, updateSearchTerm, filter, updateFilter } = useSearch();
+const SearchFilters = <FilterType,>({
+  filters,
+  currentFilter,
+  onFiltersChange,
+  searchTerm,
+  onSearchTermChange,
+  disabled,
+}: {
+  filters: string[];
+  currentFilter: string;
+  onFiltersChange: (value: FilterType) => void;
+  searchTerm: string;
+  onSearchTermChange: (value: string) => void;
+  disabled: boolean;
+}) => {
+  // const { searchTerm, updateSearchTerm, filter, updateFilter } = useSearch();
   const searchBarRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -18,7 +29,7 @@ const SearchFilters = () => {
     <form className={styles.searchForm} onSubmit={handleSubmit}>
       <div
         className={`${styles.searchContainer} ${
-          filter === 'latest' ? styles.disabled : ''
+          disabled ? styles.disabled : ''
         }`}
         onClick={() => searchBarRef.current?.focus()}
       >
@@ -28,7 +39,7 @@ const SearchFilters = () => {
           ref={searchBarRef}
           className={styles.searchBar}
           value={searchTerm}
-          onChange={(e) => updateSearchTerm(e.target.value)}
+          onChange={(e) => onSearchTermChange(e.target.value)}
         />
       </div>
 
@@ -36,9 +47,9 @@ const SearchFilters = () => {
         Search for
         <select
           className={styles.searchFiltersSelect}
-          onChange={(e) => updateFilter(e.target.value as ProjectFilterTypes)}
+          onChange={(e) => onFiltersChange(e.target.value as FilterType)}
         >
-          {PROJECT_FILTERS.map((ele) => (
+          {filters.map((ele) => (
             <option key={ele} value={ele}>
               {ele}
             </option>

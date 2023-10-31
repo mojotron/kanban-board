@@ -23,6 +23,7 @@ export const useSearchProject = <DocType, FilterType>(
   getNext: () => Promise<void>;
   endOfDocuments: boolean;
   filter: FilterType;
+  searchTerm: string;
   updateFilter: (value: FilterType) => void;
   updateSearchTerm: (value: string) => void;
 } => {
@@ -50,7 +51,15 @@ export const useSearchProject = <DocType, FilterType>(
         };
       };
   const [
-    { isFetching, error, endOfDocuments, lastDocument, documents, filter },
+    {
+      isFetching,
+      error,
+      endOfDocuments,
+      lastDocument,
+      documents,
+      filter,
+      searchTerm,
+    },
     dispatch,
   ] = useReducer(
     (state: StateType, action: ActionType) => {
@@ -164,8 +173,12 @@ export const useSearchProject = <DocType, FilterType>(
     isInit.current = true;
   }, []);
 
-  const updateSearchTerm = (value: string) => {};
-  const updateFilter = (value: FilterType) => {};
+  const updateSearchTerm = (value: string) => {
+    dispatch({ type: 'SET_SEARCH_TERM', payload: value.trim() });
+  };
+  const updateFilter = (value: FilterType) => {
+    dispatch({ type: 'SET_FILTER', payload: value });
+  };
 
   return {
     documents,
@@ -175,6 +188,7 @@ export const useSearchProject = <DocType, FilterType>(
     endOfDocuments,
     filter,
     updateSearchTerm,
+    searchTerm,
     updateFilter,
   };
 };

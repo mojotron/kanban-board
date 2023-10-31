@@ -55,11 +55,20 @@ export const useSearchProjectSource = (): {
   error: null | string;
   endOfDocuments: boolean;
   getNext: () => Promise<void>;
+  searchTerm: string;
   updateSearchTerm: (value: string) => void;
   updateFilter: (value: ProjectFilterTypes) => void;
 } => {
   const [
-    { isFetching, error, endOfDocuments, lastDocument, documents, filter },
+    {
+      isFetching,
+      error,
+      endOfDocuments,
+      lastDocument,
+      documents,
+      filter,
+      searchTerm,
+    },
     dispatch,
   ] = useReducer(
     (state: StateType, action: ActionType) => {
@@ -183,6 +192,7 @@ export const useSearchProjectSource = (): {
     documents,
     endOfDocuments,
     filter,
+    searchTerm,
     updateSearchTerm,
     updateFilter,
   };

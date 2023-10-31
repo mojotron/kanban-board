@@ -3,3 +3,18 @@
   display: flex;
   flex-direction: column;
 }
+.btnLoadMore {
+  display: block;
+  margin: 0 auto;
+  background: none;
+  border: 1px solid var(--COLOR-BLUE-400);
+  font-size: 1.6rem;
+  color: var(--COLOR-BLUE-400);
+  border-radius: var(--BORDER-RADIUS);
+  padding: 0.5rem 2rem;
+  cursor: pointer;
+}
+.btnLoadMore:hover {
+  color: var(--COLOR-GRAY-950);
+  background-color: var(--COLOR-BLUE-400);
+}
