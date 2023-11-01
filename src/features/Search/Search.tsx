@@ -2,23 +2,29 @@ import { ProjectWithId } from '../../types/projectType';
 import SearchFilters from './components/SearchFilters/SearchFilters';
 import SearchResults from './components/SearchResults/SearchResults';
 import { PROJECT_FILTERS } from './constants/filters';
-import { useSearchProject } from './hooks/useSearchProjects';
+import { useSearchDocuments } from './hooks/useSearchDocuments';
 import styles from './Search.module.css';
 import { ProjectFilterTypes } from './types/filterTypes';
-import Button from '../../components/Button/Button';
+import LoadMoreButton from './components/LoadMoreButton/LoadMoreButton';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
+import { useParams } from 'react-router-dom';
 
 const Search = () => {
+  const { collectionName } = useParams<{ collectionName?: string }>();
+
   const {
+    documents,
+    getNext,
+    isFetching,
+    endOfDocuments,
     filter,
     updateFilter,
     searchTerm,
     updateSearchTerm,
-    endOfDocuments,
-    getNext,
-    isFetching,
-    documents,
-  } = useSearchProject<ProjectWithId, ProjectFilterTypes>('projects', 'latest');
+  } = useSearchDocuments<ProjectWithId, ProjectFilterTypes>(
+    collectionName,
+    'latest'
+  );
 
   return (
     <main className={styles.searchProjects}>
@@ -34,10 +40,9 @@ const Search = () => {
         {documents.map((doc, i) => (
           <ProjectCard key={i} data={doc as ProjectWithId} />
         ))}
+
         {!endOfDocuments && (
-          <Button handleClick={getNext} className={styles.btnLoadMore}>
-            {isFetching ? 'Loading...' : 'Load More'}
-          </Button>
+          <LoadMoreButton onLoadMore={getNext} isFetching={isFetching} />
         )}
       </SearchResults>
     </main>

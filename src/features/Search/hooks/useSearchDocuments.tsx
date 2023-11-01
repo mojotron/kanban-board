@@ -13,8 +13,8 @@ import { firebaseFirestore } from '../../../firebase/config';
 
 const DOC_LIMIT = 2;
 
-export const useSearchProject = <DocType, FilterType>(
-  collectionName: string,
+export const useSearchDocuments = <DocType, FilterType>(
+  collectionName: string | undefined,
   defaultFilter: FilterType
 ): {
   documents: DocType[];
@@ -106,6 +106,7 @@ export const useSearchProject = <DocType, FilterType>(
   const isInit = useRef(false);
 
   const getFirst = useCallback(async () => {
+    if (!collectionName) return;
     try {
       dispatch({ type: 'SET_FETCHING', payload: false });
 
@@ -134,6 +135,7 @@ export const useSearchProject = <DocType, FilterType>(
   }, [collectionName]);
 
   const getNext = useCallback(async () => {
+    if (!collectionName) return;
     if (endOfDocuments === true) return;
     if (isFetching === true) return;
 
@@ -168,10 +170,11 @@ export const useSearchProject = <DocType, FilterType>(
   }, [collectionName, lastDocument, endOfDocuments]);
 
   useEffect(() => {
+    if (!collectionName) return;
     if (isInit.current === true) return;
     getFirst();
     isInit.current = true;
-  }, []);
+  }, [collectionName, getFirst]);
 
   const updateSearchTerm = (value: string) => {
     dispatch({ type: 'SET_SEARCH_TERM', payload: value.trim() });
