@@ -8,6 +8,8 @@ import styles from './ProjectCard.module.css';
 // components
 import AdminAvatar from '../AdminAvatar/AdminAvatar';
 import TagsList from '../TagsList/TagsList';
+import Button from '../Button/Button';
+import { useMemo } from 'react';
 
 type PropsType = {
   data: ProjectWithId;
@@ -17,9 +19,14 @@ const ProjectCard = ({ data }: PropsType) => {
   const navigate = useNavigate();
   const { document: user } = useUserData();
 
+  if (!user) return;
   const shortDescription = data.description.split(' ').slice(0, 20).join(' ');
 
-  if (!user) return;
+  const onProject = useMemo(() => {
+    return [...user.managingProjects, ...user.collaboratingProjects].includes(
+      user.uid
+    );
+  }, [user]);
 
   const userWorkingOnProject = () => {
     return (
@@ -38,6 +45,11 @@ const ProjectCard = ({ data }: PropsType) => {
     >
       <header className={styles.header}>
         <h2 className={styles.heading}>{data.name}</h2>
+        {!onProject && (
+          <Button handleClick={() => {}} className={styles.btnRequest}>
+            Request Join
+          </Button>
+        )}
       </header>
 
       <section className={styles.body}>

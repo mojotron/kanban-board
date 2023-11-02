@@ -1,6 +1,6 @@
-export const PROJECT_FILTERS: ['latest', 'project', 'tag', 'name'] = [
+export const PROJECT_FILTERS: ['latest', 'user', 'tag', 'name'] = [
   'latest',
-  'project',
+  'user',
   'tag',
   'name',
 ];
@@ -10,3 +10,7 @@ export const USER_FILTERS: ['username', 'tasks', 'projects'] = [
   'tasks',
   'projects',
 ];
+
+const PROJECT_QUERIES = {
+  latest: null,
+};

@@ -36,3 +36,17 @@
 .description {
   font-size: 1.25rem;
 }
+.btnRequest {
+  cursor: pointer;
+  background: none;
+  border: 1px solid var(--COLOR-GREEN-400);
+  background-color: var(--COLOR-GREEN-400);
+  border-radius: var(--BORDER-RADIUS);
+  padding: 0.25rem 1rem;
+  color: var(--COLOR-GRAY-700);
+  font-weight: bold;
+}
+.btnRequest:hover {
+  background-color: var(--COLOR-GRAY-600);
+  color: var(--COLOR-GREEN-400);
+}
