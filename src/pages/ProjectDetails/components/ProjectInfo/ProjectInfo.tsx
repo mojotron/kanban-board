@@ -1,14 +1,27 @@
+import { Link } from 'react-router-dom';
 import Button from '../../../../components/Button/Button';
 import TagsList from '../../../../components/TagsList/TagsList';
+import { useUserData } from '../../../../context/UserDataContext';
 import { ProjectWithId } from '../../../../types/projectType';
 import { formatLocalDate } from '../../../../utils/formatTime';
 import styles from './ProjectInfo.module.css';
+import { useMemo } from 'react';
 
 type PropsType = {
   project: ProjectWithId;
 };
 
 const ProjectInfo = ({ project }: PropsType) => {
+  const { document: user } = useUserData();
+  // TODO are current user already collaborating
+  // if yes add link to dashboard instead of request join button
+  const onProject = useMemo(() => {
+    if (!user) return false;
+    return (
+      project.adminUid === user?.uid || project.members.includes(user?.uid)
+    );
+  }, [user]);
+
   return (
     <header className={styles.header}>
       <div className={styles.info}>
@@ -29,10 +42,13 @@ const ProjectInfo = ({ project }: PropsType) => {
             {formatLocalDate(new Date(project.createdAt.seconds * 1000))}
           </p>
         </div>
-        {!project.public && (
+        {!project.public && !onProject && (
           <Button handleClick={() => {}} className={styles.btnJoin}>
             Request join
           </Button>
+        )}
+        {onProject && (
+          <Link to={`/dashboard/${project.id}`}>Go to Dashboard</Link>
         )}
       </div>
 

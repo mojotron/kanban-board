@@ -8,7 +8,6 @@ import styles from './ProjectCard.module.css';
 // components
 import AdminAvatar from '../AdminAvatar/AdminAvatar';
 import TagsList from '../TagsList/TagsList';
-import Button from '../Button/Button';
 import { useMemo } from 'react';
 
 type PropsType = {
@@ -19,37 +18,31 @@ const ProjectCard = ({ data }: PropsType) => {
   const navigate = useNavigate();
   const { document: user } = useUserData();
 
-  if (!user) return;
   const shortDescription = data.description.split(' ').slice(0, 20).join(' ');
 
-  const onProject = useMemo(() => {
+  const userWorkingOnProject = useMemo(() => {
+    if (!user) return false;
+
     return [...user.managingProjects, ...user.collaboratingProjects].includes(
       user.uid
     );
   }, [user]);
 
-  const userWorkingOnProject = () => {
-    return (
-      data.adminUid === user.uid || user.collaboratingProjects.includes(data.id)
-    );
-  };
+  if (!user) return;
 
   return (
     <article
       className={styles.projectCard}
       onClick={() => {
-        if (userWorkingOnProject())
-          navigate(`/dashboard/${data.id}
-      `);
+        if (userWorkingOnProject) {
+          navigate(`/dashboard/${data.id}`);
+        } else {
+          navigate(`/project/${data.id}`);
+        }
       }}
     >
       <header className={styles.header}>
         <h2 className={styles.heading}>{data.name}</h2>
-        {!onProject && (
-          <Button handleClick={() => {}} className={styles.btnRequest}>
-            Request Join
-          </Button>
-        )}
       </header>
 
       <section className={styles.body}>
