@@ -6,6 +6,7 @@ import { ProjectWithId } from '../../../../types/projectType';
 import { formatLocalDate } from '../../../../utils/formatTime';
 import styles from './ProjectInfo.module.css';
 import { useMemo } from 'react';
+import { useRequests } from '../../../../features/Requests/hooks/useRequests';
 
 type PropsType = {
   project: ProjectWithId;
@@ -13,14 +14,21 @@ type PropsType = {
 
 const ProjectInfo = ({ project }: PropsType) => {
   const { document: user } = useUserData();
-  // TODO are current user already collaborating
-  // if yes add link to dashboard instead of request join button
+  const { applyToProject, cancelRequest } = useRequests();
+
   const onProject = useMemo(() => {
     if (!user) return false;
     return (
       project.adminUid === user?.uid || project.members.includes(user?.uid)
     );
-  }, [user]);
+  }, [user, project]);
+
+  const isApplied = useMemo(() => {
+    if (!user) return false;
+    return project.requests.includes(user.uid);
+  }, [user, project]);
+
+  console.log(isApplied);
 
   return (
     <header className={styles.header}>
@@ -42,13 +50,24 @@ const ProjectInfo = ({ project }: PropsType) => {
             {formatLocalDate(new Date(project.createdAt.seconds * 1000))}
           </p>
         </div>
-        {!project.public && !onProject && (
-          <Button handleClick={() => {}} className={styles.btnJoin}>
+        {!project.public && !onProject && !isApplied && (
+          <Button
+            handleClick={() => applyToProject(project.id)}
+            className={`${styles.btn} ${styles.btnJoin}`}
+          >
             Request join
           </Button>
         )}
         {onProject && (
           <Link to={`/dashboard/${project.id}`}>Go to Dashboard</Link>
+        )}
+        {isApplied && !onProject && (
+          <Button
+            handleClick={() => cancelRequest(project.id)}
+            className={`${styles.btn} ${styles.btnCancel}`}
+          >
+            Cancel Request
+          </Button>
         )}
       </div>
 

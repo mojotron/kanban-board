@@ -52,6 +52,7 @@ export const useLogin = () => {
           lastLoggedOut: Timestamp.fromDate(new Date()),
           createdAt: Timestamp.fromDate(new Date()),
           notifications: [],
+          appliedRequests: [],
         });
       }
       setIsPending(false);

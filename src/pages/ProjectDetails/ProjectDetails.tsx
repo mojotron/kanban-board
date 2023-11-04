@@ -1,4 +1,4 @@
-import { useProjectDetails } from './useProjectDetails';
+import { useOnSnapshotDocument } from '../../hooks/useOnSnapshotDocument';
 import { useParams, useNavigate } from 'react-router-dom';
 // components
 import Button from '../../components/Button/Button';
@@ -7,10 +7,16 @@ import styles from './ProjectDetails.module.css';
 import CurrentTasks from './components/CurrentTasks/CurrentTasks';
 import CurrentMembers from './components/CurrentMembers/CurrentMembers';
 import ProjectInfo from './components/ProjectInfo/ProjectInfo';
+// types
+import type { ProjectWithId } from '../../types/projectType';
 
 const ProjectDetails = () => {
   const { projectId } = useParams();
-  const { project, error, pending } = useProjectDetails(projectId);
+  const {
+    document: project,
+    pending,
+    error,
+  } = useOnSnapshotDocument<ProjectWithId>('projects', projectId);
   const navigate = useNavigate();
 
   return (

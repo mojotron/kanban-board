@@ -13,7 +13,7 @@ export type UserType = {
   lastLoggedOut: Timestamp;
   createdAt: Timestamp;
   notifications: string[];
-  requests: string[];
+  appliedRequests: string[];
 };
 
 export type UserWithId = UserType & { id: string };

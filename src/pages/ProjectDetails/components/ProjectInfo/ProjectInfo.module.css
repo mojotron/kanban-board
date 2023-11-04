@@ -23,13 +23,11 @@
 .red {
   color: var(--COLOR-RED-400);
 }
-.btnJoin {
+.btn {
   display: inline-block;
   background: none;
-  background-color: var(--COLOR-GREEN-400);
   height: 3rem;
   padding: 0.5rem 2rem;
-  border: 1px solid var(--COLOR-GREEN-400);
   border-radius: var(--BORDER-RADIUS);
   font-size: 1.4rem;
   text-transform: capitalize;
@@ -37,11 +35,27 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
+.btnJoin {
+  background-color: var(--COLOR-GREEN-400);
+  border: 1px solid var(--COLOR-GREEN-400);
+}
 .btnJoin:hover {
   background: none;
   color: var(--COLOR-GREEN-400);
 }
+.btnCancel {
+  background-color: var(--COLOR-RED-400);
+  border: 1px solid var(--COLOR-RED-400);
+}
+.btnCancel:hover {
+  background: none;
+  color: var(--COLOR-RED-400);
+}
 .description {
   font-size: 1.25rem;
   line-height: 1.25rem;
+}
+.pending {
+  font-size: 1.25rem;
+  font-weight: bold;
 }
