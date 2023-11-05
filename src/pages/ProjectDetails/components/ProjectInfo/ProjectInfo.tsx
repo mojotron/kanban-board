@@ -7,29 +7,41 @@ import { formatLocalDate } from '../../../../utils/formatTime';
 import styles from './ProjectInfo.module.css';
 import { useMemo } from 'react';
 import { useRequests } from '../../../../features/Requests/hooks/useRequests';
+import { useCollectDocs } from '../../../../hooks/useCollectDocs';
+import { RequestTypeWithId } from '../../../../features/Requests/types/requestType';
 
 type PropsType = {
   project: ProjectWithId;
 };
 
 const ProjectInfo = ({ project }: PropsType) => {
+  console.log(project.requests);
+
   const { document: user } = useUserData();
   // TODO get all request docs
-  const { applyToProject, cancelRequest } = useRequests();
+  const { documents: requestDocs } = useCollectDocs<RequestTypeWithId>(
+    project.requests,
+    'requests'
+  );
+  const { applyToProject, cancelRequest } = useRequests(); // TODO FIX HERE
+
+  console.log(requestDocs);
 
   const onProject = useMemo(() => {
     if (!user) return false;
     return (
       project.adminUid === user?.uid || project.members.includes(user?.uid)
     );
-  }, [user, project]);
+  }, [user, project, requestDocs]);
 
-  const isApplied = useMemo(() => {
-    if (!user) return false;
-    return project.requests.includes(user.uid);
-  }, [user, project]);
+  const hasRequest = useMemo(() => {
+    if (!user) return undefined;
+    console.log('hmm');
 
-  console.log(isApplied);
+    return requestDocs?.find((ele) => ele.userId === user.uid)?.id;
+  }, [user, project, requestDocs]);
+
+  console.log(hasRequest);
 
   return (
     <header className={styles.header}>
@@ -51,7 +63,7 @@ const ProjectInfo = ({ project }: PropsType) => {
             {formatLocalDate(new Date(project.createdAt.seconds * 1000))}
           </p>
         </div>
-        {!project.public && !onProject && !isApplied && (
+        {!project.public && !onProject && hasRequest === undefined && (
           <Button
             handleClick={() => applyToProject(project.id)}
             className={`${styles.btn} ${styles.btnJoin}`}
@@ -62,9 +74,9 @@ const ProjectInfo = ({ project }: PropsType) => {
         {onProject && (
           <Link to={`/dashboard/${project.id}`}>Go to Dashboard</Link>
         )}
-        {isApplied && !onProject && (
+        {hasRequest !== undefined && !onProject && (
           <Button
-            handleClick={() => cancelRequest(project.id)}
+            handleClick={() => cancelRequest(project.id, hasRequest)}
             className={`${styles.btn} ${styles.btnCancel}`}
           >
             Cancel Request
