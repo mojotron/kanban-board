@@ -2,6 +2,8 @@ import { useCallback } from 'react';
 import { useFirestore } from '../../../hooks/useFirestore';
 import { useUserData } from '../../../context/UserDataContext';
 import { ProjectWithId } from '../../../types/projectType';
+import { RequestType } from '../types/requestType';
+import { Timestamp } from 'firebase/firestore';
 
 export const useRequests = (): {
   applyToProject: (projectId: string) => void;
@@ -9,7 +11,7 @@ export const useRequests = (): {
   acceptUser: () => void;
   rejectUser: () => void;
 } => {
-  const { updateDocument, getDocument } = useFirestore();
+  const { updateDocument, getDocument, addDocument } = useFirestore();
   const { document: user } = useUserData();
 
   const applyToProject = useCallback(
@@ -21,12 +23,20 @@ export const useRequests = (): {
           projectId
         );
         if (!projectDoc) return;
-        const requests = [...projectDoc.requests, user.uid];
+        //
+        const requestDoc = await addDocument<RequestType>('requests', {
+          userId: user.uid,
+          projectId: projectId,
+          createdAt: Timestamp.fromDate(new Date()),
+        });
+        //
+        if (!requestDoc) return;
+        const requests = [...projectDoc.requests, requestDoc.id];
         await updateDocument('projects', projectId, {
           requests,
         });
         await updateDocument('users', user.uid, {
-          appliedRequests: [...user.appliedRequests, projectId],
+          appliedRequests: [...user.appliedRequests, requestDoc.id],
         });
       } catch (error) {
         if (error instanceof Error) {

@@ -14,6 +14,7 @@ type PropsType = {
 
 const ProjectInfo = ({ project }: PropsType) => {
   const { document: user } = useUserData();
+  // TODO get all request docs
   const { applyToProject, cancelRequest } = useRequests();
 
   const onProject = useMemo(() => {
