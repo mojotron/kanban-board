@@ -17,6 +17,7 @@ const ProjectDetails = () => {
     pending,
     error,
   } = useOnSnapshotDocument<ProjectWithId>('projects', projectId);
+
   const navigate = useNavigate();
 
   return (

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { firebaseFirestore } from '../firebase/config';
+import { set } from 'firebase/database';
 
 export const useCollectDocs = <T,>(
   docsIdList: undefined | string[],
@@ -12,7 +13,9 @@ export const useCollectDocs = <T,>(
   const [isCancelled, setIsCanceled] = useState(false);
 
   useEffect(() => {
-    if (docsIdList === undefined) return;
+    if (docsIdList === undefined) {
+      return;
+    }
 
     const getDocuments = async () => {
       try {

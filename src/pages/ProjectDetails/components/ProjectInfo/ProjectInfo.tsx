@@ -5,9 +5,8 @@ import { useUserData } from '../../../../context/UserDataContext';
 import { ProjectWithId } from '../../../../types/projectType';
 import { formatLocalDate } from '../../../../utils/formatTime';
 import styles from './ProjectInfo.module.css';
-import { useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { useRequests } from '../../../../features/Requests/hooks/useRequests';
-import { useCollectDocs } from '../../../../hooks/useCollectDocs';
 import { RequestTypeWithId } from '../../../../features/Requests/types/requestType';
 
 type PropsType = {
@@ -19,29 +18,24 @@ const ProjectInfo = ({ project }: PropsType) => {
 
   const { document: user } = useUserData();
   // TODO get all request docs
-  const { documents: requestDocs } = useCollectDocs<RequestTypeWithId>(
-    project.requests,
-    'requests'
-  );
-  const { applyToProject, cancelRequest } = useRequests(); // TODO FIX HERE
 
-  console.log(requestDocs);
+  const { applyToProject, cancelRequest, hasRequest } = useRequests();
+
+  const request = project.requests.length > 0;
+  console.log(request);
 
   const onProject = useMemo(() => {
     if (!user) return false;
     return (
       project.adminUid === user?.uid || project.members.includes(user?.uid)
     );
-  }, [user, project, requestDocs]);
+  }, [user, project]);
 
-  const hasRequest = useMemo(() => {
-    if (!user) return undefined;
-    console.log('hmm');
-
-    return requestDocs?.find((ele) => ele.userId === user.uid)?.id;
-  }, [user, project, requestDocs]);
-
-  console.log(hasRequest);
+  useEffect(() => {
+    console.log('EFFECT >>>');
+    hasRequest(project.id).then((res) => console.log('[HERE]', res));
+    console.log('EFFECT <<<');
+  }, [project]);
 
   return (
     <header className={styles.header}>
@@ -63,7 +57,7 @@ const ProjectInfo = ({ project }: PropsType) => {
             {formatLocalDate(new Date(project.createdAt.seconds * 1000))}
           </p>
         </div>
-        {!project.public && !onProject && hasRequest === undefined && (
+        {!project.public && !onProject && !request && (
           <Button
             handleClick={() => applyToProject(project.id)}
             className={`${styles.btn} ${styles.btnJoin}`}
@@ -74,9 +68,9 @@ const ProjectInfo = ({ project }: PropsType) => {
         {onProject && (
           <Link to={`/dashboard/${project.id}`}>Go to Dashboard</Link>
         )}
-        {hasRequest !== undefined && !onProject && (
+        {request && !onProject && (
           <Button
-            handleClick={() => cancelRequest(project.id, hasRequest)}
+            handleClick={() => cancelRequest(project.id, project.requests[0])}
             className={`${styles.btn} ${styles.btnCancel}`}
           >
             Cancel Request
