@@ -1,4 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
+import { RequestType } from './requestType';
 
 export type ProjectType = {
   adminUid: string;
@@ -10,7 +11,7 @@ export type ProjectType = {
   members: string[];
   messages: string[];
   createdAt: Timestamp;
-  requests: string[];
+  requests: RequestType[];
   public: boolean;
   finished: boolean;
 };

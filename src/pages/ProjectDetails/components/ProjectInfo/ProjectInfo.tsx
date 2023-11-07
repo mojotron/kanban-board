@@ -5,24 +5,18 @@ import { useUserData } from '../../../../context/UserDataContext';
 import { ProjectWithId } from '../../../../types/projectType';
 import { formatLocalDate } from '../../../../utils/formatTime';
 import styles from './ProjectInfo.module.css';
-import { useEffect, useState, useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { useRequests } from '../../../../features/Requests/hooks/useRequests';
-import { RequestTypeWithId } from '../../../../features/Requests/types/requestType';
 
 type PropsType = {
   project: ProjectWithId;
 };
 
 const ProjectInfo = ({ project }: PropsType) => {
-  console.log(project.requests);
-
   const { document: user } = useUserData();
   // TODO get all request docs
 
-  const { applyToProject, cancelRequest, hasRequest } = useRequests();
-
-  const request = project.requests.length > 0;
-  console.log(request);
+  const { applyToProject, cancelRequest } = useRequests();
 
   const onProject = useMemo(() => {
     if (!user) return false;
@@ -31,11 +25,10 @@ const ProjectInfo = ({ project }: PropsType) => {
     );
   }, [user, project]);
 
-  useEffect(() => {
-    console.log('EFFECT >>>');
-    hasRequest(project.id).then((res) => console.log('[HERE]', res));
-    console.log('EFFECT <<<');
-  }, [project]);
+  const hasRequest = useMemo(() => {
+    if (!user) return false;
+    return project.requests.find((request) => request.userId === user.uid);
+  }, [user, project]);
 
   return (
     <header className={styles.header}>
@@ -57,7 +50,7 @@ const ProjectInfo = ({ project }: PropsType) => {
             {formatLocalDate(new Date(project.createdAt.seconds * 1000))}
           </p>
         </div>
-        {!project.public && !onProject && !request && (
+        {!project.public && !onProject && !hasRequest && (
           <Button
             handleClick={() => applyToProject(project.id)}
             className={`${styles.btn} ${styles.btnJoin}`}
@@ -68,9 +61,9 @@ const ProjectInfo = ({ project }: PropsType) => {
         {onProject && (
           <Link to={`/dashboard/${project.id}`}>Go to Dashboard</Link>
         )}
-        {request && !onProject && (
+        {hasRequest && !onProject && (
           <Button
-            handleClick={() => cancelRequest(project.id, project.requests[0])}
+            handleClick={() => cancelRequest(project.id)}
             className={`${styles.btn} ${styles.btnCancel}`}
           >
             Cancel Request

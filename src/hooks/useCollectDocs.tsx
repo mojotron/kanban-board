@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { firebaseFirestore } from '../firebase/config';
-import { set } from 'firebase/database';
 
 export const useCollectDocs = <T,>(
   docsIdList: undefined | string[],

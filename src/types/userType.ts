@@ -1,4 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
+import { RequestType } from './requestType';
 
 export type UserType = {
   uid: string;
@@ -13,7 +14,7 @@ export type UserType = {
   lastLoggedOut: Timestamp;
   createdAt: Timestamp;
   notifications: string[];
-  appliedRequests: string[];
+  appliedRequests: RequestType[];
 };
 
 export type UserWithId = UserType & { id: string };

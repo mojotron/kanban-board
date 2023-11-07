@@ -5,5 +5,3 @@ export type RequestType = {
   projectId: string;
   createdAt: Timestamp;
 };
-
-export type RequestTypeWithId = RequestType & { id: string };

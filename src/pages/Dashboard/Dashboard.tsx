@@ -14,6 +14,7 @@ import { TeamProvider } from '../../context/TeamContext';
 import { useMemo, useState } from 'react';
 import { MenuOptionType } from '../../types/menuOption';
 import { useNavigate, useParams } from 'react-router-dom';
+import Requests from '../../features/Requests/ui/Requests';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -65,12 +66,12 @@ const Dashboard = () => {
         {openEditProject && (
           <EditProject onClose={() => setOpenEditProject(false)} />
         )}
-
         <ProjectMenu menuOptions={menuOptions} />
         <Tasks />
         <TeamMembers />
         <ProjectMessages />
         <Description />
+        <Requests />
       </TeamProvider>
     </main>
   );
