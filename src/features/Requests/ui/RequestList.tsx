@@ -1,20 +1,11 @@
-import { useCollectDocs } from '../../../hooks/useCollectDocs';
-import { RequestType } from '../../../types/requestType';
+import { ReactNode } from 'react';
 
 type PropsType = {
-  requests: RequestType[];
-  type: 'users' | 'projects';
+  children: ReactNode;
 };
 
-const RequestList = ({ requests, type }: PropsType) => {
-  const {} = useCollectDocs();
-  return (
-    <div>
-      {requests.map((ele) => (
-        <p>{ele.userId}</p>
-      ))}
-    </div>
-  );
+const RequestList = ({ children }: PropsType) => {
+  return <ul>{children}</ul>;
 };
 
 export default RequestList;

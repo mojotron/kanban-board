@@ -71,7 +71,7 @@ const Dashboard = () => {
         <TeamMembers />
         <ProjectMessages />
         <Description />
-        <Requests />
+        <Requests option="users" />
       </TeamProvider>
     </main>
   );
