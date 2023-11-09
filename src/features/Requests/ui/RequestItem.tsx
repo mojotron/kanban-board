@@ -25,12 +25,7 @@ const RequestItem = ({ request, option }: PropsType) => {
   }
 
   if (option === 'users') {
-    return (
-      <RequestUserItem
-        data={data as UserWithId}
-        timestamp={request.createdAt}
-      />
-    );
+    return <RequestUserItem data={data as UserWithId} request={request} />;
   }
 };
 

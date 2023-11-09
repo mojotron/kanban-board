@@ -1,6 +1,6 @@
 .description {
   grid-column: 1 / 4;
-  grid-row: 1 / 4;
+  grid-row: 1 / 3;
 }
 .descriptionTitle {
   font-size: 3.052rem;

@@ -3,10 +3,11 @@ import { formatTime } from '../../utils/formatTime';
 
 type PropsType = {
   time: Timestamp;
+  className?: string;
 };
 
-const TimestampPoint = ({ time }: PropsType) => {
-  return <div>{formatTime(time.seconds * 1000)}</div>;
+const TimestampPoint = ({ time, className = '' }: PropsType) => {
+  return <span className={className}>{formatTime(time.seconds * 1000)}</span>;
 };
 
 export default TimestampPoint;

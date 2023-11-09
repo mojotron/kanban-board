@@ -4,6 +4,7 @@ export type NotificationOptionType =
   | 'project-accept'
   | 'project-reject'
   | 'project-leave';
+
 type NotificationUserType = {
   userName: string;
   docId: string;

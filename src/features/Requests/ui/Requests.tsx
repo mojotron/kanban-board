@@ -3,9 +3,17 @@ import { RequestOption } from '../../../types/requestType';
 import RequestItem from './RequestItem';
 import RequestList from './RequestList';
 
-type PropsType = { className?: string; option: RequestOption };
+type PropsType = {
+  option: RequestOption;
+  title?: string;
+  className?: string;
+};
 
-const Requests = ({ className = '', option }: PropsType) => {
+const Requests = ({
+  option,
+  title = 'New Requests',
+  className = '',
+}: PropsType) => {
   const { project } = useProject();
 
   if (!project) return;
@@ -13,7 +21,7 @@ const Requests = ({ className = '', option }: PropsType) => {
 
   return (
     <section className={className}>
-      <h2>New Requests</h2>
+      <h2>{title}</h2>
       <RequestList>
         {project.requests.map((request, i) => (
           <RequestItem key={i} request={request} option={option} />

@@ -9,3 +9,10 @@
   overflow-y: scroll;
   padding: 1rem;
 }
+/* PROJECT REQUESTS*/
+.requests {
+  padding-top: 2rem;
+  grid-column: 1 / 4;
+  grid-row: 3 / 6;
+  width: 100%;
+}

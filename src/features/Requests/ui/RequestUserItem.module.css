@@ -1,6 +1,38 @@
 .item {
-  border: 1px solid red;
-}
-.itemUser {
+  padding: 1rem;
+  border: 1px solid var(--COLOR-GRAY-200);
+  background-color: var(--COLOR-GRAY-600);
+  border-radius: var(--BORDER-RADIUS);
   display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.itemControls {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.itemBtn {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+.green {
+  color: var(--COLOR-GREEN-400);
+}
+.red {
+  color: var(--COLOR-RED-400);
+}
+.green:hover,
+.red:hover {
+  color: var(--COLOR-GRAY-200);
+}
+.timestamp {
+  opacity: 0.65;
 }
