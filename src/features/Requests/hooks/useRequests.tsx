@@ -5,6 +5,7 @@ import { ProjectWithId } from '../../../types/projectType';
 import { RequestType } from '../../../types/requestType';
 import { Timestamp } from 'firebase/firestore';
 import { useCreateNotification } from '../../Notifications/hooks/useCreateNotification';
+import { UserWithId } from '../../../types/userType';
 
 export const useRequests = (): {
   applyToProject: (projectId: string) => void;
@@ -80,21 +81,22 @@ export const useRequests = (): {
   );
 
   const acceptUser = useCallback(async (projectId: string, userId: string) => {
-    if (!user) return;
     try {
       // add user to project and remove request from project
       const projectDoc = await getDocument<ProjectWithId>(
         'projects',
         projectId
       );
-      if (!projectDoc) return;
+      const userDoc = await getDocument<UserWithId>('users', userId);
+
+      if (!projectDoc || !userDoc) return;
       const members = [...projectDoc.members, userId];
       const requests = projectDoc.requests.filter(
         (req) => req.projectId !== projectId && req.userId !== userId
       );
       await updateDocument('projects', projectId, { members, requests });
       // remove request from user
-      const appliedRequests = user.appliedRequests.filter(
+      const appliedRequests = userDoc.appliedRequests.filter(
         (req) => req.projectId !== projectId && req.userId !== userId
       );
       await updateDocument('users', userId, { appliedRequests });
@@ -104,9 +106,9 @@ export const useRequests = (): {
         isOpened: false,
         type: 'project-accept',
         user: {
-          userName: user.userName,
-          docId: user.uid,
-          imageUrl: user.photoUrl,
+          userName: userDoc.userName,
+          docId: userDoc.uid,
+          imageUrl: userDoc.photoUrl,
         },
         project: { name: projectDoc.name, docId: projectId },
       });
@@ -119,9 +121,33 @@ export const useRequests = (): {
 
   const rejectUser = useCallback(async (projectId: string, userId: string) => {
     try {
-      // add notification to user
+      const projectDoc = await getDocument<ProjectWithId>(
+        'projects',
+        projectId
+      );
+      const userDoc = await getDocument<UserWithId>('users', userId);
+
+      if (!projectDoc || !userDoc) return;
+      const requests = projectDoc.requests.filter(
+        (req) => req.projectId !== projectId && req.userId !== userId
+      );
+      await updateDocument('projects', projectId, { requests });
       // remove request from user
-      // remove request from project
+      const appliedRequests = userDoc.appliedRequests.filter(
+        (req) => req.projectId !== projectId && req.userId !== userId
+      );
+      await updateDocument('users', userId, { appliedRequests });
+      create(userId, {
+        createdAt: Timestamp.fromDate(new Date()),
+        isOpened: false,
+        type: 'project-reject',
+        user: {
+          userName: userDoc.userName,
+          docId: userDoc.uid,
+          imageUrl: userDoc.photoUrl,
+        },
+        project: { name: projectDoc.name, docId: projectId },
+      });
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
