@@ -4,7 +4,6 @@ import { useUserData } from '../../../context/UserDataContext';
 import { ProjectWithId } from '../../../types/projectType';
 import { RequestType } from '../../../types/requestType';
 import { Timestamp } from 'firebase/firestore';
-import { useCreateNotification } from '../../Notifications/hooks/useCreateNotification';
 import { UserWithId } from '../../../types/userType';
 
 export const useRequests = (): {
@@ -14,7 +13,6 @@ export const useRequests = (): {
   rejectUser: (projectId: string, userId: string) => void;
 } => {
   const { updateDocument, getDocument } = useFirestore();
-  const { create } = useCreateNotification();
   const { document: user } = useUserData();
 
   const applyToProject = useCallback(
@@ -100,18 +98,6 @@ export const useRequests = (): {
         (req) => req.projectId !== projectId && req.userId !== userId
       );
       await updateDocument('users', userId, { appliedRequests });
-      // add notification to user
-      create(userId, {
-        createdAt: Timestamp.fromDate(new Date()),
-        isOpened: false,
-        type: 'project-accept',
-        user: {
-          userName: userDoc.userName,
-          docId: userDoc.uid,
-          imageUrl: userDoc.photoUrl,
-        },
-        project: { name: projectDoc.name, docId: projectId },
-      });
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);

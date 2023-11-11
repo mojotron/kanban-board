@@ -21,7 +21,12 @@ export const useCollectDocsSnapshot = <T,>(
   const [documents, setDocuments] = useState<undefined | T[]>(undefined);
 
   useEffect(() => {
-    if (!tasksIdList || tasksIdList.length < 1) return;
+    if (!tasksIdList || tasksIdList.length < 1) {
+      setDocuments(undefined);
+      setError(null);
+      setPending(false);
+      return;
+    }
     let isCancelled = false;
     let unsubscribe: Unsubscribe;
 

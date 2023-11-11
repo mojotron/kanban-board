@@ -1,62 +1,31 @@
 import { useState } from 'react';
-import { useNotifications } from './hooks/useNotifications';
+
 import NotificationsButton from './components/NotificationButton/NotificationsButton';
 import NotificationsList from './components/NotificationList/NotificationsList';
-import { NotificationTypeWithId } from './types/typesNotifications';
-import { Timestamp } from 'firebase/firestore';
+import { useGetNotifications } from './hooks/useGetNotifications';
 
-const Notifications = () => {
-  const { notifications, newNotificationCount } = useNotifications();
-
-  const tempNotifications: NotificationTypeWithId[] = [
-    {
-      id: 'a',
-      createdAt: Timestamp.fromDate(new Date()),
-      isOpened: false,
-      type: 'project-accept',
-      user: {
-        userName: 'mojotron',
-        docId: '3FH1RTMNasZ2ssaxeSZSdevj6u22',
-        imageUrl: 'https://avatars.githubusercontent.com/u/26403607?v=4',
-      },
-      project: { name: 'new project', docId: 'sOhrd3oScWpTZSKr6ES3' },
-    },
-    {
-      id: 'b',
-      createdAt: Timestamp.fromDate(new Date()),
-      isOpened: false,
-      type: 'project-reject',
-      user: {
-        userName: 'mojotron',
-        docId: '3FH1RTMNasZ2ssaxeSZSdevj6u22',
-        imageUrl: 'https://avatars.githubusercontent.com/u/26403607?v=4',
-      },
-      project: { name: 'new project', docId: 'sOhrd3oScWpTZSKr6ES3' },
-    },
-    {
-      id: 'c',
-      createdAt: Timestamp.fromDate(new Date()),
-      isOpened: false,
-      type: 'project-leave',
-      user: {
-        userName: 'mojotron',
-        docId: '3FH1RTMNasZ2ssaxeSZSdevj6u22',
-        imageUrl: 'https://avatars.githubusercontent.com/u/26403607?v=4',
-      },
-      project: { name: 'new project', docId: 'sOhrd3oScWpTZSKr6ES3' },
-    },
-  ];
-
+const Notifications = ({
+  notificationList,
+}: {
+  notificationList: string[] | undefined;
+}) => {
+  const { notification } = useGetNotifications(notificationList);
   const [isOpen, setIsOpen] = useState(false);
+
+  if (!notification) return null;
+
+  const numberOfOpenNotifications = notification.filter(
+    (notification) => notification.isOpened === false
+  ).length;
 
   return (
     <div>
       <NotificationsButton
-        newNotificationsCount={newNotificationCount}
+        newNotificationsCount={numberOfOpenNotifications}
         isOpen={isOpen}
         toggleOpen={setIsOpen}
       />
-      {isOpen && <NotificationsList notifications={tempNotifications ?? []} />}
+      {isOpen && <NotificationsList notifications={notification} />}
     </div>
   );
 };

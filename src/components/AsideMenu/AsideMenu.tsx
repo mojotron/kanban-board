@@ -42,6 +42,8 @@ const AsideMenu = () => {
     ];
   }, []);
 
+  if (!user) return null;
+
   return (
     <aside
       className={styles.asideMenu}
@@ -61,7 +63,7 @@ const AsideMenu = () => {
       {showAside && (
         <menu className={styles.menu}>
           <Logo />
-          <Notifications />
+          <Notifications notificationList={user.notifications} />
           <MenuList buttons={buttons} />
           <CopyRight />
         </menu>

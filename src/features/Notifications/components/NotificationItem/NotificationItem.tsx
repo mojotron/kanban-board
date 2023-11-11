@@ -9,15 +9,20 @@ import styles from './NotificationItem.module.css';
 import { AiFillDelete as IconDelete } from 'react-icons/ai';
 import Button from '../../../../components/Button/Button';
 import { useUserData } from '../../../../context/UserDataContext';
+import { useNotification } from '../../hooks/useNotification';
 
 const getText = (option: NotificationOptionType) => {
   switch (option) {
-    case 'project-accept':
+    case 'project/accept-user':
       return 'accepted your request to join';
-    case 'project-reject':
+    case 'project/reject-user':
       return 'rejected your request to join';
-    case 'project-leave':
+    case 'project/leave':
       return 'has left';
+    case 'project/send-request':
+      return 'requested to join';
+    case 'project/cancel-request':
+      return 'canceled request to join';
   }
 };
 
@@ -27,6 +32,7 @@ type PropsType = {
 
 const NotificationItem = ({ notification }: PropsType) => {
   const { document: user } = useUserData();
+  const { deleteNotification } = useNotification();
 
   const getLinkDestination = () => {
     if (!user) return '';
@@ -41,6 +47,8 @@ const NotificationItem = ({ notification }: PropsType) => {
       return `/project/${projectId}`;
     }
   };
+
+  if (!user) return null;
 
   return (
     <li className={styles.notification}>
@@ -66,7 +74,10 @@ const NotificationItem = ({ notification }: PropsType) => {
         {formatTime(notification.createdAt.seconds * 1000)}
       </p>
 
-      <Button handleClick={() => {}} className={styles.notificationBtnDelete}>
+      <Button
+        handleClick={() => deleteNotification(notification.id, user.uid)}
+        className={styles.notificationBtnDelete}
+      >
         <IconDelete />
       </Button>
     </li>

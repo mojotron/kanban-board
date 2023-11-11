@@ -7,6 +7,7 @@ import { formatLocalDate } from '../../../../utils/formatTime';
 import styles from './ProjectInfo.module.css';
 import { useMemo } from 'react';
 import { useRequests } from '../../../../features/Requests/hooks/useRequests';
+import { useNotification } from '../../../../features/Notifications/hooks/useNotification';
 
 type PropsType = {
   project: ProjectWithId;
@@ -17,6 +18,29 @@ const ProjectInfo = ({ project }: PropsType) => {
   // TODO get all request docs
 
   const { applyToProject, cancelRequest } = useRequests();
+  const { createNotification } = useNotification();
+
+  const handleApply = () => {
+    if (!user) return;
+    applyToProject(project.id);
+    createNotification(
+      user?.uid,
+      'project/send-request',
+      { name: project.name, docId: project.id },
+      { userName: user.userName, docId: user.uid, imageUrl: user.photoUrl }
+    );
+  };
+
+  const handleCancel = () => {
+    if (!user) return;
+    cancelRequest(project.id);
+    createNotification(
+      user?.uid,
+      'project/cancel-request',
+      { name: project.name, docId: project.id },
+      { userName: user.userName, docId: user.uid, imageUrl: user.photoUrl }
+    );
+  };
 
   const onProject = useMemo(() => {
     if (!user) return false;
@@ -52,7 +76,7 @@ const ProjectInfo = ({ project }: PropsType) => {
         </div>
         {!project.public && !onProject && !hasRequest && (
           <Button
-            handleClick={() => applyToProject(project.id)}
+            handleClick={() => handleApply()}
             className={`${styles.btn} ${styles.btnJoin}`}
           >
             Request join
@@ -63,7 +87,7 @@ const ProjectInfo = ({ project }: PropsType) => {
         )}
         {hasRequest && !onProject && (
           <Button
-            handleClick={() => cancelRequest(project.id)}
+            handleClick={() => handleCancel()}
             className={`${styles.btn} ${styles.btnCancel}`}
           >
             Cancel Request
