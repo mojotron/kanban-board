@@ -75,35 +75,38 @@ export const useRequests = (): {
         }
       }
     },
-    [user]
+    [user, getDocument, updateDocument]
   );
 
-  const acceptUser = useCallback(async (projectId: string, userId: string) => {
-    try {
-      // add user to project and remove request from project
-      const projectDoc = await getDocument<ProjectWithId>(
-        'projects',
-        projectId
-      );
-      const userDoc = await getDocument<UserWithId>('users', userId);
+  const acceptUser = useCallback(
+    async (projectId: string, userId: string) => {
+      try {
+        // add user to project and remove request from project
+        const projectDoc = await getDocument<ProjectWithId>(
+          'projects',
+          projectId
+        );
+        const userDoc = await getDocument<UserWithId>('users', userId);
 
-      if (!projectDoc || !userDoc) return;
-      const members = [...projectDoc.members, userId];
-      const requests = projectDoc.requests.filter(
-        (req) => req.projectId !== projectId && req.userId !== userId
-      );
-      await updateDocument('projects', projectId, { members, requests });
-      // remove request from user
-      const appliedRequests = userDoc.appliedRequests.filter(
-        (req) => req.projectId !== projectId && req.userId !== userId
-      );
-      await updateDocument('users', userId, { appliedRequests });
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
+        if (!projectDoc || !userDoc) return;
+        const members = [...projectDoc.members, userId];
+        const requests = projectDoc.requests.filter(
+          (req) => req.projectId !== projectId && req.userId !== userId
+        );
+        await updateDocument('projects', projectId, { members, requests });
+        // remove request from user
+        const appliedRequests = userDoc.appliedRequests.filter(
+          (req) => req.projectId !== projectId && req.userId !== userId
+        );
+        await updateDocument('users', userId, { appliedRequests });
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log(error.message);
+        }
       }
-    }
-  }, []);
+    },
+    [getDocument, updateDocument]
+  );
 
   const rejectUser = useCallback(async (projectId: string, userId: string) => {
     try {
@@ -123,17 +126,6 @@ export const useRequests = (): {
         (req) => req.projectId !== projectId && req.userId !== userId
       );
       await updateDocument('users', userId, { appliedRequests });
-      create(userId, {
-        createdAt: Timestamp.fromDate(new Date()),
-        isOpened: false,
-        type: 'project-reject',
-        user: {
-          userName: userDoc.userName,
-          docId: userDoc.uid,
-          imageUrl: userDoc.photoUrl,
-        },
-        project: { name: projectDoc.name, docId: projectId },
-      });
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);

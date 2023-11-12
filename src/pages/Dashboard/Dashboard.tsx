@@ -71,7 +71,7 @@ const Dashboard = () => {
         <TeamMembers />
         <ProjectMessages />
         <Description />
-        <Requests option="users" className={styles.requests} />
+        <Requests className={styles.requests} />
       </TeamProvider>
     </main>
   );
