@@ -12,13 +12,14 @@ import styles from './EditProject.module.css';
 // constants
 import { TEXT_LENGTHS } from '../../../../constants/textLengths';
 import ModalCloseBtn from '../../../../components/ModalCloseBtn/ModalCloseBtn';
+import LeaveProject from './LeaveProject';
 
 type PropsType = {
   onClose: () => void;
 };
 const EditProject = ({ onClose }: PropsType) => {
   useCloseOnEscape(onClose);
-  const { project, updateProjectField, isAdmin } = useProject();
+  const { project, updateProjectField, isAdmin, isMember } = useProject();
   const { getMember } = useTeam();
 
   if (!project) return null;
@@ -61,8 +62,10 @@ const EditProject = ({ onClose }: PropsType) => {
           </div>
 
           <div className={styles.headerRight}>
-            {isAdmin && <AdminControls />}
+            {/* {isAdmin && <AdminControls />} */}
+            {isMember && <LeaveProject />}
             {adminData && <AdminAvatar type={'adminObject'} data={adminData} />}
+            {/* LEAVE PROJECT */}
           </div>
         </header>
 

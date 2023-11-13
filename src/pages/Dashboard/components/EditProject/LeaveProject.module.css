@@ -1,0 +1,19 @@
+.btn {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: bold;
+  color: var(--COLOR-GRAY-300);
+  border: 1px solid var(--COLOR-GRAY-300);
+  padding: 0.5rem 2rem;
+  border-radius: var(--BORDER-RADIUS);
+  margin-bottom: auto;
+}
+.btnRed {
+  color: var(--COLOR-RED-400);
+  border: 1px solid var(--COLOR-RED-400);
+}
+.btnGreen:hover {
+  color: var(--COLOR-GRAY-800);
+  background-color: var(--COLOR-GREEN-400);
+}

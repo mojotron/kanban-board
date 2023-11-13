@@ -21,6 +21,7 @@ const useProjectSource = (): {
   projectErr: null | string;
   projectPending: boolean;
   isAdmin: boolean;
+  isMember: boolean;
   updateProjectField: <K extends keyof ProjectType>(
     field: K,
     value: ProjectType[K]
@@ -77,6 +78,11 @@ const useProjectSource = (): {
 
   const isAdmin = useMemo(() => {
     return user?.uid === project?.adminUid;
+  }, [user, project]);
+
+  const isMember = useMemo(() => {
+    if (!project || !user) return false;
+    return project?.members.includes(user.uid);
   }, [user, project]);
 
   const {
@@ -259,6 +265,7 @@ const useProjectSource = (): {
     projectErr,
     projectPending,
     isAdmin,
+    isMember,
     updateProjectField,
     deleteProject,
     finishProject,
