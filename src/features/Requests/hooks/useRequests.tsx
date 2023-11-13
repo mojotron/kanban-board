@@ -43,7 +43,7 @@ export const useRequests = (): {
         }
       }
     },
-    [user]
+    [user, getDocument, updateDocument]
   );
 
   const cancelRequest = useCallback(
@@ -80,15 +80,19 @@ export const useRequests = (): {
 
   const acceptUser = useCallback(
     async (projectId: string, userId: string) => {
+      console.log(projectId);
+
       try {
         // add user to project and remove request from project
         const projectDoc = await getDocument<ProjectWithId>(
           'projects',
           projectId
         );
+        console.log(projectDoc);
+        if (!projectDoc) return;
         const userDoc = await getDocument<UserWithId>('users', userId);
-
-        if (!projectDoc || !userDoc) return;
+        if (!userDoc) return;
+        console.log(userDoc);
         const members = [...projectDoc.members, userId];
         const requests = projectDoc.requests.filter(
           (req) => req.projectId !== projectId && req.userId !== userId
@@ -98,7 +102,15 @@ export const useRequests = (): {
         const appliedRequests = userDoc.appliedRequests.filter(
           (req) => req.projectId !== projectId && req.userId !== userId
         );
-        await updateDocument('users', userId, { appliedRequests });
+        // add project to collaboratingProjects
+        const collaboratingProjects = [
+          ...userDoc.collaboratingProjects,
+          projectDoc.id,
+        ];
+        await updateDocument('users', userId, {
+          appliedRequests,
+          collaboratingProjects,
+        });
       } catch (error) {
         if (error instanceof Error) {
           console.log(error.message);
@@ -114,9 +126,9 @@ export const useRequests = (): {
         'projects',
         projectId
       );
+      if (!projectDoc) return;
       const userDoc = await getDocument<UserWithId>('users', userId);
-
-      if (!projectDoc || !userDoc) return;
+      if (!userDoc) return;
       const requests = projectDoc.requests.filter(
         (req) => req.projectId !== projectId && req.userId !== userId
       );

@@ -21,15 +21,31 @@ type PropsType = {
 
 const RequestItem = ({ request }: PropsType) => {
   const { data, pending, error } = useGetRequest(request.userId);
-  const {} = useProject();
+  const { project } = useProject();
 
   const { acceptUser, rejectUser } = useRequests();
   const { createNotification } = useNotification();
 
   const handleAcceptUser = async () => {
-    if (!data) return;
+    if (!data || !project) return;
     acceptUser(request.projectId, request.userId);
-    createNotification(data.uid, 'project/accept-user', {}, {});
+    createNotification(
+      data.uid,
+      'project/accept-user',
+      { name: project.name, docId: project.id },
+      { userName: data.userName, docId: data.id, imageUrl: data.photoUrl }
+    );
+  };
+
+  const handleRejectUser = async () => {
+    if (!data || !project) return;
+    rejectUser(request.projectId, request.userId);
+    createNotification(
+      data.uid,
+      'project/reject-user',
+      { name: project.name, docId: project.id },
+      { userName: data.userName, docId: data.id, imageUrl: data.photoUrl }
+    );
   };
 
   if (error) return <li>Request encountered problem!</li>;
@@ -45,10 +61,10 @@ const RequestItem = ({ request }: PropsType) => {
       </div>
 
       <div className={styles.itemControls}>
-        <Button handleClick={() => {}} className={styles.itemBtn}>
+        <Button handleClick={handleAcceptUser} className={styles.itemBtn}>
           <IconAccept className={styles.green} size={18} />
         </Button>
-        <Button handleClick={() => {}} className={styles.itemBtn}>
+        <Button handleClick={handleRejectUser} className={styles.itemBtn}>
           <IconReject className={styles.red} size={18} />
         </Button>
       </div>
