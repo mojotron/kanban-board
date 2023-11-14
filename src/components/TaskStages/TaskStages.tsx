@@ -6,6 +6,7 @@ import styles from './TaskStages.module.css';
 import { useUserData } from '../../context/UserDataContext';
 import { useProject } from '../../context/ProjectContext';
 import { useTeam } from '../../context/TeamContext';
+import { useNotification } from '../../features/Notifications/hooks/useNotification';
 
 type PropsType = {
   task: TaskWithId;
@@ -13,19 +14,27 @@ type PropsType = {
 
 const TaskStages = ({ task }: PropsType) => {
   const { document: user } = useUserData();
-  const { updateTaskField, finishTask } = useProject();
+  const { project, updateTaskField, finishTask } = useProject();
   const { getMember } = useTeam();
+  const { createNotification } = useNotification();
 
   const stage = task.stage;
   const isAdmin = user?.uid === task.adminUid;
   const isDeveloper = user?.uid === task.assignToUid;
 
   const handleFinishTask = () => {
+    if (!user || !project) return;
     if (!task.assignToUid) return;
     const developer = getMember(task.assignToUid);
     if (!developer) return;
     const tasksCompleted = developer.tasksCompleted;
     finishTask(task.id, developer.id, tasksCompleted + 1);
+    createNotification(
+      user.uid,
+      'task/completed',
+      { name: project.name, docId: project.id },
+      { userName: user.userName, docId: user.uid, imageUrl: user.photoUrl }
+    );
   };
 
   return (

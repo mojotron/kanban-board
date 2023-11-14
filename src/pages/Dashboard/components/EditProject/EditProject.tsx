@@ -62,10 +62,9 @@ const EditProject = ({ onClose }: PropsType) => {
           </div>
 
           <div className={styles.headerRight}>
-            {/* {isAdmin && <AdminControls />} */}
+            {isAdmin && <AdminControls />}
             {isMember && <LeaveProject />}
             {adminData && <AdminAvatar type={'adminObject'} data={adminData} />}
-            {/* LEAVE PROJECT */}
           </div>
         </header>
 

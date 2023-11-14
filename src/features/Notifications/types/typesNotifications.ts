@@ -7,7 +7,8 @@ export type NotificationOptionType =
   | 'project/send-request'
   | 'project/cancel-request'
   | 'project/completed'
-  | 'task/completed';
+  | 'task/completed'
+  | 'project/deleted';
 
 // START this is only to lower firebase reads, project or user can diff name/avatar
 // in notification and other places if user or project data is modified

@@ -5,16 +5,19 @@ import {
   useContext,
   useMemo,
 } from 'react';
+import { Timestamp } from 'firebase/firestore';
 import { useOnSnapshotDocument } from '../hooks/useOnSnapshotDocument';
 import { useFirestore } from '../hooks/useFirestore';
 import { useCollectDocsSnapshot } from '../hooks/useCollectDocsSnapshot';
 import { useParams, useNavigate } from 'react-router-dom';
 // types
-import { ProjectType, ProjectWithId } from '../types/projectType';
-import { AddNewTaskType, TaskType, TaskWithId } from '../types/taskType';
-import { Timestamp } from 'firebase/firestore';
+import type { ProjectType, ProjectWithId } from '../types/projectType';
+import type { AddNewTaskType, TaskType, TaskWithId } from '../types/taskType';
+import type { UserWithId } from '../types/userType';
+// context
 import { useUserData } from './UserDataContext';
-import { UserWithId } from '../types/userType';
+// constants
+import { TASK_STAGES_COLLABORATES } from '../constants/taskStages';
 
 const useProjectSource = (): {
   project: undefined | ProjectWithId;
@@ -48,6 +51,7 @@ const useProjectSource = (): {
   memberHasTask: (memberId: string) => boolean;
   firestorePending: boolean;
   firestoreError: null | string;
+  leaveProject: () => void;
 } => {
   const { document: user } = useUserData();
   const { projectId } = useParams();
@@ -260,6 +264,25 @@ const useProjectSource = (): {
     [tasks]
   );
 
+  const leaveProject = useCallback(async () => {
+    if (!user) return;
+    if (!project) return;
+    if (!tasks) return;
+    // unassign user from all development stage tasks
+    const assignTasks = tasks.filter((task) => task.assignToUid === user.uid);
+    assignTasks.forEach(async (task) => {
+      await unassignTask(task.id);
+    });
+    // remove project from users collaboratingProjects
+    const collaboratingProjects = user.collaboratingProjects.filter(
+      (projectId) => projectId !== project.id
+    );
+    await updateDocument('users', user.uid, { collaboratingProjects });
+    // remove user from project members
+    const members = project.members.filter((memberId) => memberId !== user.uid);
+    await updateDocument('projects', project.id, { members });
+  }, [user, project, tasks]);
+
   return {
     project,
     projectErr,
@@ -281,6 +304,7 @@ const useProjectSource = (): {
     memberHasTask,
     firestorePending,
     firestoreError,
+    leaveProject,
   };
 };
 

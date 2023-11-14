@@ -2,17 +2,33 @@ import styles from './LeaveProject.module.css';
 import Button from '../../../../components/Button/Button';
 import { useState } from 'react';
 import ConfirmPopup from '../../../../components/ConfirmPopup/ConfirmPopup';
+import { useProject } from '../../../../context/ProjectContext';
+import { useNotification } from '../../../../features/Notifications/hooks/useNotification';
+import { useUserData } from '../../../../context/UserDataContext';
 
 const LeaveProject = () => {
+  const { document: user } = useUserData();
+  const { project, leaveProject } = useProject();
+  const { createNotification } = useNotification();
   const [openLeavePopup, setLeavePopup] = useState(false);
 
+  const handleLeaveProject = () => {
+    if (!user || !project) return;
+    leaveProject();
+    createNotification(
+      user.uid,
+      'project/leave',
+      { name: project.name, docId: project.id },
+      { userName: user.userName, docId: user.uid, imageUrl: user.photoUrl }
+    );
+  };
   return (
     <>
       {openLeavePopup && (
         <ConfirmPopup
           message="Are you sure"
           onCancel={() => setLeavePopup(false)}
-          onConfirm={() => {}}
+          onConfirm={handleLeaveProject}
         />
       )}
       <Button
