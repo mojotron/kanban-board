@@ -15,12 +15,7 @@ const LeaveProject = () => {
   const handleLeaveProject = () => {
     if (!user || !project) return;
     leaveProject();
-    createNotification(
-      user.uid,
-      'project/leave',
-      { name: project.name, docId: project.id },
-      { userName: user.userName, docId: user.uid, imageUrl: user.photoUrl }
-    );
+    createNotification(user.uid, project.id, 'project/leave');
   };
   return (
     <>

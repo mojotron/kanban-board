@@ -3,8 +3,6 @@ import { useFirestore } from '../../../hooks/useFirestore';
 import {
   NotificationType,
   NotificationOptionType,
-  NotificationProjectType,
-  NotificationUserType,
 } from '../types/typesNotifications';
 import { UserWithId } from '../../../types/userType';
 import { Timestamp } from 'firebase/firestore';
@@ -12,9 +10,8 @@ import { Timestamp } from 'firebase/firestore';
 export const useNotification = (): {
   createNotification: (
     userId: string,
-    type: NotificationOptionType,
-    projectData: NotificationProjectType,
-    userData: NotificationUserType
+    projectId: string,
+    notificationOption: NotificationOptionType
   ) => void;
   deleteNotification: (notificationId: string, userId: string) => void;
   markOpenNotification: (notificationId: string) => void;
@@ -25,18 +22,17 @@ export const useNotification = (): {
   const createNotification = useCallback(
     async (
       userId: string,
-      type: NotificationOptionType,
-      projectData: NotificationProjectType,
-      userData: NotificationUserType
+      projectId: string,
+      notificationOption: NotificationOptionType
     ) => {
       // get user
       const userDoc = await getDocument<UserWithId>('users', userId);
       if (userDoc === undefined) return;
       // create notification
       const newNotification: NotificationType = {
-        type: type,
-        user: userData,
-        project: projectData,
+        type: notificationOption,
+        userId,
+        projectId,
         isOpened: false,
         createdAt: Timestamp.fromDate(new Date()),
       };

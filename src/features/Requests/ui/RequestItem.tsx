@@ -20,43 +20,33 @@ type PropsType = {
 };
 
 const RequestItem = ({ request }: PropsType) => {
-  const { data, pending, error } = useGetRequest(request.userId);
+  const { data: user, pending, error } = useGetRequest(request.userId);
   const { project } = useProject();
 
   const { acceptUser, rejectUser } = useRequests();
   const { createNotification } = useNotification();
 
   const handleAcceptUser = async () => {
-    if (!data || !project) return;
+    if (!user || !project) return;
     acceptUser(request.projectId, request.userId);
-    createNotification(
-      data.uid,
-      'project/accept-user',
-      { name: project.name, docId: project.id },
-      { userName: data.userName, docId: data.id, imageUrl: data.photoUrl }
-    );
+    createNotification(user.uid, project.id, 'project/accept-user');
   };
 
   const handleRejectUser = async () => {
-    if (!data || !project) return;
+    if (!user || !project) return;
     rejectUser(request.projectId, request.userId);
-    createNotification(
-      data.uid,
-      'project/reject-user',
-      { name: project.name, docId: project.id },
-      { userName: data.userName, docId: data.id, imageUrl: data.photoUrl }
-    );
+    createNotification(user.uid, project.id, 'project/reject-user');
   };
 
   if (error) return <li>Request encountered problem!</li>;
   if (pending) return <li>Loading request...</li>;
-  if (!data) return null;
+  if (!user) return null;
 
   return (
     <li className={styles.item}>
-      <Avatar imageUrl={data.photoUrl} userName={data.userName} size="25" />
+      <Avatar imageUrl={user.photoUrl} userName={user.userName} size="25" />
       <div className={styles.itemInfo}>
-        <h2>{data.userName}</h2>
+        <h2>{user.userName}</h2>
         <TimestampPoint time={request.createdAt} className={styles.timestamp} />
       </div>
 

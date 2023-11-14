@@ -23,23 +23,13 @@ const ProjectInfo = ({ project }: PropsType) => {
   const handleApply = () => {
     if (!user) return;
     applyToProject(project.id);
-    createNotification(
-      user?.uid,
-      'project/send-request',
-      { name: project.name, docId: project.id },
-      { userName: user.userName, docId: user.uid, imageUrl: user.photoUrl }
-    );
+    createNotification(user?.uid, project.id, 'project/send-request');
   };
 
   const handleCancel = () => {
     if (!user) return;
     cancelRequest(project.id);
-    createNotification(
-      user?.uid,
-      'project/cancel-request',
-      { name: project.name, docId: project.id },
-      { userName: user.userName, docId: user.uid, imageUrl: user.photoUrl }
-    );
+    createNotification(user?.uid, project.id, 'project/cancel-request');
   };
 
   const onProject = useMemo(() => {

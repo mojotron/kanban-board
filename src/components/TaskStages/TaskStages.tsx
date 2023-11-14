@@ -29,12 +29,7 @@ const TaskStages = ({ task }: PropsType) => {
     if (!developer) return;
     const tasksCompleted = developer.tasksCompleted;
     finishTask(task.id, developer.id, tasksCompleted + 1);
-    createNotification(
-      user.uid,
-      'task/completed',
-      { name: project.name, docId: project.id },
-      { userName: user.userName, docId: user.uid, imageUrl: user.photoUrl }
-    );
+    createNotification(user.uid, project.id, 'task/completed');
   };
 
   return (

@@ -10,6 +10,10 @@ import { AiFillDelete as IconDelete } from 'react-icons/ai';
 import Button from '../../../../components/Button/Button';
 import { useUserData } from '../../../../context/UserDataContext';
 import { useNotification } from '../../hooks/useNotification';
+import { useGetNotificationData } from '../../hooks/useGetNotificationData';
+import { UserWithId } from '../../../../types/userType';
+import { useProject } from '../../../../context/ProjectContext';
+import { ProjectWithId } from '../../../../types/projectType';
 
 const getText = (option: NotificationOptionType) => {
   switch (option) {
@@ -39,10 +43,18 @@ type PropsType = {
 const NotificationItem = ({ notification }: PropsType) => {
   const { document: user } = useUserData();
   const { deleteNotification } = useNotification();
+  const { data: requestUser } = useGetNotificationData<UserWithId>(
+    'users',
+    notification.userId
+  );
+  const { data: requestProject } = useGetNotificationData<ProjectWithId>(
+    'projects',
+    notification.projectId
+  );
 
   const getLinkDestination = () => {
     if (!user) return '';
-    const projectId = notification.project.docId;
+    const projectId = notification.projectId;
     const isCollaborating = [
       ...user.managingProjects,
       ...user.collaboratingProjects,
@@ -54,25 +66,25 @@ const NotificationItem = ({ notification }: PropsType) => {
     }
   };
 
-  if (!user) return null;
+  if (!user || !requestUser || !requestProject) return null;
 
   return (
     <li className={styles.notification}>
       <div className={styles.notificationWrapper}>
         <Link
-          to={`/${notification.user.docId}`}
+          to={`/${notification.userId}`}
           className={styles.notificationUser}
         >
           <Avatar
-            imageUrl={notification.user.imageUrl}
-            userName={notification.user.userName}
+            imageUrl={requestUser.photoUrl}
+            userName={requestUser.userName}
             size="25"
           />
-          <p>{notification.user.userName}</p>
+          <p>{requestUser.userName}</p>
         </Link>
         <span> {getText(notification.type)} </span>
         <Link to={getLinkDestination()} className={styles.notificationProject}>
-          {notification.project.name}
+          {requestProject.name}
         </Link>
       </div>
 
