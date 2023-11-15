@@ -2,11 +2,10 @@ import { ReactNode, useState } from 'react';
 
 type PropsType = {
   initialValue: string;
-  onAction: (text: string) => void;
   children: ReactNode;
 };
 
-const InputField = ({ children, initialValue, onAction }: PropsType) => {
+const InputField = ({ children, initialValue }: PropsType) => {
   const [text, setText] = useState(initialValue);
 
   return (

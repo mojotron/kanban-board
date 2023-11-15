@@ -10,7 +10,3 @@ export const USER_FILTERS: ['username', 'tasks', 'projects'] = [
   'tasks',
   'projects',
 ];
-
-const PROJECT_QUERIES = {
-  latest: null,
-};

@@ -72,6 +72,8 @@ const NewProjectForm = ({ onClose }: { onClose: () => void }) => {
     usernameRef?.current?.focus();
   }, []);
 
+  console.log('TODO', error, pending);
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('doc', document);

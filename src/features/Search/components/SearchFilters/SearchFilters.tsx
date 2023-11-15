@@ -25,6 +25,9 @@ const SearchFilters = <FilterType,>({
     console.log('hello');
   };
 
+  // TEMP
+  console.log(currentFilter);
+
   return (
     <form className={styles.searchForm} onSubmit={handleSubmit}>
       <div

@@ -182,8 +182,12 @@ export const useSearchProjectSource = (): {
     isInit.current = true;
   }, []);
 
-  const updateSearchTerm = (value: string) => {};
-  const updateFilter = (value: ProjectFilterTypes) => {};
+  const updateSearchTerm = (value: string) => {
+    console.log(value);
+  };
+  const updateFilter = (value: ProjectFilterTypes) => {
+    console.log(value);
+  };
 
   return {
     getNext,

@@ -1,17 +1,10 @@
 import './Login.css';
-import {
-  BsGithub,
-  BsCheckCircle,
-  BsArrowRepeat,
-  BsDashCircle,
-} from 'react-icons/bs';
+import { BsGithub } from 'react-icons/bs';
 import { useLogin } from '../../hooks/useLogin';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
   const { isPending, error, login } = useLogin();
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   return (

@@ -12,7 +12,6 @@ import { useUserData } from '../../../../context/UserDataContext';
 import { useNotification } from '../../hooks/useNotification';
 import { useGetNotificationData } from '../../hooks/useGetNotificationData';
 import { UserWithId } from '../../../../types/userType';
-import { useProject } from '../../../../context/ProjectContext';
 import { ProjectWithId } from '../../../../types/projectType';
 
 const getText = (option: NotificationOptionType) => {

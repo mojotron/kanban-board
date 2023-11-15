@@ -17,7 +17,6 @@ import type { UserWithId } from '../types/userType';
 // context
 import { useUserData } from './UserDataContext';
 // constants
-import { TASK_STAGES_COLLABORATES } from '../constants/taskStages';
 
 const useProjectSource = (): {
   project: undefined | ProjectWithId;

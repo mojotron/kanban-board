@@ -8,9 +8,6 @@ import {
   documentId,
 } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
-import { TaskType } from '../types/taskType';
-
-type Task = TaskType & { id: string };
 
 export const useCollectDocsSnapshot = <T,>(
   tasksIdList: string[] | undefined,
