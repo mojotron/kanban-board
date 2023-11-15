@@ -1,31 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import NotificationsButton from './components/NotificationButton/NotificationsButton';
 import NotificationsList from './components/NotificationList/NotificationsList';
 import { useGetNotifications } from './hooks/useGetNotifications';
+import { useNotification } from './hooks/useNotification';
 
 const Notifications = ({
   notificationList,
 }: {
   notificationList: string[] | undefined;
 }) => {
-  const { notification } = useGetNotifications(notificationList);
+  const { markOpenNotification } = useNotification();
+  const { notifications } = useGetNotifications(notificationList);
   const [isOpen, setIsOpen] = useState(false);
 
-  if (!notification) return null;
+  const newNotifications = useMemo(() => {
+    if (!notifications) return [];
+    return notifications.filter(
+      (notification) => notification.isOpened === false
+    );
+  }, [notifications]);
 
-  const numberOfOpenNotifications = notification.filter(
-    (notification) => notification.isOpened === false
-  ).length;
+  useEffect(() => {
+    if (notifications === undefined) return;
+    if (newNotifications.length < 1) return;
+    if (isOpen) {
+      markOpenNotification(newNotifications.map((n) => n.id));
+    }
+  }, [notifications, newNotifications]);
+
+  if (!notifications) return null;
 
   return (
     <div>
       <NotificationsButton
-        newNotificationsCount={numberOfOpenNotifications}
+        newNotificationsCount={newNotifications.length}
         isOpen={isOpen}
         toggleOpen={setIsOpen}
       />
-      {isOpen && <NotificationsList notifications={notification} />}
+      {isOpen && <NotificationsList notifications={notifications} />}
     </div>
   );
 };

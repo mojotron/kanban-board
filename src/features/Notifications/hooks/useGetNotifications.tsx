@@ -3,12 +3,12 @@ import { NotificationTypeWithId } from '../types/typesNotifications';
 
 export const useGetNotifications = (notificationList: string[] | undefined) => {
   const {
-    documents: notification,
+    documents: notifications,
     error,
     pending,
   } = useCollectDocsSnapshot<NotificationTypeWithId>(
     notificationList,
     'notifications'
   );
-  return { notification, error, pending };
+  return { notifications, error, pending };
 };

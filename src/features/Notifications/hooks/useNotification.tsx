@@ -13,8 +13,13 @@ export const useNotification = (): {
     projectId: string,
     notificationOption: NotificationOptionType
   ) => void;
+  createMultipleNotifications: (
+    userIdsList: string[],
+    projectId: string,
+    notificationOption: NotificationOptionType
+  ) => void;
   deleteNotification: (notificationId: string, userId: string) => void;
-  markOpenNotification: (notificationId: string) => void;
+  markOpenNotification: (notificationList: string[]) => void;
 } => {
   const { addDocument, updateDocument, getDocument, deleteDocument } =
     useFirestore();
@@ -68,8 +73,40 @@ export const useNotification = (): {
     [getDocument, updateDocument, deleteDocument]
   );
 
-  const markOpenNotification = useCallback(async (notificationId: string) => {},
-  []);
+  const markOpenNotification = useCallback(
+    async (notificationList: string[]) => {
+      await Promise.all(
+        notificationList.map(async (notificationDocId) => {
+          console.log(notificationDocId);
 
-  return { createNotification, deleteNotification, markOpenNotification };
+          await updateDocument('notifications', notificationDocId, {
+            isOpened: true,
+          });
+        })
+      );
+    },
+    []
+  );
+
+  const createMultipleNotifications = useCallback(
+    async (
+      userIdsList: string[],
+      projectId: string,
+      notificationOption: NotificationOptionType
+    ) => {
+      await Promise.all(
+        userIdsList.map(async (userId) => {
+          await createNotification(userId, projectId, notificationOption);
+        })
+      );
+    },
+    []
+  );
+
+  return {
+    createNotification,
+    deleteNotification,
+    markOpenNotification,
+    createMultipleNotifications,
+  };
 };
