@@ -10,7 +10,7 @@ const CopyRight = () => {
         target="_blank"
         rel="noreferrer noopener"
       >
-        &#64; Mojotron
+        &#64;Mojotron
       </a>
     </div>
   );

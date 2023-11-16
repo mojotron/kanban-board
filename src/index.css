@@ -324,3 +324,8 @@ body {
   );
   background-clip: text;
 }
+.flex-line-space {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -7,7 +7,7 @@ import {
 } from 'react-icons/ai';
 // components
 import Logo from '../Logo/Logo';
-import CopyRight from './CopyRight';
+import CopyRight from '../Copyright/CopyRight';
 import MenuList from './MenuList';
 import Button from '../Button/Button';
 import NewProjectForm from '../NewProjectForm/NewProjectForm';

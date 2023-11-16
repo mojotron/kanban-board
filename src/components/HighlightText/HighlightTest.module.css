@@ -1,0 +1,10 @@
+.highlight {
+  color: transparent;
+  background: linear-gradient(
+    45deg,
+    var(--COLOR-YELLOW-500),
+    var(--COLOR-GRAY-100),
+    var(--COLOR-YELLOW-300)
+  );
+  background-clip: text;
+}
