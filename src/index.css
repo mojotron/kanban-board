@@ -98,20 +98,24 @@ body {
   height: 100%;
   position: relative;
 }
+/* GENERAL BUTTON */
 .btn {
   cursor: pointer;
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
   border: none;
   background: none;
   padding: 0.5rem 1rem;
-  border: 3px solid var(--COLOR-BLUE-300);
+  border: 1px solid var(--COLOR-BLUE-300);
   background-color: var(--COLOR-BLUE-300);
   color: var(--PRIMARY-COLOR);
-  font-size: 1.6rem;
+  font-size: 1.25rem;
   transition: all 0.4s ease;
-  text-transform: uppercase;
-  font-weight: 500;
   border-radius: var(--BORDER-RADIUS);
+  font-weight: 500;
 }
 .btn:hover {
   color: var(--COLOR-BLUE-300);
