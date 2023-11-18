@@ -7,11 +7,11 @@
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--COLOR-GRAY-100);
-  /* transition: all 0.2s ease-out; */
+  transition: all 0.2s ease-in-out;
 }
 .btnDisplay {
   position: absolute;
-  right: 1rem;
+  right: 0.75rem;
   top: 1rem;
   border: none;
   background: none;
@@ -25,6 +25,31 @@
 .menu {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 2rem;
   height: 100%;
+}
+/* LIST */
+.list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ITEM */
+.item {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-transform: capitalize;
+  color: var(--COLOR-GRAY-200);
+  font-size: 1.6rem;
+  width: 100%;
+  padding: 0.5rem 0;
+  transition: all 0.3s ease;
+}
+.item:hover {
+  color: var(--COLOR-YELLOW-300);
+  background-color: var(--COLOR-GRAY-600);
 }

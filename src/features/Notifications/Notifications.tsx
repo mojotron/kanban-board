@@ -32,7 +32,7 @@ const Notifications = ({
   if (!notifications) return null;
 
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       <NotificationsButton
         newNotificationsCount={newNotifications.length}
         isOpen={isOpen}

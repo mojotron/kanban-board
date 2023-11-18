@@ -127,18 +127,20 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   cursor: pointer;
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  color: var(--COLOR-BLUE-300);
+  color: var(--COLOR-GRAY-200);
 }
 .btn--icon:hover {
-  color: var(--COLOR-RED-400);
+  color: var(--COLOR-YELLOW-400);
 }
-
+.btn--clear {
+  border: none;
+  background: none;
+  outline: none;
+  pointer-events: all;
+}
 .error {
   color: var(--COLOR-RED-500);
 }

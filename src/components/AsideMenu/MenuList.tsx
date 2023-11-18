@@ -1,25 +1,23 @@
-import Button from '../Button/Button';
-import styles from './MenuList.module.css';
-
-export type MenuItemType = {
-  text: string;
-  onClick: () => void;
-};
+// hooks
+import { useKanbanStore } from '../../store';
+// components
+import MenuItem from './MenuItem';
+// styles
+import styles from './AsideMenu.module.css';
+// types
+import type { MenuItemType } from './menuItemType';
 
 type PropsType = {
-  buttons: MenuItemType[];
+  items: MenuItemType[];
 };
 
-const MenuList = ({ buttons }: PropsType) => {
+const MenuList = ({ items }: PropsType) => {
+  const showAside = useKanbanStore((state) => state.showAside);
+
   return (
-    <menu className={styles.list}>
-      {buttons.map((ele) => (
-        <Button
-          key={ele.text}
-          text={ele.text}
-          handleClick={ele.onClick}
-          className={styles.item}
-        />
+    <menu className={styles.list} style={{ gap: showAside ? '1px' : '1.5rem' }}>
+      {items.map((ele) => (
+        <MenuItem item={ele} key={ele.text} />
       ))}
     </menu>
   );

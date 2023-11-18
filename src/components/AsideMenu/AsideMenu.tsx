@@ -2,9 +2,15 @@
 import styles from './AsideMenu.module.css';
 // icons
 import {
-  AiOutlineArrowLeft as LeftIcon,
-  AiOutlineArrowRight as RightIcon,
-} from 'react-icons/ai';
+  IoArrowBackCircleSharp as LeftIcon,
+  IoArrowForwardCircle as RightIcon,
+} from 'react-icons/io5';
+import { IoIosCreate as IconCreateProject } from 'react-icons/io';
+import { MdFindInPage as IconFindProject } from 'react-icons/md';
+import {
+  RiUserSearchFill as IconFindUser,
+  RiLogoutBoxRFill as IconLogOut,
+} from 'react-icons/ri';
 // components
 import Logo from '../Logo/Logo';
 import CopyRight from '../Copyright/CopyRight';
@@ -12,14 +18,23 @@ import MenuList from './MenuList';
 import Button from '../Button/Button';
 import NewProjectForm from '../NewProjectForm/NewProjectForm';
 import Notifications from '../../features/Notifications/Notifications';
+import Avatar from '../Avatar/Avatar';
 // hooks
 import { useState, useMemo } from 'react';
 import { useKanbanStore } from '../../store';
 // buttons config object
-import type { MenuItemType } from './MenuList';
+import type { MenuItemType } from './menuItemType';
 import { useLogout } from '../../hooks/useLogout';
 import { useNavigate } from 'react-router-dom';
 import { useUserData } from '../../context/UserDataContext';
+
+const MENU_ITEM_TEXT = {
+  createProject: 'Create New Project',
+  findProject: 'Search for Projects',
+  findUser: 'Search for Collaborator',
+  profile: 'Profile',
+  logout: 'Logout',
+};
 
 const AsideMenu = () => {
   const { logout } = useLogout();
@@ -29,18 +44,45 @@ const AsideMenu = () => {
   const setShowAside = useKanbanStore((state) => state.setShowAside);
   const [openNewProject, setOpenNewProject] = useState(false);
 
-  const buttons: MenuItemType[] = useMemo(() => {
+  const menuItems: MenuItemType[] = useMemo(() => {
+    if (!user) return [];
     return [
       {
-        text: 'create project',
-        onClick: () => setOpenNewProject(true),
+        text: MENU_ITEM_TEXT.createProject,
+        handleClick: () => setOpenNewProject(true),
+        icon: (
+          <IconCreateProject size={25} title={MENU_ITEM_TEXT.createProject} />
+        ),
       },
-      { text: 'find project', onClick: () => {} },
-      { text: 'find developer', onClick: () => {} },
-      { text: 'profile', onClick: () => navigate(`/${user?.uid}`) },
-      { text: 'logout', onClick: () => logout() },
+      {
+        text: MENU_ITEM_TEXT.findProject,
+        handleClick: () => navigate('/search/projects'),
+        icon: <IconFindProject size={25} title={MENU_ITEM_TEXT.findProject} />,
+      },
+      {
+        text: MENU_ITEM_TEXT.findUser,
+        handleClick: () => navigate('/search/users'),
+        icon: <IconFindUser size={25} title={MENU_ITEM_TEXT.findUser} />,
+      },
+      {
+        text: MENU_ITEM_TEXT.profile,
+        handleClick: () => navigate(`/${user.uid}`),
+        icon: (
+          <Avatar
+            imageUrl={user.photoUrl}
+            userName={user.userName}
+            size="25"
+            hover={true}
+          />
+        ),
+      },
+      {
+        text: MENU_ITEM_TEXT.logout,
+        handleClick: () => logout(),
+        icon: <IconLogOut size={25} title={MENU_ITEM_TEXT.logout} />,
+      },
     ];
-  }, []);
+  }, [user]);
 
   if (!user) return null;
 
@@ -57,17 +99,19 @@ const AsideMenu = () => {
         handleClick={() => setShowAside(showAside ? false : true)}
         className={styles.btnDisplay}
       >
-        {showAside ? <LeftIcon /> : <RightIcon />}
+        {showAside ? (
+          <LeftIcon className="btn--icon" />
+        ) : (
+          <RightIcon className="btn--icon" />
+        )}
       </Button>
 
-      {showAside && (
-        <menu className={styles.menu}>
-          <Logo />
-          <Notifications notificationList={user.notifications} />
-          <MenuList buttons={buttons} />
-          <CopyRight />
-        </menu>
-      )}
+      <menu className={styles.menu}>
+        {showAside && <Logo />}
+        {showAside && <Notifications notificationList={user.notifications} />}
+        <MenuList items={menuItems} />
+        {showAside && <CopyRight />}
+      </menu>
     </aside>
   );
 };

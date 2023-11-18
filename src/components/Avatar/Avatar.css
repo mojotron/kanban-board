@@ -20,3 +20,6 @@
   bottom: 1.2rem;
   left: 2rem;
 }
+.Avatar.hover:hover {
+  border-color: var(--COLOR-YELLOW-400);
+}
