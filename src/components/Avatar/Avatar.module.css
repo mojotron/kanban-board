@@ -1,15 +1,15 @@
-.Avatar {
+.avatar {
   border: 3px solid var(--COLOR-GRAY-200);
   border-radius: 50%;
 }
-.Avatar__img {
+.avatarImg {
   object-fit: cover;
   width: 100%;
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
 }
-.Avatar--active::after {
+.avatarActive::after {
   content: '';
   display: block;
   height: 1.2rem;
@@ -20,6 +20,6 @@
   bottom: 1.2rem;
   left: 2rem;
 }
-.Avatar.hover:hover {
+.avatar.avatarHover:hover {
   border-color: var(--COLOR-YELLOW-400);
 }

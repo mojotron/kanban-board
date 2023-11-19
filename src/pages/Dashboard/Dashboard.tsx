@@ -12,9 +12,14 @@ import EditProject from './components/EditProject/EditProject';
 import styles from './Dashboard.module.css';
 import { TeamProvider } from '../../context/TeamContext';
 import { useMemo, useState } from 'react';
-import { MenuOptionType } from '../../types/menuOption';
 import { useNavigate, useParams } from 'react-router-dom';
 import Requests from '../../features/Requests/ui/Requests';
+
+type MenuOptionType = {
+  text: string;
+  handleClick: () => void;
+  disabled: boolean;
+};
 
 const Dashboard = () => {
   const navigate = useNavigate();

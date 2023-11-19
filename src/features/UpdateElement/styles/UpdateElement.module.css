@@ -1,0 +1,33 @@
+/* INPUT */
+.input,
+.inputTextArea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: var(--BORDER-RADIUS);
+  font-size: 1.25rem;
+  font-family: inherit;
+  color: var(--COLOR-GRAY-700);
+  transition: all 0.4s ease-in-out;
+}
+.inputTextArea {
+  height: 10rem;
+  resize: none;
+  overflow-y: scroll;
+}
+.input::placeholder,
+.inputTextArea::placeholder {
+  color: var(--COLOR-GRAY-800);
+  font-size: 1.25rem;
+}
+.input:focus,
+.inputTextArea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--COLOR-BLUE-500);
+}
+
+.counter {
+  padding-top: 0.25rem;
+  font-size: 1.25rem;
+  margin-left: auto;
+}

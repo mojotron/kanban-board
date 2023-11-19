@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
-import styles from './UpdateInput.module.css';
+import styles from '../styles/UpdateElement.module.css';
 
 type PropsType = {
   type: 'input' | 'textarea';
@@ -22,6 +22,7 @@ const UpdateInput = ({ type, value, onChange, maxLength }: PropsType) => {
       {type === 'input' && (
         <input
           ref={inputRef}
+          className={styles.input}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           maxLength={maxLength}
@@ -30,6 +31,7 @@ const UpdateInput = ({ type, value, onChange, maxLength }: PropsType) => {
       {type === 'textarea' && (
         <textarea
           ref={textareaRef}
+          className={styles.inputTextArea}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           maxLength={maxLength}

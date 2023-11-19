@@ -24,7 +24,7 @@ const ProjectCard = ({ data }: PropsType) => {
     if (!user) return false;
 
     return [...user.managingProjects, ...user.collaboratingProjects].includes(
-      user.uid
+      data.id
     );
   }, [user]);
 

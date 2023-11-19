@@ -1,4 +1,4 @@
-import './Avatar.css';
+import styles from './Avatar.module.css';
 
 type AvatarSize = '25' | '35' | '50' | '75' | '100';
 
@@ -8,6 +8,7 @@ type PropsType = {
   size: AvatarSize;
   active?: boolean;
   hover?: boolean;
+  title?: string | undefined;
 };
 
 const Avatar = ({
@@ -16,15 +17,17 @@ const Avatar = ({
   size,
   active,
   hover = false,
+  title = undefined,
 }: PropsType) => {
   return (
     <div
-      className={`Avatar ${active ? 'Avatar--active' : ''} ${
-        hover ? 'hover' : ''
+      className={`${styles.avatar} ${active ? styles.avatarActive : ''} ${
+        hover ? styles.avatarHover : ''
       }`}
       style={{ width: `${size}px`, height: `${size}px` }}
+      title={title}
     >
-      <img className="Avatar__img" src={imageUrl} alt={userName} />
+      <img className={styles.avatarImg} src={imageUrl} alt={userName} />
     </div>
   );
 };

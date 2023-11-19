@@ -8,6 +8,8 @@ import { ProjectType } from '../../types/projectType';
 import { useUserData } from '../../context/UserDataContext';
 import { Timestamp } from 'firebase/firestore';
 import { useCloseOnEscape } from '../../hooks/useCloseOnEscape';
+// constants
+import { NOTE_NEW_PROJECT } from '../../constants/displayTexts';
 
 const NewProjectForm = ({ onClose }: { onClose: () => void }) => {
   const { document } = useUserData();
@@ -72,8 +74,6 @@ const NewProjectForm = ({ onClose }: { onClose: () => void }) => {
     usernameRef?.current?.focus();
   }, []);
 
-  console.log('TODO', error, pending);
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('doc', document);
@@ -114,6 +114,7 @@ const NewProjectForm = ({ onClose }: { onClose: () => void }) => {
           <input
             id="new-project-name"
             type="text"
+            className="input"
             ref={usernameRef}
             placeholder="My Secret Project"
             required
@@ -129,6 +130,7 @@ const NewProjectForm = ({ onClose }: { onClose: () => void }) => {
           <label htmlFor="new-project-description">Project description</label>
           <textarea
             id="new-project-description"
+            className="input--text-area"
             placeholder="write short description what is project about"
             required
             maxLength={2200}
@@ -145,6 +147,7 @@ const NewProjectForm = ({ onClose }: { onClose: () => void }) => {
             <input
               id="project-tags"
               type="text"
+              className="input"
               placeholder="project keywords e.g. 'react'"
               maxLength={35}
               value={state.currentTag}
@@ -179,6 +182,7 @@ const NewProjectForm = ({ onClose }: { onClose: () => void }) => {
           <label htmlFor="new-project-repo">Project repository</label>
           <input
             id="new-project-repo"
+            className="input"
             type="text"
             placeholder="projects github page"
             value={state.repository}
@@ -189,11 +193,14 @@ const NewProjectForm = ({ onClose }: { onClose: () => void }) => {
         </div>
 
         <button type="submit" className="btn">
-          create
+          {pending ? 'Loading...' : 'Create'}
         </button>
-        <p className="Form__note">
-          You can update all fields later in your dashboard!
-        </p>
+
+        {!error ? (
+          <p className="note note--error">{error}</p>
+        ) : (
+          <p className="note">{NOTE_NEW_PROJECT}</p>
+        )}
       </form>
     </div>
   );

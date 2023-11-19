@@ -16,6 +16,7 @@ type PropsType = {
 
 const ProfileHeader = ({ user }: PropsType) => {
   if (!user) return;
+
   return (
     <header className={styles.header}>
       <Avatar imageUrl={user.photoUrl} userName={user.userName} size="100" />
@@ -24,7 +25,7 @@ const ProfileHeader = ({ user }: PropsType) => {
           <div className={styles.name}>
             <h2>{user.userName}</h2>
             <OuterLink to={`https://github.com/${user.userName}`}>
-              <GithubIcon size={30} />
+              <GithubIcon size={30} className="btn--icon-link" />
             </OuterLink>
           </div>
 

@@ -73,6 +73,7 @@ const AsideMenu = () => {
             userName={user.userName}
             size="25"
             hover={true}
+            title={MENU_ITEM_TEXT.profile}
           />
         ),
       },

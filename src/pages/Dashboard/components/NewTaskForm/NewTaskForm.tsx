@@ -9,6 +9,8 @@ import ModalCloseBtn from '../../../../components/ModalCloseBtn/ModalCloseBtn';
 import { AddNewTaskType, Priority } from '../../../../types/taskType';
 import { useProject } from '../../../../context/ProjectContext';
 import { useCloseOnEscape } from '../../../../hooks/useCloseOnEscape';
+// constants
+import { NOTE_NEW_PROJECT } from '../../../../constants/displayTexts';
 
 type PropsType = {
   onClose: () => void;
@@ -82,6 +84,7 @@ const NewTaskForm = ({ onClose }: PropsType) => {
           <input
             ref={titleInputRef}
             id="new-task-title"
+            className="input"
             type="text"
             placeholder="short description"
             required
@@ -97,6 +100,7 @@ const NewTaskForm = ({ onClose }: PropsType) => {
           <label htmlFor="new-task-description">Task description</label>
           <textarea
             id="new-task-description"
+            className="input--text-area"
             placeholder="write longer description what you expect to be done by task"
             required
             maxLength={2200}
@@ -111,6 +115,7 @@ const NewTaskForm = ({ onClose }: PropsType) => {
           <label htmlFor="new-task-priority">Priority</label>
           <select
             id="new-task-priority"
+            className="input"
             value={state.priority}
             onChange={(e) =>
               dispatch({
@@ -129,6 +134,7 @@ const NewTaskForm = ({ onClose }: PropsType) => {
           <label htmlFor="new-task-deadline">Deadline</label>
           <input
             type="date"
+            className="input"
             id="new-task-deadline"
             value={state.deadline}
             onChange={(e) => {
@@ -140,11 +146,11 @@ const NewTaskForm = ({ onClose }: PropsType) => {
         <button type="submit" className="btn">
           {firestorePending ? 'Loading...' : 'Create'}
         </button>
-        <p className={`Form__note ${firestoreError ? 'error' : ''}`}>
-          {firestoreError
-            ? `${firestoreError}`
-            : 'You can update all fields later in your dashboard!'}
-        </p>
+        {firestoreError ? (
+          <p className="note note--error">{firestoreError}</p>
+        ) : (
+          <p className="note">{NOTE_NEW_PROJECT}</p>
+        )}
       </form>
     </div>
   );
