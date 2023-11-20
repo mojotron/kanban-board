@@ -1,3 +1,29 @@
+/* MAIN CONTAINER */
+.mainContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+}
+.timestamp {
+  margin-top: 0.25rem;
+}
+.paragraph {
+  font-size: 1.6rem;
+}
+.red {
+  color: var(--COLOR-RED-400);
+}
+.green {
+  color: var(--COLOR-GREEN-400);
+}
+
+/* INPUT CONTAINER */
+.inputContainer {
+  width: 100%;
+  padding-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
 /* INPUT */
 .input,
 .inputTextArea {
@@ -25,9 +51,49 @@
   outline: none;
   box-shadow: 0 0 0 3px var(--COLOR-BLUE-500);
 }
-
 .counter {
   padding-top: 0.25rem;
   font-size: 1.25rem;
   margin-left: auto;
+}
+/* CONTROLS */
+.controls {
+  padding-top: 0.5rem;
+  padding-left: 0.25rem;
+  display: flex;
+  gap: 0.2rem;
+}
+/* LISTS */
+.list {
+  list-style: none;
+}
+.updateList {
+}
+.newItemInput {
+  display: flex;
+  flex-direction: column;
+}
+.newItemBox {
+  display: flex;
+  align-items: flex-end;
+}
+.updateListBox {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: var(--COLOR-GRAY-500);
+  border-radius: var(--BORDER-RADIUS);
+}
+.value {
+  font-size: 1.6rem;
+}
+.controls {
+  display: flex;
+  align-items: center;
 }

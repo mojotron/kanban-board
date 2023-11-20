@@ -18,7 +18,7 @@ const UpdateInput = ({ type, value, onChange, maxLength }: PropsType) => {
   }, []);
 
   return (
-    <div className={styles.input}>
+    <div className={styles.inputContainer}>
       {type === 'input' && (
         <input
           ref={inputRef}

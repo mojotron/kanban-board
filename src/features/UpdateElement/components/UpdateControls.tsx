@@ -4,7 +4,7 @@ import {
   AiOutlineSend as IconSubmit,
   AiOutlineClose as IconClose,
 } from 'react-icons/ai';
-import styles from './UpdateControls.module.css';
+import styles from '../styles/UpdateElement.module.css';
 
 // submit, edit, delete, cancel
 
@@ -17,13 +17,13 @@ type ControlButtonType = {
 const GenerateIcon = ({ type, size }: { type: ButtonType; size: number }) => {
   switch (type) {
     case 'submit':
-      return <IconSubmit size={size} />;
+      return <IconSubmit size={size} title="Update" />;
     case 'close':
-      return <IconClose size={size} />;
+      return <IconClose size={size} title="Cancel input" />;
     case 'edit':
-      return <IconEdit size={size} />;
+      return <IconEdit size={size} title="Edit" />;
     case 'delete':
-      return <IconDelete size={size} />;
+      return <IconDelete size={size} title="Delete" />;
   }
 };
 
@@ -42,7 +42,7 @@ const UpdateControls = ({
     <div className={styles.controls}>
       {config.map((btn, i) => (
         <button
-          className={`${styles.btn}${className ? ` ${className}` : ''}`}
+          className={`btn--icon ${className ? ` ${className}` : ''}`}
           key={i}
           onClick={btn.onClick}
         >

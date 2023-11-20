@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import UpdateListItem from './UpdateListItem';
 import UpdateControls from '../components/UpdateControls';
-import styles from './UpdateListCopy.module.css';
+import styles from '../styles/UpdateElement.module.css';
+import UpdateInput from '../UpdateText/UpdateInput';
+import { TEXT_LENGTHS } from '../../../constants/textLengths';
 
 type PropsType = {
   list: string[];
@@ -42,11 +44,14 @@ const UpdateListCopy = ({ list, onClose, onUpdate }: PropsType) => {
         ))}
       </ul>
 
-      <div className={styles.newItemBox}>
-        <div className={styles.newItemInput}>
-          <label>Add new Item</label>
-          <input value={newItem} onChange={(e) => setNewItem(e.target.value)} />
-        </div>
+      <div className={styles.mainContainer}>
+        <UpdateInput
+          type="input"
+          value={newItem}
+          onChange={setNewItem}
+          maxLength={TEXT_LENGTHS.task.note}
+        />
+
         <UpdateControls
           config={[
             { type: 'close', onClick: () => setNewItem('') },
@@ -61,8 +66,8 @@ const UpdateListCopy = ({ list, onClose, onUpdate }: PropsType) => {
         />
       </div>
 
-      <div>
-        <p>Update Tags</p>
+      <div className={styles.updateList}>
+        <p>Update List</p>
         <UpdateControls
           config={[
             { type: 'close', onClick: onClose },

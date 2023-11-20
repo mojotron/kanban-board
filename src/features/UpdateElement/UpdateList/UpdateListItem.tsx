@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import styles from './UpdateListItem.module.css';
+import styles from '../styles/UpdateElement.module.css';
 import UpdateControls from '../components/UpdateControls';
+import UpdateInput from '../UpdateText/UpdateInput';
+// constants
+import { TEXT_LENGTHS } from '../../../constants/textLengths';
 
 type PropsType = {
   value: string;
@@ -23,12 +26,12 @@ const UpdateListItem = ({ value, onUpdate, onDelete }: PropsType) => {
     <li className={styles.item}>
       {!openEdit && <span className={styles.value}>{value}</span>}
       {openEdit && (
-        <div>
-          <input
-            ref={inputRef}
-            type="text"
-            onChange={(e) => setNewValue(e.target.value)}
+        <div className={styles.inputContainer}>
+          <UpdateInput
+            type="input"
+            onChange={setNewValue}
             value={newValue}
+            maxLength={TEXT_LENGTHS.task.note}
           />
         </div>
       )}

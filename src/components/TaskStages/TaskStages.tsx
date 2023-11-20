@@ -2,7 +2,6 @@ import { Stage, TaskWithId } from '../../types/taskType';
 import { TASK_STAGES_COLLABORATES } from '../../constants/taskStages';
 import UpdateSelect from '../../features/UpdateElement/UpdateSelect/UpdateSelect';
 import Button from '../Button/Button';
-import styles from './TaskStages.module.css';
 import { useUserData } from '../../context/UserDataContext';
 import { useProject } from '../../context/ProjectContext';
 import { useTeam } from '../../context/TeamContext';
@@ -33,19 +32,19 @@ const TaskStages = ({ task }: PropsType) => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: '0.25rem' }}>
       {isAdmin && stage === 'backlog' && (
         <Button
           handleClick={() => updateTaskField('stage', 'assignment', task.id)}
-          className={styles.btn}
+          className="btn"
         >
-          move to assignment
+          Move to Assignment
         </Button>
       )}
       {isAdmin && stage === 'assignment' && (
         <Button
           handleClick={() => updateTaskField('stage', 'backlog', task.id)}
-          className={styles.btn}
+          className="btn"
         >
           move to backlog
         </Button>
@@ -60,7 +59,7 @@ const TaskStages = ({ task }: PropsType) => {
         />
       )}
       {isAdmin && stage === 'complete' && (
-        <Button handleClick={handleFinishTask} className={styles.btn}>
+        <Button handleClick={handleFinishTask} className="btn">
           finish task
         </Button>
       )}

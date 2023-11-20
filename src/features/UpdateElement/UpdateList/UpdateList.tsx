@@ -32,6 +32,7 @@ const UpdateList = ({
 
   return (
     <ItemsList list={list} listStyle={listStyle} itemStyle={itemStyle}>
+      {list.length === 0 && <p>Add new entry</p>}
       {updatable && <UpdateButton onClick={setOpenEdit} />}
     </ItemsList>
   );

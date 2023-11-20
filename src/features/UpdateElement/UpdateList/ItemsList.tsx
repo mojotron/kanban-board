@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import styles from '../styles/UpdateElement.module.css';
 
 type PropsType = {
   list: string[];
@@ -14,7 +15,7 @@ const ItemsList = ({
   itemStyle = '',
 }: PropsType) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+    <div className={styles.mainContainer}>
       <ul className={listStyle}>
         {list.map((item, index) => (
           <li key={index} className={itemStyle}>

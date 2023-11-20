@@ -1,20 +1,28 @@
 .task {
-  background-color: var(--COLOR-GRAY-500);
+  background-color: var(--COLOR-GRAY-600);
   position: relative;
   width: 70rem;
   max-width: 70rem;
   border-radius: var(--BORDER-RADIUS);
   margin: 0.5rem;
   overflow: hidden;
-  color: var(--COLOR-GRAY-800);
+  color: var(--COLOR-GRAY-300);
   font-size: 1.6rem;
+}
+.fieldHeading {
+  font-size: 1.25rem;
+  color: var(--COLOR-GRAY-400);
+  margin-top: 1rem;
+}
+.fieldHeading:first-child {
+  margin-top: 0;
 }
 .header,
 .body {
   padding: 3rem;
 }
 .header {
-  background-color: var(--COLOR-GRAY-600);
+  background-color: var(--COLOR-GRAY-700);
   display: flex;
   gap: 2.4rem;
   color: var(--COLOR-GRAY-200);

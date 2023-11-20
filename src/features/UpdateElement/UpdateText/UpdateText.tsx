@@ -3,6 +3,7 @@ import UpdateControls from '../components/UpdateControls';
 import UpdateInput from './UpdateInput';
 import OuterLink from '../../../components/OuterLink/OuterLink';
 import UpdateButton from '../components/UpdateButton';
+import styles from '../styles/UpdateElement.module.css';
 
 type LinkConfig = {
   to: string;
@@ -34,7 +35,7 @@ const UpdateText = ({
 
   if (update)
     return (
-      <div style={{ display: 'flex' }}>
+      <div className={styles.mainContainer}>
         <UpdateInput
           value={textValue}
           onChange={setTextValue}
@@ -64,7 +65,7 @@ const UpdateText = ({
     );
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+    <div className={styles.mainContainer}>
       {type === 'input' && !link && <h3 className={`${className}`}>{text}</h3>}
       {type === 'textarea' && !link && <p className={`${className}`}>{text}</p>}
       {link && (

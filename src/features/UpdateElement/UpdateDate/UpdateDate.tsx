@@ -7,7 +7,7 @@ import {
 import { useState, useMemo } from 'react';
 import UpdateButton from '../components/UpdateButton';
 import UpdateControls from '../components/UpdateControls';
-import styles from './UpdateDate.module.css';
+import styles from '../styles/UpdateElement.module.css';
 
 type PropsType = {
   timestamp: Timestamp | null;
@@ -34,12 +34,16 @@ const UpdateDate = ({ timestamp, onUpdate, updatable = true }: PropsType) => {
 
   if (edit)
     return (
-      <div className={styles.update}>
-        <input
-          type="date"
-          value={dateString}
-          onChange={(e) => setDateString(e.target.value)}
-        />
+      <div className={styles.mainContainer}>
+        <div className={styles.inputContainer}>
+          <input
+            type="date"
+            className={styles.input}
+            value={dateString}
+            onChange={(e) => setDateString(e.target.value)}
+          />
+        </div>
+
         <UpdateControls
           config={[
             {
@@ -68,14 +72,14 @@ const UpdateDate = ({ timestamp, onUpdate, updatable = true }: PropsType) => {
     );
 
   return (
-    <div className={styles.update}>
+    <div className={styles.mainContainer}>
       {timestamp && (
-        <>
-          <p>{dateObject.date}</p>
+        <div className={styles.timestamp}>
+          <p className={styles.paragraph}>{dateObject.date}</p>
           <p className={dateObject.overDue > 0 ? styles.red : styles.green}>
             {dateObject.formatted}
           </p>
-        </>
+        </div>
       )}
       {!timestamp && <p>Add task deadline</p>}
       {updatable && <UpdateButton onClick={() => setEdit(true)} />}

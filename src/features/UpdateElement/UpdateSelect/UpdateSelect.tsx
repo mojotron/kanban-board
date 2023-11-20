@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import UpdateButton from '../components/UpdateButton';
-import styles from './UpdateSelect.module.css';
+import styles from '../styles/UpdateElement.module.css';
 import UpdateControls from '../components/UpdateControls';
 
 type PropsType = {
@@ -21,17 +21,21 @@ const UpdateSelect = ({
 
   if (edit)
     return (
-      <div>
-        <select
-          value={selectedValue}
-          onChange={(e) => setSelectedValue(e.target.value)}
-        >
-          {options.map((ele) => (
-            <option key={ele} value={ele}>
-              {ele}
-            </option>
-          ))}
-        </select>
+      <div className={styles.mainContainer}>
+        <div className={styles.inputContainer}>
+          <select
+            value={selectedValue}
+            onChange={(e) => setSelectedValue(e.target.value)}
+            className={styles.input}
+          >
+            {options.map((ele) => (
+              <option key={ele} value={ele}>
+                {ele}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <UpdateControls
           config={[
             {
@@ -54,7 +58,7 @@ const UpdateSelect = ({
     );
 
   return (
-    <div className={styles.update}>
+    <div className={styles.mainContainer}>
       <p>{currentOption}</p>
       {updatable && <UpdateButton onClick={() => setEdit(true)} />}
     </div>

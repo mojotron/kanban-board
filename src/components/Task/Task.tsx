@@ -61,6 +61,7 @@ const Task = ({ taskData, onClose }: PropsType) => {
 
         <header className={styles.header}>
           <div className={styles.headerLeft}>
+            <h3 className={styles.fieldHeading}>Title</h3>
             <UpdateText
               text={taskData.title}
               onUpdate={(value) => updateTaskField('title', value, taskData.id)}
@@ -68,6 +69,7 @@ const Task = ({ taskData, onClose }: PropsType) => {
               updatable={isAdmin}
             />
 
+            <h3 className={styles.fieldHeading}>Priority</h3>
             <UpdateSelect
               currentOption={taskData.priority}
               options={PRIORITIES}
@@ -77,8 +79,10 @@ const Task = ({ taskData, onClose }: PropsType) => {
               updatable={isAdmin}
             />
 
+            <h3 className={styles.fieldHeading}>Stage</h3>
             <TaskStages task={taskData} />
 
+            <h3 className={styles.fieldHeading}>Deadline</h3>
             <UpdateDate
               timestamp={taskData.deadline}
               onUpdate={(value) =>
@@ -87,13 +91,15 @@ const Task = ({ taskData, onClose }: PropsType) => {
               updatable={isAdmin}
             />
           </div>
+
           <div className={styles.headerRight}>
+            <h3 className={styles.fieldHeading}>Assignment</h3>
             <TaskAssignment task={taskData} />
           </div>
         </header>
 
         <div className={styles.body}>
-          <h3>Description</h3>
+          <h3 className={styles.fieldHeading}>Description</h3>
           <UpdateText
             text={taskData.description}
             type="textarea"
@@ -103,7 +109,7 @@ const Task = ({ taskData, onClose }: PropsType) => {
             updatable={isAdmin}
           />
 
-          <h3>Notes</h3>
+          <h3 className={styles.fieldHeading}>Notes</h3>
           <UpdateList
             list={taskData.notes}
             onUpdate={(value) => updateTaskField('notes', value, taskData.id)}
