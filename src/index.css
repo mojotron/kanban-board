@@ -148,6 +148,16 @@ body {
 .btn--icon-link:hover {
   color: var(--COLOR-BLUE-500);
 }
+.btn--icon--big {
+  width: 5rem;
+  height: 5rem;
+}
+.btn--icon--dark {
+  color: var(--COLOR-GRAY-700);
+}
+.btn--icon--dark:hover {
+  color: var(--COLOR-GRAY-200);
+}
 .btn--clear {
   border: none;
   background: none;

@@ -4,7 +4,7 @@ import { useTeam } from '../../context/TeamContext';
 import { useProject } from '../../context/ProjectContext';
 import { useUserData } from '../../context/UserDataContext';
 // style & icons
-import { AiOutlineUserAdd } from 'react-icons/ai';
+import { AiOutlineUserAdd as IconAssign } from 'react-icons/ai';
 // components
 import Avatar from '../Avatar/Avatar';
 import Button from '../Button/Button';
@@ -21,9 +21,15 @@ import styles from './TaskAssignment.module.css';
 
 type PropsType = {
   task: TaskWithId;
+  iconSize?: 25 | 35 | 50;
+  iconStyle?: 'light' | 'dark';
 };
 
-const TaskAssignment = ({ task }: PropsType) => {
+const TaskAssignment = ({
+  task,
+  iconSize = 35,
+  iconStyle = 'light',
+}: PropsType) => {
   const { document: user } = useUserData();
   const { getMember } = useTeam();
   const { assignTask, unassignTask, memberHasTask } = useProject();
@@ -68,8 +74,13 @@ const TaskAssignment = ({ task }: PropsType) => {
           />
         )}
 
-        <Button handleClick={handleAssign} className="taskBtn">
-          <AiOutlineUserAdd size={50} color="white" />
+        <Button
+          handleClick={handleAssign}
+          className={`btn--icon ${
+            iconStyle === 'dark' ? 'btn--icon--dark' : ''
+          } ${iconSize === 50 ? 'btn--icon--big' : ''}`}
+        >
+          <IconAssign size={iconSize} title="Assign to Task" />
         </Button>
       </>
     );
@@ -92,11 +103,8 @@ const TaskAssignment = ({ task }: PropsType) => {
           userName={collaborator.userName}
         />
         {assignedTCurrentUser && task.stage !== 'finished' && (
-          <Button
-            handleClick={() => setOpenPopup(true)}
-            className={styles.unassignBtn}
-          >
-            unassign
+          <Button handleClick={() => setOpenPopup(true)} className="btn">
+            Unassign
           </Button>
         )}
       </>

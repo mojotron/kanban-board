@@ -21,24 +21,11 @@
 }
 .taskControls {
   display: flex;
-  align-items: center;
-  gap: 2.4rem;
+  align-items: baseline;
+  gap: 1.6rem;
 }
 .taskDescription {
   font-size: 1.25rem;
-}
-:global(.taskBtn) {
-  border: none;
-  background: none;
-  border-radius: 50%;
-  height: 2.5rem;
-  width: 2.5rem;
-  cursor: pointer;
-  color: var(--COLOR-GRAY-700);
-  transition: all 0.3s ease;
-}
-:global(.taskBtn:hover) {
-  color: var(--COLOR-GRAY-200);
 }
 .expandBtn {
   border: none;

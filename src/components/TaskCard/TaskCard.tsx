@@ -29,12 +29,12 @@ const TaskCard = ({ taskData }: Props) => {
         <h3>{taskData.title}</h3>
         <div className={styles.taskControls}>
           <Button
-            className="taskBtn"
+            className="btn--icon btn--icon--dark"
             handleClick={() => setOpenTaskDetails(true)}
           >
             <AiFillEye size={25} />
           </Button>
-          <TaskAssignment task={taskData} />
+          <TaskAssignment task={taskData} iconSize={25} iconStyle="dark" />
         </div>
       </header>
 

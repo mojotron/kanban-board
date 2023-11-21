@@ -93,8 +93,10 @@ const Task = ({ taskData, onClose }: PropsType) => {
           </div>
 
           <div className={styles.headerRight}>
-            <h3 className={styles.fieldHeading}>Assignment</h3>
-            <TaskAssignment task={taskData} />
+            <h3 className={styles.fieldHeading} style={{ textAlign: 'center' }}>
+              Assignment
+            </h3>
+            <TaskAssignment task={taskData} iconSize={50} />
           </div>
         </header>
 

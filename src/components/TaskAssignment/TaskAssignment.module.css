@@ -1,18 +1,8 @@
 .task {
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.25rem;
-}
-.unassignBtn {
-  background: none;
-  border: none;
-  color: var(--COLOR-GRAY-700);
-  padding: 0.25rem 0.5rem;
-  text-transform: capitalize;
-  cursor: pointer;
-}
-.unassignBtn:hover {
-  color: var(--COLOR-GRAY-200);
+  gap: 1rem;
 }

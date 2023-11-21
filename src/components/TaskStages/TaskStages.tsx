@@ -46,7 +46,7 @@ const TaskStages = ({ task }: PropsType) => {
           handleClick={() => updateTaskField('stage', 'backlog', task.id)}
           className="btn"
         >
-          move to backlog
+          Move to Backlog
         </Button>
       )}
       {TASK_STAGES_COLLABORATES.includes(task.stage) && isDeveloper && (
@@ -60,7 +60,7 @@ const TaskStages = ({ task }: PropsType) => {
       )}
       {isAdmin && stage === 'complete' && (
         <Button handleClick={handleFinishTask} className="btn">
-          finish task
+          Finish Task
         </Button>
       )}
       {stage === 'finished' && <p>Finished</p>}
