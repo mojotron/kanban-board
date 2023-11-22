@@ -14,12 +14,8 @@ import { TeamProvider } from '../../context/TeamContext';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Requests from '../../features/Requests/ui/Requests';
-
-type MenuOptionType = {
-  text: string;
-  handleClick: () => void;
-  disabled: boolean;
-};
+// types
+import type { MenuOptionType } from './menuOptionType';
 
 const Dashboard = () => {
   const navigate = useNavigate();

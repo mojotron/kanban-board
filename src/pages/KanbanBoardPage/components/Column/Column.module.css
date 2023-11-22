@@ -1,26 +1,26 @@
-.Column {
+.column {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* border-radius: var(--BORDER-RADIUS); */
+  border-radius: var(--BORDER-RADIUS);
   border: 1px solid var(--COLOR-GRAY-100);
   overflow-y: scroll;
   min-width: 0; /* NEW; needed for Firefox */
 }
-.Column__Header {
+.columnHeader {
   padding: 1rem 2rem;
 }
-.Column__Header h2 {
+.columnHeader h2 {
   text-align: center;
   text-transform: uppercase;
   font-size: 1.8rem;
 }
-.Column__Tasks {
+.columnTasks {
   padding: 0.5rem;
 }
-.Column__Tasks__Task-wrapper {
+.columnTaskWrapper {
   cursor: grab;
 }
-.drop-possible {
+.dropPossible {
   border: 1px solid var(--COLOR-GREEN-500);
 }

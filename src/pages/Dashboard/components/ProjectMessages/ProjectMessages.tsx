@@ -21,10 +21,7 @@ const ProjectMessages = () => {
 
   const handleSubmit = async () => {
     if (!project) return;
-    console.log('hmm');
     if (msgToUpdate === null) {
-      console.log('add');
-
       await addMessage(text, project.messages);
       setText('');
     } else {

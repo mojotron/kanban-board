@@ -17,7 +17,7 @@ const KanbanBoard = () => {
       <div className={styles.kanban}>
         <header className={styles.header}>
           <PriorityLegend />
-          <Link to={`/project/${projectId}`} className={styles.dashboardLink}>
+          <Link to={`/dashboard/${projectId}`} className={styles.dashboardLink}>
             Project Dashboard
           </Link>
         </header>

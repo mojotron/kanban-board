@@ -8,7 +8,7 @@ import TaskCard from '../../../../components/TaskCard/TaskCard';
 // types
 import { Stage } from '../../../../types/taskType';
 // style
-import './Column.css';
+import styles from './Column.module.css';
 // utils
 import { isTaskMovable } from '../../../../utils/isTaskMovable';
 // constants
@@ -135,20 +135,20 @@ const Column = ({ columnName }: PropsType) => {
       )}
 
       <div
-        className={`Column ${drop ? 'drop-possible' : ''}`}
+        className={`${styles.column} ${drop ? styles.dropPossible : ''}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleOnDrop}
       >
-        <header className="Column__Header">
+        <header className={styles.columnHeader}>
           <h2>{columnName}</h2>
         </header>
 
-        <main className="Column__Tasks">
+        <main className={styles.columnTasks}>
           {columnTasks?.map((task) => (
             <div
               key={task.id}
-              className="Column__Tasks__Task-wrapper mb--sm"
+              className={`${styles.columnTaskWrapper} mb--sm`}
               draggable
               onDragStart={() => setDraggedTask(task)}
             >

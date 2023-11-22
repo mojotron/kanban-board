@@ -1,5 +1,5 @@
 import Button from '../../../../components/Button/Button';
-import { MenuOptionType } from '../../../../types/menuOption';
+import type { MenuOptionType } from '../../menuOptionType';
 import styles from './ProjectMenu.module.css';
 
 type PropsType = {
