@@ -10,7 +10,7 @@ With this application user can easily sign up using existing Github account, and
 This is project management application with goal to simplify workflow for teams and help them done work
 faster.
 
-Start using 👉 [Kanban Board](kanban-board-899e2.web.app) application now!
+Start using 👉 [Kanban Board](https://kanban-board-899e2.web.app) application now!
 
 ### Goals of the project
 
@@ -23,20 +23,17 @@ Create a larger scale project without cloning existing project. Learn TypeScript
 3. Firebase (Authentication with Github, Firestore, Hosting)
 4. CSS Modules
 5. Zustand (for global state)
+6. Vite and Vitest
 
 ### Features
 
-...in progress...
-
-1. Project - title, description, tags, repository, team members, project scope mini message app, list of task with different stages, notifications.
-2. Project kanban board - for easier task manipulation using drag and drop.
-3. Create task - title, description, priority, current stage, notes, assignment.
-4. User - profile, managing projects, collaborating projects, notifications,
-5. Search for project
-6. Search for users
-7. Responsive
-8. Messages
-9. Notification
+1. Project - mark project using tags for other user to find and collaborate. Split up work using tasks. Communicate with team using project scope messages. Notification system.
+2. Project kanban board - for easier task manipulation use drag and drop interface.
+3. Create task - set up title and description. Use deadline to mark timeline when task needs to be completed. Set priority. Task has multiple stages: backlog, assignment, development, test, complete and finished.
+4. User - create project and manage it, or join existing project and help.
+5. Search for project (by latest, tag, user) or collaborator (by up for work flag)
+6. Responsive - this app is best used on desktop size but mobile version is also available.
+7. Notification - users and projects get notification about actions and news involving them.
 
 ### Screenshots
 

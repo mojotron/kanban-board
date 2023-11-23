@@ -29,14 +29,14 @@ const ConfirmPopup = ({
               alert ? styles.left : ''
             }`}
           >
-            <IconCancel />
+            <IconCancel title="Cancel" />
           </Button>
           {!alert && (
             <Button
               handleClick={onConfirm}
               className={`${styles.btn} ${styles.green} `}
             >
-              <IconConfirm />
+              <IconConfirm title="Confirm!" />
             </Button>
           )}
         </div>

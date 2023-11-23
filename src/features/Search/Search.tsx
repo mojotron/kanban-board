@@ -36,15 +36,20 @@ const Search = () => {
         onSearchTermChange={updateSearchTerm}
         disabled={filter === 'latest'}
       />
-      <SearchResults>
-        {documents.map((doc, i) => (
-          <ProjectCard key={i} data={doc as ProjectWithId} />
-        ))}
+      {collectionName === 'projects' && (
+        <SearchResults>
+          {documents.map((doc, i) => (
+            <ProjectCard key={i} data={doc as ProjectWithId} />
+          ))}
 
-        {!endOfDocuments && (
-          <LoadMoreButton onLoadMore={getNext} isFetching={isFetching} />
-        )}
-      </SearchResults>
+          {!endOfDocuments && (
+            <LoadMoreButton onLoadMore={getNext} isFetching={isFetching} />
+          )}
+        </SearchResults>
+      )}
+      {collectionName === 'users' && (
+        <p>User search functionality coming soon!</p>
+      )}
     </main>
   );
 };

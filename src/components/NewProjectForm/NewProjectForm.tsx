@@ -152,7 +152,10 @@ const NewProjectForm = ({ onClose }: { onClose: () => void }) => {
               maxLength={35}
               value={state.currentTag}
               onChange={(e) =>
-                dispatch({ type: 'CHANGE_TAG', payload: e.target.value })
+                dispatch({
+                  type: 'CHANGE_TAG',
+                  payload: e.target.value.toLowerCase(),
+                })
               }
             />
             <button

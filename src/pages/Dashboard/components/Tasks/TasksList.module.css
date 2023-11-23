@@ -6,4 +6,5 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  border-radius: 0 0 var(--BORDER-RADIUS) var(--BORDER-RADIUS);
 }
