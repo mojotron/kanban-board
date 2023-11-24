@@ -37,7 +37,9 @@ const TaskAssignment = ({
   const [openPopup, setOpenPopup] = useState(false);
 
   const collaborator = useMemo(() => {
-    return getMember(task.adminUid);
+    if (task.assignToUid) {
+      return getMember(task.assignToUid);
+    }
   }, [getMember, task]);
 
   const assignedTCurrentUser = task.assignToUid === user?.uid;

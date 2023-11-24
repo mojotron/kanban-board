@@ -13,6 +13,7 @@ import {
   AiFillEdit as EditIcon,
 } from 'react-icons/ai';
 import { UserWithId } from '../../../../types/userType';
+import { useUserData } from '../../../../context/UserDataContext';
 
 type PropsType = {
   data: MessageTypeWithId;
@@ -22,7 +23,10 @@ type PropsType = {
 };
 
 const Message = ({ data, member, currentUser, onDelete }: PropsType) => {
+  const { document: user } = useUserData();
   const setUpdateMessage = useKanbanStore((store) => store.setUpdateMessage);
+
+  const isAdmin = user?.uid === member;
 
   return (
     <div className={styles.message}>
@@ -42,7 +46,7 @@ const Message = ({ data, member, currentUser, onDelete }: PropsType) => {
         </p>
       </div>
 
-      {currentUser && (
+      {(currentUser || isAdmin) && (
         <div className={styles.controls}>
           <Button
             handleClick={() => setUpdateMessage(data)}

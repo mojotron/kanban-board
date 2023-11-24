@@ -64,7 +64,7 @@ const ProjectInfo = ({ project }: PropsType) => {
             {formatLocalDate(new Date(project.createdAt.seconds * 1000))}
           </p>
         </div>
-        {!project.public && !onProject && !hasRequest && (
+        {project.public && !onProject && !hasRequest && (
           <Button
             handleClick={() => handleApply()}
             className={`${styles.btn} ${styles.btnJoin}`}

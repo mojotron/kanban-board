@@ -16,6 +16,7 @@ const LeaveProject = () => {
     if (!user || !project) return;
     leaveProject();
     createNotification(user.uid, project.id, 'project/leave');
+    // createNotification(project.adminUid, project.id, 'pro')
   };
   return (
     <>
