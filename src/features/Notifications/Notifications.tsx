@@ -15,26 +15,26 @@ const Notifications = ({
   const [isOpen, setIsOpen] = useState(false);
 
   const newNotifications = useMemo(() => {
-    if (!notifications) return [];
-    return notifications.filter(
+    return notifications?.filter(
       (notification) => notification.isOpened === false
     );
   }, [notifications]);
 
   useEffect(() => {
     if (notifications === undefined) return;
-    if (newNotifications.length < 1) return;
-    if (isOpen) {
-      markOpenNotification(newNotifications.map((n) => n.id));
+    if (newNotifications) {
+      if (isOpen) {
+        markOpenNotification(newNotifications.map((n) => n.id));
+      }
     }
-  }, [notifications, newNotifications]);
+  }, [notifications, newNotifications, isOpen]);
 
   if (!notifications) return null;
 
   return (
     <div style={{ width: '100%' }}>
       <NotificationsButton
-        newNotificationsCount={newNotifications.length}
+        newNotificationsCount={newNotifications?.length || 0}
         isOpen={isOpen}
         toggleOpen={setIsOpen}
       />

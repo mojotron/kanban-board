@@ -77,8 +77,6 @@ export const useNotification = (): {
     async (notificationList: string[]) => {
       await Promise.all(
         notificationList.map(async (notificationDocId) => {
-          console.log(notificationDocId);
-
           await updateDocument('notifications', notificationDocId, {
             isOpened: true,
           });

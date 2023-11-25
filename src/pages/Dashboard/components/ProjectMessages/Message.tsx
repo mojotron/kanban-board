@@ -13,7 +13,7 @@ import {
   AiFillEdit as EditIcon,
 } from 'react-icons/ai';
 import { UserWithId } from '../../../../types/userType';
-import { useUserData } from '../../../../context/UserDataContext';
+import { useProject } from '../../../../context/ProjectContext';
 
 type PropsType = {
   data: MessageTypeWithId;
@@ -23,10 +23,11 @@ type PropsType = {
 };
 
 const Message = ({ data, member, currentUser, onDelete }: PropsType) => {
-  const { document: user } = useUserData();
   const setUpdateMessage = useKanbanStore((store) => store.setUpdateMessage);
+  const { isAdmin } = useProject();
 
-  const isAdmin = user?.uid === member;
+  // if user leaves project give admin rights to delete msg
+  const cleanMessage = member === undefined && isAdmin;
 
   return (
     <div className={styles.message}>
@@ -46,19 +47,21 @@ const Message = ({ data, member, currentUser, onDelete }: PropsType) => {
         </p>
       </div>
 
-      {(currentUser || isAdmin) && (
-        <div className={styles.controls}>
+      <div className={styles.controls}>
+        {currentUser && (
           <Button
             handleClick={() => setUpdateMessage(data)}
             className={styles.btn}
           >
             <EditIcon size={15} />
           </Button>
+        )}
+        {(currentUser || cleanMessage) && (
           <Button handleClick={onDelete} className={styles.btn}>
             <DeleteIcon size={15} />
           </Button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
