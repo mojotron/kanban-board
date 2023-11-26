@@ -10,11 +10,13 @@ import { Timestamp } from 'firebase/firestore';
 export const useNotification = (): {
   createNotification: (
     userId: string,
+    displayUserId: string,
     projectId: string,
     notificationOption: NotificationOptionType
   ) => void;
   createMultipleNotifications: (
     userIdsList: string[],
+    displayUserId: string,
     projectId: string,
     notificationOption: NotificationOptionType
   ) => void;
@@ -28,6 +30,7 @@ export const useNotification = (): {
     async (
       userId: string,
       projectId: string,
+      displayUserId: string,
       notificationOption: NotificationOptionType
     ) => {
       // get user
@@ -38,6 +41,7 @@ export const useNotification = (): {
         type: notificationOption,
         userId,
         projectId,
+        displayUserId,
         isOpened: false,
         createdAt: Timestamp.fromDate(new Date()),
       };
@@ -89,12 +93,18 @@ export const useNotification = (): {
   const createMultipleNotifications = useCallback(
     async (
       userIdsList: string[],
+      displayUserId: string,
       projectId: string,
       notificationOption: NotificationOptionType
     ) => {
       await Promise.all(
         userIdsList.map(async (userId) => {
-          await createNotification(userId, projectId, notificationOption);
+          await createNotification(
+            userId,
+            displayUserId,
+            projectId,
+            notificationOption
+          );
         })
       );
     },

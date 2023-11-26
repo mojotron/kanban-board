@@ -15,6 +15,7 @@ export type NotificationType = {
   isOpened: boolean;
   type: NotificationOptionType;
   userId: string;
+  displayUserId: string;
   projectId: string;
 };
 

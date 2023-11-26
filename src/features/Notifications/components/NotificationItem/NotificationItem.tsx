@@ -44,7 +44,7 @@ const NotificationItem = ({ notification }: PropsType) => {
   const { deleteNotification } = useNotification();
   const { data: requestUser } = useGetNotificationData<UserWithId>(
     'users',
-    notification.userId
+    notification.displayUserId
   );
   const { data: requestProject } = useGetNotificationData<ProjectWithId>(
     'projects',
