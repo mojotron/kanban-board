@@ -29,8 +29,8 @@ export const useNotification = (): {
   const createNotification = useCallback(
     async (
       userId: string,
-      projectId: string,
       displayUserId: string,
+      projectId: string,
       notificationOption: NotificationOptionType
     ) => {
       // get user

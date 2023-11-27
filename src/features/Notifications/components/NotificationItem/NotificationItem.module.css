@@ -11,6 +11,7 @@
 }
 .notificationWrapper {
   margin-bottom: 0.5rem;
+  padding-right: 1rem;
 }
 .notificationUser,
 .notificationProject {
