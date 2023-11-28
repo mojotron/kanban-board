@@ -29,13 +29,23 @@ const RequestItem = ({ request }: PropsType) => {
   const handleAcceptUser = async () => {
     if (!user || !project) return;
     acceptUser(request.projectId, request.userId);
-    createNotification(user.uid, project.id, 'project/accept-user');
+    createNotification(
+      user.uid,
+      project.adminUid,
+      project.id,
+      'project/accept-user'
+    );
   };
 
   const handleRejectUser = async () => {
     if (!user || !project) return;
     rejectUser(request.projectId, request.userId);
-    createNotification(user.uid, project.id, 'project/reject-user');
+    createNotification(
+      user.uid,
+      project.adminUid,
+      project.id,
+      'project/reject-user'
+    );
   };
 
   if (error) return <li>Request encountered problem!</li>;

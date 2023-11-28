@@ -19,8 +19,11 @@ const LeaveProject = () => {
   const handleLeaveProject = () => {
     if (!user || !project) return;
     leaveProject();
-    createNotification(user.uid, project.id, 'project/leave');
-    // createNotification(project.adminUid, project.id, 'pro')
+    // notification to admin
+    createNotification(project.adminUid, user.uid, project.id, 'project/leave');
+    // notification to current user
+    createNotification(user.uid, user.uid, project.id, 'project/leave');
+    // move to root
     navigate('/');
   };
   return (

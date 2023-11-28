@@ -12,13 +12,40 @@ import {
   POPUP_FINISH_PROJECT,
 } from '../../../../constants/confirmPopupTexts';
 import { useTeam } from '../../../../context/TeamContext';
+import { useNotification } from '../../../../features/Notifications/hooks/useNotification';
 
 const AdminControls = () => {
   const { project, updateProjectField, deleteProject, finishProject } =
     useProject();
   const { team } = useTeam();
+  const { createMultipleNotifications } = useNotification();
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
   const [openFinishPopup, setOpenFinishPopup] = useState(false);
+
+  const handleFinishProject = () => {
+    if (!project || !team) return;
+    // finish project
+    finishProject(team);
+    // send notification to every member
+    createMultipleNotifications(
+      [project.adminUid, ...project.members],
+      project.adminUid,
+      project.id,
+      'project/completed'
+    );
+  };
+  const handleDeleteProject = () => {
+    if (!project || !team) return;
+    // delete project
+    deleteProject(team);
+    // send notification to every member
+    createMultipleNotifications(
+      [project.adminUid, ...project.members],
+      project.adminUid,
+      project.id,
+      'project/deleted'
+    );
+  };
 
   if (!project) return null;
 
@@ -28,17 +55,14 @@ const AdminControls = () => {
         <ConfirmPopup
           message={POPUP_DELETE_PROJECT}
           onCancel={() => setOpenDeletePopup(false)}
-          onConfirm={() => deleteProject(team ?? [])}
+          onConfirm={handleDeleteProject}
         />
       )}
       {openFinishPopup && (
         <ConfirmPopup
           message={POPUP_FINISH_PROJECT}
           onCancel={() => setOpenFinishPopup(false)}
-          onConfirm={async () => {
-            await finishProject(team ?? []);
-            setOpenFinishPopup(false);
-          }}
+          onConfirm={handleFinishProject}
         />
       )}
 

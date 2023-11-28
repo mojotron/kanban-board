@@ -27,11 +27,11 @@ const getText = (option: NotificationOptionType) => {
     case 'project/cancel-request':
       return 'canceled request to join';
     case 'task/completed':
-      return 'finished task in project';
+      return 'marked task as complete in project';
     case 'project/completed':
-      return 'Project is finished! =>';
+      return 'has set "Project Complete" to project';
     case 'project/deleted':
-      return 'Project is deleted! =>';
+      return 'has deleted project';
   }
 };
 
