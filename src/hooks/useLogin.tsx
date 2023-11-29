@@ -53,6 +53,7 @@ export const useLogin = () => {
           createdAt: Timestamp.fromDate(new Date()),
           notifications: [],
           appliedRequests: [],
+          upForWork: true,
         });
       }
       setIsPending(false);

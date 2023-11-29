@@ -15,6 +15,7 @@ export type UserType = {
   createdAt: Timestamp;
   notifications: string[];
   appliedRequests: RequestType[];
+  upForWork: boolean;
 };
 
 export type UserWithId = UserType & { id: string };

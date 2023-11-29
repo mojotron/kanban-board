@@ -9,13 +9,19 @@ import { formatTime } from '../../../../utils/formatTime';
 // icon
 import { AiFillGithub as GithubIcon } from 'react-icons/ai';
 import OuterLink from '../../../../components/OuterLink/OuterLink';
+import { useUserData } from '../../../../context/UserDataContext';
+import Button from '../../../../components/Button/Button';
 
 type PropsType = {
   user: UserType | undefined;
 };
 
 const ProfileHeader = ({ user }: PropsType) => {
-  if (!user) return;
+  const { document: currentUser, toggleUpForWork } = useUserData();
+
+  if (!user || !currentUser) return;
+
+  const isCurrentUser = user.uid === currentUser.uid;
 
   return (
     <header className={styles.header}>
@@ -42,6 +48,12 @@ const ProfileHeader = ({ user }: PropsType) => {
           <p>Finished projects: {user.projectsCompleted}</p>
           <p>Task Completed: {user.tasksCompleted}</p>
         </div>
+
+        {isCurrentUser && (
+          <Button handleClick={toggleUpForWork}>
+            {currentUser.upForWork ? 'Go Private' : 'Go Public'}
+          </Button>
+        )}
       </div>
     </header>
   );
