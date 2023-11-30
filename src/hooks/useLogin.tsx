@@ -54,6 +54,7 @@ export const useLogin = () => {
           notifications: [],
           appliedRequests: [],
           upForWork: true,
+          tags: [],
         });
       }
       setIsPending(false);

@@ -16,6 +16,7 @@ export type UserType = {
   notifications: string[];
   appliedRequests: RequestType[];
   upForWork: boolean;
+  tags: string[];
 };
 
 export type UserWithId = UserType & { id: string };

@@ -58,8 +58,6 @@
 }
 /* CONTROLS */
 .controls {
-  padding-top: 0.5rem;
-  padding-left: 0.25rem;
   display: flex;
   gap: 0.2rem;
 }
@@ -68,6 +66,11 @@
   list-style: none;
 }
 .updateList {
+  font-weight: bold;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  color: var(--COLOR-GREEN-400);
 }
 .newItemInput {
   display: flex;
@@ -86,7 +89,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 0.5rem 1.5rem;
   background-color: var(--COLOR-GRAY-500);
   border-radius: var(--BORDER-RADIUS);
 }

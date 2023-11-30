@@ -11,6 +11,8 @@ import { AiFillGithub as GithubIcon } from 'react-icons/ai';
 import OuterLink from '../../../../components/OuterLink/OuterLink';
 import { useUserData } from '../../../../context/UserDataContext';
 import Button from '../../../../components/Button/Button';
+import TagsList from '../../../../components/TagsList/TagsList';
+import UpdateList from '../../../../features/UpdateElement/UpdateList/UpdateList';
 
 type PropsType = {
   user: UserType | undefined;
@@ -18,6 +20,7 @@ type PropsType = {
 
 const ProfileHeader = ({ user }: PropsType) => {
   const { document: currentUser, toggleUpForWork } = useUserData();
+  console.log(user?.tags);
 
   if (!user || !currentUser) return;
 
@@ -25,7 +28,9 @@ const ProfileHeader = ({ user }: PropsType) => {
 
   return (
     <header className={styles.header}>
-      <Avatar imageUrl={user.photoUrl} userName={user.userName} size="100" />
+      <div style={{ marginBottom: 'auto' }}>
+        <Avatar imageUrl={user.photoUrl} userName={user.userName} size="100" />
+      </div>
       <div className={styles.wrapper}>
         <div>
           <div className={styles.name}>
@@ -47,14 +52,23 @@ const ProfileHeader = ({ user }: PropsType) => {
         <div className={styles.completed}>
           <p>Finished projects: {user.projectsCompleted}</p>
           <p>Task Completed: {user.tasksCompleted}</p>
+          {!isCurrentUser && <TagsList tags={user.tags} />}
         </div>
+      </div>
 
-        {isCurrentUser && (
-          <Button handleClick={toggleUpForWork}>
+      {isCurrentUser && (
+        <div className={styles.currentUser}>
+          <Button handleClick={toggleUpForWork} className="btn">
             {currentUser.upForWork ? 'Go Private' : 'Go Public'}
           </Button>
-        )}
-      </div>
+
+          <UpdateList
+            list={user.tags}
+            onUpdate={(newList) => console.log(newList)}
+            itemStyle="tag"
+          />
+        </div>
+      )}
     </header>
   );
 };
