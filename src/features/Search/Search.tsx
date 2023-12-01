@@ -1,13 +1,13 @@
 import { ProjectWithId } from '../../types/projectType';
-import SearchFilters from './components/SearchFilters/SearchFilters';
 import SearchResults from './components/SearchResults/SearchResults';
-import { PROJECT_FILTERS } from './constants/filters';
 import { useSearchDocuments } from './hooks/useSearchDocuments';
 import styles from './Search.module.css';
 import { ProjectFilterTypes } from './types/filterTypes';
 import LoadMoreButton from './components/LoadMoreButton/LoadMoreButton';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import { useParams } from 'react-router-dom';
+import SearchBar from './components/SearchBar/SearchBar';
+import SearchFilters from './components/SearchFilters/SearchFilters';
 
 const Search = () => {
   const { collectionName } = useParams<{ collectionName?: string }>();
@@ -28,14 +28,9 @@ const Search = () => {
 
   return (
     <main className={styles.searchProjects}>
-      <SearchFilters
-        filters={PROJECT_FILTERS}
-        currentFilter={filter}
-        onFiltersChange={updateFilter}
-        searchTerm={searchTerm}
-        onSearchTermChange={updateSearchTerm}
-        disabled={filter === 'latest'}
-      />
+      <SearchBar query="Hello" onChange={(s) => console.log(s)} ref={null} />
+      <SearchFilters filterOptions={['a', 'b', 'c']} />
+
       {collectionName === 'projects' && (
         <SearchResults>
           {documents.map((doc, i) => (

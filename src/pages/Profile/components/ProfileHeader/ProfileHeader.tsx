@@ -20,7 +20,6 @@ type PropsType = {
 
 const ProfileHeader = ({ user }: PropsType) => {
   const { document: currentUser, toggleUpForWork } = useUserData();
-  console.log(user?.tags);
 
   if (!user || !currentUser) return;
 
