@@ -1,13 +1,17 @@
+import styles from '../../Search.module.css';
+
 type PropsType = {
   filterOptions: string[];
   label?: string;
 };
 
-const SearchFilters = ({ filterOptions, label = 'Search by' }: PropsType) => {
+const SearchFilters = ({ filterOptions, label = 'filter by' }: PropsType) => {
   return (
-    <div>
-      <label htmlFor="filters">{label}</label>
-      <select id="filters">
+    <div className={styles.searchFilters}>
+      <label className={styles.searchFiltersLabel} htmlFor="filters">
+        {label}
+      </label>
+      <select id="filters" className={'input'}>
         {filterOptions.map((ele) => (
           <option key={ele}>{ele}</option>
         ))}

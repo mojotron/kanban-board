@@ -1,5 +1,4 @@
 import Button from '../../../../components/Button/Button';
-import styles from './LoadMoreButton.module.css';
 
 const LoadMoreButton = ({
   isFetching,
@@ -9,7 +8,7 @@ const LoadMoreButton = ({
   onLoadMore: () => void;
 }) => {
   return (
-    <Button handleClick={onLoadMore} className={styles.btnLoadMore}>
+    <Button handleClick={onLoadMore} className="btn">
       {isFetching ? 'Loading...' : 'Load More'}
     </Button>
   );

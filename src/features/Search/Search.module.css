@@ -3,9 +3,47 @@
   display: flex;
   flex-direction: column;
 }
+/* SEARCH */
+.searchWrapper {
+  display: flex;
+  gap: 1rem;
+  margin: 0 auto;
+}
 /* SEARCH BAR */
 .searchBar {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
+}
+.searchBarIcon {
+  color: var(--COLOR-BLUE-400);
+}
+/* FILTERS */
+.searchFiltersSelect {
+  border: none;
+  background: none;
+  outline: none;
+  color: var(--COLOR-BLUE-500);
+  font-size: inherit;
+  background-color: var(--COLOR-GRAY-200);
+  padding: 0.5rem 6rem 0.5rem 2rem;
+  border-radius: var(--BORDER-RADIUS);
+  appearance: none;
+  -webkit-appearance: none;
+}
+.searchFiltersLabel {
+  font-size: 1.6rem;
+}
+
+.searchIcon {
+  cursor: text;
+  color: var(--COLOR-BLUE-500);
+}
+.searchFilters {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-right: auto;
+  cursor: pointer;
 }

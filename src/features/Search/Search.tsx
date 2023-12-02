@@ -28,8 +28,10 @@ const Search = () => {
 
   return (
     <main className={styles.searchProjects}>
-      <SearchBar query="Hello" onChange={(s) => console.log(s)} ref={null} />
-      <SearchFilters filterOptions={['a', 'b', 'c']} />
+      <search className={styles.searchWrapper}>
+        <SearchBar query="Hello" onChange={(s) => console.log(s)} ref={null} />
+        <SearchFilters filterOptions={['name', 'tag', 'user']} />
+      </search>
 
       {collectionName === 'projects' && (
         <SearchResults>

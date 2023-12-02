@@ -1,6 +1,6 @@
 import { FaSearch as IconSearch } from 'react-icons/fa';
 import styles from '../../Search.module.css';
-import { Dispatch, SetStateAction, RefObject } from 'react';
+import { RefObject } from 'react';
 
 type PropsType = {
   query: string;
@@ -17,8 +17,9 @@ const SearchBar = ({
 }: PropsType) => {
   return (
     <div className={styles.searchBar}>
-      <IconSearch />
+      <IconSearch size={18} className={styles.searchBarIcon} />
       <input
+        className="input"
         ref={ref}
         type="search"
         placeholder={placeholder}
