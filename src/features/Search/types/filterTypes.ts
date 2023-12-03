@@ -5,3 +5,5 @@ export type ProjectFilterTypes = (typeof projectFilters)[number];
 
 const userFilters = [...USER_FILTERS] as const;
 export type UserFilerTypes = (typeof userFilters)[number];
+
+export type SearchCollections = 'projects' | 'users';

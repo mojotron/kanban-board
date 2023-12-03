@@ -8,32 +8,34 @@ import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import { useParams } from 'react-router-dom';
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchFilters from './components/SearchFilters/SearchFilters';
+// constants
+import { SEARCH_FILTERS } from './constants/filters';
+// types
+import type { SearchCollections } from './types/filterTypes';
+import { useSearch } from './hooks/useSearch';
 
 const Search = () => {
-  const { collectionName } = useParams<{ collectionName?: string }>();
+  const { collectionName } = useParams<{
+    collectionName?: SearchCollections;
+  }>();
 
-  const {
-    documents,
-    getNext,
-    isFetching,
-    endOfDocuments,
-    filter,
-    updateFilter,
-    searchTerm,
-    updateSearchTerm,
-  } = useSearchDocuments<ProjectWithId, ProjectFilterTypes>(
-    collectionName,
-    'latest'
-  );
+  const { filter, updateFilter, query, updateQuery } =
+    useSearch(collectionName);
+
+  if (!collectionName) return null;
 
   return (
     <main className={styles.searchProjects}>
       <search className={styles.searchWrapper}>
-        <SearchBar query="Hello" onChange={(s) => console.log(s)} ref={null} />
-        <SearchFilters filterOptions={['name', 'tag', 'user']} />
+        <SearchBar query={query} onChange={updateQuery} ref={null} />
+        <SearchFilters
+          filterOptions={SEARCH_FILTERS[collectionName]}
+          currentFilter={filter}
+          onFilterChange={updateFilter}
+        />
       </search>
 
-      {collectionName === 'projects' && (
+      {/* {collectionName === 'projects' && (
         <SearchResults>
           {documents.map((doc, i) => (
             <ProjectCard key={i} data={doc as ProjectWithId} />
@@ -46,7 +48,7 @@ const Search = () => {
       )}
       {collectionName === 'users' && (
         <p>User search functionality coming soon!</p>
-      )}
+      )} */}
     </main>
   );
 };
