@@ -19,15 +19,23 @@ const Search = () => {
     collectionName?: SearchCollections;
   }>();
 
-  const { filter, updateFilter, query, updateQuery } =
-    useSearch(collectionName);
+  const {
+    filter,
+    updateFilter,
+    searchTerm,
+    updateSearchTerm,
+    documents,
+    isFetching,
+    endOfDocuments,
+    getNext,
+  } = useSearch(collectionName);
 
   if (!collectionName) return null;
 
   return (
     <main className={styles.searchProjects}>
       <search className={styles.searchWrapper}>
-        <SearchBar query={query} onChange={updateQuery} ref={null} />
+        <SearchBar query={searchTerm} onChange={updateSearchTerm} ref={null} />
         <SearchFilters
           filterOptions={SEARCH_FILTERS[collectionName]}
           currentFilter={filter}
@@ -35,7 +43,7 @@ const Search = () => {
         />
       </search>
 
-      {/* {collectionName === 'projects' && (
+      {collectionName === 'projects' && (
         <SearchResults>
           {documents.map((doc, i) => (
             <ProjectCard key={i} data={doc as ProjectWithId} />
@@ -48,7 +56,7 @@ const Search = () => {
       )}
       {collectionName === 'users' && (
         <p>User search functionality coming soon!</p>
-      )} */}
+      )}
     </main>
   );
 };

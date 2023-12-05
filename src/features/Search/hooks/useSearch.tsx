@@ -1,15 +1,32 @@
 import { useCallback, useEffect, useReducer } from 'react';
 // types
 import type { SearchCollections } from '../types/filterTypes';
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import {
+  collection,
+  DocumentData,
+  orderBy,
+  query,
+  limit,
+  QueryDocumentSnapshot,
+  getDocs,
+  startAfter,
+} from 'firebase/firestore';
+import { firebaseFirestore } from '../../../firebase/config';
+import { UserWithId } from '../../../types/userType';
+import { ProjectWithId } from '../../../types/projectType';
+
+const DOC_LIMIT = 2;
+
+type DocType = UserWithId | ProjectWithId;
 
 type StateType = {
   filter: string;
-  query: string;
+  searchTerm: string;
   isFetching: boolean;
-  documents: QueryDocumentSnapshot<DocumentData>[];
+  documents: DocType[];
   error: null | string;
   lastDocument: QueryDocumentSnapshot<DocumentData> | null;
+  endOfDocuments: boolean;
 };
 type ActionType =
   | { type: 'filter/update'; payload: string }
@@ -19,79 +36,169 @@ type ActionType =
   | {
       type: 'documents/load';
       payload: {
-        documents: QueryDocumentSnapshot<DocumentData>[];
+        documents: DocType[];
         lastDocument: QueryDocumentSnapshot<DocumentData>;
       };
     }
-  | { type: 'document/end'; payload: boolean };
+  | { type: 'document/end' };
 
 export const useSearch = (collectionName: SearchCollections | undefined) => {
   // obligatory(url param)| optional(user input)
   // [collectionName      /filter      /query]
-  const [{ filter, query }, dispatch] = useReducer(
+  const [
+    { filter, searchTerm, documents, endOfDocuments, lastDocument, isFetching },
+    dispatch,
+  ] = useReducer(
     (state: StateType, action: ActionType) => {
       switch (action.type) {
         case 'filter/update':
           return { ...state, filter: action.payload };
         case 'query/update':
-          return { ...state, query: action.payload };
+          return { ...state, searchTerm: action.payload };
         case 'documents/fetching':
           return { ...state, isFetching: true };
         case 'documents/error':
-          return { ...state, error: action.payload };
+          return { ...state, error: action.payload, isFetching: false };
+        case 'documents/load':
+          const newDocs = [...state.documents, ...action.payload.documents];
+          return {
+            ...state,
+            documents: newDocs,
+            lastDocument: action.payload.lastDocument,
+            isFetching: false,
+          };
+        case 'document/end':
+          return {
+            ...state,
+            lastDocument: null,
+            isFetching: false,
+            endOfDocuments: true,
+          };
         default:
           return { ...state };
       }
     },
     {
       filter: 'tag',
-      query: '',
+      searchTerm: '',
       isFetching: false,
       documents: [],
       error: null,
       lastDocument: null,
+      endOfDocuments: false,
     }
   );
 
   const getFirst = useCallback(async () => {
+    if (!collectionName) return;
     try {
+      dispatch({ type: 'documents/fetching' });
+      const first = query(
+        collection(firebaseFirestore, collectionName),
+        orderBy('createdAt', 'desc'),
+        limit(DOC_LIMIT)
+      );
+      const docsSnapshot = await getDocs(first);
+      if (docsSnapshot.empty) {
+        dispatch({ type: 'document/end' });
+      } else {
+        const data: DocType[] = [];
+        docsSnapshot.forEach((doc) => {
+          data.push({ ...doc.data(), id: doc.id } as DocType);
+        });
+        const lastDoc = docsSnapshot.docs[docsSnapshot.docs.length - 1];
+        dispatch({
+          type: 'documents/load',
+          payload: { documents: data, lastDocument: lastDoc },
+        });
+      }
     } catch (error) {
       if (error instanceof Error) {
+        dispatch({
+          type: 'documents/error',
+          payload: 'Unable to load documents, pleas try again later!',
+        });
       }
     }
   }, [collectionName]);
 
   const getNext = useCallback(async () => {
+    if (!collectionName) return;
+    if (endOfDocuments === true) return;
+    if (isFetching === true) return;
+
     try {
+      dispatch({ type: 'documents/fetching' });
+
+      const next = query(
+        collection(firebaseFirestore, collectionName),
+        orderBy('createdAt', 'desc'),
+        startAfter(lastDocument || 0),
+        limit(DOC_LIMIT)
+      );
+
+      const docSnapshots = await getDocs(next);
+
+      if (docSnapshots.empty) {
+        dispatch({ type: 'document/end' });
+        return;
+      }
+      const data: DocType[] = [];
+      docSnapshots.forEach((doc) => {
+        data.push({ ...doc.data(), id: doc.id } as DocType);
+      });
+      const lastDoc = docSnapshots.docs[docSnapshots.docs.length - 1];
+
+      dispatch({
+        type: 'documents/load',
+        payload: { documents: data, lastDocument: lastDoc },
+      });
     } catch (error) {
       if (error instanceof Error) {
+        dispatch({
+          type: 'documents/error',
+          payload: 'Unable to load documents, pleas try again later!',
+        });
       }
     }
-  }, [collectionName]);
+  }, [collectionName, lastDocument, endOfDocuments]);
 
   const updateFilter = useCallback((newFilter: string) => {
     dispatch({ type: 'filter/update', payload: newFilter });
   }, []);
 
-  const updateQuery = useCallback((newQuery: string) => {
+  const updateSearchTerm = useCallback((newQuery: string) => {
     dispatch({ type: 'query/update', payload: newQuery });
   }, []);
 
   useEffect(() => {
-    if (query === '') return;
     let timeout: NodeJS.Timer;
+    if (searchTerm === '') {
+      getFirst();
+    } else {
+      const debounce = () => {
+        timeout = setTimeout(() => {
+          console.log('get data', query);
+          // TODO load first
+        }, 1000);
+      };
 
-    const debounce = () => {
-      timeout = setTimeout(() => {
-        console.log('get data', query);
-        // TODO load first
-      }, 1000);
+      debounce();
+    }
+
+    return () => {
+      if (timeout) clearTimeout(timeout);
     };
+  }, [searchTerm]);
 
-    debounce();
-
-    return () => clearTimeout(timeout);
-  }, [query]);
-
-  return { filter, updateFilter, query, updateQuery };
+  return {
+    filter,
+    updateFilter,
+    searchTerm,
+    updateSearchTerm,
+    documents,
+    isFetching,
+    endOfDocuments,
+    getNext,
+  };
 };
