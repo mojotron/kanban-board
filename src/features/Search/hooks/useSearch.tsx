@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from 'react';
+import { useCallback, useEffect, useMemo, useReducer } from 'react';
 // types
 import type { SearchCollections } from '../types/filterTypes';
 import {
@@ -10,12 +10,34 @@ import {
   QueryDocumentSnapshot,
   getDocs,
   startAfter,
+  CollectionReference,
+  where,
+  QueryLimitConstraint,
 } from 'firebase/firestore';
 import { firebaseFirestore } from '../../../firebase/config';
 import { UserWithId } from '../../../types/userType';
 import { ProjectWithId } from '../../../types/projectType';
 
-const DOC_LIMIT = 2;
+const DOC_LIMIT: number = 2;
+
+const calcFirstQuery = (
+  collectionRef: CollectionReference<DocumentData>,
+  filter: string,
+  searchTerm: string,
+  docLimit: number
+) => {
+  if (filter === '') {
+    return query(collectionRef, orderBy('createdAt', 'desc'), limit(docLimit));
+  }
+  if (filter === 'tag') {
+    return query(
+      collectionRef,
+      orderBy('cratedAt', 'desc'),
+      where(searchTerm, 'in', 'tags'),
+      limit(docLimit)
+    );
+  }
+};
 
 type DocType = UserWithId | ProjectWithId;
 
@@ -89,12 +111,17 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
     }
   );
 
+  const collectionRef = useMemo(() => {
+    if (!collectionName) return undefined;
+    return collection(firebaseFirestore, collectionName);
+  }, [collectionName]);
+
   const getFirst = useCallback(async () => {
-    if (!collectionName) return;
+    if (!collectionRef) return;
     try {
       dispatch({ type: 'documents/fetching' });
       const first = query(
-        collection(firebaseFirestore, collectionName),
+        collectionRef,
         orderBy('createdAt', 'desc'),
         limit(DOC_LIMIT)
       );
@@ -123,7 +150,7 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
   }, [collectionName]);
 
   const getNext = useCallback(async () => {
-    if (!collectionName) return;
+    if (!collectionRef) return;
     if (endOfDocuments === true) return;
     if (isFetching === true) return;
 
@@ -131,7 +158,7 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
       dispatch({ type: 'documents/fetching' });
 
       const next = query(
-        collection(firebaseFirestore, collectionName),
+        collectionRef,
         orderBy('createdAt', 'desc'),
         startAfter(lastDocument || 0),
         limit(DOC_LIMIT)
