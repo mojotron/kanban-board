@@ -12,7 +12,6 @@ import {
   startAfter,
   CollectionReference,
   where,
-  QueryLimitConstraint,
 } from 'firebase/firestore';
 import { firebaseFirestore } from '../../../firebase/config';
 import { UserWithId } from '../../../types/userType';
@@ -24,18 +23,63 @@ const calcFirstQuery = (
   collectionRef: CollectionReference<DocumentData>,
   filter: string,
   searchTerm: string,
-  docLimit: number
+  docLimit: number,
+  first: boolean,
+  lastDocument?: QueryDocumentSnapshot<DocumentData> | null
 ) => {
-  if (filter === '') {
-    return query(collectionRef, orderBy('createdAt', 'desc'), limit(docLimit));
+  if (searchTerm === '') {
+    if (first) {
+      return query(
+        collectionRef,
+        orderBy('createdAt', 'desc'),
+        limit(docLimit)
+      );
+    } else {
+      return query(
+        collectionRef,
+        orderBy('createdAt', 'desc'),
+        startAfter(lastDocument || 0),
+        limit(docLimit)
+      );
+    }
   }
-  if (filter === 'tag') {
-    return query(
-      collectionRef,
-      orderBy('cratedAt', 'desc'),
-      where(searchTerm, 'in', 'tags'),
-      limit(docLimit)
+  if (filter === 'tags') {
+    if (first) {
+      return query(
+        collectionRef,
+        where(filter, 'array-contains', searchTerm),
+        limit(docLimit)
+      );
+    } else {
+      return query(
+        collectionRef,
+        where(filter, 'array-contains', searchTerm),
+        startAfter(lastDocument || 0),
+        limit(docLimit)
+      );
+    }
+  }
+  if (filter === 'name' || filter === 'userName') {
+    const end = searchTerm.replace(/.$/, (c) =>
+      String.fromCharCode(c.charCodeAt(0) + 1)
     );
+
+    if (first) {
+      return query(
+        collectionRef,
+        where(filter, '>=', searchTerm),
+        where(filter, '<', end),
+        limit(docLimit)
+      );
+    } else {
+      return query(
+        collectionRef,
+        where(filter, '>=', searchTerm),
+        where(filter, '<', end),
+        startAfter(lastDocument || 0),
+        limit(docLimit)
+      );
+    }
   }
 };
 
@@ -62,7 +106,8 @@ type ActionType =
         lastDocument: QueryDocumentSnapshot<DocumentData>;
       };
     }
-  | { type: 'document/end' };
+  | { type: 'document/end' }
+  | { type: 'document/reset' };
 
 export const useSearch = (collectionName: SearchCollections | undefined) => {
   // obligatory(url param)| optional(user input)
@@ -96,12 +141,21 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
             isFetching: false,
             endOfDocuments: true,
           };
+        case 'document/reset':
+          return {
+            ...state,
+            isFetching: false,
+            documents: [],
+            error: null,
+            lastDocument: null,
+            endOfDocuments: false,
+          };
         default:
           return { ...state };
       }
     },
     {
-      filter: 'tag',
+      filter: 'tags',
       searchTerm: '',
       isFetching: false,
       documents: [],
@@ -117,14 +171,24 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
   }, [collectionName]);
 
   const getFirst = useCallback(async () => {
-    if (!collectionRef) return;
+    console.log('x');
+
+    if (collectionRef === undefined) return;
     try {
+      dispatch({ type: 'document/reset' });
       dispatch({ type: 'documents/fetching' });
-      const first = query(
+
+      const first = calcFirstQuery(
         collectionRef,
-        orderBy('createdAt', 'desc'),
-        limit(DOC_LIMIT)
+        filter,
+        searchTerm,
+        DOC_LIMIT,
+        true,
+        undefined
       );
+
+      if (first === undefined) return;
+
       const docsSnapshot = await getDocs(first);
       if (docsSnapshot.empty) {
         dispatch({ type: 'document/end' });
@@ -147,7 +211,7 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
         });
       }
     }
-  }, [collectionName]);
+  }, [filter, searchTerm]);
 
   const getNext = useCallback(async () => {
     if (!collectionRef) return;
@@ -157,16 +221,20 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
     try {
       dispatch({ type: 'documents/fetching' });
 
-      const next = query(
+      const next = calcFirstQuery(
         collectionRef,
-        orderBy('createdAt', 'desc'),
-        startAfter(lastDocument || 0),
-        limit(DOC_LIMIT)
+        filter,
+        searchTerm,
+        DOC_LIMIT,
+        false,
+        lastDocument
       );
+      if (next === undefined) return;
 
       const docSnapshots = await getDocs(next);
 
       if (docSnapshots.empty) {
+        console.log('HELLO');
         dispatch({ type: 'document/end' });
         return;
       }
@@ -188,7 +256,7 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
         });
       }
     }
-  }, [collectionName, lastDocument, endOfDocuments]);
+  }, [filter, searchTerm, lastDocument, endOfDocuments]);
 
   const updateFilter = useCallback((newFilter: string) => {
     dispatch({ type: 'filter/update', payload: newFilter });
@@ -205,8 +273,9 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
     } else {
       const debounce = () => {
         timeout = setTimeout(() => {
-          console.log('get data', query);
-          // TODO load first
+          console.log('try');
+
+          getFirst();
         }, 1000);
       };
 
@@ -226,6 +295,7 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
     documents,
     isFetching,
     endOfDocuments,
+    getFirst,
     getNext,
   };
 };
