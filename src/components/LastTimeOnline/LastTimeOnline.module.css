@@ -1,0 +1,15 @@
+.small {
+  font-size: 1.25rem;
+}
+.normal {
+  font-size: 1.6rem;
+}
+.large {
+  font-size: 1.953rem;
+}
+.online {
+  color: var(--COLOR-GREEN-400);
+}
+.offline {
+  color: var(--COLOR-RED-400);
+}

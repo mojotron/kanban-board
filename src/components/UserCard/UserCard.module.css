@@ -1,0 +1,44 @@
+.user {
+  display: flex;
+  gap: 2rem;
+  background-color: var(--COLOR-GRAY-600);
+  border-radius: var(--BORDER-RADIUS);
+  font-size: 1.25rem;
+  width: 35rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+.user:hover {
+  box-shadow: var(--BOX-SHADOW);
+}
+.userLeft,
+.userRight {
+  padding: 3rem 2rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+.userLeft {
+  align-items: center;
+  background-color: var(--COLOR-GRAY-500);
+  border-right: 1px solid var(--COLOR-GRAY-400);
+}
+.userName {
+  font-size: 1.6rem;
+}
+.userOpen {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+/* UP FOR WORK */
+.icon {
+  width: 2rem;
+  height: 2rem;
+}
+.iconGreen {
+  color: var(--COLOR-GREEN-400);
+}
+.iconRed {
+  color: var(--COLOR-RED-400);
+}

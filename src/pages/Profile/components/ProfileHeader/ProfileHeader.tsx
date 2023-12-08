@@ -13,6 +13,7 @@ import { useUserData } from '../../../../context/UserDataContext';
 import Button from '../../../../components/Button/Button';
 import TagsList from '../../../../components/TagsList/TagsList';
 import UpdateList from '../../../../features/UpdateElement/UpdateList/UpdateList';
+import LastTimeOnline from '../../../../components/LastTimeOnline/LastTimeOnline';
 
 type PropsType = {
   user: UserType | undefined;
@@ -39,13 +40,7 @@ const ProfileHeader = ({ user }: PropsType) => {
             </OuterLink>
           </div>
 
-          <p className={user.online ? styles.online : styles.offline}>
-            {user.online
-              ? 'online'
-              : `Last time online: ${formatTime(
-                  user.lastLoggedOut.seconds * 1000
-                )}`}
-          </p>
+          <LastTimeOnline user={user} size="large" />
         </div>
 
         <div className={styles.completed}>

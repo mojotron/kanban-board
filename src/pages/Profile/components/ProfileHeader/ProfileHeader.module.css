@@ -14,17 +14,7 @@
   gap: 1rem;
   margin-bottom: 0.5rem;
 }
-.online,
-.offline {
-  font-size: 1.563rem;
-  margin-bottom: 0.5rem;
-}
-.online {
-  color: var(--COLOR-GREEN-500);
-}
-.offline {
-  color: var(--COLOR-RED-500);
-}
+
 .completed p {
   font-size: 1.563rem;
   margin-bottom: 0.5rem;

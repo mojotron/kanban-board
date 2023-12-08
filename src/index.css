@@ -64,6 +64,8 @@ white space scale system linear progression
 
   --BORDER-RADIUS: 4px;
   --BORDER: 3px solid var(--COLOR-ACCENT-500);
+  --BOX-SHADOW: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
 html {

@@ -211,7 +211,7 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
         });
       }
     }
-  }, [filter, searchTerm]);
+  }, [filter, searchTerm, collectionName]);
 
   const getNext = useCallback(async () => {
     if (!collectionRef) return;
@@ -285,7 +285,11 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
     return () => {
       if (timeout) clearTimeout(timeout);
     };
-  }, [searchTerm]);
+  }, [collectionName, searchTerm]);
+
+  useEffect(() => {
+    dispatch({ type: 'document/reset' });
+  }, [collectionName]);
 
   return {
     filter,
