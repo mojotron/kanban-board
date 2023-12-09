@@ -7,10 +7,7 @@ import {
 } from 'react-icons/io5';
 import { IoIosCreate as IconCreateProject } from 'react-icons/io';
 import { MdFindInPage as IconFindProject } from 'react-icons/md';
-import {
-  RiUserSearchFill as IconFindUser,
-  RiLogoutBoxRFill as IconLogOut,
-} from 'react-icons/ri';
+import { RiLogoutBoxRFill as IconLogOut } from 'react-icons/ri';
 // components
 import Logo from '../Logo/Logo';
 import CopyRight from '../Copyright/CopyRight';
@@ -29,9 +26,8 @@ import { useNavigate } from 'react-router-dom';
 import { useUserData } from '../../context/UserDataContext';
 
 const MENU_ITEM_TEXT = {
-  createProject: 'Create New Project',
-  findProject: 'Search for Projects',
-  findUser: 'Search for Collaborator',
+  createProject: 'New Project',
+  findProject: 'Search',
   profile: 'Profile',
   logout: 'Logout',
 };
@@ -56,13 +52,8 @@ const AsideMenu = () => {
       },
       {
         text: MENU_ITEM_TEXT.findProject,
-        handleClick: () => navigate('/search/projects'),
+        handleClick: () => navigate('/search'),
         icon: <IconFindProject size={25} title={MENU_ITEM_TEXT.findProject} />,
-      },
-      {
-        text: MENU_ITEM_TEXT.findUser,
-        handleClick: () => navigate('/search/users'),
-        icon: <IconFindUser size={25} title={MENU_ITEM_TEXT.findUser} />,
       },
       {
         text: MENU_ITEM_TEXT.profile,

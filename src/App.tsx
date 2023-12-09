@@ -50,7 +50,7 @@ const App = () => {
                     </>
                   }
                 />
-                <Route path="/search/:collectionName" element={<Search />} />
+                <Route path="/search" element={<Search />} />
                 <Route
                   path="/project/:projectId"
                   element={<ProjectDetails />}

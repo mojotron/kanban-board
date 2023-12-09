@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useReducer } from 'react';
 // types
-import type { SearchCollections } from '../types/filterTypes';
+
 import {
   collection,
   DocumentData,
@@ -86,6 +86,7 @@ const calcFirstQuery = (
 type DocType = UserWithId | ProjectWithId;
 
 type StateType = {
+  collectionName: string;
   filter: string;
   searchTerm: string;
   isFetching: boolean;
@@ -95,6 +96,7 @@ type StateType = {
   endOfDocuments: boolean;
 };
 type ActionType =
+  | { type: 'collection/update'; payload: string }
   | { type: 'filter/update'; payload: string }
   | { type: 'query/update'; payload: string }
   | { type: 'documents/fetching' }
@@ -109,15 +111,25 @@ type ActionType =
   | { type: 'document/end' }
   | { type: 'document/reset' };
 
-export const useSearch = (collectionName: SearchCollections | undefined) => {
+export const useSearch = () => {
   // obligatory(url param)| optional(user input)
   // [collectionName      /filter      /query]
   const [
-    { filter, searchTerm, documents, endOfDocuments, lastDocument, isFetching },
+    {
+      collectionName,
+      filter,
+      searchTerm,
+      documents,
+      endOfDocuments,
+      lastDocument,
+      isFetching,
+    },
     dispatch,
   ] = useReducer(
     (state: StateType, action: ActionType) => {
       switch (action.type) {
+        case 'collection/update':
+          return { ...state, collectionName: action.payload, documents: [] };
         case 'filter/update':
           return { ...state, filter: action.payload };
         case 'query/update':
@@ -155,6 +167,7 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
       }
     },
     {
+      collectionName: 'projects',
       filter: 'tags',
       searchTerm: '',
       isFetching: false,
@@ -166,13 +179,10 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
   );
 
   const collectionRef = useMemo(() => {
-    if (!collectionName) return undefined;
     return collection(firebaseFirestore, collectionName);
   }, [collectionName]);
 
   const getFirst = useCallback(async () => {
-    console.log('x');
-
     if (collectionRef === undefined) return;
     try {
       dispatch({ type: 'document/reset' });
@@ -256,7 +266,11 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
         });
       }
     }
-  }, [filter, searchTerm, lastDocument, endOfDocuments]);
+  }, [collectionName, filter, searchTerm, lastDocument, endOfDocuments]);
+
+  const updateCollection = useCallback((newCollection: string) => {
+    dispatch({ type: 'collection/update', payload: newCollection });
+  }, []);
 
   const updateFilter = useCallback((newFilter: string) => {
     dispatch({ type: 'filter/update', payload: newFilter });
@@ -287,11 +301,9 @@ export const useSearch = (collectionName: SearchCollections | undefined) => {
     };
   }, [collectionName, searchTerm]);
 
-  useEffect(() => {
-    dispatch({ type: 'document/reset' });
-  }, [collectionName]);
-
   return {
+    collectionName,
+    updateCollection,
     filter,
     updateFilter,
     searchTerm,

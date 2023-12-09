@@ -292,6 +292,7 @@ body {
   font-family: inherit;
   color: var(--COLOR-GRAY-700);
   transition: all 0.4s ease-in-out;
+  width: 100%;
 }
 .input--text-area {
   height: 7rem;

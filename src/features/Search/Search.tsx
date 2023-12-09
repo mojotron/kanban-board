@@ -3,7 +3,7 @@ import SearchResults from './components/SearchResults/SearchResults';
 import styles from './Search.module.css';
 import LoadMoreButton from './components/LoadMoreButton/LoadMoreButton';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
-import { useParams } from 'react-router-dom';
+
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchFilters from './components/SearchFilters/SearchFilters';
 // constants
@@ -14,14 +14,11 @@ import { useSearch } from './hooks/useSearch';
 
 import UserCard from '../../components/UserCard/UserCard';
 import { UserWithId } from '../../types/userType';
-import { useEffect } from 'react';
 
 const Search = () => {
-  const { collectionName } = useParams<{
-    collectionName?: SearchCollections;
-  }>();
-
   const {
+    collectionName: collection,
+    updateCollection,
     filter,
     updateFilter,
     searchTerm,
@@ -30,28 +27,34 @@ const Search = () => {
     isFetching,
     endOfDocuments,
     getNext,
-  } = useSearch(collectionName);
-
-  if (!collectionName) return null;
+  } = useSearch();
 
   return (
     <main className={styles.searchProjects}>
       <search className={styles.searchWrapper}>
         <SearchBar query={searchTerm} onChange={updateSearchTerm} ref={null} />
-        <SearchFilters
-          filterOptions={SEARCH_FILTERS[collectionName]}
-          currentFilter={filter}
-          onFilterChange={updateFilter}
-        />
+        <div className={styles.filterWrapper}>
+          <SearchFilters
+            filterOptions={['projects', 'users']}
+            currentFilter={collection}
+            onFilterChange={updateCollection}
+            label="search for"
+          />
+          <SearchFilters
+            filterOptions={SEARCH_FILTERS[collection]}
+            currentFilter={filter}
+            onFilterChange={updateFilter}
+          />
+        </div>
       </search>
 
       <SearchResults>
-        {collectionName === 'projects' &&
+        {collection === 'projects' &&
           documents.map((doc, i) => (
             <ProjectCard key={i} data={doc as ProjectWithId} />
           ))}
 
-        {collectionName === 'users' &&
+        {collection === 'users' &&
           documents.map((doc, i) => (
             <UserCard key={i} user={doc as UserWithId} />
           ))}
