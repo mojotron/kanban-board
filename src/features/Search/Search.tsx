@@ -7,7 +7,7 @@ import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchFilters from './components/SearchFilters/SearchFilters';
 // constants
-import { SEARCH_FILTERS } from './constants/filters';
+import { SEARCH_COLLECTION, SEARCH_FILTERS } from './constants/filters';
 // types
 import type { SearchCollections } from './types/filterTypes';
 import { useSearch } from './hooks/useSearch';
@@ -35,9 +35,11 @@ const Search = () => {
         <SearchBar query={searchTerm} onChange={updateSearchTerm} ref={null} />
         <div className={styles.filterWrapper}>
           <SearchFilters
-            filterOptions={['projects', 'users']}
+            filterOptions={SEARCH_COLLECTION}
             currentFilter={collection}
-            onFilterChange={updateCollection}
+            onFilterChange={(value) =>
+              updateCollection(value as SearchCollections)
+            }
             label="search for"
           />
           <SearchFilters

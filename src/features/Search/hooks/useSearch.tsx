@@ -16,6 +16,7 @@ import {
 import { firebaseFirestore } from '../../../firebase/config';
 import { UserWithId } from '../../../types/userType';
 import { ProjectWithId } from '../../../types/projectType';
+import { SearchCollections } from '../types/filterTypes';
 
 const DOC_LIMIT: number = 2;
 
@@ -86,7 +87,7 @@ const calcFirstQuery = (
 type DocType = UserWithId | ProjectWithId;
 
 type StateType = {
-  collectionName: string;
+  collectionName: SearchCollections;
   filter: string;
   searchTerm: string;
   isFetching: boolean;
@@ -96,7 +97,7 @@ type StateType = {
   endOfDocuments: boolean;
 };
 type ActionType =
-  | { type: 'collection/update'; payload: string }
+  | { type: 'collection/update'; payload: SearchCollections }
   | { type: 'filter/update'; payload: string }
   | { type: 'query/update'; payload: string }
   | { type: 'documents/fetching' }
@@ -268,7 +269,7 @@ export const useSearch = () => {
     }
   }, [collectionName, filter, searchTerm, lastDocument, endOfDocuments]);
 
-  const updateCollection = useCallback((newCollection: string) => {
+  const updateCollection = useCallback((newCollection: SearchCollections) => {
     dispatch({ type: 'collection/update', payload: newCollection });
   }, []);
 
