@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { UserWithId } from '../../types/userType';
 import Avatar from '../Avatar/Avatar';
 import LastTimeOnline from '../LastTimeOnline/LastTimeOnline';
@@ -13,10 +14,10 @@ type PropsType = {
 };
 
 const UserCard = ({ user }: PropsType) => {
-  console.log(user);
+  const navigate = useNavigate();
 
   return (
-    <div className={styles.user}>
+    <div className={styles.user} onClick={() => navigate(`/${user.uid}`)}>
       <div className={styles.userLeft}>
         <Avatar imageUrl={user.photoUrl} userName={user.userName} size="50" />
       </div>

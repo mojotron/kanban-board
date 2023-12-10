@@ -32,6 +32,14 @@ const getText = (option: NotificationOptionType) => {
       return 'has set "Project Complete" to project';
     case 'project/deleted':
       return 'has deleted project';
+    case 'project/invite-user':
+      return 'invited you to join';
+    case 'project/reject-invite':
+      return 'rejected invite to join';
+    case 'project/accept-invite':
+      return 'accepted your invite to join';
+    case 'project/cancel-invite':
+      return 'rejected invite to join';
   }
 };
 

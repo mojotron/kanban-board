@@ -7,8 +7,12 @@ export type NotificationOptionType =
   | 'project/send-request'
   | 'project/cancel-request'
   | 'project/completed'
+  | 'project/deleted'
   | 'task/completed'
-  | 'project/deleted';
+  | 'project/invite-user'
+  | 'project/cancel-invite'
+  | 'project/accept-invite'
+  | 'project/reject-invite';
 
 export type NotificationType = {
   createdAt: Timestamp;

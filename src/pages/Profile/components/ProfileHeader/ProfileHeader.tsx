@@ -4,8 +4,6 @@ import Avatar from '../../../../components/Avatar/Avatar';
 import { UserType } from '../../../../types/userType';
 // styles
 import styles from './ProfileHeader.module.css';
-// utils
-import { formatTime } from '../../../../utils/formatTime';
 // icon
 import { AiFillGithub as GithubIcon } from 'react-icons/ai';
 import OuterLink from '../../../../components/OuterLink/OuterLink';
@@ -14,6 +12,7 @@ import Button from '../../../../components/Button/Button';
 import TagsList from '../../../../components/TagsList/TagsList';
 import UpdateList from '../../../../features/UpdateElement/UpdateList/UpdateList';
 import LastTimeOnline from '../../../../components/LastTimeOnline/LastTimeOnline';
+import InviteUser from '../InviteUser/InviteUser';
 
 type PropsType = {
   user: UserType | undefined;
@@ -40,7 +39,7 @@ const ProfileHeader = ({ user }: PropsType) => {
             </OuterLink>
           </div>
 
-          <LastTimeOnline user={user} size="large" />
+          <LastTimeOnline user={user} size="normal" />
         </div>
 
         <div className={styles.completed}>
@@ -50,7 +49,7 @@ const ProfileHeader = ({ user }: PropsType) => {
         </div>
       </div>
 
-      {isCurrentUser && (
+      {isCurrentUser ? (
         <div className={styles.currentUser}>
           <Button handleClick={toggleUpForWork} className="btn">
             {currentUser.upForWork ? 'Go Private' : 'Go Public'}
@@ -62,6 +61,8 @@ const ProfileHeader = ({ user }: PropsType) => {
             itemStyle="tag"
           />
         </div>
+      ) : (
+        <InviteUser user={user} />
       )}
     </header>
   );
