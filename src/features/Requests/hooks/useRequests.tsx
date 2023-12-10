@@ -88,7 +88,6 @@ export const useRequests = (): {
           'projects',
           projectId
         );
-        console.log(projectDoc);
         if (!projectDoc) return;
         const userDoc = await getDocument<UserWithId>('users', userId);
         if (!userDoc) return;

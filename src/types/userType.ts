@@ -1,5 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
 import { RequestType } from './requestType';
+import { InviteType } from './inviteType';
 
 export type UserType = {
   uid: string;
@@ -17,6 +18,7 @@ export type UserType = {
   appliedRequests: RequestType[];
   upForWork: boolean;
   tags: string[];
+  invites: InviteType[];
 };
 
 export type UserWithId = UserType & { id: string };

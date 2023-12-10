@@ -55,6 +55,7 @@ export const useLogin = () => {
           appliedRequests: [],
           upForWork: true,
           tags: [],
+          invites: [],
         });
       }
       setIsPending(false);

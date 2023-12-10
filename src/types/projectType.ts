@@ -1,5 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
 import { RequestType } from './requestType';
+import { InviteType } from './inviteType';
 
 export type ProjectType = {
   adminUid: string;
@@ -14,6 +15,7 @@ export type ProjectType = {
   requests: RequestType[];
   public: boolean;
   finished: boolean;
+  invites: InviteType[];
 };
 
 export type ProjectWithId = ProjectType & { id: string };

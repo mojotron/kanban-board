@@ -10,10 +10,12 @@ import { Timestamp } from 'firebase/firestore';
 import { useCloseOnEscape } from '../../hooks/useCloseOnEscape';
 // constants
 import { NOTE_NEW_PROJECT } from '../../constants/displayTexts';
+import { useNavigate } from 'react-router-dom';
 
 const NewProjectForm = ({ onClose }: { onClose: () => void }) => {
   const { document } = useUserData();
   const { pending, error, addDocument, updateDocument } = useFirestore();
+  const navigate = useNavigate();
   useCloseOnEscape(onClose);
 
   type State = {
@@ -93,10 +95,12 @@ const NewProjectForm = ({ onClose }: { onClose: () => void }) => {
         createdAt: Timestamp.fromDate(new Date()),
         public: false,
         finished: false,
+        invites: [],
       });
       await updateDocument('users', document.uid, {
         managingProjects: [...document.managingProjects, newProject?.id],
       });
+      navigate(`/dashboard/${newProject?.id}`);
       onClose();
     } catch (error) {
       console.log(error);
