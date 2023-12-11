@@ -12,7 +12,8 @@ export type NotificationOptionType =
   | 'project/invite-user'
   | 'project/cancel-invite'
   | 'project/accept-invite'
-  | 'project/reject-invite';
+  | 'project/reject-invite'
+  | 'project/send-invite';
 
 export type NotificationType = {
   createdAt: Timestamp;

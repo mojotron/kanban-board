@@ -33,7 +33,9 @@ export const useInvites = (): {
       invites: [...projectDoc.invites, newInvite],
     });
     // update user
-    await updateDocument('users', userId, { ...userDoc.invites, newInvite });
+    await updateDocument('users', userId, {
+      invites: [...userDoc.invites, newInvite],
+    });
     try {
     } catch (error) {
       if (error instanceof Error) {

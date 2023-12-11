@@ -40,6 +40,8 @@ const getText = (option: NotificationOptionType) => {
       return 'accepted your invite to join';
     case 'project/cancel-invite':
       return 'rejected invite to join';
+    case 'project/send-invite':
+      return 'is invited to join';
   }
 };
 
