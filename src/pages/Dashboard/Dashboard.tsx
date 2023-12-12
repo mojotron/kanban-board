@@ -17,6 +17,8 @@ import Requests from '../../features/Requests/ui/Requests';
 // types
 import type { MenuOptionType } from './menuOptionType';
 
+import RequestsAndInvites from './components/RequestsAndInvites/RequestsAndInvites';
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const { projectId } = useParams();
@@ -72,6 +74,7 @@ const Dashboard = () => {
         <TeamMembers />
         <ProjectMessages />
         <Description />
+        <RequestsAndInvites />
         <Requests className={styles.requests} />
       </TeamProvider>
     </main>

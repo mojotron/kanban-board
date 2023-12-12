@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useFirestore } from '../../../hooks/useFirestore';
-import { UserWithId } from '../../../types/userType';
+import { useFirestore } from './useFirestore';
+import type { UserWithId } from '../types/userType';
 
-export const useGetRequest = (userDocId: string) => {
+export const useGetUserData = (userDocId: string) => {
   const { error, pending, getDocument } = useFirestore();
   const [isCanceled, setIsCanceled] = useState(false);
   const [data, setData] = useState<undefined | UserWithId>(undefined);
