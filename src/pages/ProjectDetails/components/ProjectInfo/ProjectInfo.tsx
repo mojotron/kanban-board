@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import Button from '../../../../components/Button/Button';
 import TagsList from '../../../../components/TagsList/TagsList';
 import { useUserData } from '../../../../context/UserDataContext';
 import { ProjectWithId } from '../../../../types/projectType';
