@@ -6,8 +6,9 @@ import { ProjectWithId } from '../../../../types/projectType';
 import { formatLocalDate } from '../../../../utils/formatTime';
 import styles from './ProjectInfo.module.css';
 import { useMemo } from 'react';
-import { useRequests } from '../../../../features/Requests/hooks/useRequests';
-import { useNotification } from '../../../../features/Notifications/hooks/useNotification';
+
+import InviteControls from './InviteControls';
+import RequestControls from './RequestControls';
 
 type PropsType = {
   project: ProjectWithId;
@@ -15,27 +16,6 @@ type PropsType = {
 
 const ProjectInfo = ({ project }: PropsType) => {
   const { document: user } = useUserData();
-  // TODO get all request docs
-
-  const { applyToProject, cancelRequest } = useRequests();
-  const { createNotification } = useNotification();
-
-  const handleApply = () => {
-    if (!user) return;
-    applyToProject(project.id);
-    createNotification(user.uid, user.uid, project.id, 'project/send-request');
-  };
-
-  const handleCancel = () => {
-    if (!user) return;
-    cancelRequest(project.id);
-    createNotification(
-      user.uid,
-      user.uid,
-      project.id,
-      'project/cancel-request'
-    );
-  };
 
   const onProject = useMemo(() => {
     if (!user) return false;
@@ -45,9 +25,16 @@ const ProjectInfo = ({ project }: PropsType) => {
   }, [user, project]);
 
   const hasRequest = useMemo(() => {
-    if (!user) return false;
+    if (!user) return undefined;
     return project.requests.find((request) => request.userId === user.uid);
   }, [user, project]);
+
+  const hasInvite = useMemo(() => {
+    if (!user) return undefined;
+    return project.invites.find((invite) => invite.userId === user.uid);
+  }, [user, project]);
+
+  if (!user) return null;
 
   return (
     <header className={styles.header}>
@@ -69,24 +56,23 @@ const ProjectInfo = ({ project }: PropsType) => {
             {formatLocalDate(new Date(project.createdAt.seconds * 1000))}
           </p>
         </div>
-        {project.public && !onProject && !hasRequest && (
-          <Button
-            handleClick={() => handleApply()}
-            className={`${styles.btn} ${styles.btnJoin}`}
-          >
-            Request join
-          </Button>
-        )}
-        {onProject && (
+
+        {onProject ? (
           <Link to={`/dashboard/${project.id}`}>Go to Dashboard</Link>
+        ) : (
+          <RequestControls
+            isPublic={project.public}
+            request={hasRequest}
+            projectId={project.id}
+            userId={user?.uid}
+          />
         )}
-        {hasRequest && !onProject && (
-          <Button
-            handleClick={() => handleCancel()}
-            className={`${styles.btn} ${styles.btnCancel}`}
-          >
-            Cancel Request
-          </Button>
+        {hasInvite && (
+          <InviteControls
+            userId={user.uid}
+            projectId={project.id}
+            adminId={project.adminUid}
+          />
         )}
       </div>
 
