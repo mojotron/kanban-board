@@ -62,7 +62,7 @@ export const useInvites = (): {
       const filteredUserInvites = userDoc.invites.filter(
         (invite) => invite.projectId !== projectId
       );
-      await updateDocument('projects', projectId, {
+      await updateDocument('users', userId, {
         invites: filteredUserInvites,
       });
 

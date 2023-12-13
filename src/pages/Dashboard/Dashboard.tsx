@@ -8,16 +8,14 @@ import ProjectMenu from './components/ProjectMenu/ProjectMenu';
 import Description from './components/Description/Description';
 import Tasks from './components/Tasks/Tasks';
 import EditProject from './components/EditProject/EditProject';
+import Calls from './components/Calls/Calls';
 // styles
 import styles from './Dashboard.module.css';
 import { TeamProvider } from '../../context/TeamContext';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Requests from '../../features/Requests/ui/Requests';
 // types
 import type { MenuOptionType } from './menuOptionType';
-
-import RequestsAndInvites from './components/RequestsAndInvites/RequestsAndInvites';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -74,8 +72,7 @@ const Dashboard = () => {
         <TeamMembers />
         <ProjectMessages />
         <Description />
-        <RequestsAndInvites />
-        <Requests className={styles.requests} />
+        <Calls />
       </TeamProvider>
     </main>
   );

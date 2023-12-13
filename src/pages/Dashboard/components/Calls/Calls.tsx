@@ -1,9 +1,10 @@
 import { useProject } from '../../../../context/ProjectContext';
-import Invite from './Invite';
-import Request from './Request';
-import RequestsAndInvitesList from './RequestsAndInvitesList';
+import Call from './Call';
+import CallsList from './CallsList';
+//
+import styles from './Calls.module.css';
 
-const RequestsAndInvites = () => {
+const Calls = () => {
   const { project } = useProject();
 
   if (!project) return null;
@@ -12,30 +13,38 @@ const RequestsAndInvites = () => {
   const hasInvites = project.invites.length > 0;
 
   return (
-    <div>
+    <div className={styles.calls}>
       {hasRequests ? (
         <div>
           <h2>Requests</h2>
-          <RequestsAndInvitesList>
+          <CallsList>
             {project.requests.map((request) => (
-              <Request key={request.createdAt.seconds} request={request} />
+              <Call
+                key={request.createdAt.seconds}
+                type="request"
+                call={request}
+              />
             ))}
-          </RequestsAndInvitesList>
+          </CallsList>
         </div>
       ) : null}
 
       {hasInvites ? (
         <div>
           <h2>Invites</h2>
-          <RequestsAndInvitesList>
+          <CallsList>
             {project.invites.map((invite) => (
-              <Invite key={invite.createdAt.seconds} invite={invite} />
+              <Call
+                key={invite.createdAt.seconds}
+                type="invite"
+                call={invite}
+              />
             ))}
-          </RequestsAndInvitesList>
+          </CallsList>
         </div>
       ) : null}
     </div>
   );
 };
 
-export default RequestsAndInvites;
+export default Calls;

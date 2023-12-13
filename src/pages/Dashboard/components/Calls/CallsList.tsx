@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
-import styles from './RequestList.module.css';
+import styles from './Calls.module.css';
 
 type PropsType = {
   children: ReactNode;
 };
 
-const RequestList = ({ children }: PropsType) => {
+const CallsList = ({ children }: PropsType) => {
   return <ul className={styles.list}>{children}</ul>;
 };
 
-export default RequestList;
+export default CallsList;
