@@ -19,7 +19,11 @@ type PropsType = {
 };
 
 const ProfileHeader = ({ user }: PropsType) => {
-  const { document: currentUser, toggleUpForWork } = useUserData();
+  const {
+    document: currentUser,
+    toggleUpForWork,
+    updateUserTags,
+  } = useUserData();
 
   if (!user || !currentUser) return;
 
@@ -55,9 +59,10 @@ const ProfileHeader = ({ user }: PropsType) => {
             {currentUser.upForWork ? 'Go Private' : 'Go Public'}
           </Button>
 
+          <h3>Tags</h3>
           <UpdateList
             list={user.tags}
-            onUpdate={(newList) => console.log(newList)}
+            onUpdate={(newList) => updateUserTags(newList)}
             itemStyle="tag"
           />
         </div>

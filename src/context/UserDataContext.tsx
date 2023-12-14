@@ -9,6 +9,7 @@ const useUserDataSource = (): {
   pending: boolean;
   error: null | string;
   toggleUpForWork: () => void;
+  updateUserTags: (newTags: string[]) => void;
 } => {
   const { user } = useAuth();
   const { updateDocument } = useFirestore();
@@ -30,7 +31,23 @@ const useUserDataSource = (): {
     }
   }, [document]);
 
-  return { document, pending, error, toggleUpForWork };
+  const updateUserTags = useCallback(
+    async (newTags: string[]) => {
+      if (!document) return;
+      try {
+        updateDocument('users', document?.uid, {
+          tags: newTags,
+        });
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log(error);
+        }
+      }
+    },
+    [document]
+  );
+
+  return { document, pending, error, toggleUpForWork, updateUserTags };
 };
 
 const UserDataContext = createContext<ReturnType<typeof useUserDataSource>>(

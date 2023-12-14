@@ -56,9 +56,11 @@ const ProjectInfo = ({ project }: PropsType) => {
           </p>
         </div>
 
-        {onProject ? (
+        {onProject && (
           <Link to={`/dashboard/${project.id}`}>Go to Dashboard</Link>
-        ) : (
+        )}
+
+        {!hasInvite && !onProject && (
           <RequestControls
             isPublic={project.public}
             request={hasRequest}

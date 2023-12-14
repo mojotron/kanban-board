@@ -10,7 +10,7 @@ type PropsType = {
 };
 
 const InviteControls = ({ userId, projectId, adminId }: PropsType) => {
-  const { inviteAccept, inviteReject } = useInvites();
+  const { inviteAccept, inviteCancel } = useInvites();
   const { createNotification } = useNotification();
 
   const handleAcceptInvite = () => {
@@ -20,7 +20,7 @@ const InviteControls = ({ userId, projectId, adminId }: PropsType) => {
   };
 
   const handleRejectInvite = () => {
-    inviteReject(projectId);
+    inviteCancel(projectId, userId);
     createNotification(userId, userId, projectId, 'project/reject-invite');
     createNotification(userId, adminId, projectId, 'project/reject-invite');
   };

@@ -23,7 +23,7 @@ const Profile = () => {
   if (!user) return null;
 
   return (
-    <section className={styles.profile}>
+    <section className={styles.profile} key={userId}>
       <ProfileHeader user={isCurrentUser ? user : userDoc} />
 
       <ProfileProjectList

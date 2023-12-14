@@ -78,6 +78,27 @@ export const useInvites = (): {
 
   const inviteAccept = useCallback(async (projectId: string) => {
     if (!user) return;
+    if (!user) return;
+    const projectDoc = await getDocument<ProjectWithId>('projects', projectId);
+    const userDoc = await getDocument<UserWithId>('users', user.uid);
+    if (!projectDoc || !userDoc) return;
+    const filteredProjectInvites = projectDoc.invites.filter(
+      (invite) => invite.projectId !== projectId
+    );
+    const modifiedProjectMembers = [...projectDoc.members, user.uid];
+    await updateDocument('projects', projectId, {
+      invites: filteredProjectInvites,
+      members: modifiedProjectMembers,
+    });
+
+    const filteredUserInvites = userDoc.invites.filter(
+      (invite) => invite.projectId !== projectId
+    );
+    const modifiedUserProjects = [...userDoc.collaboratingProjects, projectId];
+    await updateDocument('users', user.uid, {
+      invites: filteredUserInvites,
+      collaboratingProjects: modifiedUserProjects,
+    });
     try {
       console.log(projectId);
     } catch (error) {
@@ -89,6 +110,8 @@ export const useInvites = (): {
 
   const inviteReject = useCallback(async (projectId: string) => {
     if (!user) return;
+    // remove invite from project
+    // remove invite from current user
     try {
       console.log(projectId);
     } catch (error) {
