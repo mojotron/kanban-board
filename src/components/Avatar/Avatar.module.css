@@ -9,7 +9,10 @@
   border-radius: 50%;
   overflow: hidden;
 }
-.avatarActive::after {
+.avatarActive {
+  border-color: var(--COLOR-GREEN-400);
+}
+/* .avatarActive::after {
   content: '';
   display: block;
   height: 1.2rem;
@@ -19,7 +22,7 @@
   position: relative;
   bottom: 1.2rem;
   left: 2rem;
-}
+} */
 .avatar.avatarHover:hover {
   border-color: var(--COLOR-YELLOW-400);
 }

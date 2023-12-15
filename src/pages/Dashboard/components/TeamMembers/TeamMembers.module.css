@@ -1,15 +1,35 @@
 .teamMembers {
-  grid-row: 6 / 10;
+  grid-row: 10 / -1;
   grid-column: 1 / 4;
   display: flex;
   flex-direction: column;
 }
 .teamMembers h3 {
-  font-size: 1.953rem;
+  font-size: 1.563rem;
 }
 .teamMembersCount {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
-.membersCount {
-  font-size: 1.2rem;
+.teamMembersList {
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  overflow-y: scroll;
+  list-style: none;
+  flex: 1 1 auto;
+}
+.teamMembersListItem {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.25rem;
+  color: var(--COLOR-GRAY-200);
+}
+.teamMembersListItemUsername {
+  font-weight: 600;
+}
+.lastTimeActive {
+  font-size: 1rem;
 }

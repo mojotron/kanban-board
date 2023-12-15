@@ -18,7 +18,7 @@ import { UserWithId } from '../../../types/userType';
 import { ProjectWithId } from '../../../types/projectType';
 import { SearchCollections } from '../types/filterTypes';
 
-const DOC_LIMIT: number = 2;
+const DOC_LIMIT: number = 10;
 
 const calcFirstQuery = (
   collectionRef: CollectionReference<DocumentData>,

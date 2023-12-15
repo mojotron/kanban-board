@@ -25,7 +25,7 @@ export const useTeamSource = (): {
   useEffect(() => {
     if (!project) return;
     setAllMembers([project.adminUid, ...project.members]);
-  }, [project]);
+  }, [project?.members]);
 
   const {
     documents: team,

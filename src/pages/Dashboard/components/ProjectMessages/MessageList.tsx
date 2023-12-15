@@ -3,7 +3,7 @@ import { useCollectDocsSnapshot } from '../../../../hooks/useCollectDocsSnapshot
 import { useProject } from '../../../../context/ProjectContext';
 import { useMessages } from '../../../../hooks/useMessages';
 // styles
-import styles from './MessagesList.module.css';
+import styles from './ProjectMessages.module.css';
 // components
 import Message from './Message';
 // types

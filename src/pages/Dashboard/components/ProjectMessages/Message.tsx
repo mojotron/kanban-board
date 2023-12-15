@@ -7,7 +7,7 @@ import Avatar from '../../../../components/Avatar/Avatar';
 import Button from '../../../../components/Button/Button';
 import { formatTime } from '../../../../utils/formatTime';
 // styles and icons
-import styles from './Message.module.css';
+import styles from './ProjectMessages.module.css';
 import {
   AiFillDelete as DeleteIcon,
   AiFillEdit as EditIcon,

@@ -22,7 +22,7 @@ const UserCard = ({ user }: PropsType) => {
         <Avatar imageUrl={user.photoUrl} userName={user.userName} size="50" />
       </div>
       <div className={styles.userRight}>
-        <h2 className={styles.userName}>{user.userName || 'Incognito'}</h2>
+        <h2 className={styles.userName}>{user.userName || 'Anonymous'}</h2>
         {user.tags.length > 0 && <TagsList tags={user.tags} />}
         <div className={styles.userOpen}>
           <p>Open for work</p>
