@@ -1,6 +1,6 @@
 .calls {
   grid-column: 1 / 4;
-  grid-row: 7 / 9;
+  grid-row: 6 / -1;
 }
 /* LIST */
 .list {
@@ -13,12 +13,21 @@
 /* ITEM */
 .item {
   padding: 1rem;
-  border: 1px solid var(--COLOR-GRAY-200);
+  border: 1px solid var(--COLOR-GRAY-500);
   background-color: var(--COLOR-GRAY-600);
   border-radius: var(--BORDER-RADIUS);
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+.infoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+}
+.item h2 {
+  font-size: 1.2rem;
 }
 .itemInfo {
   display: flex;

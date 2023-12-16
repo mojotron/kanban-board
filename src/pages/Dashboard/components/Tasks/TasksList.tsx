@@ -3,7 +3,7 @@ import { useProject } from '../../../../context/ProjectContext';
 import { useKanbanStore } from '../../../../store';
 import TaskCard from '../../../../components/TaskCard/TaskCard';
 import { TaskWithId } from '../../../../types/taskType';
-import styles from './TasksList.module.css';
+import styles from './Tasks.module.css';
 
 const TasksList = () => {
   const { tasks, tasksPending, tasksErr } = useProject();

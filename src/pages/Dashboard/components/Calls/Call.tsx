@@ -13,6 +13,7 @@ import TimestampPoint from '../../../../components/TimestampPoint/TimestampPoint
 import styles from './Calls.module.css';
 import { InviteType } from '../../../../types/inviteType';
 import { useInvites } from '../../../../features/Invites/hooks/useInvites';
+import { useNavigate } from 'react-router-dom';
 
 type PropsType = {
   type: 'request' | 'invite';
@@ -22,6 +23,7 @@ type PropsType = {
 const Call = ({ call, type }: PropsType) => {
   const { data: user, pending, error } = useGetUserData(call.userId);
   const { project } = useProject();
+  const navigate = useNavigate();
 
   const { acceptUser, rejectUser } = useRequests();
   const { inviteCancel } = useInvites();
@@ -66,10 +68,15 @@ const Call = ({ call, type }: PropsType) => {
 
   return (
     <li className={styles.item}>
-      <Avatar imageUrl={user.photoUrl} userName={user.userName} size="25" />
-      <div className={styles.itemInfo}>
-        <h2>{user.userName}</h2>
-        <TimestampPoint time={call.createdAt} className={styles.timestamp} />
+      <div
+        className={styles.infoWrapper}
+        onClick={() => navigate(`/${call.userId}`)}
+      >
+        <Avatar imageUrl={user.photoUrl} userName={user.userName} size="25" />
+        <div className={styles.itemInfo}>
+          <h2>{user.userName || 'Anonymous'}</h2>
+          <TimestampPoint time={call.createdAt} className={styles.timestamp} />
+        </div>
       </div>
 
       <div className={styles.itemControls}>

@@ -1,5 +1,5 @@
 import PriorityLegend from '../../../../components/PriorityLegend/PriorityLegend';
-import styles from './TasksHeader.module.css';
+import styles from './Tasks.module.css';
 
 const TasksHeader = () => {
   return (

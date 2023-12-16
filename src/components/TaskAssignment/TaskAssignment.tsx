@@ -100,7 +100,7 @@ const TaskAssignment = ({
         )}
 
         <Avatar
-          size="50"
+          size="35"
           imageUrl={collaborator.photoUrl}
           userName={collaborator.userName}
         />

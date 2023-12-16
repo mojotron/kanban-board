@@ -37,7 +37,7 @@ const ProfileHeader = ({ user }: PropsType) => {
       <div className={styles.wrapper}>
         <div>
           <div className={styles.name}>
-            <h2>{user.userName}</h2>
+            <h2>{user.userName || 'Anonymous'}</h2>
             <OuterLink to={`https://github.com/${user.userName}`}>
               <GithubIcon size={30} className="btn--icon-link" />
             </OuterLink>

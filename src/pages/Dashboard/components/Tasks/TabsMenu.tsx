@@ -8,7 +8,7 @@ import { TASK_STAGES } from '../../../../constants/taskStages';
 // components
 import Button from '../../../../components/Button/Button';
 // style
-import styles from './TabsMenu.module.css';
+import styles from './Tasks.module.css';
 // helper
 const countTasks = (tasks: TaskWithId[], stage: Stage) => {
   const filtered = tasks.filter((task) => task.stage === stage);
