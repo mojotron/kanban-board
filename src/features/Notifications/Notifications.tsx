@@ -4,11 +4,14 @@ import NotificationsButton from './components/NotificationButton/NotificationsBu
 import NotificationsList from './components/NotificationList/NotificationsList';
 import { useGetNotifications } from './hooks/useGetNotifications';
 import { useNotification } from './hooks/useNotification';
+import NotificationCount from './components/NotificationCount/NotificationCount';
 
 const Notifications = ({
   notificationList,
+  asideOpen,
 }: {
   notificationList: string[] | undefined;
+  asideOpen: boolean;
 }) => {
   const { markOpenNotification } = useNotification();
   const { notifications } = useGetNotifications(notificationList);
@@ -30,6 +33,16 @@ const Notifications = ({
   }, [notifications, newNotifications, isOpen]);
 
   if (!notifications) return null;
+
+  if (asideOpen === false) {
+    return (
+      <>
+        {newNotifications ? (
+          <NotificationCount count={newNotifications.length} />
+        ) : null}
+      </>
+    );
+  }
 
   return (
     <div style={{ width: '100%' }}>

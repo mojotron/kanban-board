@@ -5,6 +5,7 @@ import {
   BiUpArrow as IconClose,
 } from 'react-icons/bi';
 import styles from './NotificationsButton.module.css';
+import NotificationCount from '../NotificationCount/NotificationCount';
 
 type PropsType = {
   newNotificationsCount: number;
@@ -24,9 +25,7 @@ const NotificationsButton = ({
     >
       Notifications{' '}
       {newNotificationsCount > 0 && (
-        <span className={styles.notificationCount}>
-          {newNotificationsCount}
-        </span>
+        <NotificationCount count={newNotificationsCount} />
       )}{' '}
       {isOpen ? <IconClose /> : <IconOpen />}
     </Button>
