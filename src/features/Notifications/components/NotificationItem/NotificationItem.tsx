@@ -79,20 +79,23 @@ const NotificationItem = ({ notification }: PropsType) => {
 
   return (
     <li className={styles.notification}>
+      <Link to={`/${notification.userId}`}>
+        <Avatar
+          imageUrl={requestUser.photoUrl}
+          userName={requestUser.userName}
+          size="25"
+        />
+      </Link>
+
       <div className={styles.notificationWrapper}>
         <Link
           to={`/${notification.userId}`}
-          className={styles.notificationUser}
+          className={styles.notificationLink}
         >
-          <Avatar
-            imageUrl={requestUser.photoUrl}
-            userName={requestUser.userName}
-            size="25"
-          />
-          <p>{requestUser.userName}</p>
+          {requestUser.userName || 'Anonymous'}
         </Link>
         <span> {getText(notification.type)} </span>
-        <Link to={getLinkDestination()} className={styles.notificationProject}>
+        <Link to={getLinkDestination()} className={styles.notificationLink}>
           {requestProject.name}
         </Link>
       </div>

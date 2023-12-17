@@ -23,10 +23,7 @@ const NotificationsButton = ({
       handleClick={() => toggleOpen(isOpen ? false : true)}
       className={styles.btnNotification}
     >
-      Notifications{' '}
-      {newNotificationsCount > 0 && (
-        <NotificationCount count={newNotificationsCount} />
-      )}{' '}
+      Notifications <NotificationCount count={newNotificationsCount} />{' '}
       {isOpen ? <IconClose /> : <IconOpen />}
     </Button>
   );

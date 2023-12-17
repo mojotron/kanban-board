@@ -5,6 +5,8 @@ import NotificationsList from './components/NotificationList/NotificationsList';
 import { useGetNotifications } from './hooks/useGetNotifications';
 import { useNotification } from './hooks/useNotification';
 import NotificationCount from './components/NotificationCount/NotificationCount';
+import { NotificationTypeWithId } from './types/typesNotifications';
+import { Timestamp } from 'firebase/firestore';
 
 const Notifications = ({
   notificationList,
