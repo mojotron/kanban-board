@@ -36,7 +36,13 @@ const Call = ({ call, type }: PropsType) => {
       user.uid,
       project.adminUid,
       project.id,
-      'project/accept-user'
+      'request/accept-user'
+    );
+    createNotification(
+      project.adminUid,
+      user.uid,
+      project.id,
+      'request/accept-admin'
     );
   };
 
@@ -47,7 +53,13 @@ const Call = ({ call, type }: PropsType) => {
       user.uid,
       project.adminUid,
       project.id,
-      'project/reject-user'
+      'request/reject-user'
+    );
+    createNotification(
+      project.adminUid,
+      user.uid,
+      project.id,
+      'request/reject-admin'
     );
   };
 
@@ -55,10 +67,16 @@ const Call = ({ call, type }: PropsType) => {
     if (!user || !project) return;
     inviteCancel(project.id, user.uid);
     createNotification(
+      project.adminUid,
+      user.uid,
+      project.id,
+      'invite/cancel-admin'
+    );
+    createNotification(
       user.id,
       project.adminUid,
       project.id,
-      'project/cancel-invite'
+      'invite/cancel-user'
     );
   };
 

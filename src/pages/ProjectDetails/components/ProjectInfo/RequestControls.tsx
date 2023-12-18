@@ -9,6 +9,7 @@ type PropsType = {
   isPublic: boolean;
   projectId: string;
   userId: string;
+  adminId: string;
 };
 
 const RequestControls = ({
@@ -16,19 +17,23 @@ const RequestControls = ({
   isPublic,
   projectId,
   userId,
+  adminId,
 }: PropsType) => {
   const { applyToProject, cancelRequest } = useRequests();
   const { createNotification } = useNotification();
 
   const handleApply = () => {
     applyToProject(projectId);
-    createNotification(userId, userId, projectId, 'project/send-request');
+    createNotification(userId, adminId, projectId, 'request/send-user');
+    createNotification(adminId, userId, projectId, 'request/send-admin');
   };
 
   const handleCancel = () => {
     cancelRequest(projectId);
-    createNotification(userId, userId, projectId, 'project/cancel-request');
+    createNotification(userId, adminId, projectId, 'request/cancel-user');
+    createNotification(adminId, userId, projectId, 'request/cancel-admin');
   };
+
   return (
     <div>
       {isPublic && !request && (

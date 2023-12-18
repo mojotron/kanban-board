@@ -66,6 +66,7 @@ const ProjectInfo = ({ project }: PropsType) => {
             request={hasRequest}
             projectId={project.id}
             userId={user?.uid}
+            adminId={project.adminUid}
           />
         )}
         {hasInvite && (

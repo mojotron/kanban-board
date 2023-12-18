@@ -16,32 +16,48 @@ import { ProjectWithId } from '../../../../types/projectType';
 
 const getText = (option: NotificationOptionType) => {
   switch (option) {
-    case 'project/accept-user':
-      return 'accepted your request to join';
-    case 'project/reject-user':
-      return 'rejected your request to join';
     case 'project/leave':
       return 'has left';
-    case 'project/send-request':
-      return 'requested to join';
-    case 'project/cancel-request':
-      return 'canceled request to join';
     case 'task/completed':
       return 'marked task as complete in project';
     case 'project/completed':
       return 'has set "Project Complete" to project';
     case 'project/deleted':
       return 'has deleted project';
-    case 'project/invite-user':
-      return 'invited you to join';
-    case 'project/reject-invite':
-      return 'rejected invite to join';
-    case 'project/accept-invite':
-      return 'accepted your invite to join';
-    case 'project/cancel-invite':
-      return 'rejected invite to join';
-    case 'project/send-invite':
-      return 'is invited to join';
+    // REQUESTS
+    case 'request/send-user':
+      return 'received your request to collaborate on project';
+    case 'request/send-admin':
+      return 'requested to collaborate on project';
+    case 'request/cancel-user':
+      return 'received request withdraw for collaboration on project';
+    case 'request/cancel-admin':
+      return 'revived your withdraw to collaborate on project';
+    case 'request/accept-user':
+      return 'approved your request to collaborate on project';
+    case 'request/accept-admin':
+      return 'request approved for project';
+    case 'request/reject-user':
+      return 'rejected your request to collaboration on project';
+    case 'request/reject-admin':
+      return 'request rejected by you to join project';
+    // INVITES
+    case 'invite/send-user':
+      return 'invited you to collaborate on project';
+    case 'invite/send-admin':
+      return 'is invited to collaborate on project';
+    case 'invite/cancel-user':
+      return 'withdraw invite for collaboration on project';
+    case 'invite/cancel-admin':
+      return 'revived your withdraw to collaborate on project';
+    case 'invite/accept-user':
+      return 'received your invite conformation to collaborate on project';
+    case 'invite/accept-admin':
+      return 'accepted your invite to join project';
+    case 'invite/reject-user':
+      return 'received your invite rejection for collaboration on project';
+    case 'invite/reject-admin':
+      return 'rejected your invite to join project';
   }
 };
 

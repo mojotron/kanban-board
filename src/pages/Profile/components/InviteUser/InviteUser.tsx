@@ -28,9 +28,9 @@ const InviteUser = ({ user }: PropsType) => {
   const handleInviteUser = async (projectId: string, adminId: string) => {
     inviteUser(projectId, user.uid);
     // send notification to user
-    createNotification(user.uid, adminId, projectId, 'project/invite-user');
+    createNotification(user.uid, adminId, projectId, 'invite/send-user');
     // send notification to current user (admin of project he/she invites to)
-    createNotification(adminId, user.uid, projectId, 'project/send-invite');
+    createNotification(adminId, user.uid, projectId, 'invite/send-admin');
     setOpenProjectSelect(false);
   };
 

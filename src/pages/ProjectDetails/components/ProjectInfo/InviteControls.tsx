@@ -15,14 +15,14 @@ const InviteControls = ({ userId, projectId, adminId }: PropsType) => {
 
   const handleAcceptInvite = () => {
     inviteAccept(projectId);
-    createNotification(userId, userId, projectId, 'project/accept-invite');
-    createNotification(userId, adminId, projectId, 'project/accept-invite');
+    createNotification(userId, adminId, projectId, 'invite/accept-user');
+    createNotification(adminId, userId, projectId, 'invite/accept-admin');
   };
 
   const handleRejectInvite = () => {
     inviteCancel(projectId, userId);
-    createNotification(userId, userId, projectId, 'project/reject-invite');
-    createNotification(userId, adminId, projectId, 'project/reject-invite');
+    createNotification(userId, adminId, projectId, 'invite/reject-user');
+    createNotification(adminId, userId, projectId, 'invite/reject-admin');
   };
 
   return (

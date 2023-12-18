@@ -1,12 +1,11 @@
+// hooks
 import { useEffect, useMemo, useState } from 'react';
-
-import NotificationsButton from './components/NotificationButton/NotificationsButton';
-import NotificationsList from './components/NotificationList/NotificationsList';
 import { useGetNotifications } from './hooks/useGetNotifications';
 import { useNotification } from './hooks/useNotification';
+// components
+import NotificationsButton from './components/NotificationButton/NotificationsButton';
+import NotificationsList from './components/NotificationList/NotificationsList';
 import NotificationCount from './components/NotificationCount/NotificationCount';
-import { NotificationTypeWithId } from './types/typesNotifications';
-import { Timestamp } from 'firebase/firestore';
 
 const Notifications = ({
   notificationList,

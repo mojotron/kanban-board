@@ -1,19 +1,30 @@
 import { Timestamp } from 'firebase/firestore';
 
 export type NotificationOptionType =
-  | 'project/accept-user'
-  | 'project/reject-user'
-  | 'project/leave'
-  | 'project/send-request'
-  | 'project/cancel-request'
-  | 'project/completed'
-  | 'project/deleted'
+  // invite user to the project
+  | 'invite/send-user'
+  | 'invite/send-admin'
+  | 'invite/accept-user'
+  | 'invite/accept-admin'
+  | 'invite/reject-user'
+  | 'invite/reject-admin'
+  | 'invite/cancel-user'
+  | 'invite/cancel-admin'
+  // request admin to join the project
+  | 'request/send-user'
+  | 'request/send-admin'
+  | 'request/accept-user'
+  | 'request/accept-admin'
+  | 'request/reject-user'
+  | 'request/reject-admin'
+  | 'request/cancel-user'
+  | 'request/cancel-admin'
+  // task specific
   | 'task/completed'
-  | 'project/invite-user'
-  | 'project/cancel-invite'
-  | 'project/accept-invite'
-  | 'project/reject-invite'
-  | 'project/send-invite';
+  // project specific
+  | 'project/leave'
+  | 'project/completed'
+  | 'project/deleted';
 
 export type NotificationType = {
   createdAt: Timestamp;
