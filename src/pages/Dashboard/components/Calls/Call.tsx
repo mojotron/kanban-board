@@ -22,8 +22,10 @@ type PropsType = {
 
 const Call = ({ call, type }: PropsType) => {
   const { data: user, pending, error } = useGetUserData(call.userId);
-  const { project } = useProject();
+  const { project, isAdmin } = useProject();
   const navigate = useNavigate();
+
+  console.log('IS ADMIN', isAdmin);
 
   const { acceptUser, rejectUser } = useRequests();
   const { inviteCancel } = useInvites();
@@ -97,42 +99,44 @@ const Call = ({ call, type }: PropsType) => {
         </div>
       </div>
 
-      <div className={styles.itemControls}>
-        {type === 'request' ? (
-          <>
-            <Button
-              handleClick={handleAcceptRequest}
-              className={styles.itemBtn}
-            >
-              <IconAccept
-                className={styles.green}
-                size={18}
-                title={`Accept request from ${user.userName}`}
-              />
-            </Button>
-            <Button
-              handleClick={handleRejectRequest}
-              className={styles.itemBtn}
-            >
+      {isAdmin && (
+        <div className={styles.itemControls}>
+          {type === 'request' ? (
+            <>
+              <Button
+                handleClick={handleAcceptRequest}
+                className={styles.itemBtn}
+              >
+                <IconAccept
+                  className={styles.green}
+                  size={18}
+                  title={`Accept request from ${user.userName}`}
+                />
+              </Button>
+              <Button
+                handleClick={handleRejectRequest}
+                className={styles.itemBtn}
+              >
+                <IconReject
+                  className={styles.red}
+                  size={18}
+                  title={`Reject request from ${user.userName}`}
+                />
+              </Button>
+            </>
+          ) : null}
+
+          {type === 'invite' ? (
+            <Button handleClick={handleRejectInvite} className={styles.itemBtn}>
               <IconReject
                 className={styles.red}
                 size={18}
-                title={`Reject request from ${user.userName}`}
+                title={`Cancel invite for ${user.userName}`}
               />
             </Button>
-          </>
-        ) : null}
-
-        {type === 'invite' ? (
-          <Button handleClick={handleRejectInvite} className={styles.itemBtn}>
-            <IconReject
-              className={styles.red}
-              size={18}
-              title={`Cancel invite for ${user.userName}`}
-            />
-          </Button>
-        ) : null}
-      </div>
+          ) : null}
+        </div>
+      )}
     </li>
   );
 };

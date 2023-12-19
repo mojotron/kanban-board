@@ -32,7 +32,7 @@ const getText = (option: NotificationOptionType) => {
     case 'request/cancel-user':
       return 'received request withdraw for collaboration on project';
     case 'request/cancel-admin':
-      return 'revived your withdraw to collaborate on project';
+      return 'withdraw request to collaborate on project';
     case 'request/accept-user':
       return 'approved your request to collaborate on project';
     case 'request/accept-admin':
@@ -49,7 +49,7 @@ const getText = (option: NotificationOptionType) => {
     case 'invite/cancel-user':
       return 'withdraw invite for collaboration on project';
     case 'invite/cancel-admin':
-      return 'revived your withdraw to collaborate on project';
+      return 'received your withdraw to collaborate on project';
     case 'invite/accept-user':
       return 'received your invite conformation to collaborate on project';
     case 'invite/accept-admin':
@@ -95,7 +95,7 @@ const NotificationItem = ({ notification }: PropsType) => {
 
   return (
     <li className={styles.notification}>
-      <Link to={`/${notification.userId}`}>
+      <Link to={`/${notification.displayUserId}`}>
         <Avatar
           imageUrl={requestUser.photoUrl}
           userName={requestUser.userName}
@@ -105,7 +105,7 @@ const NotificationItem = ({ notification }: PropsType) => {
 
       <div className={styles.notificationWrapper}>
         <Link
-          to={`/${notification.userId}`}
+          to={`/${notification.displayUserId}`}
           className={styles.notificationLink}
         >
           {requestUser.userName || 'Anonymous'}

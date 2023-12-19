@@ -26,7 +26,6 @@
 .btn {
   display: inline-block;
   background: none;
-  height: 3rem;
   padding: 0.5rem 2rem;
   border-radius: var(--BORDER-RADIUS);
   font-size: 1.4rem;
