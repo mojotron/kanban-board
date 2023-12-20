@@ -53,3 +53,12 @@
   color: var(--COLOR-YELLOW-300);
   background-color: var(--COLOR-GRAY-600);
 }
+@media only screen and (max-width: 300px) {
+  .asideMenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 28rem;
+    z-index: 100;
+  }
+}

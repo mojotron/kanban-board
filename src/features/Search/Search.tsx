@@ -30,7 +30,7 @@ const Search = () => {
   } = useSearch();
 
   return (
-    <main className={styles.searchProjects}>
+    <main className={styles.search}>
       <search className={styles.searchWrapper}>
         <SearchBar query={searchTerm} onChange={updateSearchTerm} ref={null} />
         <div className={styles.filterWrapper}>

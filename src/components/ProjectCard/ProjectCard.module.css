@@ -1,5 +1,6 @@
 .projectCard {
-  width: 32rem;
+  max-width: 32rem;
+  width: 100%;
   border-radius: var(--BORDER-RADIUS);
   overflow: hidden;
   cursor: pointer;

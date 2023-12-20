@@ -16,3 +16,17 @@
   grid-row: 3 / 6;
   width: 100%;
 }
+
+@media only screen and (max-width: 850px) {
+  .dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  .dashboard {
+    padding-left: 5rem;
+  }
+}

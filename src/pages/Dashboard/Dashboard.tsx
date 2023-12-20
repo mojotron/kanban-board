@@ -67,12 +67,12 @@ const Dashboard = () => {
         {openEditProject && (
           <EditProject onClose={() => setOpenEditProject(false)} />
         )}
-        <ProjectMenu menuOptions={menuOptions} />
-        <Tasks />
-        <TeamMembers />
-        <ProjectMessages />
         <Description />
+        <TeamMembers />
+        <ProjectMenu menuOptions={menuOptions} />
         <Calls />
+        <Tasks />
+        <ProjectMessages />
       </TeamProvider>
     </main>
   );

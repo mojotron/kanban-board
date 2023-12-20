@@ -49,3 +49,14 @@
   gap: 0.25rem;
   border-radius: 0 0 var(--BORDER-RADIUS) var(--BORDER-RADIUS);
 }
+
+@media only screen and (max-width: 850px) {
+  .tasksHeader {
+    padding: 0;
+  }
+  .tasksList {
+    min-height: 25rem;
+    max-height: 40rem;
+    padding: 2rem 0.5rem;
+  }
+}
