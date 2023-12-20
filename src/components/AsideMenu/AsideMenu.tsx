@@ -100,7 +100,7 @@ const AsideMenu = () => {
 
       <menu className={styles.menu}>
         {showAside && <Logo />}
-        <Notifications asideOpen={showAside} />
+        <Notifications />
         <MenuList items={menuItems} />
         {showAside && <CopyRight />}
       </menu>

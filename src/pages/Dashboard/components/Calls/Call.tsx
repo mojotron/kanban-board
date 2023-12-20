@@ -25,8 +25,6 @@ const Call = ({ call, type }: PropsType) => {
   const { project, isAdmin } = useProject();
   const navigate = useNavigate();
 
-  console.log('IS ADMIN', isAdmin);
-
   const { acceptUser, rejectUser } = useRequests();
   const { inviteCancel } = useInvites();
   const { createNotification } = useNotification();
