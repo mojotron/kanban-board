@@ -10,5 +10,6 @@ export const useGetNotifications = (notificationList: string[] | undefined) => {
     notificationList,
     'notifications'
   );
+
   return { notifications, error, pending };
 };

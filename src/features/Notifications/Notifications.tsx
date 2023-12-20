@@ -6,16 +6,12 @@ import { useNotification } from './hooks/useNotification';
 import NotificationsButton from './components/NotificationButton/NotificationsButton';
 import NotificationsList from './components/NotificationList/NotificationsList';
 import NotificationCount from './components/NotificationCount/NotificationCount';
+import { useUserData } from '../../context/UserDataContext';
 
-const Notifications = ({
-  notificationList,
-  asideOpen,
-}: {
-  notificationList: string[] | undefined;
-  asideOpen: boolean;
-}) => {
+const Notifications = ({ asideOpen }: { asideOpen: boolean }) => {
+  const { document: user } = useUserData();
   const { markOpenNotification } = useNotification();
-  const { notifications } = useGetNotifications(notificationList);
+  const { notifications } = useGetNotifications(user?.notifications);
   const [isOpen, setIsOpen] = useState(false);
 
   const newNotifications = useMemo(() => {
@@ -52,7 +48,7 @@ const Notifications = ({
         isOpen={isOpen}
         toggleOpen={setIsOpen}
       />
-      {isOpen && <NotificationsList notifications={notifications} />}
+      <NotificationsList notifications={notifications} isOpen={isOpen} />
     </div>
   );
 };
