@@ -19,13 +19,23 @@
 
 @media only screen and (max-width: 850px) {
   .dashboard {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    height: 150%;
+    grid-template-rows: repeat(24, 1fr);
+    column-gap: 0.1rem;
   }
 }
 
-@media only screen and (max-width: 300px) {
+@media only screen and (max-width: 800px) {
+  .dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    padding-right: 1rem;
+  }
+}
+
+@media only screen and (max-width: 500px) {
   .dashboard {
     padding-left: 5rem;
   }

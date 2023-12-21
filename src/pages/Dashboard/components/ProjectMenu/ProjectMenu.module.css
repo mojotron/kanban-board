@@ -45,3 +45,9 @@
   background-color: var(--COLOR-GRAY-800);
   cursor: auto;
 }
+@media only screen and (max-width: 850px) {
+  .menuList {
+    grid-column: 1 / 2;
+    grid-row: 3 / 5;
+  }
+}

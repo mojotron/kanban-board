@@ -9,6 +9,7 @@
   flex-direction: column;
   gap: 0.5rem;
   padding-top: 1rem;
+  overflow-y: scroll;
 }
 /* ITEM */
 .item {
@@ -57,4 +58,15 @@
 }
 .timestamp {
   opacity: 0.65;
+}
+@media only screen and (max-width: 850px) {
+  .calls {
+    grid-row: 1 / 7;
+    grid-column: 3 / 8;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .calls {
+    max-width: 300px;
+  }
 }
