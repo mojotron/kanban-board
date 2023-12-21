@@ -125,8 +125,8 @@ const NewTaskForm = ({ onClose }: PropsType) => {
             }
           >
             <option value="low">low</option>
-            <option value="medium">medium</option>
             <option value="high">high</option>
+            <option value="very-high">very high</option>
           </select>
         </div>
 

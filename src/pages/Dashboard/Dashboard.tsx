@@ -46,12 +46,6 @@ const Dashboard = () => {
         },
         disabled: project?.finished ?? false,
       },
-
-      {
-        text: 'Find Collaborator',
-        handleClick: () => {},
-        disabled: false,
-      },
     ];
   }, [project?.finished]);
 

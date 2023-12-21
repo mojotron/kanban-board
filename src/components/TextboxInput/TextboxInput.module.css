@@ -20,6 +20,7 @@
   color: var(--COLOR-GRAY-800);
   padding: 0.5rem;
   resize: none;
+  font-size: 1.25rem;
 }
 .textBox:focus {
   outline: none !important;
