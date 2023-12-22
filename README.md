@@ -11,6 +11,8 @@ This is project management application with goal to simplify workflow for teams 
 
 Start using 👉 [Kanban Board](https://kanban-board-899e2.web.app) application now!
 
+If you find bug or you want to contribute, feel free to contact me or make pull request.
+
 ## Goals of the project
 
 Create a larger scale project without cloning existing project TypeScript along the way.
