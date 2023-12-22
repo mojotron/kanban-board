@@ -11,7 +11,6 @@ export const useInvites = (): {
   inviteUser: (projectId: string, userId: string) => void;
   inviteCancel: (projectId: string, userId: string) => void;
   inviteAccept: (projectId: string) => void;
-  inviteReject: (projectId: string) => void;
 } => {
   const { getDocument, updateDocument } = useFirestore();
   const { document: user } = useUserData();
@@ -100,7 +99,6 @@ export const useInvites = (): {
       collaboratingProjects: modifiedUserProjects,
     });
     try {
-      console.log(projectId);
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
@@ -108,18 +106,5 @@ export const useInvites = (): {
     }
   }, []);
 
-  const inviteReject = useCallback(async (projectId: string) => {
-    if (!user) return;
-    // remove invite from project
-    // remove invite from current user
-    try {
-      console.log(projectId);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      }
-    }
-  }, []);
-
-  return { inviteUser, inviteCancel, inviteAccept, inviteReject };
+  return { inviteUser, inviteCancel, inviteAccept };
 };

@@ -74,8 +74,6 @@ const UpdateListCopy = ({ list, onClose, onUpdate }: PropsType) => {
             {
               type: 'submit',
               onClick: () => {
-                console.log(items);
-
                 onUpdate(items);
                 onClose();
               },

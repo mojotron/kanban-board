@@ -245,7 +245,6 @@ export const useSearch = () => {
       const docSnapshots = await getDocs(next);
 
       if (docSnapshots.empty) {
-        console.log('HELLO');
         dispatch({ type: 'document/end' });
         return;
       }
@@ -288,8 +287,6 @@ export const useSearch = () => {
     } else {
       const debounce = () => {
         timeout = setTimeout(() => {
-          console.log('try');
-
           getFirst();
         }, 1000);
       };

@@ -80,8 +80,6 @@ export const useRequests = (): {
 
   const acceptUser = useCallback(
     async (projectId: string, userId: string) => {
-      console.log(projectId);
-
       try {
         // add user to project and remove request from project
         const projectDoc = await getDocument<ProjectWithId>(
@@ -91,7 +89,7 @@ export const useRequests = (): {
         if (!projectDoc) return;
         const userDoc = await getDocument<UserWithId>('users', userId);
         if (!userDoc) return;
-        console.log(userDoc);
+
         const members = [...projectDoc.members, userId];
         const requests = projectDoc.requests.filter(
           (req) => req.projectId !== projectId && req.userId !== userId
